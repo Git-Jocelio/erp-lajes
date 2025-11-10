@@ -1,0 +1,819 @@
+unit ufrmContaReceberE;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, uTipos, DB, DBCtrls,
+  ComCtrls, Grids, DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, ufrmClientesE, udmConn;
+
+type
+  TfrmContaReceberE = class(TForm)
+    pnConta: TGroupBox;
+    pnDevedor: TGroupBox;
+    Label1: TLabel;
+    edCodigo: TEdit;
+    Label2: TLabel;
+    edEmissao: TEdit;
+    Label3: TLabel;
+    edDataAlt: TEdit;
+    Label5: TLabel;
+    edHistorico: TEdit;
+    Label6: TLabel;
+    pnPagamento: TGroupBox;
+    Label7: TLabel;
+    edNrParc: TEdit;
+    Label8: TLabel;
+    edQtdeParc: TEdit;
+    Label10: TLabel;
+    edNrDoc: TEdit;
+    Label11: TLabel;
+    edValor: TEdit;
+    Label12: TLabel;
+    edDesc: TEdit;
+    Label13: TLabel;
+    edMulta: TEdit;
+    Label14: TLabel;
+    edJuros: TEdit;
+    Label15: TLabel;
+    edArred: TEdit;
+    Label16: TLabel;
+    edConta_TotParc: TEdit;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    edDataPag: TEdit;
+    Label21: TLabel;
+    edValorPago: TEdit;
+    Label22: TLabel;
+    edSaldoAberto: TEdit;
+    Label23: TLabel;
+    edPag_TotParc: TEdit;
+    pnRodape: TPanel;
+    btnOK: TBitBtn;
+    btnFechar: TBitBtn;
+    DBText1: TDBText;
+    DBText2: TDBText;
+    DBText4: TDBText;
+    Label24: TLabel;
+    DBText5: TDBText;
+    DBText6: TDBText;
+    btnLocalizar: TBitBtn;
+    btnCadCliente: TBitBtn;
+    dsPessoas: TDataSource;
+    dtpVencimento: TDateTimePicker;
+    Label25: TLabel;
+    DBText7: TDBText;
+    dsPagamentos: TDataSource;
+    PageControlHistoricos: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    mmHistorico: TMemo;
+    DBGrid1: TDBGrid;
+    Label4: TLabel;
+    edTabelaOrigem: TEdit;
+    qryPessoas: TFDQuery;
+    qryPagamentos: TFDQuery;
+    cbMarcar: TCheckBox;
+    Label9: TLabel;
+    dtp_data_contabil: TDateTimePicker;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure btnOKClick(Sender: TObject);
+    procedure edValorExit(Sender: TObject);
+    procedure edDescExit(Sender: TObject);
+    procedure edMultaExit(Sender: TObject);
+    procedure edJurosExit(Sender: TObject);
+    procedure edArredExit(Sender: TObject);
+    procedure btnCadClienteClick(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    FCodigo  : integer;
+    FOperacao: TOperacao;
+    FTabela  : string;
+    FConexao : TFDconnection;
+    FRecibo  : integer;
+    //
+    procedure Salvar;
+    procedure CalcularTotais;
+
+  protected
+    function Valida : Boolean;
+    //
+    function Incluir : Boolean;
+    function Alterar : Boolean;
+    function Excluir : Boolean;
+    // conf as propridades dos componestes
+    procedure Componentes;
+    procedure Inicializar();
+    procedure LimparTela;
+    procedure LerDados();
+
+  public
+    property Codigo   : integer read FCodigo write FCodigo;
+    property Recibo   : integer read FRecibo write FRecibo;
+    property Operacao : uTipos.TOperacao read FOperacao write FOperacao;
+    property Conexao  : TFDconnection read FConexao write FConexao;
+    property Tabela   : string read FTabela write FTabela;
+  end;
+
+  procedure Incluir(ARecibo : integer);
+  procedure Alterar(ACodigo : integer);
+  procedure Excluir(ACodigo : integer);
+
+implementation
+
+uses uBiblioteca, uFinanceiro,
+  ufrmPesquisaPessoa;
+
+
+procedure Incluir(ARecibo : integer);
+var
+  loForm : TfrmContaReceberE;
+begin
+  loForm := TfrmContaReceberE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Recibo   := ARecibo;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo : integer);
+var
+  loForm : TfrmContaReceberE;
+begin
+  loForm := TfrmContaReceberE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo : integer);
+var
+  loForm : TfrmContaReceberE;
+begin
+  loForm := TfrmContaReceberE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmContaReceberE.btnFecharClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TfrmContaReceberE.Componentes;
+begin
+  {Configuração qryPessoas}
+  qryPessoas.Connection := Conexao;
+  qryPessoas.sql.Clear;
+  qryPessoas.SQL.Add('select * from PESSOAS where ID = :ID');
+
+  {Configuração qryPagamentos}
+  qryPagamentos.Connection := Conexao;
+  qryPagamentos.sql.Clear;
+  qryPagamentos.SQL.Add('select  B.CADASTRADO_EM AS DATA, B.ID AS RECIBO_ID, B.HISTORICO, I.VALOR_PAGO AS VALOR from  CONTAS_RECEBER_BAIXA B, CONTAS_RECEBER_BAIXA_ITENS I where B.ID = I.CONTAS_RECEBER_BAIXA_ID AND I.CONTAS_RECEBER_ID =:IDCONTA');
+  ShowMessage('filtrar conta : ' + inttostr(Self.Codigo) );
+  uBiblioteca.FilterCds(qryPagamentos,uTipos.fsInteger,inttostr(Self.Codigo));
+
+end;
+
+procedure TfrmContaReceberE.FormCreate(Sender: TObject);
+begin
+  self.Conexao := dmConn.FDConnection;
+  self.Tabela := 'CONTAS_RECEBER';
+end;
+
+procedure TfrmContaReceberE.btnLocalizarClick(Sender: TObject);
+begin
+
+  if frmPesquisaPessoa = nil then frmPesquisaPessoa := TfrmPesquisaPessoa.Create(self);
+  try
+    frmPesquisaPessoa.ShowModal;
+    if frmPesquisaPessoa.confirmado then
+      //ubiblioteca.FilterCds(qryPessoas,fsInteger, frmPesquisaPessoa.ds.DataSet.Fields[0].Value);
+      ubiblioteca.FilterCds(qryPessoas,fsInteger, inttostr(frmPesquisaPessoa.Codigo) );
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+  end;
+
+end;
+
+procedure TfrmContaReceberE.LerDados();
+var
+  loQuery : TFDQuery;
+begin
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := self.Conexao;
+        Add('SELECT * FROM ' + Self.Tabela + ' WHERE ID =:ID');
+        uBiblioteca.FilterCds(loQuery,uTipos.fsInteger,IntToStr(Self.Codigo));
+        Open;
+      end;
+      //Carrega os edits
+      // Panel Cliente
+      uBiblioteca.FilterCds(qryPessoas,fsInteger,loQuery.fieldbyname('PESSOA_ID').AsString);
+      // Panel Conta
+      edCodigo.Text          := loQuery.fieldbyname('ID'      ).AsString;
+      edEmissao.Text         := loQuery.fieldbyname('DATA_EMI').AsString;
+      dtp_data_contabil.Date := loQuery.fieldbyname('DATA_CONTABIL').AsDateTime;
+      edDataAlt.Text         := loQuery.fieldbyname('DATA_ALT').AsString;
+      cbMarcar.Checked       := loQuery.fieldbyname('MARCA').AsString = 'S';
+      edTabelaOrigem.Text    := loQuery.fieldbyname('TABELA_ORIGEM').AsString;
+      if edTabelaOrigem.Text = 'PEDIDOS' then
+      begin
+       btnLocalizar.Enabled := false;
+       btnCadCliente.Enabled := false;
+      end;
+      edNrDoc.Text        := loQuery.fieldbyname('ID_ORIGEM'   ).AsString;
+      edNrParc.Text       := loQuery.fieldbyname('PARCELA_NR'  ).AsString;
+      edQtdeParc.Text     := loQuery.fieldbyname('PARCELA_QTDE').AsString;
+      dtpVencimento.Date  := loQuery.fieldbyname('DATA_VENC').AsDateTime;
+      edHistorico.Text    := loQuery.fieldbyname('DESCRICAO'        ).AsString;
+      edValor.Text        := FormatFloat('0.00',loQuery.fieldbyname('VALOR').AsFloat);
+      edDesc.Text         := FormatFloat('0.00',loQuery.fieldbyname('DESCONTO').AsFloat);
+      edMulta.Text        := FormatFloat('0.00',loQuery.fieldbyname('MULTA').AsFloat);
+      edJuros.Text        := FormatFloat('0.00',loQuery.fieldbyname('JUROS').AsFloat);
+      edArred.Text        := FormatFloat('0.00',loQuery.fieldbyname('ARREDONDAMENTO').AsFloat);
+      edConta_TotParc.Text:= FormatFloat('0.00',loQuery.fieldbyname('TOTAL').AsFloat);
+      edPag_TotParc.Text  := FormatFloat('0.00',loQuery.fieldbyname('TOTAL').AsFloat);
+      // Panel Pagamento
+      edDataPag.Text      := loQuery.fieldbyname('DATA_PAGTO').AsString;
+      edValorPago.Text    := FormatFloat('0.00',loQuery.fieldbyname('VALOR_PAGO').AsFloat);
+      if StrToFloatDef(edValorPago.Text,0) > 0 then
+      begin
+        PageControlHistoricos.ActivePage := TabSheet2;
+      end;
+      edSaldoAberto  .Text:= FormatFloat('0.00',loQuery.fieldbyname('SALDO_ABERTO').AsFloat);
+      // Panel Histórico
+      mmHistorico.Lines.Add(loQuery.fieldbyname('HISTORICO').AsString);
+    finally
+      FreeAndNil(loQuery);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name + '.LerDados');
+    end;
+end;
+
+procedure TfrmContaReceberE.Inicializar();
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       Self.Caption := 'Conta Receber [Inclusão]';
+
+                       btnOk.Caption := 'Incluir';
+                       //edCodigo.Text := IntToStr(self.AutoIncremento);
+                       edCodigo.Text := IntToStr( uBiblioteca.AutoIncremento( self.Conexao, self.Tabela) );
+                       edNrDoc.Text  := edCodigo.Text;
+                       edEmissao.Text:= DateToStr(date);
+                       dtp_data_contabil.Date := date;
+
+                       edTabelaOrigem.Text := 'CONTAS_RECEBER';
+
+                       LimparTela;
+
+                       if btnLocalizar.CanFocus then btnLocalizar.SetFocus;
+                     end;
+  uTipos.opAlterar: begin
+                      self.LerDados;
+                      Self.Caption := 'Conta Receber [Alteração]';
+
+                      edHistorico.Color := $00F8E4D8;
+
+                      // não é permitido alterar o valor de uma conta já emitida,
+                      // usar usar a tela de baixa com senha de permissão
+                      edValor.ReadOnly := true;
+                      edValor.Color := $00F8E4D8;
+
+                      // idem para o desconto
+                      edDesc.ReadOnly := true;
+                      edDesc.Color := $00F8E4D8;
+
+                      if btnFechar.CanFocus then btnFechar.SetFocus;
+                      btnOk.Caption := 'Alterar';
+                      // não é permitido alterar uma conta finalizada
+                      if strtofloat(trim(edSaldoAberto.Text)) = 0 then
+                        btnOk.Enabled := false;
+                    end;
+  uTipos.opExcluir: begin
+                      self.LerDados;
+                      Self.Caption        := 'Conta Receber [Exclusão]';
+                      pnDevedor.Enabled   := false;
+                      pnConta.Enabled     := false;
+                      pnPagamento.Enabled := false;
+                      PageControlHistoricos.Enabled := false;
+                      if btnFechar.CanFocus then btnFechar.SetFocus;
+                      btnOk.Caption := 'Excluir';
+                    end;
+  else
+    begin
+      pnDevedor.Enabled   := false;
+      PageControlHistoricos.Enabled := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfrmContaReceberE.LimparTela;
+begin
+  qryPessoas.Close;
+  edNrParc.Text       := '1';
+  edQtdeParc.text     := '1';
+  edHistorico.Clear;
+  dtpVencimento.Date  := date;
+  edValor.Text        := '0,00';
+  edDesc.Text         := '0,00';
+  edMulta.Text        := '0,00';
+  edJuros.Text        := '0,00';
+  edArred.Text        := '0,00';
+  edConta_TotParc.Text:= '0,00';
+  edPag_TotParc.Text  := '0,00';
+  edDataPag.Clear;
+  edValorPago.Text    := '0,00';
+  edSaldoAberto.Text  := '0,00';
+  mmHistorico.Clear;
+end;
+
+procedure TfrmContaReceberE.FormShow(Sender: TObject);
+begin
+  Componentes;
+  Inicializar;
+end;
+
+function TfrmContaReceberE.Valida: Boolean;
+begin
+  result := false;
+  //***
+  if qryPessoas.IsEmpty then
+  begin
+    ShowMessage('Selecione uma pessoa');
+    if btnLocalizar.CanFocus then btnLocalizar.SetFocus;
+    exit;
+  end;
+  // verifica se o cliente selecionado tem um cpf válido
+  // poe enquanto vou ver se tem alguma coisa digitado, a validação será feita no cadastro de cliente
+  if qryPessoas.FieldByName('CPF_CNPJ').AsString = '' then
+  begin
+    ShowMessage('CPF/CNPJ da pessoa é inválido');
+    exit;
+  end;
+
+  if trim(edNrDoc.Text) = '' then
+  begin
+    ShowMessage('Informe um número de documento');
+    if edNrDoc.CanFocus then edNrDoc.SetFocus;
+    exit;
+  end;
+
+
+  if (trim(edNrParc.Text) = '') or (strtoint(edQtdeParc.Text) <= 0)then
+  begin
+    ShowMessage('Informe o número da parcelas');
+    if edNrParc.CanFocus then edNrParc.SetFocus;
+    exit;
+  end;
+
+  if (trim(edQtdeParc.Text) = '') or (strtoint(edQtdeParc.Text) < strtoint(edQtdeParc.Text)) then
+  begin
+    ShowMessage('A quantidade de parcelas não pode ser menor que o número de parcelas');
+    if edQtdeParc.CanFocus then edQtdeParc.SetFocus;
+    exit;
+  end;
+
+  {vencimento tem que ser maior que a data atual}
+  if Self.Operacao = uTipos.OpIncluir then
+    if trunc(dtpVencimento.DateTime - date) <= 0 then
+    begin
+      ShowMessage('Informe uma data de vencimento válida');
+      exit;
+    end;
+
+  if edHistorico.Text = '' then
+  begin
+    ShowMessage('Informe uma descrição para o lançamento');
+    if edHistorico.CanFocus then edHistorico.SetFocus;
+    exit;
+  end;
+
+  if (trim(edValor.Text) = '') or (StrToFloatDef(edValor.Text,0) <= 0) then
+  begin
+    ShowMessage('Informe um valor válido');
+    if edValor.CanFocus then edValor.SetFocus;
+    exit;
+  end;
+
+  if (trim(edDesc.Text) = '') or (StrToFloatDef(edDesc.Text,0) < 0) then
+  begin
+    ShowMessage('Informe um valor de desconto válido');
+    if edDesc.CanFocus then edDesc.SetFocus;
+    exit;
+  end;
+
+  if (trim(edMulta.Text) = '') or (StrToFloatDef(edMulta.Text,0) < 0) then
+  begin
+    ShowMessage('Informe um valor de multa válido');
+    if edMulta.CanFocus then edMulta.SetFocus;
+    exit;
+  end;
+
+  if (trim(edJuros.Text) = '') or (StrToFloatDef(edJuros.Text,0) < 0) then
+  begin
+    ShowMessage('Informe um valor de juros válido');
+    if edJuros.CanFocus then edJuros.SetFocus;
+    exit;
+  end;
+
+  if (trim(edArred.Text) = '') or (StrToFloatDef(edArred.Text,0) < 0) then
+  begin
+    ShowMessage('Informe um valor de arredondamento válido');
+    if edArred.CanFocus then edArred.SetFocus;
+    exit;
+  end;
+  // Calcula os totais da conta
+  CalcularTotais;
+  //***
+  result := true;;
+end;
+
+procedure TfrmContaReceberE.CalcularTotais;
+var
+  TotalParcela : double;
+begin
+
+  TotalParcela := StrToFloat(edValor.Text) -
+                  StrToFloat(edDesc.Text)  +
+                  StrToFloat(edMulta.Text) +
+                  StrToFloat(edJuros.Text) +
+                  StrToFloat(edArred.Text);
+  edConta_TotParc.Text := FormatFloat('0.00', TotalParcela);
+  edPag_TotParc.Text   := FormatFloat('0.00', TotalParcela);
+  edSaldoAberto.Text   := FormatFloat('0.00', TotalParcela - StrToFloat(edValorPago.Text));
+
+end;
+
+
+procedure TfrmContaReceberE.Salvar();
+var
+  debitoCliente: double;
+begin
+
+  debitoCliente := 0;
+
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not Valida then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if Incluir then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+        {atualizar saldo debito no cadastro de cliente}
+        debitoCliente:= ufinanceiro.ClienteDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger);
+        ufinanceiro.ClienteAtualizaDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger, debitoCliente);
+
+
+        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
+          Self.Inicializar
+        else
+          ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível salvar o registro');
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not Valida then Exit;
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if Alterar then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+        {atualizar saldo debito no cadastro de cliente}
+        debitoCliente:= ufinanceiro.ClienteDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger);
+        ufinanceiro.ClienteAtualizaDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger, debitoCliente);
+
+        ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível alterar o registro');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        if Excluir then
+        begin
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+          ModalResult := mrOk;
+        end
+        else
+        begin
+          ShowMessage('Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+
+  end;// case
+
+
+  {atualizar saldo debito no cadastro de cliente}
+  debitoCliente:= ufinanceiro.ClienteDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger);
+  ufinanceiro.ClienteAtualizaDebitoOutros(qryPessoas.fieldbyname('ID').AsInteger, debitoCliente);
+
+
+end;
+
+function TfrmContaReceberE.Incluir: Boolean;
+var
+  loQuery : TFDQuery;
+
+begin
+  // Incluir ContaReceber
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('INSERT INTO         ');
+        Add('  CONTAS_RECEBER    ');
+        Add('  (ID,              ');
+        Add('   DATA_EMI,        ');
+        Add('   DATA_CONTABIL,   ');
+        Add('   DESCRICAO,       ');
+        Add('   PESSOA_ID,       ');
+        Add('   TABELA_ORIGEM,   ');
+        Add('   ID_ORIGEM,       ');
+        Add('   PARCELA_NR,      ');
+        Add('   PARCELA_QTDE,    ');
+        Add('   VALOR,           ');
+        Add('   DESCONTO,        ');
+        Add('   MULTA,           ');
+        Add('   JUROS,           ');
+        Add('   ARREDONDAMENTO,  ');
+        Add('   TOTAL,           ');
+        Add('   DATA_VENC,       ');
+        Add('   VALOR_PAGO,      ');
+        Add('   SALDO_ABERTO,    ');
+        Add('   PAGO,            ');
+        Add('   PLANO_CONTAS_ID, ');
+        Add('   MARCA, ');
+        Add('   HISTORICO)       ');
+        Add('VALUES              ');
+        Add('  (:ID,             ');
+        Add('   :DATA_EMI,       ');
+        Add('   :DATA_CONTABIL,  ');
+        Add('   :DESCRICAO,      ');
+        Add('   :PESSOA_ID,      ');
+        Add('   :TABELA_ORIGEM,  ');
+        Add('   :ID_ORIGEM,      ');
+        Add('   :PARCELA_NR,     ');
+        Add('   :PARCELA_QTDE,   ');
+        Add('   :VALOR,          ');
+        Add('   :DESCONTO,       ');
+        Add('   :MULTA,          ');
+        Add('   :JUROS,          ');
+        Add('   :ARREDONDAMENTO, ');
+        Add('   :TOTAL,          ');
+        Add('   :DATA_VENC,      ');
+        Add('   :VALOR_PAGO,     ');
+        Add('   :SALDO_ABERTO,   ');
+        Add('   :PAGO,           ');
+        Add('   :PLANO_CONTAS_ID,');
+        Add('   :MARCA,          ');
+        Add('   :HISTORICO)      ');
+
+        ParamByName('ID'             ).AsInteger := strtoint(edCodigo.Text);
+        ParamByName('DATA_EMI'       ).AsDate    := Date;
+        ParamByName('DATA_CONTABIL'  ).AsDate    := dtp_data_contabil.Date;
+        ParamByName('DESCRICAO'      ).AsString  := edHistorico.Text;
+        ParamByName('PESSOA_ID'      ).AsInteger := qryPessoas.fieldbyname('ID').AsInteger;
+        ParamByName('TABELA_ORIGEM'  ).AsString  := edTabelaOrigem.Text ;
+        ParamByName('ID_ORIGEM'      ).AsInteger := StrToIntDef(edNrDoc.Text,0);
+        ParamByName('PARCELA_NR'     ).AsInteger := StrToIntDef(edNrParc.Text,0);
+        ParamByName('PARCELA_QTDE'   ).AsInteger := StrToIntDef(edQtdeParc.Text,0);
+        ParamByName('VALOR'          ).AsFloat   := StrToFloatDef(edValor.Text,0);
+        ParamByName('DESCONTO'       ).AsFloat   := StrToFloatDef(edDesc.Text,0) ;
+        ParamByName('MULTA'          ).AsFloat   := StrToFloatDef(edMulta.Text,0) ;
+        ParamByName('JUROS'          ).AsFloat   := StrToFloatDef(edJuros.Text,0) ;
+        ParamByName('ARREDONDAMENTO' ).AsFloat   := StrToFloatDef(edArred.Text,0) ;
+        ParamByName('TOTAL'          ).AsFloat   := StrToFloatDef(edConta_TotParc.Text,0) ;
+        ParamByName('DATA_VENC'      ).AsDate    := dtpVencimento.Date;
+        ParamByName('VALOR_PAGO'     ).AsFloat   := StrToFloatDef(edValorPago.Text,0) ;
+        ParamByName('SALDO_ABERTO'   ).AsFloat   := StrToFloatDef(edSaldoAberto.Text,0) ;
+        ParamByName('PAGO'           ).AsString  := uBiblioteca.SeSenao((StrToFloat(edValorPago.Text) >= StrToFloat(edConta_TotParc.Text)),'S','N') ;
+        ParamByName('PLANO_CONTAS_ID').AsInteger := 1 ;
+        ParamByName('MARCA'          ).AsString := uBiblioteca.SeSenao(cbMarcar.Checked,'S','N') ;
+        ParamByName('HISTORICO'      ).AsMemo    := mmHistorico.Lines.Text ;
+        ExecSQL;
+        //***
+        Result := (loQuery.RowsAffected > 0);
+
+
+      end;
+
+    finally
+      FreeAndNil(loQuery);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.Incluir ContasReceber');
+    end;
+end;
+
+function TfrmContaReceberE.Alterar: Boolean;
+var
+  loQuery : TFDQuery;
+begin
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('UPDATE           ');
+        Add('  CONTAS_RECEBER ');
+        Add('SET              ');
+        Add('  ID = :ID,                       ');
+        Add('  DATA_ALT = :DATA_ALT,           ');
+        Add('  DATA_CONTABIL = :DATA_CONTABIL, ');
+        Add('  DESCRICAO = :DESCRICAO,         ');
+        Add('  PESSOA_ID = :PESSOA_ID,         ');
+        Add('  ID_ORIGEM =:ID_ORIGEM,          ');
+        Add('  PARCELA_NR =:PARCELA_NR,        ');
+        Add('  PARCELA_QTDE =:PARCELA_QTDE,    ');
+        Add('  VALOR =:VALOR,                  ');
+        Add('  DESCONTO =:DESCONTO,            ');
+        Add('  MULTA =:MULTA,                  ');
+        Add('  JUROS =:JUROS,                  ');
+        Add('  ARREDONDAMENTO =:ARREDONDAMENTO,');
+        Add('  TOTAL =:TOTAL,                  ');
+        Add('  DATA_VENC =:DATA_VENC,          ');
+        Add('  VALOR_PAGO =:VALOR_PAGO,        ');
+        Add('  SALDO_ABERTO =:SALDO_ABERTO,    ');
+        Add('  PAGO =:PAGO,                    ');
+        Add('  MARCA =:MARCA,                  ');
+        Add('  HISTORICO =:HISTORICO           ');
+        Add('WHERE   ');
+        Add('ID = :ID');
+        ParamByName('ID'            ).AsInteger := strtoint(edCodigo.Text);
+        ParamByName('DATA_ALT'      ).AsDate    := Date;
+        ParamByName('DATA_CONTABIL' ).AsDate    := dtp_data_contabil.Date;
+        ParamByName('DESCRICAO'     ).AsString  := edHistorico.Text;
+        ParamByName('PESSOA_ID'     ).AsInteger := qryPessoas.fieldbyname('ID').AsInteger;
+        ParamByName('ID_ORIGEM'     ).AsInteger := StrToIntDef(edNrDoc.Text,0);
+        ParamByName('PARCELA_NR'    ).AsInteger := StrToIntDef(edNrParc.Text,0);
+        ParamByName('PARCELA_QTDE'  ).AsInteger := StrToIntDef(edQtdeParc.Text,0);
+        ParamByName('VALOR'         ).AsFloat   := StrToFloatDef(edValor.Text,0);
+        ParamByName('DESCONTO'      ).AsFloat   := StrToFloatDef(edDesc.Text,0) ;
+        ParamByName('MULTA'         ).AsFloat   := StrToFloatDef(edMulta.Text,0) ;
+        ParamByName('JUROS'         ).AsFloat   := StrToFloatDef(edJuros.Text,0) ;
+        ParamByName('ARREDONDAMENTO').AsFloat   := StrToFloatDef(edArred.Text,0) ;
+        ParamByName('TOTAL'         ).AsFloat   := StrToFloatDef(edConta_TotParc.Text,0) ;
+        ParamByName('DATA_VENC'     ).AsDate    := dtpVencimento.Date;
+        ParamByName('VALOR_PAGO'    ).AsFloat   := StrToFloatDef(edValorPago.Text,0) ;
+        ParamByName('SALDO_ABERTO'  ).AsFloat   := StrToFloatDef(edSaldoAberto.Text,0) ;
+        ParamByName('PAGO'          ).AsString  := uBiblioteca.SeSenao((StrToFloat(edValorPago.Text) >= StrToFloat(edConta_TotParc.Text)),'S','N') ;
+        ParamByName('MARCA'          ).AsString  := uBiblioteca.SeSenao(cbMarcar.Checked,'S','N') ;
+        ParamByName('HISTORICO'     ).AsMemo    := mmHistorico.Lines.Text;
+        ExecSQL;
+        //***
+        Result := (loQuery.RowsAffected > 0);
+      end;
+    finally
+      FreeAndNil(loQuery);
+    end; // try/finnaly
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.Alterar');
+  end; //try/exception
+end;
+
+function TfrmContaReceberE.Excluir: Boolean;
+var
+  loQuery : TFDQuery;
+begin
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+        begin
+          Connection := Self.Conexao;
+          Add('DELETE FROM CONTAS_RECEBER WHERE ID = :ID');
+          ParamByName('ID').AsInteger := StrToInt(edCodigo.Text);
+          ExecSQL;
+          Result := (loQuery.RowsAffected > 0);
+
+        end;
+    finally
+      FreeAndNil(loQuery);
+      end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.Excluir');
+    end;
+end;
+
+procedure TfrmContaReceberE.btnOKClick(Sender: TObject);
+begin
+  try
+    ModalResult := mrNone;
+    //***
+    Salvar();
+  except
+    on E : Exception do
+       begin
+       ShowMessage('ROLL BACK');
+       if Self.Conexao.InTransaction then
+          Self.Conexao.Rollback;;
+       //***
+       Raise;
+       end;
+    end;
+end;
+
+procedure TfrmContaReceberE.edValorExit(Sender: TObject);
+begin
+ CalcularTotais;
+end;
+
+procedure TfrmContaReceberE.edDescExit(Sender: TObject);
+begin
+ CalcularTotais;
+end;
+
+procedure TfrmContaReceberE.edMultaExit(Sender: TObject);
+begin
+ CalcularTotais;
+end;
+
+procedure TfrmContaReceberE.edJurosExit(Sender: TObject);
+begin
+ CalcularTotais;
+end;
+
+procedure TfrmContaReceberE.edArredExit(Sender: TObject);
+begin
+ CalcularTotais;
+end;
+
+procedure TfrmContaReceberE.btnCadClienteClick(Sender: TObject);
+begin
+  ufrmClientesE.Incluir;
+end;
+
+procedure TfrmContaReceberE.FormDestroy(Sender: TObject);
+var
+ i :integer;
+begin
+  // fecha todos as tabelas
+  for i := 0 to ComponentCount-1 do
+  begin
+    if Components[i] is TDataSet then
+       TDataset(Components[i]).Close;
+  end;
+end;
+
+end.

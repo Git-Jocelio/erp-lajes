@@ -1,0 +1,180 @@
+//***************************************************************************//
+// Cadastro de Plano de Contas
+// desenvolvida por Jocelio G Silva
+// inicio : 26/01/2024 // base ufrmPlanoContas
+// fim :
+//***************************************************************************//
+
+
+unit ufrmTabelaPrecos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca;
+
+type
+  TfrmTabelaPrecos = class(TfrmBaseGrade)
+    gbPessoa: TGroupBox;
+    cbx_produtos: TDBLookupComboBox;
+    dsProdutos: TDataSource;
+    qryProdutos: TFDQuery;
+    procedure FormCreate(Sender: TObject);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure actLocalizarExecute(Sender: TObject);
+  private
+
+
+
+    procedure prc_sql;
+    function  fnc_validar_pesquisa: boolean;
+    procedure prc_pesquisar;
+
+  public
+    procedure prc_componentes;
+  end;
+
+procedure prc_executa;
+
+implementation
+
+procedure prc_executa;
+var
+  loForm :  TfrmTabelaPrecos;
+begin
+  try
+    loForm :=  TfrmTabelaPrecos.Create(Application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loform);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmTabelaPrecos.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+//  ufrmTabelaPrecosE.prc_alterar;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmTabelaPrecos.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+//  ufrmTabelaPrecosE.prc_excluir(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmTabelaPrecos.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+//  ufrmTabelaPrecosE.prc_incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmTabelaPrecos.actLocalizarExecute(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar_pesquisa then
+    prc_pesquisar;
+
+  // mensagem para o usuario
+  StatusBar.Panels[0].Text := 'Encontrado(s) : ' + inttostr(qry.RecordCount) + ' registro(s)';
+
+end;
+
+function TfrmTabelaPrecos.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+   if cbx_produtos.Text = '' then
+   begin
+     ShowMessage('Infome um PRODUTO');
+     cbx_produtos.SetFocus;
+     exit;
+   end;
+
+
+  result := true;
+
+end;
+
+procedure TfrmTabelaPrecos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  // property tabela no form BaseGrade
+  self.Tabela := 'TABELA_PRECOS';
+  self.Titulo := 'TABELA DE PREÇOS' + '[' + self.Tabela + ']';
+  Caption := Titulo;
+  prc_sql;
+
+  //btnLocalizar.Click;
+
+end;
+
+procedure TfrmTabelaPrecos.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmTabelaPrecos.prc_componentes;
+begin
+  qryProdutos.Connection := Conexao;
+  qryProdutos.SQL.Add('select ID, DESCRICAO from PRODUTOS order by DESCRICAO');
+  qryProdutos.Open;
+end;
+
+procedure TfrmTabelaPrecos.prc_pesquisar;
+var
+  Condicao : string;
+begin
+
+
+
+  Condicao := '';
+
+  Condicao := ' and T.PRODUTO_ID = :PRODUTO_ID ';
+  qry.SQL.text := qry.SQL.Text + condicao ;
+  ShowMessage(qry.SQL.Text);
+
+  QRY.Params.ParamByName('PRODUTO_ID').AsInteger := cbx_produtos.KeyValue;
+  qry.Open;
+
+end;
+
+procedure TfrmTabelaPrecos.prc_sql;
+begin
+  qry.Open('select * from ' + Self.Tabela);
+  with qry.SQL do
+  begin
+    Clear;
+    add('select ');
+    add('T.ID, T.cadastrado_em, T.alterado_em, U.nome as USUARIO, E.nome_fantasia as EMPRESA, P.descricao as PRODUTO, F.descricao as FORMA_PAGTO, T.VALOR_VENDEDOR, T.VALOR_FINAL ');
+    add(' from  tabela_precos T, PESSOAS U, EMPRESA E, PRODUTOS P, formas_pagto F ');
+    add(' where T.usuario_id = U.id and t.empresa_id = e.pessoa_id and t.forma_pagto_id = f.id and t.produto_id = p.id ');
+
+  end;
+  qry.Open;
+
+  self.sSql := qry.SQL.Text;
+
+end;
+
+end.

@@ -1,0 +1,1373 @@
+unit ufrmRelPedidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, frxClass, frxDBSet,
+  Vcl.StdCtrls, frxExportBaseDialog, frxExportPDF, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Imaging.jpeg, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids, Vcl.ExtDlgs;
+
+type
+  TfrmRelPedidos = class(TfrmBaseConexao)
+    frxReportBase: TfrxReport;
+    frxDBPedido: TfrxDBDataset;
+    frxReportPedido: TfrxReport;
+    qryCliente: TFDQuery;
+    qryVendedor: TFDQuery;
+    frxDBCliente: TfrxDBDataset;
+    frxDBVendedor: TfrxDBDataset;
+    qryPedidoItens: TFDQuery;
+    frxDBPedidoItens: TfrxDBDataset;
+    frxDBEmpresa: TfrxDBDataset;
+    qryEmpresa: TFDQuery;
+    frxDBFormaPagto: TfrxDBDataset;
+    qryFormaPagto: TFDQuery;
+    frxPDFExport1: TfrxPDFExport;
+    dsPedidoItens: TDataSource;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnImprimePedido: TBitBtn;
+    btnOrdemEntrega: TBitBtn;
+    dsPedido_Itens: TDataSource;
+    qryPedItens: TFDQuery;
+    qryItensLaje: TFDQuery;
+    qryFerragens: TFDQuery;
+    dsFerragens: TDataSource;
+    frxItensPedido: TfrxDBDataset;
+    frxFerragens: TfrxDBDataset;
+    frxReportOrdemEntrega: TfrxReport;
+    cdsFerragens: TFDMemTable;
+    cdsFerragensTABELA_ID: TIntegerField;
+    cdsFerragensPEDIDO_ID: TIntegerField;
+    cdsFerragensPRODUTO_ID: TIntegerField;
+    cdsFerragensNOME_FANTASIA: TStringField;
+    cdsFerragensDIAMETRO: TIntegerField;
+    cdsFerragensUN: TStringField;
+    cdsFerragensQTDE: TIntegerField;
+    cdsFerragensDOBRA_INI: TFloatField;
+    cdsFerragensCORPO: TFloatField;
+    cdsFerragensDOBRA_FIM: TFloatField;
+    cdsFerragensCOMPRIMENTO: TFloatField;
+    cdsFerragensPOSICAO: TStringField;
+    cdsItensPedido: TFDMemTable;
+    qryAux: TFDQuery;
+    frxReportOrdemProducao: TfrxReport;
+    btnOrdemProducao: TBitBtn;
+    pnImage: TPanel;
+    img_principal: TImage;
+    qryTotalLaje: TFDQuery;
+    dbg_detalhes: TDBGrid;
+    dbg_Itens: TDBGrid;
+    qryPedItensID: TIntegerField;
+    qryPedItensITEM: TIntegerField;
+    qryPedItensNIVEL: TStringField;
+    qryPedItensNOSSO_NUMERO: TStringField;
+    qryPedItensCODIGO: TIntegerField;
+    qryPedItensNOME_FANTASIA: TStringField;
+    qryPedItensUN: TStringField;
+    qryPedItensQTDE: TCurrencyField;
+    qryPedItensSITUACAO: TStringField;
+    btn_comissao: TBitBtn;
+    qryComissoes: TFDQuery;
+    frxDBComissoes: TfrxDBDataset;
+    frxReportComissoes: TfrxReport;
+    mtb_endereco_entrega: TFDMemTable;
+    mtb_endereco_entregaNOME: TStringField;
+    mtb_endereco_entregaCELULAR: TStringField;
+    mtb_endereco_entregaTELEFONE: TStringField;
+    mtb_endereco_entregaEMAIL: TStringField;
+    mtb_endereco_entregaENDERECO: TStringField;
+    mtb_endereco_entregaNUMERO: TStringField;
+    mtb_endereco_entregaBAIRRO: TStringField;
+    mtb_endereco_entregaCIDADE: TStringField;
+    mtb_endereco_entregaUF: TStringField;
+    mtb_endereco_entregaCEP: TStringField;
+    mtb_endereco_entregaCOMPLEMENTO: TStringField;
+    qry_local_entrega: TFDQuery;
+    frx_local_entrega: TfrxDBDataset;
+    OpenPictureDialog1: TOpenPictureDialog;
+    frxDBDataset2: TfrxDBDataset;
+    qryImagemRelatorio: TFDQuery;
+    qry_comissoes_despesas: TFDQuery;
+    frxDBComissoes_despesas: TfrxDBDataset;
+    frxDBComissoesFerrari: TfrxDBDataset;
+    qryComissoesFerrari: TFDQuery;
+    frxDBComissoes_despesas_ferrari: TfrxDBDataset;
+    qry_comissoes_despesas_ferrari: TFDQuery;
+    btn_comissao_ferrari: TBitBtn;
+    frxReportComissoesFerrari: TfrxReport;
+    pnl_cabecalho: TPanel;
+    btn_fechar: TSpeedButton;
+    lbl_titulo: TLabel;
+    pnl_separa_topo: TPanel;
+    img_relatório: TImage;
+    btn_imprimir_contrato: TBitBtn;
+    frxReport_pedido_contrado: TfrxReport;
+    frxDBContrato: TfrxDBDataset;
+    frxReportContrato: TfrxReport;
+    btnConcreto: TBitBtn;
+    frxConcreto: TfrxDBDataset;
+    qryConcreto: TFDQuery;
+    frxReportConcreto: TfrxReport;
+    qryConcretoID: TIntegerField;
+    qryConcretoPEDIDO_ID: TIntegerField;
+    qryConcretoITEM: TIntegerField;
+    qryConcretoNIVEL: TStringField;
+    qryConcretoLOCAL: TStringField;
+    qryConcretoPRODUTO_ID: TIntegerField;
+    qryConcretoNOME_FANTASIA: TStringField;
+    qryConcretoUNIDADE: TStringField;
+    qryConcretoSITUACAO: TStringField;
+    qryConcretoQTDE: TCurrencyField;
+    frxReportOrdemEntregaSimples: TfrxReport;
+    frxReportPedidoSimples: TfrxReport;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+    procedure btnImprimePedidoClick(Sender: TObject);
+    procedure btnOrdemEntregaClick(Sender: TObject);
+    procedure btnOrdemProducaoClick(Sender: TObject);
+    procedure dsPedido_ItensDataChange(Sender: TObject; Field: TField);
+    procedure btn_comissaoClick(Sender: TObject);
+    procedure img_relatórioClick(Sender: TObject);
+    procedure btn_comissao_ferrariClick(Sender: TObject);
+    procedure btn_fecharClick(Sender: TObject);
+    procedure btn_imprimir_contratoClick(Sender: TObject);
+    procedure btnConcretoClick(Sender: TObject);
+  private
+    {controla a ordem dos produtos }
+    comprimento : integer;
+    FCodigo: integer;
+
+    procedure addItem(tabela: string; id, codigo: integer; descricao: string;
+                      qtde: double; unidade:string; grupo,itemLaje, altura, comprimento: integer);
+
+    procedure addCds(cds: TFDMemTable; tabelaId, pedidoId, produtoId: integer;
+                     descricao: string; diametro: integer;  un: string;
+                         qtde: integer; dobraIni, corpo, dobraFim,
+                         comprimento:double; posicao:string );
+
+    function  eViga(produto: integer): boolean;
+    function  eFerragem(produto: integer): boolean;
+    function  eLaje(produto: integer): boolean;
+    function  eLajota(produto: integer): boolean;
+    function  eIsopor(produto: integer): boolean;
+
+    procedure ConfgQrys;
+    procedure limpaCds(cds: TFDMemTable);
+    procedure filtrarItensPedido(idPedido: integer);
+    procedure BuscarItensDaLaje(item: integer);
+    procedure criarCds(cds: TFDMemTable);
+    procedure carregarCds(eOrdemProducao: boolean);
+    procedure changeCdsItensPedido;
+    procedure prc_carregar_local_entrega;
+    procedure filtrarConcreto(idPedido: integer);
+
+
+    { Private declarations }
+  public
+    {codigo = número do pedido}
+    property Codigo: integer read FCodigo write FCodigo;
+
+
+end;
+
+
+var
+  loForm :TfrmRelPedidos;
+
+  procedure executa(pedido: integer);
+
+implementation
+
+
+{$R *.dfm}
+
+
+
+uses udmConn, uBiblioteca, unit_principal, unit_funcoes;
+
+procedure executa(pedido: integer);
+//var
+//  loForm :TfrmRelPedidos;
+begin
+
+  if loForm = nil then
+  begin
+    loForm := TfrmRelPedidos.Create(Application);
+
+    form_principal.prc_controla_menu(false);
+
+    // se abrir dentro no painel principal não funciona os edites
+    //loform.Parent := form_principal.pnl_principal;
+
+    loform.top    := form_principal.pnl_Principal.Top;
+    loform.Left   := form_principal.pnl_menulateral.Width;
+    loForm.Width  := form_principal.pnl_principal.Width;
+    loForm.Height := form_principal.pnl_principal.Height;
+
+    loForm.codigo := pedido;
+
+  end;
+
+  loForm.Show;
+
+
+end;
+
+
+procedure TfrmRelPedidos.btnOrdemEntregaClick(Sender: TObject);
+var
+  detailData: TfrxDetailData;
+  loqry : TFDQuery;
+begin
+  inherited;
+  prc_carregar_local_entrega;
+  ConfgQrys;
+  carregarCds(false);
+(*
+  {desligo o detail caso não haja reforcos na viga}
+  detailData := TfrxDetailData(frxReportOrdemEntrega.FindComponent('detaildata1'));
+  if detailData<> nil then
+  begin
+    if cdsFerragens.IsEmpty then
+      detailData.DataSet := nil;
+  end;
+*)
+  {aqui decide-se se imprime a ordem de entrega com ou sem cabeçalho}
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+    loqry.SQL.Add('select PED_REL_MOSTRAR_CABECALHO from configuracoes_sistema');
+    loqry.Open;
+    if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO').AsString = 'S' then
+    begin
+      {desligo o detail caso não haja reforcos na viga}
+      detailData := TfrxDetailData(frxReportOrdemEntrega.FindComponent('detaildata1'));
+      if detailData<> nil then
+      begin
+        if cdsFerragens.IsEmpty then
+          detailData.DataSet := nil;
+      end;
+      {exibe o formulario}
+      frxReportOrdemEntrega.ShowReport()
+    end else
+    if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO').AsString = 'N' then
+    begin
+      {desligo o detail caso não haja reforcos na viga}
+      detailData := TfrxDetailData(frxReportOrdemEntregaSimples.FindComponent('detaildata1'));
+      if detailData<> nil then
+      begin
+        if cdsFerragens.IsEmpty then
+          detailData.DataSet := nil;
+      end;
+      {Imprime ordem de produção vigas SEM adicionais}
+      frxReportOrdemEntregaSimples.ShowReport();
+    end;
+  finally
+    loqry.Close;
+    freeandnil(loqry);
+  end;
+end;
+
+procedure TfrmRelPedidos.btnOrdemProducaoClick(Sender: TObject);
+var
+  detailData: TfrxDetailData;
+begin
+  inherited;
+  prc_carregar_local_entrega;
+  ConfgQrys;
+  carregarCds(true);
+
+  {se quiser ver o cdsferragens sendo filtrado desmarcar abaixo... só pra debug}
+  //cdsFerragens.Filtered := true;
+
+
+  {desligo o detail caso não haja reforcos na viga}
+  detailData:= TfrxDetailData(frxReportOrdemProducao.FindComponent('detaildata1'));
+  if detailData<> nil then
+  begin
+
+    if cdsFerragens.IsEmpty then
+      detailData.DataSet := nil;
+    //else
+    // detailData.DataSet := cdsFerragens;
+
+  end;
+  {Imprime ordem de produção vigas SEM adicionais}
+  frxReportOrdemProducao.ShowReport();
+
+end;
+
+procedure TfrmRelPedidos.addItem(
+                                 tabela: string;
+                                 id,codigo: integer;
+                                 descricao: string;
+                                 qtde: double;
+                                 unidade:string;
+                                 grupo, itemLaje, altura, comprimento: integer
+                                 );
+var
+  quantidade: double;
+begin
+  {apos ver a na configuração do sistema se é para mostras qtde da laje,
+   se for ordem de entrega qtde da laje = 0 e não mostra a unidade}
+  if qtde = -1 then
+  begin
+    quantidade := 0;
+    unidade := '';
+  end else
+  if qtde > 0 then
+  begin
+    quantidade := qtde;
+  end;
+
+  cdsItensPedido.Insert;
+  cdsItensPedido.FieldByName('TABELA').AsString        := tabela;
+  cdsItensPedido.FieldByName('TABELA_ID').AsInteger    := id;
+  cdsItensPedido.FieldByName('PRODUTO_ID').AsInteger   := codigo;
+  cdsItensPedido.FieldByName('DESCRICAO').AsString     := descricao;
+  //cdsItensPedido.FieldByName('QTDE').AsFloat           := qtde;
+  cdsItensPedido.FieldByName('QTDE').AsFloat           := quantidade;
+  cdsItensPedido.FieldByName('UN').AsString            := unidade;
+  cdsItensPedido.FieldByName('GRUPO').AsInteger        := grupo;
+  cdsItensPedido.FieldByName('ITEM_DE_LAJE').AsInteger := itemLaje;
+  cdsItensPedido.FieldByName('ALTURA').AsInteger       := altura;
+  cdsItensPedido.FieldByName('COMPRIMENTO').AsInteger  := comprimento;
+  cdsItensPedido.Post;
+
+end;
+
+procedure TfrmRelPedidos.btnConcretoClick(Sender: TObject);
+begin
+  inherited;
+  prc_carregar_local_entrega;
+  filtrarConcreto(Codigo);
+  frxReportConcreto.ShowReport();
+
+end;
+
+procedure TfrmRelPedidos.btn_comissaoClick(Sender: TObject);
+begin
+  inherited;
+  prc_carregar_local_entrega;
+
+  qryComissoes.Close;
+  qryComissoes.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qryComissoes.Open();
+
+
+  qry_comissoes_despesas.Close;
+  qry_comissoes_despesas.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qry_comissoes_despesas.Open();
+
+ // ShowMessage('COMISSAO_VENDEDOR ' + FormatFloat('0.00', qry.FieldByName('COMISSAO_VENDEDOR').AsFloat));
+  frxReportComissoes.ShowReport;
+end;
+
+procedure TfrmRelPedidos.btn_comissao_ferrariClick(Sender: TObject);
+begin
+  inherited;
+  prc_carregar_local_entrega;
+
+  qryComissoesFerrari.Close;
+  qryComissoesFerrari.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qryComissoesFerrari.Open();
+
+  qry_comissoes_despesas_ferrari.Close;
+  qry_comissoes_despesas_ferrari.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qry_comissoes_despesas_ferrari.Open();
+
+
+  frxReportComissoesFerrari.ShowReport;
+
+end;
+
+procedure TfrmRelPedidos.btn_fecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmRelPedidos.btn_imprimir_contratoClick(Sender: TObject);
+var
+ opcao : string;
+begin
+  inherited;
+
+  InputQuery('SELECIONE UM RELATÓRIO','DIGITE UMA OPÇÃO : '  + SLINEBREAK +  SLINEBREAK +
+             '1 = PARA PEDIDO' + SLINEBREAK + SLINEBREAK +
+             '2 = PARA CONTRATO', OPCAO );
+
+  if opcao = '1' then
+  begin
+    prc_carregar_local_entrega;
+    filtrarItensPedido(Codigo);
+    frxReport_pedido_contrado.ShowReport();
+  end
+  else if opcao = '2' then
+  begin
+    frxReportContrato.ShowReport();
+  end else
+  ShowMessage('DIGITE UM OPÇÃO VÁLIDA');
+end;
+
+procedure TfrmRelPedidos.addCds(cds: TFDMemTable; tabelaId, pedidoId, produtoId: integer;
+                                     descricao: string; diametro: integer; un: string;
+                                     qtde: integer; dobraIni, corpo, dobraFim,
+                                     comprimento:double; posicao:string
+                                    );
+begin
+  cds.Insert;
+  //
+  cds.FieldByName('TABELA_ID').AsInteger    := tabelaId;
+  cds.FieldByName('PEDIDO_ID').AsInteger    := pedidoId;
+  cds.FieldByName('PRODUTO_ID').AsInteger   := produtoId;
+  cds.FieldByName('NOME_FANTASIA').AsString := descricao;
+  cds.FieldByName('DIAMETRO').AsInteger     := diametro;
+  cds.FieldByName('UN').AsString            := un;
+  cds.FieldByName('QTDE').AsInteger         := qtde;
+  cds.FieldByName('DOBRA_INI').AsFloat      := dobraIni;
+  cds.FieldByName('CORPO').AsFloat          := corpo;
+  cds.FieldByName('DOBRA_FIM').AsFloat      := dobraFim;
+  cds.FieldByName('COMPRIMENTO').AsFloat    := comprimento;
+  cds.FieldByName('POSICAO').AsString       := posicao;
+  //
+  cds.Post;
+end;
+
+function TfrmRelPedidos.eLajota(produto:integer):boolean;
+begin
+  qryAux.sqL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS_LAJOTAS where PRODUTO_ID =:PRODUTO_ID');
+  qryAux.ParamByName('PRODUTO_ID').AsInteger := produto;
+  qryAux.Open();
+  Result := qryAux.RecordCount = 1;
+end;
+
+function TfrmRelPedidos.eIsopor(produto:integer):boolean;
+begin
+  qryAux.sqL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS_EPS where PRODUTO_ID =:PRODUTO_ID');
+  qryAux.ParamByName('PRODUTO_ID').AsInteger := produto;
+  qryAux.Open();
+  Result := qryAux.RecordCount = 1;
+end;
+
+
+function TfrmRelPedidos.eViga(produto:integer):boolean;
+begin
+  qryAux.sqL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS_VIGAS where PRODUTO_ID =:PRODUTO_ID');
+  qryAux.ParamByName('PRODUTO_ID').AsInteger := produto;
+  qryAux.Open();
+  Result := qryAux.RecordCount = 1;
+end;
+
+function TfrmRelPedidos.eLaje(produto:integer):boolean;
+begin
+  qryAux.sqL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS_LAJES where PRODUTO_ID =:PRODUTO_ID');
+  qryAux.ParamByName('PRODUTO_ID').AsInteger := produto;
+  qryAux.Open();
+  Result := qryAux.RecordCount = 1;
+end;
+
+
+function TfrmRelPedidos.eFerragem(produto:integer):boolean;
+begin
+  qryAux.sqL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS where ID =:PRODUTO_ID');
+  qryAux.ParamByName('PRODUTO_ID').AsInteger := produto;
+  qryAux.Open();
+  Result := qryAux.FieldByName('NEGATIVO_DE_LAJE').AsString = 'S';
+end;
+
+
+procedure TfrmRelPedidos.ConfgQrys;
+begin
+  {modelo sem verificar situaçao do pedido}
+
+  {Itens do pedido}
+  qryPedItens.SQL.Clear;
+  qryPedItens.SQL.Add('select                   ');
+  qryPedItens.SQL.Add(' I.ID ,                  ');
+  qryPedItens.SQL.Add(' I.ITEM ,                ');
+  qryPedItens.SQL.Add(' I.LOCAL ,               ');
+  qryPedItens.SQL.Add(' I.NIVEL ,               ');
+  qryPedItens.SQL.Add(' PED.NOSSO_NUMERO ,      ');
+  qryPedItens.SQL.Add(' I.PRODUTO_ID AS CODIGO, ');
+  qryPedItens.SQL.Add(' P.NOME_FANTASIA,        ');
+  qryPedItens.SQL.Add(' P.UNIDADE AS UN,        ');
+  qryPedItens.SQL.Add(' I.QTDE,                 ');
+  qryPedItens.SQL.Add(' I.SITUACAO              ');
+  qryPedItens.SQL.Add('from                     ');
+  qryPedItens.SQL.Add(' PEDIDOS PED,            ');
+  qryPedItens.SQL.Add(' PEDIDOS_ITENS I,        ');
+  qryPedItens.SQL.Add(' PRODUTOS P              ');
+  qryPedItens.SQL.Add('where                    ');
+  qryPedItens.SQL.Add(' P.ID = I.PRODUTO_ID and ');
+  qryPedItens.SQL.Add(' I.PEDIDO_ID = PED.ID and ');
+  qryPedItens.SQL.Add(' P.REFORCO_DE_VIGA = ' + QuotedStr('N') + ' and ');
+  qryPedItens.SQL.Add(' P.CONCRETO = ' + QuotedStr('N') + ' and ');
+  qryPedItens.SQL.Add(' P.BOMBA = ' + QuotedStr('N') + ' and ');
+  qryPedItens.SQL.Add(' PEDIDO_ID  =:PEDIDO_ID and ');
+  qryPedItens.SQL.Add(' I.SITUACAO =:SITUACAO ');
+  qryPedItens.SQL.Add('order by I.LOCAL, I.ITEM');
+
+  {carregar parametros}
+  qryPedItens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qryPedItens.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
+  qryPedItens.Open();
+
+  {Itens da laje}
+  qryItensLaje.SQL.Clear;
+  qryItensLaje.SQL.Add('select '                             );
+  qryItensLaje.SQL.Add(' I.ID , '                             );
+  qryItensLaje.SQL.Add(' I.ITEM , '                           );
+  qryItensLaje.SQL.Add(' I.PRODUTO_ID AS CODIGO, '            );
+  qryItensLaje.SQL.Add(' P.NOME_FANTASIA, '                   );
+  qryItensLaje.SQL.Add(' P.UNIDADE AS UN, '                   );
+  qryItensLaje.SQL.Add(' I.QTDE '                             );
+
+  qryItensLaje.SQL.Add('from '                                );
+  qryItensLaje.SQL.Add(' PEDIDOS_ITENS_LAJE I, '              );
+  qryItensLaje.SQL.Add(' PRODUTOS P, '                        );
+  qryItensLaje.SQL.Add(' PEDIDOS_ITENS PI '                   );
+  qryItensLaje.SQL.Add('where '                               );
+  qryItensLaje.SQL.Add(' I.PEDIDO_ID = PI.PEDIDO_ID and '     );
+  qryItensLaje.SQL.Add(' I.ITEM = PI.ITEM and '               );
+
+  qryItensLaje.SQL.Add(' P.ID = I.PRODUTO_ID and '            );
+  qryItensLaje.SQL.Add(' I.PEDIDO_ID =:PEDIDO_ID and '        );
+  qryItensLaje.SQL.Add(' I.ITEM =:ITEM and '                  );
+  qryItensLaje.SQL.Add(' PI.SITUACAO =:SITUACAO  '            );
+  qryItensLaje.SQL.Add(' order by P.NOME_FANTASIA desc  '     );
+
+
+  {carregar parametros}
+  qryItensLaje.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qryItensLaje.ParamByName('ITEM'     ).AsInteger := qryPedItens.FieldByName('ITEM').AsInteger;
+  qryItensLaje.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
+  //qryItensLaje.Open();
+
+
+  {totaliza pedido}
+  qryTotalLaje.Open;
+  {Ferragem Negativa e Positiva}
+  qryFerragens.SQL.Clear;
+  qryFerragens.SQL.Add('select '                    );
+  qryFerragens.SQL.Add(' I.TABELA_ID, '             );
+  qryFerragens.SQL.Add(' I.PEDIDO_ID, '             );
+  qryFerragens.SQL.Add(' I.PRODUTO_ID, '            );
+  qryFerragens.SQL.Add(' P.NOME_FANTASIA, '         );
+  qryFerragens.SQL.Add(' A.DIAMETRO, '              );
+  qryFerragens.SQL.Add(' P.UNIDADE AS UN, '         );
+  qryFerragens.SQL.Add(' I.QTDE, '                  );
+  qryFerragens.SQL.Add(' I.DOBRA_INI, '             );
+  qryFerragens.SQL.Add(' I.CORPO, '                 );
+  qryFerragens.SQL.Add(' I.DOBRA_FIM, '             );
+  qryFerragens.SQL.Add(' I.COMPRIMENTO, '           );
+  qryFerragens.SQL.Add(' I.POSICAO '                );
+  qryFerragens.SQL.Add('from '                      );
+  qryFerragens.SQL.Add(' PEDIDOS_FERRAGENS I, '     );
+  qryFerragens.SQL.Add(' PRODUTOS P, '              );
+  qryFerragens.SQL.Add(' PRODUTOS_ADICIONAL A '     );
+  qryFerragens.SQL.Add('where '                     );
+  qryFerragens.SQL.Add(' P.ID = I.PRODUTO_ID and '  );
+  qryFerragens.SQL.Add(' P.ID = A.PRODUTO_ID and '  );
+  qryFerragens.SQL.Add(' PEDIDO_ID =:PEDIDO_ID and ');
+  qryFerragens.SQL.Add(' TABELA =:TABELA and       ');
+  qryFerragens.SQL.Add(' TABELA_ID =:TABELA_ID'     );
+
+end;
+
+procedure TfrmRelPedidos.CarregarCds(eOrdemProducao: boolean);
+var
+  grupo, item_de_laje, altura, forma, item: integer;
+  laje: boolean;
+  metragemRealLaje: double;
+  complementoDescricaoLaje: string;
+  // variavel que guarda a qtde de laje a ser mostrada na ordem de entrega
+  quantidade_laje: double;
+  mostrar_qtde_na_ordem_entrega : string;
+  loqry : TFDQuery;
+begin
+    comprimento := 1;
+    {limpa o cds}
+    limpaCds(cdsItensPedido);
+    limpaCds(cdsFerragens);
+
+    {ITENS DO PEDIDO E ADICIONAIS DAS VIGAS SE HOUVER}
+    qryPedItens.First;
+    while not qryPedItens.Eof do
+    begin
+      {inicialização de variaveis}
+      laje         :=  false;
+      grupo        :=  2; //demais itens
+      item_de_laje :=  9;
+      altura       := -1;
+      complementoDescricaoLaje := '';
+
+      if eLaje(qryPedItens.FieldByName('CODIGO').AsInteger) then
+      begin
+        grupo        := 0;
+        item_de_laje := 0;
+        altura       := qryAux.FieldByName('ALTURA').AsInteger;
+        forma        := qryAux.FieldByName('FORMA').AsInteger;
+        item         := qryPedItens.FieldByName('ITEM').AsInteger;
+        complementoDescricaoLaje := qryPedItens.FieldByName('NIVEL').AsString;
+        //comprimento := -99999;
+        {se for ordem de produção pega o valor real da laje}
+        if eOrdemProducao then
+        begin
+          {pega a quantidade real da laje}
+          laje := true;
+          // ShowMessage(qryTotalLaje.SQL.Text);
+          qryTotalLaje.Close;
+          qryTotalLaje.ParamByName('PEDIDO_ID').AsInteger := codigo;
+          qryTotalLaje.ParamByName('ITEM').AsInteger      := item;
+          qryTotalLaje.ParamByName('ALTURA').AsInteger    := altura;
+          //qryTotalLaje.ParamByName('FORMA').AsInteger     := forma;
+          qryTotalLaje.open;
+
+          // ShowMessage('largura forma : ' + inttostr(forma));
+          {usei o trunc para limitar a duas casa decimais qdo hover}
+          // obs.: eixo por configuravel
+          if forma = 130 then // forma normal
+            metragemRealLaje := trunc(qryTotalLaje.FieldByName('METROS').AsCurrency * 0.042) / 100
+          else
+          if forma = 250 then // painel
+            metragemRealLaje := trunc(qryTotalLaje.FieldByName('METROS').AsCurrency * 0.025) / 100
+          else
+          if forma = 120 then // trelifacil
+            metragemRealLaje := trunc(qryTotalLaje.FieldByName('METROS').AsCurrency * 0.049) / 100;
+        end;
+      end;
+
+      if eViga(qryPedItens.FieldByName('CODIGO').AsInteger) then
+      begin
+        grupo        := 1;
+        item_de_laje := 1;
+        altura := qryAux.FieldByName('TRELICA_ALTURA').AsInteger;
+        //comprimento := qryAux.FieldByName('COMPRIMENTO').AsInteger * -1;
+      end;
+
+      {gambi rsss}
+      if Pos('NERVURA', qryPedItensNOME_FANTASIA.AsString) > 0 then
+      begin
+        //ShowMessage('tem nervura');
+        grupo        := 0;
+        item_de_laje := 0;
+      end;
+
+      // aqui! pegar na configuração do sistema se quer que apareça a qtde
+      // vendida laje na ordem de entrega.
+      try
+        loqry := tfdquery.Create(application);
+        loqry.Connection := conexao;
+        loqry.SQL.Add('select PED_REL_MOSTRAR_QTDE_LAJE from configuracoes_sistema');
+        loqry.Open;
+        mostrar_qtde_na_ordem_entrega := loqry.FieldByName('PED_REL_MOSTRAR_QTDE_LAJE').AsString;
+      finally
+        loqry.close;
+        freeandnil(loqry);
+      end;
+
+      {na ordem de produção sempre mostra quantidade na ordem de produção}
+      if eOrdemProducao = true then
+      begin
+        quantidade_laje :=  ubiblioteca.SeSenao(laje = true,
+                            metragemRealLaje,
+                            qryPedItens.FieldByName('QTDE').AsFloat);
+      end else
+      if eOrdemProducao = false then
+      {na ordem de entrega verifica se é pra mostrar ou não a quantiade vendida
+      da laje}
+      begin
+        if mostrar_qtde_na_ordem_entrega = 'S' then
+        begin
+          quantidade_laje :=  ubiblioteca.SeSenao(laje = true,
+                              metragemRealLaje,
+                              qryPedItens.FieldByName('QTDE').AsFloat);
+
+        end else
+        if mostrar_qtde_na_ordem_entrega = 'N' then
+        begin
+          quantidade_laje :=  ubiblioteca.SeSenao( ((grupo = 2) or (grupo = 1)), qryPedItens.FieldByName('QTDE').AsFloat, -1);
+          //quantidade_laje :=  ubiblioteca.SeSenao( grupo = 2, qryPedItens.FieldByName('QTDE').AsFloat, -1);
+        end;
+      end;
+
+      addItem(
+             'PEDIDO_ITENS',
+             qryPedItens.FieldByName('ID').AsInteger,
+             qryPedItens.FieldByName('CODIGO').AsInteger,
+             ubiblioteca.SeSenao(complementoDescricaoLaje = '',qryPedItens.FieldByName('NOME_FANTASIA').AsString,qryPedItens.FieldByName('NOME_FANTASIA').AsString + ' - ' +complementoDescricaoLaje) ,
+             //ubiblioteca.SeSenao(laje = true, metragemRealLaje, qryPedItens.FieldByName('QTDE').AsFloat),
+             quantidade_laje,
+             qryPedItens.FieldByName('UN').AsString,
+             grupo, // laje e seus itens = 0
+             item_de_laje,
+             altura,
+             comprimento
+            );
+
+      {Após inserir verifica se o produto é uma laje, se sim buscar seus itens}
+      if eLaje(qryPedItens.FieldByName('CODIGO').AsInteger) then
+        BuscarItensDaLaje(qryPedItens.FieldByName('ITEM').AsInteger);
+
+      inc(comprimento);
+      {Após inserir verifica se o produto é uma viga, procura por seus adicionais }
+      if eViga(qryPedItens.FieldByName('CODIGO').AsInteger)  then
+      begin
+        qryFerragens.close;
+        qryFerragens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+        qryFerragens.ParamByName('TABELA').AsString     := 'PEDIDOS_ITENS';
+        qryFerragens.ParamByName('TABELA_ID').AsInteger := qryPedItens.FieldByName('ID').AsInteger;
+        qryFerragens.Open;
+
+        qryFerragens.First;
+        while not qryFerragens.Eof do
+        begin
+          addCds(
+               cdsFerragens,
+               //cdsReforcoViga,
+               qryFerragens.FieldByName('TABELA_ID').AsInteger,
+               Codigo,
+               qryFerragens.FieldByName('PRODUTO_ID').AsInteger,
+               qryFerragens.FieldByName('NOME_FANTASIA').AsString,
+               qryFerragens.FieldByName('DIAMETRO').AsInteger,
+               qryFerragens.FieldByName('UN').AsString,
+               qryFerragens.FieldByName('QTDE').AsInteger,
+               qryFerragens.FieldByName('DOBRA_INI').AsFloat,
+               qryFerragens.FieldByName('CORPO').AsFloat,
+               qryFerragens.FieldByName('DOBRA_FIM').AsFloat,
+               qryFerragens.FieldByName('COMPRIMENTO').AsFloat,
+               qryFerragens.FieldByName('POSICAO').AsString
+                );
+          qryFerragens.next;
+        end ;
+
+
+      end; // fim viga = s
+
+      {Após inserir verifica se o produto é um ferro negativo/positivo de laje, procura seus itens }
+      if eferragem(qryPedItens.FieldByName('CODIGO').AsInteger)  then
+      begin
+        {Localiza seu itens};
+        (*
+        qryFerragens.Params[0].AsInteger := Codigo;
+        qryFerragens.Params[1].AsInteger := qryPedItens.FieldByName('ID').AsInteger;
+        qryFerragens.Open();
+        *)
+        qryFerragens.close;
+        qryFerragens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+        qryFerragens.ParamByName('TABELA').AsString     := 'PEDIDOS_ITENS';
+        qryFerragens.ParamByName('TABELA_ID').AsInteger := qryPedItens.FieldByName('ID').AsInteger;
+        qryFerragens.Open;
+
+        qryFerragens.First;
+        while not qryFerragens.Eof do
+        begin
+          addCds(
+               cdsFerragens,
+               qryFerragens.FieldByName('TABELA_ID').AsInteger,
+               Codigo,
+               qryFerragens.FieldByName('PRODUTO_ID').AsInteger,
+               qryFerragens.FieldByName('NOME_FANTASIA').AsString,
+               qryFerragens.FieldByName('DIAMETRO').AsInteger,
+               qryFerragens.FieldByName('UN').AsString,
+               qryFerragens.FieldByName('QTDE').AsInteger,
+               qryFerragens.FieldByName('DOBRA_INI').AsFloat,
+               qryFerragens.FieldByName('CORPO').AsFloat,
+               qryFerragens.FieldByName('DOBRA_FIM').AsFloat,
+               qryFerragens.FieldByName('COMPRIMENTO').AsFloat,
+               qryFerragens.FieldByName('POSICAO').AsString
+                );
+          qryFerragens.next;
+        end ;
+      end; // fim viga = s
+
+
+
+      {próximo item}
+      qryPedItens.Next;
+    end;// fim while pedido itens
+
+end;
+
+procedure TfrmRelPedidos.BuscarItensDaLaje(item: integer);
+var
+  grupo,item_de_laje, altura: integer;
+begin
+    //ShowMessage('é uma laje, buscar pedido : ' + inttostr(codigo) + ' item : ' + inttostr(item) );
+    {ITENS DA LAJE E ADICIONAIS DAS VIGAS SE HOUVER}
+
+    grupo        := 0;
+    item_de_laje := 1;
+
+
+    qryItensLaje.Close;
+    qryItensLaje.ParamByName('ITEM').AsInteger := item; //qryPedItens.FieldByName('ITEM').AsInteger;
+    qryItensLaje.Open;
+    qryItensLaje.First;
+    while not qryItensLaje.Eof do
+    begin
+      inc(comprimento) ;
+      if eViga(qryItensLaje.FieldByName('CODIGO').AsInteger) then
+      begin
+        altura := qryAux.FieldByName('TRELICA_ALTURA').AsInteger;
+        //comprimento := qryAux.FieldByName('COMPRIMENTO').AsInteger * -1;
+      end;
+
+      if eLajota(qryItensLaje.FieldByName('CODIGO').AsInteger) then
+      begin
+        altura := qryAux.FieldByName('ALTURA').AsInteger +1;
+        //comprimento := -1;
+      end;
+
+      if eIsopor(qryItensLaje.FieldByName('CODIGO').AsInteger) then
+      begin
+        altura := qryAux.FieldByName('ALTURA').AsInteger +1;
+        //comprimento := -1;
+      end;
+
+      addItem(
+             'PEDIDOS_ITENS_LAJE',
+             qryItensLaje.FieldByName('ID').AsInteger,
+             qryItensLaje.FieldByName('CODIGO').AsInteger,
+             qryItensLaje.FieldByName('NOME_FANTASIA').AsString,
+             qryItensLaje.FieldByName('QTDE').AsInteger,
+             qryItensLaje.FieldByName('UN').AsString,
+             grupo, // laje, vigas, lajotas e isopor
+             item_de_laje,
+             altura,
+             comprimento
+            );
+
+      {Após inserir verifica se o produto é uma viga, procura por seus adicionais }
+      if eViga(qryItensLaje.FieldByName('CODIGO').AsInteger) then
+      begin
+
+        qryFerragens.Close;
+        qryFerragens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+        qryFerragens.ParamByName('TABELA').AsString     := 'PEDIDOS_ITENS_LAJE';
+        qryFerragens.ParamByName('TABELA_ID').AsInteger := qryItensLaje.FieldByName('ID').AsInteger;
+        //ShowMessage(qryReforcoViga.SQL.Text);
+        qryFerragens.open;
+        qryFerragens.First;
+        while not qryFerragens.Eof do
+        begin
+          addCds(
+               //cdsReforcoViga,
+               cdsFerragens,
+               qryFerragens.FieldByName('TABELA_ID').AsInteger,
+               Codigo,
+               qryFerragens.FieldByName('PRODUTO_ID').AsInteger,
+               qryFerragens.FieldByName('NOME_FANTASIA').AsString,
+               qryFerragens.FieldByName('DIAMETRO').AsInteger,
+               qryFerragens.FieldByName('UN').AsString,
+               qryFerragens.FieldByName('QTDE').AsInteger,
+               qryFerragens.FieldByName('DOBRA_INI').AsFloat,
+               qryFerragens.FieldByName('CORPO').AsFloat,
+               qryFerragens.FieldByName('DOBRA_FIM').AsFloat,
+               qryFerragens.FieldByName('COMPRIMENTO').AsFloat,
+               qryFerragens.FieldByName('POSICAO').AsString
+                );
+          qryFerragens.next;
+        end ;
+
+      end; // fim viga = s
+
+      {próximo item}
+      qryItensLaje.Next;
+    end;// fim while pedido itens
+
+end;
+
+
+procedure TfrmRelPedidos.btnImprimePedidoClick(Sender: TObject);
+var
+  loqry: TFDQuery;
+begin
+  inherited;
+  prc_carregar_local_entrega;
+  filtrarItensPedido(Codigo);
+  //frxReportPedido.ShowReport();
+  //frxReportPedidoSimples.ShowReport();
+
+  {aqui decide-se se imprime a ordem de entrega com ou sem cabeçalho}
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+    loqry.SQL.Add('select PED_REL_MOSTRAR_CABECALHO_PED from configuracoes_sistema');
+    loqry.Open;
+    if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO_PED').AsString = 'S' then
+    begin
+      frxReportPedido.ShowReport();
+
+    end else
+    if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO_PED').AsString = 'N' then
+    begin
+      frxReportPedidoSimples.ShowReport();
+
+    end;
+  finally
+    FreeAndNil(loqry);
+  end;
+
+
+end;
+
+procedure TfrmRelPedidos.filtrarItensPedido(idPedido: integer);
+begin
+  qryPedidoItens.Close;
+  qryPedidoItens.SQL.Clear;
+  qryPedidoItens.SQL.Add('select                                            ');
+  //qryPedidoItens.SQL.Add('  I.ID, I.PEDIDO_ID, I.ITEM, I.NIVEL, I.LOCAL, I.PRODUTO_ID, I.QTDE, I.CUSTO, I.VENDA, I.SITUACAO, I.PRECO_FORNECEDOR, I.QTDE*I.VENDA AS SUBTOTAL, (P.NOME_FANTASIA ||' + QuotedStr(' - ') + '|| i.nivel) as DESCRICAO, P.UNIDADE ');
+  qryPedidoItens.SQL.Add('  I.ID,                        ');
+  qryPedidoItens.SQL.Add('  I.PEDIDO_ID,                 ');
+  qryPedidoItens.SQL.Add('  I.ITEM,                      ');
+  qryPedidoItens.SQL.Add('  I.NIVEL,                     ');
+  qryPedidoItens.SQL.Add('  I.LOCAL,                     ');
+  qryPedidoItens.SQL.Add('  I.PRODUTO_ID,                ');
+  qryPedidoItens.SQL.Add('  I.QTDE,                      ');
+  qryPedidoItens.SQL.Add('  I.CUSTO,                     ');
+  qryPedidoItens.SQL.Add('  I.VENDA,                     ');
+  qryPedidoItens.SQL.Add('  I.SITUACAO,                  ');
+  qryPedidoItens.SQL.Add('  I.PRECO_FORNECEDOR,          ');
+  qryPedidoItens.SQL.Add('  I.QTDE*I.VENDA AS SUBTOTAL,  ');
+  qryPedidoItens.SQL.Add('  (P.NOME_FANTASIA ||' + QuotedStr(' - ') + '|| i.nivel) as DESCRICAO, ');
+  qryPedidoItens.SQL.Add('  P.UNIDADE ');
+  qryPedidoItens.SQL.Add('from                                              ');
+  qryPedidoItens.SQL.Add('  PEDIDOS_ITENS I, PRODUTOS P                     ');
+  qryPedidoItens.SQL.Add('where                                             ');
+  qryPedidoItens.SQL.Add('  I.PRODUTO_ID = P.ID and I.PEDIDO_ID =:PEDIDO_ID ');
+  {se ficar fora de ordem é pq o usuario marcou os locais diferentes}
+  qryPedidoItens.SQL.Add('order by                                          ');
+  qryPedidoItens.SQL.Add('  LOCAL, ITEM                                     ');
+  qryPedidoItens.ParamByName('PEDIDO_ID').AsInteger := idPedido;
+  qryPedidoItens.Open;
+end;
+
+
+procedure TfrmRelPedidos.filtrarConcreto(idPedido: integer);
+begin
+  qryConcreto.Close;
+  qryConcreto.SQL.Clear;
+  qryConcreto.SQL.Add('select             ');
+  qryConcreto.SQL.Add('  I.ID,            ');
+  qryConcreto.SQL.Add('  I.PEDIDO_ID,     ');
+  qryConcreto.SQL.Add('  I.ITEM,          ');
+  qryConcreto.SQL.Add('  I.NIVEL,         ');
+  qryConcreto.SQL.Add('  I.LOCAL,         ');
+  qryConcreto.SQL.Add('  I.PRODUTO_ID,    ');
+  qryConcreto.SQL.Add('  P.NOME_FANTASIA, ');
+  qryConcreto.SQL.Add('  P.UNIDADE,       ');
+  qryConcreto.SQL.Add('  I.PRODUTO_ID,    ');
+  qryConcreto.SQL.Add('  I.QTDE,          ');
+  qryConcreto.SQL.Add('  I.SITUACAO       ');
+  qryConcreto.SQL.Add('from               ');
+  qryConcreto.SQL.Add('  PEDIDOS_ITENS I, PRODUTOS P, PEDIDOS PED ');
+  qryConcreto.SQL.Add('where                                      ');
+  qryConcreto.SQL.Add('  PED.id = I.pedido_id and ');
+  qryConcreto.SQL.Add('  I.produto_id = P.id AND ');
+  qryConcreto.SQL.Add('  (P.concreto = :CONCRETO or p.bomba = :BOMBA)  and  ');
+  qryConcreto.SQL.Add('  i.pedido_id = :PEDIDO_ID                           ');
+  {se ficar fora de ordemi.pedido_id = :PEDIDO_ID é pq o usuario marcou os locais diferentes}
+  qryConcreto.SQL.Add(' order by                                            ');
+  qryConcreto.SQL.Add('  I.LOCAL, I.ITEM                                    ');
+  qryConcreto.ParamByName('CONCRETO').AsString   := 'S';
+  qryConcreto.ParamByName('BOMBA').AsString      := 'S';
+  qryConcreto.ParamByName('PEDIDO_ID').AsInteger := idPedido;
+ // ShowMessage(qryConcreto.SQL.Text);
+  qryConcreto.Open;
+
+end;
+
+procedure TfrmRelPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+
+  form_principal.prc_controla_menu(true);
+  freeandnil ( loForm );
+
+
+end;
+
+procedure TfrmRelPedidos.FormCreate(Sender: TObject);
+var
+  loQry : TFDQuery;
+  v_empresa: string;
+begin
+  inherited;
+
+  qry.Connection            := self.Conexao;
+  qryPedidoItens.Connection := self.Conexao;
+  qryEmpresa.Connection     := self.Conexao;
+  qryFormaPagto.Connection  := self.Conexao;
+  qryCliente.Connection     := self.Conexao;
+  qry_local_entrega.Connection := self.Conexao;
+  qryVendedor.Connection    := self.Conexao;
+  qryFerragens.Connection   := Self.Conexao;
+  qryTotalLaje.Connection   := Self.Conexao;
+  qryPedItens.Connection    := self.Conexao;
+  qryAux.Connection         := self.Conexao;
+  qryComissoes.Connection   := self.Conexao;
+  qry_comissoes_despesas.Connection   := self.Conexao;
+  qryItensLaje.Connection   := self.Conexao;
+  //qryReforcoViga.Connection := self.Conexao;
+  qryComissoesFerrari.Connection   := self.Conexao;
+  qryConcreto.Connection := self.conexao;
+
+  criarCds(cdsItensPedido);
+
+  {pega a empresa que esta usando o sistema pra poder calcular a comissão}
+  try
+    v_empresa := '' ;
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := conexao;
+    loQry.SQL.Add( 'select * from CONFIGURACOES_SISTEMA');
+    loQry.Open;
+
+    v_empresa :=  loQry.FieldByName('GERAL_EMPRESA').AsString;
+    if v_empresa = '' then
+    begin
+      CriarMensagem('AVISO','Favor configurar o campo EMPRESA na tabela: CONFIGURACOES_SISTEMA');
+    end
+    else
+    begin
+      if v_empresa = 'TRIUNFO' then
+      begin
+        btn_comissao.Visible         := true;
+        btn_comissao_ferrari.Visible := false;
+      end;
+
+      if v_empresa = 'FERRARI' then
+      begin
+        btn_comissao.Visible         := false;
+        btn_comissao_ferrari.Visible := true;
+      end;
+    end;
+
+    // visualização do botão inprimir contrato
+    btn_imprimir_contrato.visible := loQry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
+    btn_comissao.visible          := loQry.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'S';
+
+  finally
+    LOQRY.Close;
+    freeandnil( loqry );
+  end;
+
+end;
+
+procedure TfrmRelPedidos.FormShow(Sender: TObject);
+begin
+  inherited;
+  dbg_itens.Visible    := false;
+  dbg_detalhes.Visible := false;
+  img_principal.Align  := alClient;
+  qryImagemRelatorio.Open;
+  img_relatório.Picture.LoadFromFile(qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString);
+  //img_principal.Visible  := false;
+
+  {Empresa}
+  qryEmpresa.Close;
+  qryEmpresa.SQL.Clear;
+  qryEmpresa.SQL.Add('select P.*, E.*  from PESSOAS P, EMPRESA E where E.PESSOA_ID = P.ID');
+  qryEmpresa.Open;
+
+  {Pedido}
+  qry.Close;
+  qry.SQL.Clear;
+  //qry.SQL.Add('select P.*, P.VALOR_TOTAL_PEDIDO * 0.5 /100 AS COMISSAO_ADM  from PEDIDOS P where P.ID = :ID');
+  //qry.SQL.Add('select P.*, P.VALOR_TOTAL_PEDIDO * V.COMISSAO_ADM /100 AS COMISSAO_ADM, V.COMISSAO_VENDEDOR  from PEDIDOS P, VENDEDORES V where P.VENDEDOR_ID = V.PESSOA_ID and P.ID = :ID');
+  qry.SQL.Add('select                                                     ');
+  qry.SQL.Add('P.*,F.DESCRICAO,                                           ');
+  qry.SQL.Add('P.VALOR_TOTAL_PEDIDO * V.COMISSAO_ADM /100 AS COMISSAO_ADM,');
+  qry.SQL.Add('V.COMISSAO_VENDEDOR                                        ');
+  qry.SQL.Add('from                                                       ');
+  qry.SQL.Add('PEDIDOS P, VENDEDORES V, FORMAS_PAGTO F                    ');
+  qry.SQL.Add('where                                                      ');
+  qry.SQL.Add('P.VENDEDOR_ID = V.PESSOA_ID and                            ');
+  qry.SQL.Add('P.FORMA_PAGTO_ID = F.ID and                                ');
+  qry.SQL.Add(' P.ID = :ID                                                ');
+  qry.ParamByName('ID').AsInteger := Codigo;
+  qry.Open;
+
+
+  {Forma de pagamentos}
+  qryFormaPagto.Close;
+  qryFormaPagto.SQL.Clear;
+  qryFormaPagto.SQL.Add('select * from FORMAS_PAGTO where ID =:ID');
+  qryFormaPagto.ParamByName('ID').AsInteger := qry.FieldByName('FORMA_PAGTO_ID').AsInteger;
+  qryFormaPagto.Open;
+
+  {filtra o Cliente}
+  qryCliente.Close;
+  qryCliente.SQL.Clear;
+  qryCliente.SQL.Add('select P.*, C.PESSOA_ID AS CLIENTE_ID from CLIENTES C,PESSOAS P where C.PESSOA_ID = P.ID and C.PESSOA_ID = :CLIENTE_ID ');
+  qryCliente.ParamByName('CLIENTE_ID').AsInteger := qry.FieldByName('CLIENTE_ID').AsInteger;
+  qryCliente.Open;
+
+  {local de entrega cadastrado no pedido}
+  qry_local_entrega.Close;
+  qry_local_entrega.SQL.Clear;
+  qry_local_entrega.SQL.Add('select L.* from PEDIDOS_LOCAL_ENTREGA L where L.PEDIDO_ID = :PEDIDO_ID ');
+  qry_local_entrega.ParamByName('PEDIDO_ID').AsInteger := qry.FieldByName('ID').AsInteger;
+  qry_local_entrega.Open;
+
+
+  {filtra o Vendedor}
+  qryVendedor.Close;
+  qryVendedor.SQL.Clear;
+  qryVendedor.SQL.Add('select V.PESSOA_ID AS VENDEDOR_ID,P.NOME from VENDEDORES V, PESSOAS P where V.PESSOA_ID = P.ID and  V.PESSOA_ID = :VENDEDOR_ID ');
+  qryVendedor.ParamByName('VENDEDOR_ID').AsInteger := qry.FieldByName('VENDEDOR_ID').AsInteger;
+  qryVendedor.Open;
+
+end;
+
+
+procedure TfrmRelPedidos.img_relatórioClick(Sender: TObject);
+var
+  var_endereco: string;
+begin
+
+  if OpenPictureDialog1.Execute then
+     begin
+       qryImagemRelatorio.Open;
+
+       var_endereco := OpenPictureDialog1.FileName;
+
+
+
+       {edita a tabela onde contem o endereço da última imagem selecionada}
+       qryImagemRelatorio.edit;
+       {recebe o novo endereço}
+       qryImagemRelatorio.FieldByName('rel_pedido_img_topo').asstring:= var_endereco;
+       {grava a alteração}
+       qryImagemRelatorio.post;
+
+       {o componente image1 recebe e mostra a nova imagem}
+       img_relatório.Picture.LoadFromFile(var_endereco);
+
+       qryImagemRelatorio.Close;
+     end;
+end;
+
+procedure TfrmRelPedidos.limpaCds(cds: TFDMemTable);
+begin
+  cds.First;
+  while not cds.Eof do cds.Delete;
+end;
+
+(*
+procedure TfrmRelPedidos.configurarQrys;
+begin
+  qryPedido_Itens.Connection := Conexao;
+  {Itens do pedido}
+  qryPedido_itens.SQL.Clear;
+  qryPedido_itens.SQL.Add('select ');
+  qryPedido_itens.SQL.Add(' PI.ID , ');
+  qryPedido_itens.SQL.Add(' PED.NOSSO_NUMERO , ');
+  qryPedido_itens.SQL.Add(' PI.PRODUTO_ID, ');
+  qryPedido_itens.SQL.Add(' P.NOME_FANTASIA, ');
+  qryPedido_itens.SQL.Add(' P.UNIDADE, ');
+  qryPedido_itens.SQL.Add(' PI.QTDE ');
+  qryPedido_itens.SQL.Add('from ');
+  qryPedido_itens.SQL.Add( ' PEDIDOS_ITENS PI, PEDIDOS PED, ');
+  qryPedido_itens.SQL.Add(' PRODUTOS P ');
+  qryPedido_itens.SQL.Add('where ');
+  qryPedido_itens.SQL.Add(' P.ID = PI.PRODUTO_ID and ');
+  qryPedido_itens.SQL.Add(' P.ID = PI.PRODUTO_ID and PI.PEDIDO_ID = PED.ID and ');
+  qryPedido_itens.SQL.Add(' P.REFORCO_DE_VIGA = ' + QuotedStr('N') + ' and ');
+  qryPedido_itens.SQL.Add(' PED.ID =:PEDIDO_ID');
+  qryPedido_itens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+  qryPedido_itens.Open();
+end;
+*)
+procedure TfrmRelPedidos.criarCds(cds: TFDMemTable);
+var
+  Campos : TField;
+begin
+  {itens da laje}
+  (* Cria a estrutura do ClientDataSet*)
+  cds.Close;
+  Cds.Fields.Clear;
+  Cds.FieldDefs.Clear;
+
+  (* Coluna TABELA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'TABELA';
+  campos.Size         := 50;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Tabela';
+
+  (* Coluna TABELA_ID *)
+  Campos               := TIntegerField.Create(self);
+  Campos.FieldName    := 'TABELA_ID';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'TABELA_ID';
+
+
+  (* Coluna PRODUTO_ID *)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'PRODUTO_ID';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'PRODUTO_ID';
+
+  (* Coluna DESCRICAO *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'DESCRICAO';
+  campos.Size         := 50;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Descricao';
+
+  (* Coluna UNIDADE *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'UN';
+  campos.Size         := 2;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Unidade';
+
+  (* Coluna QUANTIDADE *)
+  Campos              := TFloatField.Create(self);
+  Campos.FieldName    := 'QTDE';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Quantidade';
+
+  (* Coluna GRUPO,  0 = Laje e seus itens*)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'GRUPO';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'GRUPO';
+
+  (* Coluna ITENS_DE_LAJE,  1 *)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'ITEM_DE_LAJE';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'ITEM_DE_LAJE';
+
+
+  (* Coluna ALTURA H30 = 1, H25 = 2, H20 = 3, H16 = 4, H12 = 5, H8 = 6*)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'ALTURA';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'ALTURA';
+
+  (* Coluna COMPRIMENTO*)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'COMPRIMENTO';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'COMPRIMENTO';
+
+  (* Cria o ClientDataSet de produtos em memória*)
+  Cds.CreateDataSet;
+  cds.Open;
+end;
+
+
+
+procedure TfrmRelPedidos.dsPedido_ItensDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  changeCdsItensPedido;
+end;
+
+procedure TfrmRelPedidos.changeCdsItensPedido;
+begin
+  cdsFerragens.Filter := 'TABELA_ID =' + cdsItensPedido.FieldByName('TABELA_ID').AsString;
+end;
+
+procedure TfrmRelPedidos.prc_carregar_local_entrega;
+begin
+
+  {local de entrega cadastrado no pedido}
+  qry_local_entrega.Close;
+  qry_local_entrega.SQL.Clear;
+  qry_local_entrega.SQL.Add('select L.* from PEDIDOS_LOCAL_ENTREGA L where L.PEDIDO_ID = :PEDIDO_ID ');
+  qry_local_entrega.ParamByName('PEDIDO_ID').AsInteger := qry.FieldByName('ID').AsInteger;
+  qry_local_entrega.Open;
+
+
+
+  if qry_local_entrega.IsEmpty then
+  begin
+    {se o endereço for diferente do cadastro de clinte, carrega o endereço do cad clientes}
+ (*   mtb_endereco_entrega.Open;
+    mtb_endereco_entrega.Insert;
+
+    mtb_endereco_entrega.FieldByName('NOME').AsString        := qryCliente.FieldByName('NOME').AsString;
+    mtb_endereco_entrega.FieldByName('CELULAR').AsString     := qryCliente.FieldByName('CELULAR').AsString;
+    mtb_endereco_entrega.FieldByName('TELEFONE').AsString    := qryCliente.FieldByName('TELEFONE').AsString;
+    mtb_endereco_entrega.FieldByName('EMAIL').AsString       := qryCliente.FieldByName('EMAIL').AsString;
+    mtb_endereco_entrega.FieldByName('ENDERECO').AsString    := qryCliente.FieldByName('ENDERECO').AsString;
+    mtb_endereco_entrega.FieldByName('NUMERO').AsString      := qryCliente.FieldByName('NUMERO').AsString;
+    mtb_endereco_entrega.FieldByName('BAIRRO').AsString      := qryCliente.FieldByName('BAIRRO').AsString;
+    mtb_endereco_entrega.FieldByName('CIDADE').AsString      := qryCliente.FieldByName('CIDADE').AsString;
+    mtb_endereco_entrega.FieldByName('UF').AsString          := qryCliente.FieldByName('UF').AsString;
+    mtb_endereco_entrega.FieldByName('CEP').AsString         := qryCliente.FieldByName('CEP').AsString;
+    mtb_endereco_entrega.FieldByName('COMPLEMENTO').AsString := qryCliente.FieldByName('COMPLEMENTO').AsString;
+
+    mtb_endereco_entrega.post;
+*)
+  end else
+  begin
+    {senão carrega o local de entrega}
+
+    mtb_endereco_entrega.close;
+    mtb_endereco_entrega.Open;
+    mtb_endereco_entrega.Insert;
+
+    mtb_endereco_entrega.FieldByName('NOME').AsString        := qry_local_entrega.FieldByName('NOME').AsString;
+    mtb_endereco_entrega.FieldByName('CELULAR').AsString     := qry_local_entrega.FieldByName('CELULAR').AsString;
+    mtb_endereco_entrega.FieldByName('TELEFONE').AsString    := qry_local_entrega.FieldByName('TELEFONE').AsString;
+    mtb_endereco_entrega.FieldByName('EMAIL').AsString       := qry_local_entrega.FieldByName('EMAIL').AsString;
+    mtb_endereco_entrega.FieldByName('ENDERECO').AsString    := qry_local_entrega.FieldByName('ENDERECO').AsString;
+    mtb_endereco_entrega.FieldByName('NUMERO').AsString      := qry_local_entrega.FieldByName('NUMERO').AsString;
+    mtb_endereco_entrega.FieldByName('BAIRRO').AsString      := qry_local_entrega.FieldByName('BAIRRO').AsString;
+    mtb_endereco_entrega.FieldByName('CIDADE').AsString      := qry_local_entrega.FieldByName('CIDADE').AsString;
+    mtb_endereco_entrega.FieldByName('UF').AsString          := qry_local_entrega.FieldByName('UF').AsString;
+    mtb_endereco_entrega.FieldByName('CEP').AsString         := qry_local_entrega.FieldByName('CEP').AsString;
+    mtb_endereco_entrega.FieldByName('COMPLEMENTO').AsString := qry_local_entrega.FieldByName('COMPLEMENTO').AsString;
+
+    mtb_endereco_entrega.post;
+
+
+
+  end;
+
+
+
+end;
+
+
+end.

@@ -1,0 +1,69 @@
+unit ufrmPesquisaPessoa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBasePesquisa, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TfrmPesquisaPessoa = class(TfrmBasePesquisa)
+    rgTipo: TRadioGroup;
+    procedure rgTipoClick(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
+    procedure edLocalizarChange(Sender: TObject);
+  private
+    FCodigo: integer;
+    { Private declarations }
+  public
+    { Public declarations }
+    property Codigo : integer read FCodigo write FCodigo;
+  end;
+
+var
+  frmPesquisaPessoa: TfrmPesquisaPessoa;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPesquisaPessoa.btnConfirmaClick(Sender: TObject);
+begin
+  inherited;
+  Codigo := qry.FieldByName('ID').AsInteger;
+  close;
+end;
+
+procedure TfrmPesquisaPessoa.edLocalizarChange(Sender: TObject);
+begin
+  inherited;
+  qry.Params[0].AsString := '%' + edLocalizar.Text + '%';
+ // ShowMessage(qry.SQL.text);
+  qry.Open();
+
+end;
+
+procedure TfrmPesquisaPessoa.rgTipoClick(Sender: TObject);
+begin
+  inherited;
+  qry.SQL.Clear;
+  edLocalizar.Enabled := true;
+
+  if rgTipo.ItemIndex = 0  then
+  begin
+    edLocalizar.EditLabel.Caption := 'Informe um CNPJ ou CPF';
+    qry.SQL.Add('select * from PESSOAS where CPF_CNPJ like :CNPJ_CPF');
+  end
+  else
+  begin
+    edLocalizar.EditLabel.Caption := 'Informe um Nome';
+    qry.SQL.Add('select * from PESSOAS where NOME like :NOME');
+  end;
+end;
+
+
+end.

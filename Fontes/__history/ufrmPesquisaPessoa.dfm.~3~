@@ -1,0 +1,30 @@
+inherited frmPesquisaPessoa: TfrmPesquisaPessoa
+  Caption = 'Pesquisa Pessoa'
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited Panel1: TPanel
+    inherited edLocalizar: TLabeledEdit
+      Left = 160
+      Top = 74
+      EditLabel.ExplicitLeft = 160
+      EditLabel.ExplicitTop = 54
+      ExplicitLeft = 160
+      ExplicitTop = 74
+    end
+    object rgTipo: TRadioGroup
+      Left = 0
+      Top = 18
+      Width = 154
+      Height = 81
+      Caption = ' Localizar por '
+      Items.Strings = (
+        'CNPJ / CPF'
+        'NOME')
+      TabOrder = 1
+      OnClick = rgTipoClick
+    end
+  end
+  inherited btnConfirma: TBitBtn
+    OnClick = btnConfirmaClick
+  end
+end

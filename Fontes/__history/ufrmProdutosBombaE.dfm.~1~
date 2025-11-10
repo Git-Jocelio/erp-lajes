@@ -1,0 +1,5 @@
+inherited frmProdutosBombaE: TfrmProdutosBombaE
+  Caption = 'frmProdutosBombaE'
+  PixelsPerInch = 96
+  TextHeight = 17
+end

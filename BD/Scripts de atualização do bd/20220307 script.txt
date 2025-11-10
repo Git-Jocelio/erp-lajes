@@ -1,0 +1,26 @@
+
+
+07/03/2022
+
+CREATE TABLE CONFIGURACOES (
+    ID                   INTEGER NOT NULL,
+    REL_PEDIDO_IMG_TOPO  VARCHAR(255)
+);
+
+
+
+
+/******************************************************************************/
+/***                              Primary keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE CONFIGURACOES ADD CONSTRAINT PK_CONFIGURACOES PRIMARY KEY (ID);
+
+
+15/03/2022
+
+ALTER TABLE COMISSAO
+ADD CONSTRAINT FK_COMISSAO_PED
+FOREIGN KEY (PEDIDO_ID)
+REFERENCES PEDIDOS(ID)
+

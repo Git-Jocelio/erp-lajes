@@ -1,0 +1,76 @@
+unit ufrmComissaoFechamento_Alt_Valor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls;
+
+type
+  TfrmComissaoFechamento_Alt_Valor = class(TfrmBaseEdicao)
+  private
+    Fp_valor_venda: double;
+    Fp_data: TDate;
+    Fp_nosso_numero: string;
+    Fp_historico: string;
+    Fp_nm_bairro: string;
+    Fp_nm_cliente: string;
+    Fp_valor_comissao: double;
+    Fp_valor_pago: double;
+    Fp_ID: integer;
+    { Private declarations }
+  public
+
+    property p_ID: integer read Fp_ID write Fp_ID;
+    property p_data: TDate read Fp_data write Fp_data;
+    property p_nosso_numero: string read Fp_nosso_numero write Fp_nosso_numero;
+    property p_nm_cliente: string read Fp_nm_cliente write Fp_nm_cliente;
+    property p_nm_bairro: string read Fp_nm_bairro write Fp_nm_bairro;
+    property p_valor_venda: double read Fp_valor_venda write Fp_valor_venda;
+    property p_valor_comissao: double read Fp_valor_comissao write Fp_valor_comissao;
+    property p_valor_pago: double read Fp_valor_pago write Fp_valor_pago;
+    property p_historico: string read Fp_historico write Fp_historico;
+
+  end;
+
+  procedure prc_alterar(AID: integer; Adata: TDate;Anosso_numero,Anm_cliente,
+                        Anm_bairro: string; Avalor_venda,Avalor_comissao,
+                        Avalor_pago: double;Ahistorico:string);
+
+implementation
+
+procedure prc_alterar( AID: integer; Adata: TDate; Anosso_numero, Anm_cliente,
+                       Anm_bairro: string; Avalor_venda, Avalor_comissao,
+                       Avalor_pago: double; Ahistorico:string );
+var
+  loForm : TfrmComissaoFechamento_Alt_Valor;
+begin
+  try
+    loForm := TfrmComissaoFechamento_Alt_Valor.Create(Application);
+
+    loForm.p_ID             := AID;
+    loForm.p_data           := Adata;
+    loForm.p_nosso_numero   := Anosso_numero;
+    loForm.p_nm_cliente     := Anm_cliente;
+    loForm.p_nm_bairro      := Anm_bairro;
+    loForm.p_valor_venda    := Avalor_venda;
+    loForm.p_valor_comissao := Avalor_comissao;
+    loForm.p_valor_pago     := Avalor_pago;
+    loForm.p_historico      := Ahistorico;
+
+    loForm.ShowModal;
+
+  finally
+    FreeAndNil(loForm);
+  end;
+
+end;
+
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,208 @@
+inherited frmComissoesDespesasE: TfrmComissoesDespesasE
+  Caption = 'frmComissoesDespesasE'
+  ClientHeight = 393
+  ClientWidth = 560
+  ExplicitWidth = 566
+  ExplicitHeight = 422
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 560
+    Height = 65
+    ExplicitWidth = 560
+    ExplicitHeight = 65
+  end
+  inherited pnDados: TPanel
+    Top = 65
+    Width = 560
+    Height = 291
+    ExplicitTop = 65
+    ExplicitWidth = 560
+    ExplicitHeight = 291
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 560
+      Height = 291
+      Align = alClient
+      BevelOuter = bvNone
+      Color = clWhite
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 0
+      object Label32: TLabel
+        Left = 4
+        Top = 89
+        Width = 84
+        Height = 17
+        Caption = 'Data contabil :'
+      end
+      object Label1: TLabel
+        Left = 4
+        Top = 16
+        Width = 47
+        Height = 17
+        Caption = 'ID        :'
+      end
+      object lbl_id: TLabel
+        Left = 56
+        Top = 16
+        Width = 14
+        Height = 17
+        Caption = '00'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 157
+        Top = 16
+        Width = 93
+        Height = 17
+        Caption = 'Cadastrado em:'
+      end
+      object lbl_cadastrado_em: TLabel
+        Left = 256
+        Top = 16
+        Width = 66
+        Height = 17
+        Caption = '00/00/0000'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 407
+        Top = 16
+        Width = 79
+        Height = 17
+        Caption = 'Alterado em :'
+      end
+      object Label3: TLabel
+        Left = 0
+        Top = 178
+        Width = 52
+        Height = 17
+        Caption = 'Hist'#243'rico'
+      end
+      object lbl_numero_pedido: TLabel
+        Left = 56
+        Top = 45
+        Width = 69
+        Height = 20
+        Alignment = taRightJustify
+        Caption = 'nr_pedido'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label7: TLabel
+        Left = 4
+        Top = 47
+        Width = 52
+        Height = 17
+        Caption = 'Pedido : '
+      end
+      object lbl_alterado_em: TLabel
+        Left = 491
+        Top = 16
+        Width = 77
+        Height = 17
+        AutoSize = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 407
+        Top = 124
+        Width = 30
+        Height = 17
+        Caption = 'Valor'
+      end
+      object dtp_data_contabil: TDateTimePicker
+        Left = 94
+        Top = 89
+        Width = 193
+        Height = 23
+        Date = 44628.000000000000000000
+        Time = 0.729680138887488300
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object mm_obs: TMemo
+        Left = 0
+        Top = 202
+        Width = 560
+        Height = 89
+        Align = alBottom
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        CharCase = ecUpperCase
+        TabOrder = 1
+      end
+      object rg_operacao: TRadioGroup
+        Left = 4
+        Top = 124
+        Width = 397
+        Height = 48
+        Caption = ' Opera'#231#227'o '
+        Columns = 2
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        Items.Strings = (
+          'Descontar da comiss'#227'o'
+          'Cr'#233'dito vendedor')
+        ParentFont = False
+        TabOrder = 2
+      end
+      object edt_valor: TEdit
+        Left = 407
+        Top = 147
+        Width = 106
+        Height = 25
+        TabOrder = 3
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 356
+    Width = 560
+    ExplicitTop = 356
+    ExplicitWidth = 560
+    inherited btnOk: TBitBtn
+      Left = 4
+      OnClick = btnOkClick
+      ExplicitLeft = 4
+    end
+    inherited btnFechar: TBitBtn
+      Left = 115
+      ExplicitLeft = 115
+    end
+  end
+end

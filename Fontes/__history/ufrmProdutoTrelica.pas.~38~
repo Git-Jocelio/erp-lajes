@@ -1,0 +1,141 @@
+unit ufrmProdutoTrelica;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+
+type
+  TfrmProdutoTrelica = class(TfrmBaseGrade)
+    qryATIVO: TStringField;
+    qryID: TIntegerField;
+    qryNOME_FANTASIA: TStringField;
+    qryPRECO_CUSTO: TCurrencyField;
+    qryPERCA: TCurrencyField;
+    qryCUSTO_LIQUIDO: TCurrencyField;
+    qryKGS_METRO: TCurrencyField;
+    procedure FormCreate(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    procedure ASql();
+  public
+    { Public declarations }
+  end;
+
+var
+  loForm : TfrmProdutoTrelica;
+
+  procedure executa;
+
+implementation
+
+uses ufrmProdutosTrelicaE, uBiblioteca, unit_principal;
+
+procedure executa;
+begin
+
+  if loForm = nil then
+  begin
+
+    loForm := TfrmProdutoTrelica.Create(Application);
+    form_principal.prc_controla_menu(false);
+
+    // se abrir dentro no painel principal não funciona os edites :(
+    //loform.Parent := form_principal.pnl_principal;
+
+    loform.top    :=  form_principal.pnl_Principal.Top;
+    loform.Left   := form_principal.pnl_menulateral.Width;
+
+    loForm.Width  := form_principal.pnl_principal.Width;
+    loForm.Height := form_principal.pnl_principal.Height;
+
+  end;
+  loForm.Show;
+end;
+
+{$R *.dfm}
+
+procedure TfrmProdutoTrelica.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmProdutosTrelicaE.Alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmProdutoTrelica.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  if not qry.IsEmpty then
+  begin
+    ufrmProdutosTrelicaE.Excluir(qry.fieldbyname('ID').AsInteger);
+    uBiblioteca.AtualizaQuery(qry);
+  end;
+
+end;
+
+procedure TfrmProdutoTrelica.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmProdutosTrelicaE.Incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmProdutoTrelica.ASql;
+begin
+
+  {Como são poucos registros, ja abre a tabela mostrando todos}
+  sSql := ' select ' +
+          '    P.ID, P.NOME_FANTASIA, P.PRECO_CUSTO, P.PERCA, P.CUSTO_LIQUIDO, T.KGS_METRO, P.ATIVO  ' +
+          ' from ' +
+          '    PRODUTOS P, PRODUTOS_TRELICA T ' +
+          ' where ' +
+          '    P.ID = T.PRODUTO_ID ';
+
+  qry.close;
+  qry.SQL.Clear;
+  qry.SQL.Add(sSql);
+
+end;
+
+procedure TfrmProdutoTrelica.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  if not qry.IsEmpty then
+    btnAlterar.Click;
+end;
+
+procedure TfrmProdutoTrelica.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+
+  form_principal.prc_controla_menu(true);
+  FreeAndNil(loForm);
+
+end;
+
+procedure TfrmProdutoTrelica.FormCreate(Sender: TObject);
+begin
+  // property tabela no form BaseGrade
+  self.Tabela := 'PRODUTOS';
+  ASql();
+
+  inherited;
+end;
+
+
+end.

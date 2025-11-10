@@ -1,0 +1,387 @@
+unit ufrmCartaoOperadorasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, uBiblioteca, unit_funcoes, ufrmPesquisaPessoa,
+  ufrmPessoasE;
+
+type
+  TfrmCartaoOperadorasE = class(TfrmBaseEdicao)
+    Label3: TLabel;
+    edt_nr_estabelecimento: TEdit;
+    Label8: TLabel;
+    edt_senha: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label6: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    btn_busca_pessoa: TBitBtn;
+    btnIncluirPessoa: TBitBtn;
+    pnl_id: TPanel;
+    pnl_rg_ie: TPanel;
+    pnl_alterado_em: TPanel;
+    pnl_cpf_cnpj: TPanel;
+    pnl_cadastrado_em: TPanel;
+    pnl_telefone: TPanel;
+    pnl_celular: TPanel;
+    pnl_nome: TPanel;
+    pnl_endereco: TPanel;
+    pnl_numero: TPanel;
+    pnl_bairro: TPanel;
+    pnl_cidade: TPanel;
+    pnl_uf: TPanel;
+    pnl_cep: TPanel;
+    pnl_email: TPanel;
+    cb_ativo: TCheckBox;
+    rg_pessoa: TRadioGroup;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btnOkClick(Sender: TObject);
+    procedure btn_busca_pessoaClick(Sender: TObject);
+    procedure btnIncluirPessoaClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+
+    procedure prc_salvar;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_busca_pessoa(pessoa_id: integer);
+
+  protected
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    function prc_validar: boolean;
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+
+  end;
+
+  procedure prc_incluir;
+  procedure prc_alterar(ACodigo :integer);
+  procedure prc_excluir(ACodigo :integer);
+
+implementation
+
+procedure prc_incluir;
+var
+  loForm : TfrmCartaoOperadorasE;
+begin
+  loForm := TfrmCartaoOperadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_alterar(ACodigo :integer);
+var
+  loForm : TfrmCartaoOperadorasE;
+begin
+  loForm := TfrmCartaoOperadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_excluir(ACodigo :integer);
+var
+  loForm : TfrmCartaoOperadorasE;
+begin
+  loForm := TfrmCartaoOperadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmCartaoOperadorasE.btnIncluirPessoaClick(Sender: TObject);
+var
+  pessoa: integer;
+begin
+  inherited;
+  pessoa := ufrmPessoasE.incluir;
+  //ShowMessage(inttostr(pessoa));
+  prc_busca_pessoa(pessoa);
+
+end;
+
+procedure TfrmCartaoOperadorasE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmCartaoOperadorasE.btn_busca_pessoaClick(Sender: TObject);
+begin
+  try
+    if frmPesquisaPessoa = nil  then
+    frmPesquisaPessoa := TfrmPesquisaPessoa.Create(Application);
+    frmPesquisaPessoa.ShowModal;
+
+    if frmPesquisaPessoa.Confirmado then
+    begin
+      prc_busca_pessoa(frmPesquisaPessoa.Codigo);
+    end
+    else
+      ShowMessage('Pessoa não encontrada')
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+  end;
+end;
+
+procedure TfrmCartaoOperadorasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_OPERADORAS';
+
+end;
+
+procedure TfrmCartaoOperadorasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmCartaoOperadorasE.prc_componentes;
+begin
+  {qry de principal}
+  qry.Connection := Conexao;
+
+end;
+
+procedure TfrmCartaoOperadorasE.prc_incluir_alterar(operacao: TOperacao);
+begin
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+   // qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+   // qry.ParamByName('id').AsInteger := Codigo;
+   // qry.ExecSQL;
+    exit;
+  end;
+
+
+  if operacao = OpIncluir then
+  begin
+    qry.SQL.Add('insert into ' + self.Tabela );
+    qry.SQL.Add('(');
+    qry.SQL.Add('  PESSOA_ID,          ');
+    qry.SQL.Add('  NR_ESTABELECIMENTO, ');
+    qry.SQL.Add('  SENHA               ');
+    qry.SQL.Add(')                     ');
+    qry.SQL.Add('VALUES                ');
+    qry.SQL.Add('(                     ');
+    qry.SQL.Add('  :PESSOA_ID,         ');
+    qry.SQL.Add('  :NR_ESTABELECIMENTO,');
+    qry.SQL.Add('  :SENHA              ');
+    qry.SQL.Add(')                     ');
+
+    qry.ParamByName('PESSOA_ID').AsInteger := strtoint(pnl_id.Caption);
+
+  end else
+  if operacao = opAlterar then
+  begin
+    qry.SQL.Add('UPDATE                                     ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                                        ');
+    qry.SQL.Add('  NR_ESTABELECIMENTO = :NR_ESTABELECIMENTO,');
+    qry.SQL.Add('  SENHA = :SENHA                           ');
+    qry.SQL.Add('WHERE                                      ');
+    qry.SQL.Add('  ID = :ID                                 ');
+    //
+    qry.ParamByName('ID').AsInteger       := Codigo;
+
+  end;
+  {parametros}
+  qry.ParamByName('NR_ESTABELECIMENTO').AsString := edt_nr_estabelecimento.Text;
+  qry.ParamByName('SENHA').AsString              := edt_senha.Text;
+
+  qry.ExecSQL;
+
+end;
+
+procedure TfrmCartaoOperadorasE.prc_inicializar;
+begin
+  pnTitulo.Caption := 'CADASTRO DE OPERADORAS';
+
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       lbl_sub_titulo.Caption    := 'INCLUSÃO';
+                       pnl_Id.Caption            := '-1';
+                       pnl_cadastrado_em.Caption := datetostr(date);
+                       btnOk.Caption             := 'SALVAR';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption    := 'ALTERAÇÃO';
+                      btnOk.Caption             := 'SALVAR ALTERAÇÕES';
+                      pnl_alterado_em.Caption   := datetostr(date);
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled        := false;
+                      btnOk.Caption          := 'EXCLUIR OPERADORA';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfrmCartaoOperadorasE.prc_ler_dados;
+var
+  loQry : TFDQuery;
+begin
+  {carrega a pessoa}
+  prc_busca_pessoa(codigo);
+
+  {carrega as contas}
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loqry.SQL.Clear;
+    loQry.sql.Add('select id, nr_estabelecimento, senha from cartao_operadoras where id =:id');
+    loQry.params.ParamByName('id').AsInteger := codigo;
+    loQry.Open;
+
+    edt_nr_estabelecimento.Text  := loqry.FieldByName('nr_estabelecimento').AsString;
+    edt_senha.Text               := loqry.FieldByName('senha').AsString;
+
+  finally
+    freeandnil(loQry);
+  end;
+end;
+
+procedure TfrmCartaoOperadorasE.prc_busca_pessoa(pessoa_id: integer);
+var
+ loQry: TFDQuery;
+begin
+
+  try
+    loQry := TFDQuery.Create(Self);
+    loQry.Connection := Conexao;
+    loqry.SQL.Clear;
+    {carrega a pessoa}
+    loQry.sql.Add('select * from pessoas where id =:id');
+    loQry.ParamByName('id').AsInteger := pessoa_id;
+    loQry.Open;
+    pnl_Id.Caption            := loQry.FieldByName('id').AsString;
+    codigo                    := loQry.FieldByName('id').AsInteger;
+    pnl_cadastrado_em.Caption := loQry.FieldByName('data_cad').AsString;
+    pnl_alterado_em.Caption   := loQry.FieldByName('data_alt').AsString;
+    cb_ativo.Checked          := uBiblioteca.SeSenao(loQry.FieldByName('ativo').AsString ='S', true, false);
+    rg_pessoa.ItemIndex       := uBiblioteca.SeSenao(loQry.FieldByName('FIS_JUR').AsString ='F', 0, 1);
+    pnl_cpf_cnpj.Caption      := loQry.FieldByName('cpf_cnpj').AsString;
+    pnl_rg_ie.Caption         := loQry.FieldByName('rg_ie').AsString;
+    pnl_telefone.Caption      := loQry.FieldByName('telefone').AsString;
+    pnl_celular.Caption       := loQry.FieldByName('celular').AsString;
+    pnl_nome.Caption          := loQry.FieldByName('nome').AsString;
+    pnl_endereco.Caption      := loQry.FieldByName('endereco').AsString;
+    pnl_numero.Caption        := loQry.FieldByName('numero').AsString;
+    pnl_bairro.Caption        := loQry.FieldByName('bairro').AsString;
+    pnl_cidade.Caption        := loQry.FieldByName('cidade').AsString;
+    pnl_uf.Caption            := loQry.FieldByName('uf').AsString;
+    pnl_cep.Caption           := loQry.FieldByName('cep').AsString;
+    pnl_email.Caption         := loQry.FieldByName('email').AsString;
+    loqry.Close;
+  finally
+    freeandnil(loqry);
+  end;
+end;
+
+
+procedure TfrmCartaoOperadorasE.prc_salvar;
+begin
+  if not prc_validar then Exit;
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    conexao.Rollback;
+    ShowMessage('Não foi possível salvar o registro');
+  end;
+
+end;
+
+function TfrmCartaoOperadorasE.prc_validar: boolean;
+begin
+  result := false;
+
+  if StrToIntDef(pnl_id.Caption,0) <= 0 then
+  begin
+    unit_funcoes.criarmensagem('AVISO','INFORME UMA PESSOA.');
+    btn_busca_pessoa.Click;
+    exit;
+  end;
+
+  if edt_nr_estabelecimento.text = '' then
+  begin
+    ShowMessage('informe o NÚMERO DE ESTABELECIMENTO cadastrado na operadora.');
+    edt_nr_estabelecimento.SetFocus;
+    exit;
+  end;
+
+  if edt_senha.text = '' then
+  begin
+    ShowMessage('informe a SENHA cadastrada na operadora.');
+    edt_senha.SetFocus;
+    exit;
+  end;
+
+  result := true;
+end;
+
+end.

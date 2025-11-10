@@ -1,0 +1,125 @@
+unit ufrmProducaoTelasPesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Vcl.StdCtrls, Vcl.DBCtrls, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.ExtCtrls, udmConn, Vcl.Mask, uBiblioteca, unit_funcoes;
+
+type
+  TfrmProducaoTelasPesquisa = class(TfrmBaseEdicao)
+    Label1: TLabel;
+    Label2: TLabel;
+    edt_qtde_aco: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    edt_qtde_tela: TEdit;
+    cbx_tipo_tela: TDBLookupComboBox;
+    cbx_tipo_aco: TDBLookupComboBox;
+    edt_unidade_aco: TDBEdit;
+    Label5: TLabel;
+    edt_quantidade_tela: TDBEdit;
+    Label6: TLabel;
+    dsTelas: TDataSource;
+    qry_telas: TFDQuery;
+    procedure FormShow(Sender: TObject);
+    procedure edt_qtde_acoKeyPress(Sender: TObject; var Key: Char);
+    procedure edt_qtde_acoExit(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure prc_componentes;
+    function fnc_validar: boolean;
+  end;
+
+var
+  frmProducaoTelasPesquisa: TfrmProducaoTelasPesquisa;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmProducaoTelasPesquisa }
+
+procedure TfrmProducaoTelasPesquisa.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar then close;
+  //  prc_salvar;
+end;
+
+procedure TfrmProducaoTelasPesquisa.edt_qtde_acoExit(Sender: TObject);
+begin
+  inherited;
+  prc_formata_dinheiro(sender);
+end;
+
+procedure TfrmProducaoTelasPesquisa.edt_qtde_acoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  prc_somente_numeros(sender,key);
+
+end;
+
+function TfrmProducaoTelasPesquisa.fnc_validar: boolean;
+begin
+  result := false;
+
+  if cbx_tipo_aco.Text = '' then
+  begin
+    criarmensagem('ERRO', 'INFORME O TIPO DE AÇO UTILIZADO NA PRODUÇÃO DAS TELAS.');
+    cbx_tipo_aco.SetFocus;
+    exit;
+  end;
+
+  if strtofloatdef(edt_qtde_aco.Text,0) <= 0 then
+  begin
+    criarmensagem('ERRO', 'INFORME UMA QUANTIDADE DE AÇO VÁLIDA.');
+    edt_qtde_aco.SetFocus;
+    exit;
+  end;
+
+
+  if cbx_tipo_tela.Text = '' then
+  begin
+    criarmensagem('ERRO', 'SELECIONE A TIPO DE TELA PRODIZIDA.');
+    cbx_tipo_tela.SetFocus;
+    exit;
+  end;
+
+  if strtofloatdef(edt_qtde_tela.Text,0) <= 0 then
+  begin
+    criarmensagem('ERRO', 'INFORME UMA QUANTIDADE DE TELA VÁLIDA.');
+    edt_qtde_tela.SetFocus;
+    exit;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmProducaoTelasPesquisa.FormShow(Sender: TObject);
+begin
+  prc_componentes;
+
+end;
+
+procedure TfrmProducaoTelasPesquisa.prc_componentes;
+begin
+  qry.Connection := conexao;
+  qry.Open;
+
+  qry_telas.Connection := conexao;
+  qry_telas.SQL.Clear;
+  qry_telas.SQL.Add('select id, nome_fantasia, unidade from produtos where nome_fantasia like :nome_fantasia order by nome_fantasia');
+  qry_telas.ParamByName('nome_fantasia').AsString := '%' + 'TELA' + '%';
+  qry_telas.Open;
+
+end;
+
+end.

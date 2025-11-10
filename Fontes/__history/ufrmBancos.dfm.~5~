@@ -1,0 +1,111 @@
+inherited frmBancos: TfrmBancos
+  Caption = 'frmBancos'
+  ExplicitWidth = 899
+  ExplicitHeight = 435
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    inherited btnLocalizar: TBitBtn
+      OnClick = btnLocalizarClick
+    end
+  end
+  inherited ToolBar1: TToolBar
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited PageControl1: TPageControl
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited DBGrid1: TDBGrid
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 52
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 122
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ALTERADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Alterado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 107
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 309
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited ds: TDataSource
+    Left = 80
+    Top = 256
+  end
+  inherited qry: TFDQuery
+    Left = 112
+    Top = 256
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

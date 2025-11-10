@@ -1,0 +1,64 @@
+unit ufrmRel_Vendas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.DBCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmRel_vendas = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    Panel1: TPanel;
+    lbl_sub_titulo: TLabel;
+    gb_pesquisa: TGroupBox;
+    gb_vendedor: TGroupBox;
+    CheckBox1: TCheckBox;
+    GroupBox1: TGroupBox;
+    CheckBox2: TCheckBox;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label1: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    PageControl1: TPageControl;
+    BitBtn1: TBitBtn;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
+    GroupBox2: TGroupBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    GroupBox3: TGroupBox;
+    DBGrid1: TDBGrid;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRel_vendas: TfrmRel_vendas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmRel_vendas.FormShow(Sender: TObject);
+begin
+  inherited;
+  Caption := 'SYSLAJES - SISTEMA DE GERENCIAMENTO DE LAJES';
+end;
+
+end.

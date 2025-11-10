@@ -1,0 +1,33 @@
+
+16/03/22
+CREATE TABLE COMISSAO_DESPESAS (
+    ID              INTEGER NOT NULL,
+    PEDIDO_ID       INTEGER NOT NULL,
+    CADASTRADO_EM   DATE,
+    ALTERADO_EM     DATE,
+    DATA_CONTABIL   DATE,
+    HISTORICO       VARCHAR(255),
+    DEBITO_CREDITO  VARCHAR(1) DEFAULT 'D',
+    VALOR           DECIMAL(9,2) DEFAULT 0
+);
+
+
+
+
+/******************************************************************************/
+/***                              Primary keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO_DESPESAS ADD CONSTRAINT PK_COMISSAO_DESPESAS PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/***                              Foreign keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO_DESPESAS ADD CONSTRAINT FK_COMISSAO_DESPESAS_1 FOREIGN KEY (PEDIDO_ID) REFERENCES PEDIDOS (ID);
+
+
+ALTER TABLE COMISSAO
+ADD OUTRAS_DESPESAS DECIMAL(9,2)
+DEFAULT 0 

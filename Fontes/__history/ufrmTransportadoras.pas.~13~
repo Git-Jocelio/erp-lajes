@@ -1,0 +1,129 @@
+unit ufrmTransportadoras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal;
+
+type
+  TfrmTransportadoras = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCPF_CNPJ: TStringField;
+    qryNOME: TStringField;
+    procedure FormCreate(Sender: TObject);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+  private
+    procedure ASql();
+
+  public
+    { Public declarations }
+  end;
+var
+  loForm: TfrmTransportadoras;
+procedure executa;
+
+implementation
+
+{$R *.dfm}
+
+uses uBiblioteca, ufrmTransportadorasE;
+
+procedure executa;
+
+begin
+
+  if loForm = nil then
+  begin
+
+    loForm := TfrmTransportadoras.Create(Application);
+    form_principal.prc_controla_menu(false);
+
+    // se abrir dentro no painel principal não funciona os edites :(
+    //loform.Parent := form_principal.pnl_principal;
+
+    loform.top    :=  form_principal.pnl_Principal.Top;
+    loform.Left   := form_principal.pnl_menulateral.Width;
+
+    loForm.Width  := form_principal.pnl_principal.Width;
+    loForm.Height := form_principal.pnl_principal.Height;
+  end;
+  loForm.Show;
+
+end;
+
+
+procedure TfrmTransportadoras.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmTransportadorasE.Alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmTransportadoras.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  if not qry.IsEmpty then
+  begin
+    ufrmTransportadorasE.Excluir(qry.fieldbyname('ID').AsInteger);
+    uBiblioteca.AtualizaQuery(qry);
+  end;
+
+end;
+
+procedure TfrmTransportadoras.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmTransportadorasE.Incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmTransportadoras.ASql;
+begin
+
+  ssql := 'select P.ID, P.CPF_CNPJ, P.NOME, P.TELEFONE, P.CELULAR, P.ATIVO from ' + Self.Tabela + ' T, PESSOAS P where P.ID = T.PESSOA_ID ';
+
+  QRY.SQL.Clear;
+  qry.sql.add(sSql);
+
+
+end;
+
+procedure TfrmTransportadoras.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+
+  form_principal.prc_controla_menu(true);
+  FreeAndNil(loForm);
+
+
+end;
+
+procedure TfrmTransportadoras.FormCreate(Sender: TObject);
+begin
+
+  // property tabela no form BaseGrade
+  self.Tabela := 'TRANSPORTADORAS';
+
+  ASql();
+
+  inherited;
+
+end;
+
+
+end.

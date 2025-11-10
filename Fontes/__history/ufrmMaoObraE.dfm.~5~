@@ -1,0 +1,159 @@
+inherited frmMaoObraE: TfrmMaoObraE
+  ClientHeight = 288
+  ClientWidth = 603
+  ExplicitWidth = 615
+  ExplicitHeight = 326
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 603
+    ExplicitWidth = 552
+    inherited lbl_titulo: TLabel
+      Width = 603
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 603
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 603
+    Height = 194
+    ExplicitWidth = 552
+    ExplicitHeight = 211
+    object Label1: TLabel
+      Left = 8
+      Top = 16
+      Width = 62
+      Height = 17
+      Caption = 'M.Obra N.'
+    end
+    object lbl_mao_de_obra_id: TLabel
+      Left = 78
+      Top = 18
+      Width = 21
+      Height = 15
+      Caption = '000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 190
+      Top = 16
+      Width = 101
+      Height = 17
+      Caption = 'Cadastrado em : '
+    end
+    object lbl_Cadastrado_em: TLabel
+      Left = 292
+      Top = 18
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 437
+      Top = 16
+      Width = 83
+      Height = 17
+      Caption = 'Alterado em : '
+    end
+    object lbl_alterado_em: TLabel
+      Left = 526
+      Top = 18
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label11: TLabel
+      Left = 8
+      Top = 55
+      Width = 57
+      Height = 17
+      Caption = 'Descri'#231#227'o'
+    end
+    object Label12: TLabel
+      Left = 8
+      Top = 112
+      Width = 30
+      Height = 17
+      Caption = 'Valor'
+    end
+    object Label3: TLabel
+      Left = 120
+      Top = 112
+      Width = 49
+      Height = 17
+      Caption = 'Unidade'
+    end
+    object edt_descricao: TEdit
+      Left = 8
+      Top = 76
+      Width = 584
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 0
+    end
+    object edt_valor: TEdit
+      Left = 8
+      Top = 132
+      Width = 97
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 1
+      OnExit = edt_valorExit
+      OnKeyPress = edt_valorKeyPress
+    end
+    object edt_unidade: TEdit
+      Left = 120
+      Top = 132
+      Width = 65
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 2
+      TabOrder = 2
+    end
+    object cb_ativo: TCheckBox
+      Left = 216
+      Top = 132
+      Width = 97
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 3
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 251
+    Width = 603
+    ExplicitTop = 268
+    ExplicitWidth = 552
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 560
+    Top = 192
+  end
+  inherited ds: TDataSource
+    Left = 560
+    Top = 161
+  end
+end

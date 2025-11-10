@@ -1,0 +1,14 @@
+hoje 28/7/21
+
+desde ontem resolvi identificar o tipo de produto na tabela de produtos
+criei campos para isso, tipo se laje,viga, concreto ,bomba ...
+
+a intenção será facilitar as pesquisas no form de pedidos e evitar
+selects desnecessários que estão deixando o modulo de pedidos lento
+
+nesse exato momento(13:13 hs) terminei as alteraççoes nas tabelas e nos forms de cadastros
+
+agora vou otimizar o pedido
+
+quando selecionar um produto a intenção é ele ser marcado o tipo ja na grid de pedidoItens
+isso facilitara o controle de guias do form

@@ -1,0 +1,221 @@
+inherited frmComissaoFechamento_Alt_Valor: TfrmComissaoFechamento_Alt_Valor
+  Caption = 'frmComissaoFechamento_Alt_Valor'
+  ClientHeight = 344
+  ExplicitHeight = 373
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited pnDados: TPanel
+    Height = 218
+    object Label1: TLabel
+      Left = 5
+      Top = 11
+      Width = 27
+      Height = 17
+      Caption = 'Data'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 5
+      Top = 149
+      Width = 34
+      Height = 17
+      Caption = 'Pagar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 90
+      Top = 149
+      Width = 70
+      Height = 17
+      Caption = 'Observa'#231#227'o'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_data: TLabel
+      Left = 5
+      Top = 29
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object label300: TLabel
+      Left = 141
+      Top = 11
+      Width = 41
+      Height = 17
+      Caption = 'Pedido'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_pedido: TLabel
+      Left = 141
+      Top = 29
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 5
+      Top = 50
+      Width = 39
+      Height = 17
+      Caption = 'Cliente'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_cliente: TLabel
+      Left = 5
+      Top = 68
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 260
+      Top = 50
+      Width = 35
+      Height = 17
+      Caption = 'Bairro'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_bairro: TLabel
+      Left = 260
+      Top = 68
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 5
+      Top = 98
+      Width = 70
+      Height = 17
+      Caption = 'Valor Venda'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_venda: TLabel
+      Left = 5
+      Top = 116
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 260
+      Top = 98
+      Width = 89
+      Height = 17
+      Caption = 'Valor comiss'#227'o'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_comissao: TLabel
+      Left = 260
+      Top = 116
+      Width = 35
+      Height = 15
+      Caption = 'xxxxx'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object edt_pagar: TEdit
+      Left = 5
+      Top = 169
+      Width = 75
+      Height = 25
+      TabOrder = 0
+    end
+    object edt_historico: TEdit
+      Left = 90
+      Top = 169
+      Width = 463
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 1
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 307
+    inherited btnOk: TBitBtn
+      OnClick = btnOkClick
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 312
+    Top = 48
+  end
+  inherited ds: TDataSource
+    Left = 248
+    Top = 41
+  end
+end

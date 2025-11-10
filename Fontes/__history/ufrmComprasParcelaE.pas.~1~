@@ -1,0 +1,39 @@
+unit ufrmComprasParcelaE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Vcl.ComCtrls, Vcl.StdCtrls, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmBaseEdicao1 = class(TfrmBaseEdicao)
+    Edit1: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Label3: TLabel;
+    Edit3: TEdit;
+    Label4: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    Label5: TLabel;
+    Edit4: TEdit;
+    Label6: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBaseEdicao1: TfrmBaseEdicao1;
+
+implementation
+
+{$R *.dfm}
+
+end.

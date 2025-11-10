@@ -1,0 +1,141 @@
+unit ufrmContasBancariasItens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, uTipos, uBiblioteca;
+
+type
+  TfrmContasBancariasItens = class(TfrmBaseEdicao)
+    Label1: TLabel;
+    edt_agencia: TEdit;
+    Label2: TLabel;
+    edt_nr_conta: TEdit;
+    cb_ativo: TCheckBox;
+    procedure btnOkClick(Sender: TObject);
+  private
+    Fp_operacao: uTipos.TOperacao;
+    Fp_confirmado: boolean;
+    Fp_agencia: string;
+    Fp_ativo: string;
+    Fp_nrconta: string;
+    procedure prc_salvar;
+    function fnc_validar: boolean;
+    procedure prc_componentes;
+    procedure prc_inicializar;
+
+  public
+    property p_operacao :uTipos.TOperacao read Fp_operacao write Fp_operacao;
+    property p_confirmado :boolean read Fp_confirmado write Fp_confirmado;
+
+    property p_agencia :string read Fp_agencia write Fp_agencia;
+    property p_nrconta :string read Fp_nrconta write Fp_nrconta;
+    property p_ativo :string read Fp_ativo write Fp_ativo;
+
+
+  end;
+
+var
+  frmContasBancariasItens: TfrmContasBancariasItens;
+
+implementation
+
+{$R *.dfm}
+
+
+
+procedure TfrmContasBancariasItens.prc_salvar;
+begin
+  if not fnc_validar then exit;
+
+  {carregar as propriedades}
+  p_agencia := edt_agencia.Text;
+  p_nrconta := edt_nr_conta.Text;
+  p_ativo   := ubiblioteca.SeSenao(cb_ativo.Checked, 'S', 'N');
+
+  {confirmado}
+  p_confirmado := true;
+  close;
+end;
+
+
+procedure TfrmContasBancariasItens.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmContasBancariasItens.prc_componentes;
+begin
+//
+end;
+
+procedure TfrmContasBancariasItens.prc_inicializar;
+begin
+  pnTitulo.Caption := 'CONTAS BÁNCARIAS';
+
+  case p_operacao of
+  uTipos.opIncluir: begin
+
+                       lbl_sub_titulo.Caption    := 'INCLUSÃO';
+                       //lbl_Id.Caption            := '-1';
+                       //lbl_cadastrado_em.Caption := datetostr(date);
+                       btnOk.Caption             := 'Incluir';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      //prc_ler_dados;
+                      lbl_sub_titulo.Caption    := 'ALTERAÇÃO';
+                      btnOk.Caption             := 'Alterar';
+                      //lbl_alterado_em.Caption   := datetostr(date);
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      //prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled        := false;
+                      btnOk.Caption          := 'Excluir';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+
+
+function TfrmContasBancariasItens.fnc_validar: boolean;
+begin
+  result := false;
+  if edt_agencia.Text = ''  then
+  begin
+    ShowMessage('infome o número da agência');
+    edt_agencia.SetFocus;
+    exit;
+  end;
+
+  if edt_nr_conta.Text = ''  then
+  begin
+    ShowMessage('infome o número da agência');
+    edt_nr_conta.SetFocus;
+    exit;
+  end;
+
+
+  result := true;
+end;
+
+end.

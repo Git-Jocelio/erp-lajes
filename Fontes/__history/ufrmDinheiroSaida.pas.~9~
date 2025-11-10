@@ -1,0 +1,227 @@
+unit ufrmDinheiroSaida;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn, unit_funcoes, ufrmDinheiroSaidaE, uTipos, uBiblioteca;
+
+type
+  TfrmDinheiroSaida = class(TfrmBaseGrade)
+    cb_valor: TCheckBox;
+    Label1: TLabel;
+    edt_valor_fim: TEdit;
+    cb_data: TCheckBox;
+    dtp_data_ini: TDateTimePicker;
+    Label2: TLabel;
+    dtp_data_fim: TDateTimePicker;
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryPESSOA_ID: TIntegerField;
+    qryPLANO_CONTAS_ID: TIntegerField;
+    qryHISTORICO: TStringField;
+    qryVALOR: TFMTBCDField;
+    qryLANCADO_CONTAS_RECEBER: TStringField;
+
+    procedure FormCreate(Sender: TObject);
+
+    procedure actLocalizarExecute(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+  private
+    { Private declarations }
+    procedure prc_sql;
+    function fnc_validar_pesquisa: boolean;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDinheiroSaida: TfrmDinheiroSaida;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmDinheiroSaida.actAlterarExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroSaidaE = nil then
+      frmDinheiroSaidaE := TfrmDinheiroSaidaE.Create(application);
+
+    frmDinheiroSaidaE.Operacao := utipos.opAlterar;
+    frmDinheiroSaidaE.Codigo   := qry.FieldByName('ID').AsInteger;
+    frmDinheiroSaidaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroSaidaE)
+  end;
+end;
+
+procedure TfrmDinheiroSaida.actExcluirExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroSaidaE = nil then
+      frmDinheiroSaidaE := TfrmDinheiroSaidaE.Create(application);
+
+    frmDinheiroSaidaE.Operacao := utipos.opExcluir;
+    frmDinheiroSaidaE.Codigo   := qry.FieldByName('ID').AsInteger;
+    frmDinheiroSaidaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroSaidaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroSaida.actIncluirExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroSaidaE = nil then
+      frmDinheiroSaidaE := TfrmDinheiroSaidaE.Create(application);
+
+    frmDinheiroSaidaE.Operacao := utipos.OpIncluir;
+    frmDinheiroSaidaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroSaidaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroSaida.actLocalizarExecute(Sender: TObject);
+var
+  condicao : string;
+begin
+  inherited;
+  if fnc_validar_pesquisa then
+  begin
+    qry.Close;
+    condicao := '';
+
+    // condições
+    if cb_valor.Checked then
+    begin
+      condicao := ' and VALOR >= :VALOR_INI and VALOR <= :VALOR_FIM';
+    end;
+
+    if cb_data.Checked then
+    begin
+      condicao := condicao + ' and CADASTRADO_EM >= :DATA_INI and CADASTRADO_EM <= :DATA_FIM';
+    end;
+
+    // sql montado
+    qry.SQL.Clear;
+    qry.SQL.Add( ssql + condicao );
+
+
+    // parametros
+    if cb_valor.Checked then
+    begin
+      qry.ParamByName('VALOR_INI').AsFloat := strtofloat(edt_consulta.text);
+      qry.ParamByName('VALOR_FIM').AsFloat := strtofloat(edt_valor_fim.text);
+    end;
+
+    if cb_data.Checked then
+    begin
+      qry.ParamByName('DATA_INI').AsDate := dtp_data_ini.Date;
+      qry.ParamByName('DATA_FIM').AsDate := dtp_data_fim.Date;
+    end;
+
+    //showmessage(qry.SQL.Text);
+    // resultados
+    qry.Open;
+
+  end;
+
+end;
+
+function TfrmDinheiroSaida.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+  if cb_valor.Checked then
+  begin
+    if strtofloatdef(edt_consulta.Text,0) < 0 then
+    begin
+      criarmensagem('ERRO', 'INFORME UM VALOR VÁLIDO.');
+      edt_consulta.SetFocus;
+      exit;
+    end;
+
+    if strtofloatdef(edt_valor_fim.Text,0) < 0 then
+    begin
+      criarmensagem('ERRO', 'INFORME UM VALOR VÁLIDO.');
+      edt_valor_fim.SetFocus;
+      exit;
+    end;
+
+    if strtofloatdef(edt_valor_fim.Text,0) < strtofloatdef(edt_consulta.Text,0) then
+    begin
+      criarmensagem('ERRO', 'VALOR FINAL MAIOR QUE O VALOR INICIAL.' + slinebreak + 'CONFIRA OS DADOS E TENTE NOVAMENTE.');
+      edt_consulta.SetFocus;
+      exit;
+    end;
+  end;
+
+  if cb_data.Checked then
+  begin
+    if dtp_data_fim.date < dtp_data_ini.date then
+    begin
+      criarmensagem('ERRO', 'DATA FINAL MAIOR QUE A DATA INICIAL.' + slinebreak + 'CONFIRA OS DADOS E TENTE NOVAMENTE.');
+      dtp_data_ini.SetFocus;
+      exit;
+    end;
+  end;
+
+  result := true;
+
+end;
+
+procedure TfrmDinheiroSaida.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  dtp_data_ini.Date := date;
+  dtp_data_fim.Date := date;
+
+  //DBGrid1.Columns[4].Visible := false;
+
+  self.Tabela := 'DINHEIRO_SAIDA';
+  prc_sql;
+end;
+
+procedure TfrmDinheiroSaida.prc_sql;
+begin
+  sSql :=
+          'select                   ' +
+          '  id,                    ' +
+          '  cadastrado_em,         ' +
+          '  pessoa_id,             ' +
+          '  plano_contas_id,       ' +
+          '  historico,             ' +
+          '  valor,                 ' +
+          '  lancado_contas_receber ' +
+          'from                     ' +
+          ' dinheiro_saida          ' +
+          'where                    ' +
+          ' id > 0                  ';
+
+  qry.sql.Clear;
+  qry.sql.Add(sSql);
+  QRY.Open;
+
+end;
+
+end.

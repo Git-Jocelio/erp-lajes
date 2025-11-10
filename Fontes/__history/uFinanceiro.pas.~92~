@@ -1,0 +1,1036 @@
+{unit criada para fuctions e procedures a serem usadas nos modulos financeiros
+ contas a pagar e receber e outros}
+unit uFinanceiro;
+
+interface
+ uses
+  Controls, DB, uBiblioteca, dialogs, FireDAC.Comp.Client, udmConn, uTipos,
+  Vcl.Forms;
+
+  function AddContasReceber(conexao : TFDConnection; pedidoId: integer;
+                            dataContabil: TDate; pessoaId: integer; tabelaOrigem: string;
+                            idOrigem, parcelaNr, parcelaQtde: integer;
+                            valor, desconto, multa, juros, arredondamento: double;
+                            dataVenc, dataPagto: TDate;
+                            valorPago: double; descricao, historico: string; planoContaId: integer): boolean;
+
+{procedure para manutencao da tabela de dinheiroMovimentacao}
+  procedure DinheiroMovimentacao(Tabela: string; Tabela_Id: integer; EntradaSaida: string; Historico: string; Valor: double);
+  procedure DinheiroMovimentacaoExcluir(id: integer);
+  //
+  function ClienteDebitoPedidos(cliente: integer; situacao: string): double;
+  function ClienteDebitoOutros(cliente: integer): double;
+  function ClienteAtualizaDebitoPedido(cliente: integer; debito: double): boolean;
+  function ClienteAtualizaDebitoOutros(cliente: integer; debito: double): boolean;
+  //
+  function ClienteCreditos(cliente: integer): double;
+  function ClienteAtualizaCreditos(cliente: integer; debito: double): boolean;
+  function fnc_salvar_comissao(
+                          conexao : TFDConnection;
+                          operacao: TOperacao;
+                          cadastrado_em   :TDate;
+                          alterado_em     :Tdate;
+                          dataContabil    :TDate;
+                          {chave para localizar a conta}
+                          pedidoId        :integer;  // número do pedido
+                          vendedorId      :integer;
+                          usuarioId       :integer;
+                          totalVenda      :double;
+                          totalCusto      :double;
+                          outrasDespesas  :double;
+                          comissaoAdmTaxa  :double;
+                          comissaoVendTaxa :double
+                          ): boolean;
+
+function fnc_salvar_comissao_itens(
+                          conexao : TFDConnection;
+                          operacao        :TOperacao;
+                          pedidoId        :integer;
+                          produtoId       :integer;
+                          quantidade      :double;
+                          custoFornecedor :double;
+                          custoVendedor   :double;
+                          precoVenda      :double;
+                          debito_credito  :string;
+                          obs             :string
+                          ): boolean;
+function baixar_contas_receber(conexao: TFDConnection; contas_receber_id: integer; valor_a_alterar, valor_pago: double): boolean;
+
+procedure prc_registrar_pagamento_pedido( conexao: TFDConnection; pedido_id: integer; dataPgto: Tdate; valor: double; historico: string);
+procedure prc_baixar_pedido(conexao: TFDConnection; pedido_id: integer; baixar_valor: double; contas_receber_baixa_id: integer; Justificativa : string);
+
+procedure prc_contas_pagar(operacao: TOperacao; conexao: TFDConnection; contaPagarID, pedidoID, planoContasId, pessoaId: integer; nrDocumento, descricao,
+          tabelaOrigem: string; tabelaId, nrParcela, qtdeParcela: integer; vrParcela, acrescimo,
+          desconto, multa, juros{, totalParcela}: double; dataVencimento: TDate; vrPago: double; {dataPagamento: TDate;}
+          {saldoAberto: double;} DRE, FLUXO, BALANCO, ativo, historicoPagto, historicoCobranca: string
+          );
+
+implementation
+
+uses SysUtils;
+
+
+function AddContasReceber(conexao : TFDConnection;
+                          pedidoId: integer;
+                          dataContabil: TDate;
+                          pessoaId: integer;
+                          tabelaOrigem: string;
+                          idOrigem,
+                          parcelaNr,
+                          parcelaQtde: integer;
+                          valor,
+                          desconto,
+                          multa,
+                          juros,
+                          arredondamento: double;
+                          dataVenc,
+                          dataPagto: TDate;
+                          valorPago: double;
+                          descricao,
+                          historico: string;
+                          planoContaId: integer
+                          ): boolean;
+var
+  valorTotal, saldoAberto: double;
+  qry : TFDQuery;
+begin
+  result := false;
+
+  valorTotal  := valor + multa + juros + arredondamento - desconto;
+  saldoAberto := valorTotal - valorPago;
+  {localiza a conta}
+  (*qry := uBiblioteca.CriaQuery(conexao,'select * from CONTAS_RECEBER where TABELA_ORIGEM = ' + QuotedStr('PEDIDOS') + ' and ID_ORIGEM =:ID', false);
+  *)
+  qry := TFDQuery.Create(application);
+  qry.Connection := conexao;
+  qry.Close;
+  qry.SQL.Clear;
+  qry.SQL.Add('select * from CONTAS_RECEBER where TABELA_ORIGEM = ' + QuotedStr('PEDIDOS') + ' and ID_ORIGEM =:ID');
+
+  qry.Params[0].AsInteger := pedidoId;
+  qry.Open;
+
+  {inclui ou altera}
+  if qry.RecordCount = 0 then
+  begin
+    qry.Append;
+    qry.FieldByName('ID').AsInteger := uBiblioteca.AutoIncremento(conexao,'CONTAS_RECEBER') ;
+    qry.FieldByName('DATA_EMI').AsDateTime := date ;
+  end
+  else
+  begin
+    qry.Edit;
+    qry.FieldByName('DATA_ALT').AsDateTime := date ;
+  end;
+
+  try
+    try
+      qry.FieldByName('MARCA').AsString := 'N';
+      qry.FieldByName('DATA_CONTABIL').AsDateTime  := dataContabil;
+      qry.FieldByName('PESSOA_ID').AsInteger       := pessoaId;
+      qry.FieldByName('TABELA_ORIGEM').AsString    := tabelaOrigem;
+      qry.FieldByName('ID_ORIGEM').AsInteger       := idOrigem;
+      qry.FieldByName('PARCELA_NR').AsInteger      := parcelaNr;
+      qry.FieldByName('PARCELA_QTDE').AsInteger    := parcelaQtde;
+      qry.FieldByName('VALOR').AsFloat             := valor;
+      qry.FieldByName('DESCONTO').AsFloat          := desconto;
+      qry.FieldByName('MULTA').AsFloat             := multa;
+      qry.FieldByName('JUROS').AsFloat             := juros;
+      qry.FieldByName('ARREDONDAMENTO').AsFloat    := arredondamento;
+      qry.FieldByName('TOTAL').AsFloat             := valorTotal;
+      qry.FieldByName('DATA_VENC').AsDateTime      := dataVenc;
+
+      {se for uma nova conta grava o que foi passado por parametro, senão mantém o que tá no banco}
+      if qry.RecordCount = 0 then
+       qry.FieldByName('DATA_PAGTO').AsDateTime     :=  dataPagto;
+
+      qry.FieldByName('VALOR_PAGO').AsFloat        := valorPago;
+      qry.FieldByName('SALDO_ABERTO').AsFloat      := saldoAberto;
+      qry.FieldByName('PAGO').AsString             := uBiblioteca.SeSenao(saldoAberto > 0,'N','S');
+      qry.FieldByName('DESCRICAO').AsString        := descricao;
+      qry.FieldByName('HISTORICO').AsString        := historico;
+      qry.FieldByName('PLANO_CONTAS_ID').AsInteger := 1;// planoContaId;
+       {para usar o apply o cache updates tem que estar true}
+      //qry.ApplyUpdates(0);
+      qry.Post;
+      result :=  qry.RowsAffected > 0;
+      //ShowMessage(inttostr(qry.RowsAffected));
+
+    finally
+      qry.Close;
+      FreeAndNil(qry);
+    end;
+  except
+     on E: Exception do
+     ShowMessage( E.Message );
+
+  end;
+
+end;
+
+(*
+{comissão antiga}
+function AddComissoes(
+                          conexao : TFDConnection;
+                          cadastrado_em :TDate;
+                          alterado_em   :Tdate;
+                          dataContabil  :TDate;
+                          {chave para localizar a conta}
+                          pedidoId      :integer;  // número do pedido
+                          tabelaOrigem  :string;
+                          tabelaId      :integer;
+
+                          vendedorId    :integer;
+                          usuarioId     :integer;
+                          produtoId     :integer;
+                          quantidade    :double;
+                          precoVendedor :double;
+                          //precoVenda    :double;
+                          situacao      :string;
+                          acrescimo     :double;
+                          desconto      :double;
+                          totalVendedor :double
+                          //totalVenda    :double
+                        ): boolean;
+var
+  qry : TFDQuery;
+begin
+  result := false;
+
+  {localiza a conta}
+  qry := uBiblioteca.CriaQuery(
+                               conexao,
+                               'select                          '+
+                               ' *                              '+
+                               'from                            '+
+                               ' COMISSOES                      '+
+                               'where                           '+
+                               ' PEDIDO_ID     =:PEDIDO_ID and  '+
+                               ' TABELA_ORIGEM =:TABELA and     '+
+                               ' TABELA_ID     =:TABELA_ID '
+                               , True
+                               );
+
+  qry.ParamByName('PEDIDO_ID').AsInteger := pedidoId;
+  qry.ParamByName('TABELA'   ).AsString  := tabelaOrigem;
+  qry.ParamByName('TABELA_ID').AsInteger := tabelaId;
+  qry.Open();
+
+  {inclui ou altera}
+  if qry.RecordCount = 0 then
+  begin
+    qry.Append;
+    qry.FieldByName('ID').AsInteger             := uBiblioteca.AutoIncremento(conexao,'COMISSOES') ;
+    qry.FieldByName('PEDIDO_ID').AsInteger      := pedidoId;
+    qry.FieldByName('CADASTRADO_EM').AsDateTime := date;
+  end
+  else
+  begin
+    //ShowMessage('alterar item : ' + inttostr(tabelaId));
+    qry.Edit;
+    qry.FieldByName('ALTERADO_EM').AsDateTime := date ;
+  end;
+
+  try
+    try
+      //ShowMessage('qtde' + floattostr(quantidade));
+
+      qry.FieldByName('DATA_CONTABIL'   ).AsDateTime:= date;
+      qry.FieldByName('TABELA_ORIGEM'   ).AsString  := tabelaOrigem;
+      qry.FieldByName('TABELA_ID'       ).AsInteger := tabelaId;
+      qry.FieldByName('VENDEDOR_ID'     ).AsInteger := vendedorId;
+      qry.FieldByName('PRODUTO_ID'      ).AsInteger := produtoId;
+      qry.FieldByName('QUANTIDADE'      ).AsFloat   := quantidade;
+      //qry.FieldByName('PRECO_FORNECEDOR').AsFloat   := precoFornecedor;
+      qry.FieldByName('PRECO_VENDEDOR'  ).AsFloat   := precoVendedor;
+      //qry.FieldByName('PRECO_VENDA'     ).AsFloat   := precoVenda;
+      qry.FieldByName('SITUACAO'        ).AsString  := situacao;
+      qry.FieldByName('USUARIO_ID'      ).AsInteger := usuarioId;
+      qry.FieldByName('ACRESCIMO'       ).AsFloat   := acrescimo;
+      qry.FieldByName('DESCONTO'        ).AsFloat   := desconto;
+      qry.FieldByName('TOTAL_VENDEDOR'  ).AsFloat   := totalVendedor;
+      //qry.FieldByName('TOTAL_VENDA'     ).AsFloat   := totalVenda;
+       {para usar o apply o cache updates tem que estar true}
+      qry.Post;
+      qry.ApplyUpdates(0);
+      result:= qry.RowsAffected >0;
+    finally
+      FreeAndNil(qry);
+    end;
+  except
+     on E: Exception do
+     ShowMessage( E.Message );
+  end;
+
+end;
+*)
+
+
+
+{procedure para manutencao da tabela de dinheiroMovimentacao}
+procedure DinheiroMovimentacao(Tabela: string; Tabela_Id: integer; EntradaSaida: string; Historico: string; Valor: double);
+var
+ loQry : TFDQuery;
+ ultimoSaldo : double;
+begin
+  // cria um qry virtual da tabela dinheiroMovimentacao
+ (* loQry := uBiblioteca.CriaQuery(dmConn.FDConnection,  'select * from DINHEIRO_MOVIMENTACAO', true);
+  *)
+  try
+    loqry := TFDQuery.Create(application);
+    loQry.Connection := dmConn.FDConnection;
+    loQry.Close;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select * from DINHEIRO_MOVIMENTACAO');
+
+
+    loQry.Open;
+    // pega o último saldo
+    loQry.Last;
+    //loQry.Edit;
+    ultimoSaldo := loQry.fieldbyname('SALDO').AsFloat;
+
+    loQry.Insert;
+
+    loQry.FieldByName('ID').AsInteger := uBiblioteca.AutoIncremento(dmConn.FDConnection, 'DINHEIRO_MOVIMENTACAO');
+
+    // Grava o nome da tabela e o id da mesma que esta fazendo o lançamento
+    loQry.FieldByName('TABELA').AsString := Tabela;
+    loQry.FieldByName('TABELA_ID').AsInteger := Tabela_Id;
+
+    loQry.FieldByName('DATA').AsDateTime := Date;
+
+    loQry.FieldByName('HISTORICO').AsString := Historico;
+
+    if EntradaSaida = 'E' then
+     loQry.FieldByName('ENTRADA').AsFloat := Valor
+       else loQry.FieldByName('SAIDA').AsFloat := Valor;
+
+    // Saldo
+    if EntradaSaida = 'E' then
+      loQry.FieldByName('SALDO').AsFloat := ultimoSaldo + Valor
+       else
+        loQry.FieldByName('SALDO').AsFloat := ultimoSaldo - Valor;
+
+    loQry.Post;
+  finally
+    loQry.close;
+    freeandnil(loQry);
+  end;
+end;
+
+{procedure para manutencao da tabela de dinheiroMovimentacao}
+procedure DinheiroMovimentacaoExcluir(id: integer);
+var
+ loQry : TFDQuery;
+begin
+  // cria um qry virtual da tabela dinheiroMovimentacao
+  try
+    (*loQry := uBiblioteca.CriaQuery( dmConn.FDConnection, 'delete from DINHEIRO_MOVIMENTACAO where ID =:ID', true);
+    *)
+    loqry := TFDQuery.Create(application);
+    loQry.Connection := dmConn.FDConnection;
+    loQry.Close;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('delete from DINHEIRO_MOVIMENTACAO where ID =:ID');
+
+    loqry.Params[0].AsInteger := id;
+    loQry.ExecSQL;
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+
+end;
+
+function ClienteCreditos(cliente: integer): double;
+var
+ loQry : TFDQuery;
+begin
+  // cria um qry virtual da tabela contas a receber
+  try
+    // soma os créditos dos clientes
+    (*
+    loQry := uBiblioteca.CriaQuery( dmConn.FDConnection,
+                                   'select SUM(SALDO_ABERTO) AS CREDITO ' +
+                                   'from CONTAS_PAGAR ' +
+                                   'where ' +
+                                   'PAGO = ' + QuotedStr('N') + ' and ' +
+                                   'COD_FORN = :CLIENTE',
+                                   true);
+    *)
+    loqry := TFDQuery.Create(application);
+    loQry.Connection := dmConn.FDConnection;
+    loQry.Close;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select SUM(SALDO_ABERTO) AS CREDITO from CONTAS_PAGAR where PAGO = ' + QuotedStr('N') + ' and COD_FORN = :CLIENTE ');
+
+
+    loqry.Params.ParamByName('CLIENTE').AsInteger := cliente;
+    loQry.open;
+    Result := loQry.fieldbyname('CREDITO').AsFloat;
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+end;
+
+function ClienteAtualizaCreditos(cliente: integer; debito: double): boolean;
+var
+ loQry : TFDQuery;
+begin
+ try
+  (* loQry := uBiblioteca.CriaQuery( dmConn.FDConnection, 'update CLIENTES set CREDITOS =:CREDITOS where PESSOA_ID =:PESSOA_ID', true);
+   *)
+   loqry := TFDQuery.Create(application);
+   loQry.Connection := dmConn.FDConnection;
+   loQry.Close;
+   loqry.SQL.Clear;
+   loqry.SQL.Add('update CLIENTES set CREDITOS =:CREDITOS where PESSOA_ID =:PESSOA_ID');
+
+
+   loQry.Params.ParamByName('CREDITOS').AsFloat := debito;
+   loQry.Params.ParamByName('PESSOA_ID').Asinteger := cliente;
+   loQry.ExecSQL;
+
+   Result := (loQry.RowsAffected > 0);
+
+ finally
+   loQry.Close;
+   loqry.Free;
+ end;
+
+end;
+
+
+function ClienteDebitoPedidos(cliente: integer; situacao: string): double;
+var
+ loQry : TFDQuery;
+begin
+  // cria um qry virtual da tabela contas a receber
+  try
+    // soma os débitos dos clientes conforme situação do pedido
+    (*
+    loQry := uBiblioteca.CriaQuery(dmConn.FDConnection,
+                                   'select SUM(SALDO_ABERTO) AS DEBITO ' +
+                                   'from CONTAS_RECEBER R, CADPEDIDOS P ' +
+                                   'where R.TABELA_ORIGEM = ' + quotedstr('CADPEDIDOS') + ' and ' +
+                                   'P.NRCONTROLE = R.ID_ORIGEM and ' +
+                                   'R.PAGO = ' + QuotedStr('N') + ' and ' +
+                                   'P.SITPED = :SITUACAO and ' +
+                                   'R.COD_CLI = :CLIENTE',
+                                   true);
+    *)
+
+   loqry := TFDQuery.Create(application);
+   loQry.Connection := dmConn.FDConnection;
+   loQry.Close;
+   loqry.SQL.Clear;
+   loqry.SQL.Add('select SUM(SALDO_ABERTO) AS DEBITO ');
+   loqry.SQL.Add('from CONTAS_RECEBER R, CADPEDIDOS P  ');
+   loqry.SQL.Add('where R.TABELA_ORIGEM = ' + quotedstr('CADPEDIDOS') + ' and ' );
+   loqry.SQL.Add('P.NRCONTROLE = R.ID_ORIGEM and ');
+   loqry.SQL.Add('R.PAGO = ' + QuotedStr('N') + ' and  ');
+   loqry.SQL.Add('P.SITPED = :SITUACAO and ');
+   loqry.SQL.Add('R.COD_CLI = :CLIENTE ');
+
+
+
+    loqry.Params.ParamByName('CLIENTE').AsInteger := cliente;
+    loqry.Params.ParamByName('SITUACAO').AsString := situacao;
+    loQry.open;
+    Result := loQry.fieldbyname('DEBITO').AsFloat;
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+end;
+
+function ClienteDebitoOutros(cliente: integer): double;
+var
+ loQry : TFDQuery;
+begin
+  // cria um qry virtual da tabela contas a receber
+  try
+    // soma os débitos dos clientes conforme situação do pedido
+    (*
+    loQry := uBiblioteca.CriaQuery(dmConn.FDConnection,
+                                   'select SUM(SALDO_ABERTO) AS DEBITO ' +
+                                   'from CONTAS_RECEBER ' +
+                                   'where ' +
+                                   'TABELA_ORIGEM <> ' + QuotedStr('CADPEDIDOS') + ' and ' +
+                                   'PAGO = ' + QuotedStr('N') + ' and ' +
+                                   'PESSOA_ID = :CLIENTE',
+                                   true);
+    *)
+
+
+   loqry := TFDQuery.Create(application);
+   loQry.Connection := dmConn.FDConnection;
+   loQry.Close;
+   loqry.SQL.Clear;
+   loqry.SQL.Add('select SUM(SALDO_ABERTO) AS DEBITO ');
+   loqry.SQL.Add('from CONTAS_RECEBER ');
+   loqry.SQL.Add('where ');
+   loqry.SQL.Add('TABELA_ORIGEM <> ' + QuotedStr('CADPEDIDOS') + ' and ');
+   loqry.SQL.Add('PAGO = ' + QuotedStr('N') + ' and ');
+   loqry.SQL.Add('PESSOA_ID = :CLIENTE ');
+
+    loqry.Params.ParamByName('CLIENTE').AsInteger := cliente;
+    loQry.open;
+    Result := loQry.fieldbyname('DEBITO').AsFloat;
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+end;
+
+function ClienteAtualizaDebitoPedido(cliente: integer; debito: double): boolean;
+var
+ loQry : TFDQuery;
+begin
+ try
+(*   loQry := uBiblioteca.CriaQuery( dmConn.FDConnection, 'update CLIENTES set PEDIDOS_RECEBER =:PEDIDOS_RECEBER where PESSOA_ID =:PESSOA_ID',true);
+*)
+  loQry.Params.ParamByName('PEDIDOS_RECEBER').AsFloat := debito;
+
+   loqry := TFDQuery.Create(application);
+   loQry.Connection := dmConn.FDConnection;
+   loQry.Close;
+   loqry.SQL.Clear;
+   loqry.SQL.Add('update CLIENTES set PEDIDOS_RECEBER =:PEDIDOS_RECEBER where PESSOA_ID =:PESSOA_ID');
+
+
+   loQry.Params.ParamByName('PESSOA_ID').Asinteger := cliente;
+   loQry.ExecSQL;
+
+   Result := (loQry.RowsAffected > 0);
+
+ finally
+   loQry.Close;
+   loqry.Free;
+ end;
+
+end;
+
+function ClienteAtualizaDebitoOutros(cliente: integer; debito: double): boolean;
+var
+ loQry : TFDQuery;
+begin
+ try
+   (*loQry := uBiblioteca.CriaQuery( dmConn.FDConnection, 'update CLIENTES set OUTROS_DEBITOS =:OUTROS_DEBITOS where PESSOA_ID =:PESSOA_ID',true);
+   *)
+
+
+   loqry := TFDQuery.Create(application);
+   loQry.Connection := dmConn.FDConnection;
+   loQry.Close;
+   loqry.SQL.Clear;
+   loqry.SQL.Add('update CLIENTES set OUTROS_DEBITOS =:OUTROS_DEBITOS where PESSOA_ID =:PESSOA_ID');
+
+   loQry.Params.ParamByName('OUTROS_DEBITOS').AsFloat := debito;
+   loQry.Params.ParamByName('PESSOA_ID').Asinteger := cliente;
+   loQry.ExecSQL;
+
+   Result := (loQry.RowsAffected > 0);
+
+ finally
+   loQry.Close;
+   loqry.Free;
+ end;
+
+end;
+
+
+function fnc_salvar_comissao(
+                          conexao : TFDConnection;
+                          operacao: TOperacao;
+                          cadastrado_em   :TDate;
+                          alterado_em     :Tdate;
+                          dataContabil    :TDate;
+                          {chave para localizar a conta}
+                          pedidoId        :integer;  // número do pedido
+                          vendedorId      :integer;
+                          usuarioId       :integer;
+                          totalVenda      :double;
+                          totalCusto      :double;
+                          outrasDespesas  :double;
+                          comissaoAdmTaxa :double;
+                          comissaoVendTaxa :double
+                          ): boolean;
+var
+  qry : TFDQuery;
+  novoId : integer;
+begin
+  result := false;
+
+  try
+    try
+
+      qry := TFDQuery.Create( application );
+      qry.Connection := conexao;
+
+      qry.Close;
+      qry.SQL.Clear;
+
+      if operacao = utipos.opExcluir then
+      begin
+      //ShowMessage('excluir comissao ');
+        qry.SQL.Add('delete from COMISSAO where pedido_id = :pedido_id');
+      end;
+
+      if operacao = utipos.OpIncluir then
+      begin
+        //ShowMessage('inserir comissao');
+        qry.SQL.Add('insert into COMISSAO ' );
+        qry.SQL.Add('    ( id, cadastrado_em, data_contabil, pedido_id,      ');
+        qry.SQL.Add('      vendedor_id, usuario_id, total_venda, total_custo, outras_despesas, ');
+        qry.SQL.Add('      comissao_adm_taxa, comissao_adm, comissao_bruta,  ');
+        qry.SQL.Add('      comissao_liquida, status, historico ) ');
+        qry.SQL.Add('values ');
+        qry.sql.Add('     ( :id, :cadastrado_em, :data_contabil, :pedido_id,  ');
+        qry.SQL.Add('      :vendedor_id, :usuario_id, :total_venda,          ');
+        qry.SQL.Add('      :total_custo, :outras_despesas, :comissao_adm_taxa, :comissao_adm, ');
+        qry.SQL.Add('      :comissao_bruta,:comissao_liquida, ');
+        qry.SQL.Add('      :status, :historico )                             ');
+        //***
+        novoId := uBiblioteca.AutoIncremento(conexao,'COMISSAO');
+        qry.ParamByName('id').AsInteger := novoId;
+        qry.ParamByName('cadastrado_em').AsDateTime := date;//cadastrado_em;
+        qry.ParamByName('status').AsString          := 'A';
+        //qry.ParamByName('data_contabil').AsDateTime := dataContabil;//dataContabil;
+      end;
+
+      if operacao = utipos.opAlterar then
+      begin
+        //ShowMessage ('alterar comissão');
+        qry.SQL.Add('update COMISSAO set ');
+        qry.SQL.Add(' pedido_id = :pedido_id,                ');
+        qry.SQL.Add(' data_contabil = :data_contabil,        ');
+        qry.SQL.Add(' vendedor_id = :vendedor_id,            ');
+        qry.SQL.Add(' usuario_id = :usuario_id,              ');
+        qry.SQL.Add(' total_venda = :total_venda,            ');
+        qry.SQL.Add(' total_custo = :total_custo,            ');
+        qry.SQL.Add(' outras_despesas = :outras_despesas,    ');
+        qry.SQL.Add(' comissao_adm_taxa = :comissao_adm_taxa,');
+        qry.SQL.Add(' comissao_adm = :comissao_adm,          ');
+        qry.SQL.Add(' comissao_bruta = :comissao_bruta,      ');
+        qry.SQL.Add(' comissao_liquida = :comissao_liquida,  ');
+      //  qry.SQL.Add(' status = :status,                      ');
+        qry.SQL.Add(' historico = :historico                 ');
+
+        //***
+        qry.SQL.Add('where pedido_id = :pedido_id');
+
+       // qry.ParamByName('pedido_id').AsInteger:= pedidoId;
+
+      end;
+      //ShowMessage(qry.SQL.Text);
+
+      qry.ParamByName('pedido_id').AsInteger:= pedidoId;
+
+      if operacao <> opExcluir then
+      begin
+        qry.ParamByName('data_contabil').AsDateTime := dataContabil;//dataContabil;
+        qry.ParamByName('vendedor_id').AsInteger    := vendedorId;
+        qry.ParamByName('usuario_id').AsInteger     := usuarioId;
+        qry.ParamByName('total_venda').AsFloat      := totalVenda;
+        qry.ParamByName('total_custo').AsFloat      := totalCusto;
+        qry.ParamByName('outras_despesas').AsFloat  := outrasDespesas;
+        qry.ParamByName('comissao_adm_taxa').AsFloat:= comissaoAdmTaxa;
+        qry.ParamByName('comissao_adm').AsFloat     := totalVenda * ( comissaoAdmTaxa / 100 );
+        qry.ParamByName('comissao_bruta').AsFloat   := ubiblioteca.SeSenao(comissaoVendTaxa > 0, (totalVenda - totalCusto - (outrasDespesas)) - (totalVenda * (comissaoAdmTaxa / 100) ), 0);
+        qry.ParamByName('comissao_liquida').AsFloat := ubiblioteca.SeSenao(comissaoVendTaxa > 0, (( (totalVenda - totalCusto - (outrasDespesas)) - (totalVenda * (comissaoAdmTaxa / 100)) ) / 2), 0);
+        //qry.ParamByName('status').AsString          := 'A';
+        qry.ParamByName('historico').AsString       := '';
+      end;
+
+      qry.ExecSQL;
+
+      result := true;
+
+    except
+      on E: Exception do
+      begin
+       Raise Exception.Create(E.Message  +' : uFinaceiro.fnc_salvar_comissao.Incluir Comissão');
+      end;
+    end;
+  finally
+    result := true;
+    qry.Close;
+    FreeAndNil( qry );
+  end;
+
+end;
+
+
+function fnc_salvar_comissao_itens(
+                          conexao : TFDConnection;
+                          operacao        :TOperacao;
+                          pedidoId        :integer;
+                          produtoId       :integer;
+                          quantidade      :double;
+                          custoFornecedor :double;
+                          custoVendedor   :double;
+                          precoVenda      :double;
+                          debito_credito  :string;
+                          obs             :string
+                          ): boolean;
+var
+  qry : TFDQuery;
+  novoId : integer;
+begin
+  result := false;
+
+  try
+    try
+
+      qry := TFDQuery.Create( application );
+      qry.Connection := conexao;
+
+      //ShowMessage('inserir COMISSAO_ITEM');
+      qry.Close;
+      qry.SQL.Clear;
+      qry.SQL.Add('insert into COMISSAO_ITEM ');
+      qry.SQL.Add('  ( id, pedido_id, produto_id, quantidade,  ');
+      qry.SQL.Add('    custo_forn,custo_vend, preco_venda,     ');
+      qry.SQL.Add('    debito_credito, obs )                   ');
+      qry.SQL.Add('values                                      ');
+      qry.SQL.Add('(:id, :pedido_id, :produto_id, :quantidade, ');
+      qry.SQL.Add(' :custo_forn,:custo_vend, :preco_venda,     ');
+      qry.SQL.Add(' :debito_credito, :obs )                    ');
+      //***
+      novoId := uBiblioteca.AutoIncremento(conexao,'COMISSAO_ITEM');
+      qry.ParamByName('id').AsInteger           := novoId;
+      qry.ParamByName('pedido_id').AsInteger    := pedidoId;
+      qry.ParamByName('produto_id').AsInteger   := produtoId;
+      qry.ParamByName('quantidade').AsFloat     := quantidade;
+      qry.ParamByName('custo_forn').AsFloat     := custoFornecedor;
+      qry.ParamByName('custo_vend').AsFloat     := custoVendedor;
+      qry.ParamByName('preco_venda').AsFloat    := precoVenda;
+      qry.ParamByName('debito_credito').AsString:= debito_credito;
+      qry.ParamByName('obs').AsString           := obs;
+
+      qry.ExecSQL;
+      qry.Close;
+
+      result := true;
+    except
+      on E: Exception do
+      begin
+       Raise Exception.Create(E.Message  +' : uFinaceiro.fnc_salvar_comissao_itens.Incluir Item de Comissão');
+      end;
+    end;
+  finally
+    // após inserir um item sem
+    result := true;
+    qry.Close;
+    FreeAndNil( qry );
+  end;
+
+end;
+
+function baixar_contas_receber(conexao: TFDConnection; contas_receber_id: integer; valor_a_alterar, valor_pago: double): boolean;
+// valor_a_aterar (passado quando for uma alteracao)
+var
+  qry : TFDQuery;
+  oldValorPago  : double;
+  oldSaldoAberto: double;
+begin
+  try
+    qry := TFDQuery.Create(Application);
+    qry.Connection := conexao;
+    try
+      with qry, qry.Sql do
+      begin
+        Add('SELECT * FROM CONTAS_RECEBER WHERE ID = :ID');
+        ParamByName('ID').AsInteger := contas_receber_id;
+        Open;
+        oldValorPago   := qry.fieldbyname('VALOR_PAGO').AsFloat   - valor_a_alterar;;
+        oldSaldoAberto := qry.fieldbyname('SALDO_ABERTO').AsFloat + valor_a_alterar;;
+        //Atualiza o para o novo valor
+        SQL.Clear;
+        Add('update                         ');
+        Add('  CONTAS_RECEBER               ');
+        Add('set                            ');
+        Add('  DATA_PAGTO = :DATA_PAGTO,    ');
+        Add(  'VALOR_PAGO = :VALOR_PAGO,    ');
+        Add('  SALDO_ABERTO = :SALDO_ABERTO,');
+        Add('  PAGO =:PAGO                  ');
+        Add('where                          ');
+        Add('  ID = :ID                     ');
+        ParamByName('DATA_PAGTO').AsDate   := Date;
+        ParamByName('VALOR_PAGO').AsFloat  := oldValorPago + valor_pago;
+        ParamByName('SALDO_ABERTO').AsFloat:= oldSaldoAberto - valor_pago;
+        ParamByName('PAGO').AsString := uBiblioteca.SeSenao(( oldSaldoAberto - valor_pago) < 0.01,'S','N') ;
+
+        ParamByName('ID').AsInteger := contas_receber_id;
+        ExecSQL;
+        //
+        result := qry.RowsAffected > 0;
+      end;
+    finally
+      qry.Close;
+      FreeAndNil(qry);
+      end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + '.baixarContasReceber');
+    end;
+end;
+
+procedure prc_registrar_pagamento_pedido( conexao: TFDConnection; pedido_id: integer; dataPgto: Tdate; valor: double; historico: string );
+var
+  qry: TFDQuery;
+begin
+  try
+
+    qry:= TFDQuery.Create(application);
+    qry.Connection := conexao;
+    qry.SQL.Clear;
+    qry.SQL.Add('insert into PEDIDOS_PAGAMENTOS        ');
+    qry.SQL.Add('  ( id, pedido_id, pago_em, valor,    ');
+    qry.SQL.Add('    historico )                       ');
+    qry.SQL.Add('values                                ');
+    qry.SQL.Add('  ( :id, :pedido_id, :pago_em, :valor,');
+    qry.SQL.Add('    :historico )                      ');
+
+    qry.ParamByName('id').AsInteger        := uBiblioteca.AutoIncremento(conexao,'PEDIDOS_PAGAMENTOS');
+    qry.ParamByName('pedido_id').AsInteger := pedido_id;
+    qry.ParamByName('pago_em').AsDate      := dataPgto;
+    qry.ParamByName('valor').AsFloat       := valor;
+    qry.ParamByName('historico').AsString  := historico;
+
+    qry.ExecSQL;
+
+  finally
+    qry.Close;
+    FreeAndNil( qry)
+  end;
+end;
+
+procedure prc_baixar_pedido(conexao: TFDConnection;
+                            pedido_id: integer;
+                            baixar_valor: double;
+                            contas_receber_baixa_id: integer;
+                            Justificativa : string);
+var
+  total_pedido   : double;
+  old_valor_pago : double;
+ // Mensagem       : String;
+  qry : TFDQuery;
+begin
+  try
+    qry:= TFDQuery.Create(application);
+    qry.Connection := conexao;
+    qry.SQL.Clear;
+    qry.SQL.Add('select * from PEDIDOS where ID =:ID');
+    qry.ParamByName('ID').AsInteger := pedido_id;
+    qry.Open;
+
+    //ShowMessage('just ' + Justificativa);
+    total_pedido   := qry.fieldbyname('VALOR_TOTAL_PEDIDO').AsFloat;
+    old_valor_pago := qry.fieldbyname('VALOR_PAGO').AsFloat;
+    (* não há mais a necessidade pq salva o recibo
+    Mensagem       := qry.fieldbyname('OBS_ADM').AsString;
+    if Mensagem = '' then
+      Mensagem       := 'baixado manual - ID N. [ ' + IntToStr(contas_receber_baixa_id) + ' ] em ' + datetostr(date) + ' [ ' + Justificativa + ' ]'
+    else
+      Mensagem       := Mensagem + sLineBreak + '. - baixado manual - ID N. " ' + IntToStr(contas_receber_baixa_id) + ' " em ' + datetostr(date) + ' [ ' + Justificativa + ' ]';
+    *)
+    qry.Close;
+
+    qry.SQL.Clear;
+    qry.SQL.Add('update PEDIDOS             ');
+    qry.SQL.Add('set ');
+    qry.SQL.Add(' VALOR_PAGO = :VALOR_PAGO, ');
+    qry.SQL.Add(' PAGO = :PAGO              ');
+    //qry.SQL.Add(' OBS_ADM = :OBS_ADM      ');
+    qry.SQL.Add('where ID = :ID             ');
+
+    qry.ParamByName('VALOR_PAGO').AsFloat := old_valor_pago + baixar_valor;
+    qry.ParamByName('PAGO').AsString      := uBiblioteca.SeSenao( (total_pedido -  (old_valor_pago + baixar_valor)) < 0.01,'S','N') ;
+   // qry.ParamByName('OBS_ADM').AsString := Mensagem;
+    qry.ParamByName('ID').AsInteger       := pedido_id;
+    qry.ExecSQL;
+
+  finally
+    qry.Close;
+    FreeAndNil( qry );
+  end;
+
+end;
+
+procedure prc_contas_pagar(operacao: TOperacao; conexao: TFDConnection;
+          contaPagarID, pedidoID, planoContasId, pessoaId: integer; nrDocumento,
+          descricao, tabelaOrigem: string; tabelaId, nrParcela,
+          qtdeParcela: integer; vrParcela, acrescimo, desconto, multa, juros
+          {, totalParcela}: double; dataVencimento: TDate; vrPago: double;
+          {dataPagamento: TDate;}{saldoAberto: double;} DRE, FLUXO, BALANCO,
+          ativo, historicoPagto, historicoCobranca: string );
+var
+  loQry: TFDQuery;
+  v_codigo: integer;
+  v_total_parcela, v_saldo_aberto: double;
+
+begin
+  try
+
+    v_total_parcela := vrParcela + acrescimo + multa + juros - desconto;
+    v_saldo_aberto := v_total_parcela - vrPago;
+
+    loQry := TFDQuery.Create(application);
+    loQry.Connection := conexao;
+
+    {verificar se a conta ja esta lançada}
+    if operacao = OpIncluir then
+    begin
+      {não... então lança uma nova}
+      loQry.SQL.Add('insert into CONTAS_PAGAR  ');
+      loQry.SQL.Add('(                         ');
+      loQry.SQL.Add('  ID,                     ');
+      loQry.SQL.Add('  CADASTRADO_EM,          ');
+      loQry.SQL.Add('  PLANO_CONTAS_ID,        ');
+      loQry.SQL.Add('  PESSOA_ID,              ');
+      loQry.SQL.Add('  NR_DOCUMENTO,           ');
+      loQry.SQL.Add('  DESCRICAO,              ');
+      loQry.SQL.Add('  TABELA_ORIGEM,          ');
+      loQry.SQL.Add('  TABELA_ID,              ');
+      loQry.SQL.Add('  NR_PARCELA,             ');
+      loQry.SQL.Add('  QTDE_PARCELA,           ');
+      loQry.SQL.Add('  VALOR_PARCELA,          ');
+      loQry.SQL.Add('  ACRESCIMO,              ');
+      loQry.SQL.Add('  DESCONTO,               ');
+      loQry.SQL.Add('  MULTA,                  ');
+      loQry.SQL.Add('  JUROS,                  ');
+      loQry.SQL.Add('  TOTAL_PARCELA,          ');
+      loQry.SQL.Add('  DATA_VENC,              ');
+      loQry.SQL.Add('  VALOR_PAGO,             ');
+      //loQry.SQL.Add('  DATA_PAGAMENTO,       ');
+      loQry.SQL.Add('  SALDO_ABERTO,           ');
+      loQry.SQL.Add('  PAGO,                   ');
+      loQry.SQL.Add('  VAI_PARA_DRE,           ');
+      loQry.SQL.Add('  VAI_PARA_FLUXO_CAIXA,   ');
+      loQry.SQL.Add('  VAI_PARA_BALANCO,       ');
+      loQry.SQL.Add('  ATIVO,                  ');
+      loQry.SQL.Add('  HISTORICO_PAGAMENTO,    ');
+      loQry.SQL.Add('  HISTORICO_COBRANCA      ');
+      loQry.SQL.Add(')                         ');
+      loQry.SQL.Add('VALUES                    ');
+      loQry.SQL.Add('(                         ');
+      loQry.SQL.Add('  :ID,                    ');
+      loQry.SQL.Add('  :CADASTRADO_EM,         ');
+      loQry.SQL.Add('  :PLANO_CONTAS_ID,       ');
+      loQry.SQL.Add('  :PESSOA_ID,             ');
+      loQry.SQL.Add('  :NR_DOCUMENTO,          ');
+      loQry.SQL.Add('  :DESCRICAO,             ');
+      loQry.SQL.Add('  :TABELA_ORIGEM,         ');
+      loQry.SQL.Add('  :TABELA_ID,             ');
+      loQry.SQL.Add('  :NR_PARCELA,            ');
+      loQry.SQL.Add('  :QTDE_PARCELA,          ');
+      loQry.SQL.Add('  :VALOR_PARCELA,         ');
+      loQry.SQL.Add('  :ACRESCIMO,             ');
+      loQry.SQL.Add('  :DESCONTO,              ');
+      loQry.SQL.Add('  :MULTA,                 ');
+      loQry.SQL.Add('  :JUROS,                 ');
+      loQry.SQL.Add('  :TOTAL_PARCELA,         ');
+      loQry.SQL.Add('  :DATA_VENC,             ');
+      loQry.SQL.Add('  :VALOR_PAGO,            ');
+      //loQry.SQL.Add('  :DATA_PAGAMENTO,      ');
+      loQry.SQL.Add('  :SALDO_ABERTO,          ');
+      loQry.SQL.Add('  :PAGO,                  ');
+      loQry.SQL.Add('  :VAI_PARA_DRE,          ');
+      loQry.SQL.Add('  :VAI_PARA_FLUXO_CAIXA,  ');
+      loQry.SQL.Add('  :VAI_PARA_BALANCO,      ');
+      loQry.SQL.Add('  :ATIVO,                 ');
+      loQry.SQL.Add('  :HISTORICO_PAGAMENTO,   ');
+      loQry.SQL.Add('  :HISTORICO_COBRANCA     ');
+      loQry.SQL.Add(')                         ');
+
+      v_codigo := uBiblioteca.AutoIncremento(conexao, 'CONTAS_PAGAR');
+      loQry.ParamByName('ID').AsInteger           := v_codigo;
+      loQry.ParamByName('CADASTRADO_EM').AsDate   := Date;
+
+    end
+    else
+    begin
+      { sim... edita e altera }
+      loQry.SQL.Add('UPDATE                                         ');
+      loQry.SQL.Add( 'CONTAS_PAGAR                                  ');
+      loQry.SQL.Add(' SET                                           ');
+      loQry.SQL.Add('  ALTERADO_EM = :ALTERADO_EM,                  ');
+      loQry.SQL.Add('  PLANO_CONTAS_ID = :PLANO_CONTAS_ID,          ');
+      loQry.SQL.Add('  PESSOA_ID = :PESSOA_ID,                      ');
+      loQry.SQL.Add('  NR_DOCUMENTO = :NR_DOCUMENTO,                ');
+      loQry.SQL.Add('  DESCRICAO = :DESCRICAO,                      ');
+      loQry.SQL.Add('  TABELA_ORIGEM = :TABELA_ORIGEM,              ');
+      loQry.SQL.Add('  TABELA_ID = :TABELA_ID,                      ');
+      loQry.SQL.Add('  NR_PARCELA = :NR_PARCELA,                    ');
+      loQry.SQL.Add('  QTDE_PARCELA = :QTDE_PARCELA,                ');
+      loQry.SQL.Add('  VALOR_PARCELA = :VALOR_PARCELA,              ');
+      loQry.SQL.Add('  ACRESCIMO = :ACRESCIMO,                      ');
+      loQry.SQL.Add('  DESCONTO = :DESCONTO,                        ');
+      loQry.SQL.Add('  MULTA = :MULTA,                              ');
+      loQry.SQL.Add('  JUROS = :JUROS,                              ');
+      loQry.SQL.Add('  TOTAL_PARCELA = :TOTAL_PARCELA,              ');
+      loQry.SQL.Add('  DATA_VENC = :DATA_VENC,                      ');
+      loQry.SQL.Add('  VALOR_PAGO= :VALOR_PAGO,                     ');
+      //loQry.SQL.Add('  DATA_PAGAMENTO = :DATA_PAGAMENTO,          ');
+      loQry.SQL.Add('  SALDO_ABERTO = :SALDO_ABERTO,                ');
+      loQry.SQL.Add('  PAGO = :PAGO,                                ');
+      loQry.SQL.Add('  VAI_PARA_DRE         = :VAI_PARA_DRE,        ');
+      loQry.SQL.Add('  VAI_PARA_FLUXO_CAIXA = :VAI_PARA_FLUXO_CAIXA,');
+      loQry.SQL.Add('  VAI_PARA_BALANCO     = :VAI_PARA_BALANCO,    ');
+      loQry.SQL.Add('  ATIVO = :ATIVO,                              ');
+      loQry.SQL.Add('  HISTORICO_PAGAMENTO = :HISTORICO_PAGAMENTO,  ');
+      loQry.SQL.Add('  HISTORICO_COBRANCA  = :HISTORICO_COBRANCA    ');
+      loQry.SQL.Add('where                                          ');
+      //loQry.SQL.Add('  TABELA_ORIGEM = ' + QuotedStr('PEDIDOS') + ' and ');
+      //loQry.SQL.Add('  TABELA_ID = :TABELA_ID and                       ');
+      //loQry.SQL.Add('  PLANO_CONTAS_ID = :PLANO_CONTAS_ID               ');
+      //
+      loQry.SQL.Add('  ID = :ID               ');
+      loQry.ParamByName('ID').AsInteger       := contaPagarID;
+      loQry.ParamByName('ALTERADO_EM').AsDate := Date;
+
+    end;
+
+   {passar parametros}
+   loQry.ParamByName('PLANO_CONTAS_ID').AsInteger     := planoContasId;
+   loQry.ParamByName('PESSOA_ID').AsInteger           := pessoaId;
+   loQry.ParamByName('NR_DOCUMENTO').AsString         := nrDocumento;
+   loQry.ParamByName('DESCRICAO').AsString            := descricao;
+   loQry.ParamByName('TABELA_ORIGEM').AsString        := tabelaOrigem;
+   loQry.ParamByName('TABELA_ID').AsInteger           := tabelaId;
+   loQry.ParamByName('NR_PARCELA').AsInteger          := nrParcela;
+   loQry.ParamByName('QTDE_PARCELA').AsInteger        := qtdeParcela;
+   loQry.ParamByName('VALOR_PARCELA').AsFloat         := vrParcela;
+   loQry.ParamByName('ACRESCIMO').AsFloat             := acrescimo;
+   loQry.ParamByName('DESCONTO').AsFloat              := desconto;
+   loQry.ParamByName('MULTA').AsFloat                 := multa;
+   loQry.ParamByName('JUROS').AsFloat                 := juros;
+   loQry.ParamByName('TOTAL_PARCELA').AsFloat         := v_total_parcela;
+   loQry.ParamByName('DATA_VENC').AsDate              := dataVencimento;
+   loQry.ParamByName('VALOR_PAGO').AsFloat            := vrPago;
+   // loQry.ParamByName('DATA_PAGAMENTO').AsDate      := dataPagamento;
+   loQry.ParamByName('SALDO_ABERTO').AsFloat          := v_saldo_aberto;
+   loQry.ParamByName('PAGO').AsString                 := ubiblioteca.SeSenao(v_saldo_aberto <= 0.01, 'S','N');
+   loQry.ParamByName('VAI_PARA_DRE').AsString         := DRE;
+   loQry.ParamByName('VAI_PARA_FLUXO_CAIXA').AsString := FLUXO;
+   loQry.ParamByName('VAI_PARA_BALANCO').AsString     := BALANCO;
+   loQry.ParamByName('ATIVO').AsString                := ativo;
+   loQry.ParamByName('HISTORICO_PAGAMENTO').AsString  := historicoPagto;
+   loQry.ParamByName('HISTORICO_COBRANCA').AsString   := historicoCobranca;
+
+   //ShowMessage('conta : ' + IntToStr(contaPagarID) + sLineBreak +  loqry.SQL.Text)  ;
+
+   {manda pro banco! ufa!}
+   loQry.ExecSQL;
+
+  finally
+    loqry.close;
+    freeandnil(loQry);
+  end;
+end;
+
+end.

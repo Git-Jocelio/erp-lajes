@@ -1,0 +1,25 @@
+inherited frmMaoObra: TfrmMaoObra
+  Caption = 'frmMaoObra'
+  ClientHeight = 377
+  ClientWidth = 887
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 887
+  end
+  inherited ToolBar1: TToolBar
+    Width = 887
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Top = 358
+    Width = 887
+  end
+  inherited PageControl1: TPageControl
+    Width = 887
+    Height = 210
+    ExplicitWidth = 883
+    ExplicitHeight = 209
+  end
+end

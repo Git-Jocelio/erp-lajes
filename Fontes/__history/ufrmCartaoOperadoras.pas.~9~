@@ -1,0 +1,128 @@
+//***************************************************************************//
+// Cadastro de Operadoras de Cartão de Crédito
+// desenvolvida por Jocelio G Silva
+// inicio : 15/05/2024 ! Deus seja louvado.
+// fim :
+//***************************************************************************//
+
+unit ufrmCartaoOperadoras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca,
+  ufrmCartaoOperadorasE, udmConn;
+
+type
+  TfrmCartaoOperadoras = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryDESCRICAO: TStringField;
+    qryNR_ESTABELECIMENTO: TStringField;
+    qryEMAIL: TStringField;
+    qryTEL_CONTATO: TStringField;
+    qryATIVO: TStringField;
+    qrySENHA: TStringField;
+
+    procedure FormCreate(Sender: TObject);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+
+  private
+
+    procedure prc_sql;
+    function  fnc_validar_pesquisa: boolean;
+    procedure prc_pesquisar;
+
+  public
+    { Public declarations }
+  end;
+
+procedure prc_executa;
+
+implementation
+
+procedure prc_executa;
+var
+  loForm :  TfrmCartaoOperadoras;
+begin
+  try
+    loForm :=  TfrmCartaoOperadoras.Create(Application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loform);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmCartaoOperadoras.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoOperadorasE.prc_alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmCartaoOperadoras.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoOperadorasE.prc_excluir(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmCartaoOperadoras.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoOperadorasE.prc_incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+function TfrmCartaoOperadoras.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+  result := true;
+
+end;
+
+procedure TfrmCartaoOperadoras.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_OPERADORAS';
+  Titulo := 'OPERADORAS DE CARTÃO DE CRÉDITO' + '[' + Tabela + ']';
+  Caption := Titulo;
+  prc_sql;
+
+  btnLocalizar.Click;
+
+end;
+
+procedure TfrmCartaoOperadoras.prc_pesquisar;
+begin
+  qry.close;
+
+  qry.Open;
+
+end;
+
+procedure TfrmCartaoOperadoras.prc_sql;
+begin
+  qry.Open('select * from ' + Tabela );
+  sSql := qry.SQL.Text;
+end;
+
+
+end.

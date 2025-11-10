@@ -1,0 +1,201 @@
+inherited frmSelecionaPessoa_Custo: TfrmSelecionaPessoa_Custo
+  Caption = 'frmSelecionaPessoa_Custo'
+  ClientHeight = 510
+  ClientWidth = 556
+  ExplicitHeight = 548
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 556
+    ExplicitWidth = 552
+    inherited lbl_titulo: TLabel
+      Width = 556
+      Height = 40
+      Caption = 'RELACIONAMENTO PESSOA E CONTA'
+      ExplicitWidth = 556
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 556
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 556
+    Height = 416
+    ExplicitWidth = 552
+    ExplicitHeight = 415
+    object rg_opcoes: TRadioGroup
+      Left = 0
+      Top = 129
+      Width = 556
+      Height = 98
+      Align = alTop
+      Caption = ' Selecione uma op'#231#227'o '
+      Items.Strings = (
+        'Cr'#233'dito para pagamento de concreto'
+        'Pagamento de pedido'
+        'Outros')
+      TabOrder = 0
+      OnClick = rg_opcoesClick
+      ExplicitWidth = 552
+    end
+    object gbx_pessoa: TGroupBox
+      Left = 0
+      Top = 227
+      Width = 556
+      Height = 137
+      Align = alTop
+      Caption = ' Dados da Pessoa '
+      TabOrder = 1
+      ExplicitWidth = 552
+      object Label3: TLabel
+        Left = 14
+        Top = 21
+        Width = 98
+        Height = 17
+        Caption = 'Nome e telefone'
+      end
+      object Label4: TLabel
+        Left = 14
+        Top = 78
+        Width = 114
+        Height = 17
+        Caption = 'Endere'#231'o completo'
+      end
+      object edt_nome_telefone: TEdit
+        Left = 14
+        Top = 40
+        Width = 531
+        Height = 25
+        CharCase = ecUpperCase
+        TabOrder = 0
+      end
+      object edt_endereco: TEdit
+        Left = 14
+        Top = 96
+        Width = 531
+        Height = 25
+        CharCase = ecUpperCase
+        TabOrder = 1
+      end
+    end
+    object gbx_historico: TGroupBox
+      Left = 0
+      Top = 351
+      Width = 556
+      Height = 65
+      Align = alBottom
+      Caption = ' Hist'#243'rico '
+      TabOrder = 2
+      ExplicitTop = 350
+      ExplicitWidth = 552
+      object edt_historico: TEdit
+        Left = 14
+        Top = 26
+        Width = 531
+        Height = 25
+        CharCase = ecUpperCase
+        TabOrder = 0
+      end
+    end
+    object gbx_pessoa_conta: TGroupBox
+      Left = 0
+      Top = 0
+      Width = 556
+      Height = 129
+      Align = alTop
+      TabOrder = 3
+      ExplicitWidth = 552
+      object Label1: TLabel
+        Left = 14
+        Top = 6
+        Width = 130
+        Height = 17
+        Caption = 'Selecione uma pessoa'
+      end
+      object Label2: TLabel
+        Left = 14
+        Top = 65
+        Width = 120
+        Height = 17
+        Caption = 'Selecione uma conta'
+      end
+      object cbx_pessoa: TDBLookupComboBox
+        Left = 14
+        Top = 29
+        Width = 531
+        Height = 25
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        KeyField = 'id'
+        ListField = 'nome'
+        ListSource = ds
+        ParentFont = False
+        TabOrder = 0
+      end
+      object cbx_conta: TDBLookupComboBox
+        Left = 14
+        Top = 87
+        Width = 531
+        Height = 25
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        KeyField = 'ID'
+        ListField = 'DESCRICAO'
+        ListSource = ds_contas
+        ParentFont = False
+        TabOrder = 1
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 473
+    Width = 556
+    ExplicitTop = 472
+    ExplicitWidth = 552
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  id,'
+      '  nome'
+      'from'
+      '  pessoas'
+      'order by'
+      '  nome')
+    Left = 384
+    Top = 64
+  end
+  inherited ds: TDataSource
+    AutoEdit = False
+    Left = 352
+    Top = 65
+  end
+  object qry_contas: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  id,'
+      '  descricao'
+      'from'
+      '  plano_contas'
+      'where '
+      '  tipo = '#39'A'#39)
+    Left = 376
+    Top = 121
+  end
+  object ds_contas: TDataSource
+    AutoEdit = False
+    DataSet = qry_contas
+    Left = 352
+    Top = 121
+  end
+end

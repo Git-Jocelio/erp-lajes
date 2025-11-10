@@ -1,0 +1,1274 @@
+inherited frmPedidosAddVigas: TfrmPedidosAddVigas
+  Top = 165
+  Align = alClient
+  BorderStyle = bsNone
+  Caption = 'frmPedidosAddVigas'
+  ClientHeight = 760
+  ClientWidth = 1300
+  Color = clWhite
+  Font.Name = 'Segoe UI'
+  OnShow = FormShow
+  ExplicitWidth = 1300
+  ExplicitHeight = 760
+  PixelsPerInch = 96
+  TextHeight = 20
+  object Label13: TLabel [0]
+    Left = 92
+    Top = 108
+    Width = 94
+    Height = 17
+    Caption = 'Metros Lineares'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGray
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnl_fundo: TPanel [1]
+    Left = 0
+    Top = 0
+    Width = 1300
+    Height = 760
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 0
+    object pnl_titulo: TPanel
+      AlignWithMargins = True
+      Left = 3
+      Top = 10
+      Width = 1294
+      Height = 52
+      Margins.Top = 10
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object img_principal: TImage
+        Left = 0
+        Top = 0
+        Width = 57
+        Height = 51
+        Align = alLeft
+        Center = True
+        Picture.Data = {
+          055449636F6E0000010002001010000001002000680400002600000020200000
+          01002000A81000008E0400002800000010000000200000000100200000000000
+          3004000000000000000000000000000000000000000000000000000000000000
+          00000000874B4B118847472B874946428848443C8844440F805555068B46460B
+          8A49453F884A47D900000000874B4B110000000000000000884D441E88494581
+          874A46D1884A46FF884A46FF884A46FF884A46FF874848358949476C884A46DF
+          884A46DA884A46FD874A46C0884A46F18651431388494649884A46F6884A46FF
+          884A46FF884A46FF884A46FF884A46FF874A46B3804D4D0A8B4D4621884A46FF
+          884A46B9884A467C884A46EA884A46BB00000000884B46D4884A46FE874A46C2
+          884A4572874B4633894B4B29874E4724894E4E0D894B454E884A46ED884A46FF
+          8C4D401400000000894A4679884A46FD884B46DB884A46C18A4D453F89494770
+          874A46C0884A46FC884A46FF884A46FF874B47828C4D4014884B466D884A46FF
+          894B46638B464616884B47BC884A47D987494642884B4658884A46F0884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FB8A4D47328648454A884A46FF
+          884A46FF884A46FF884A46FF884A47D98040400C874A46D1884A46FF894A46D3
+          884A4683884B4447894E4A3487494431854B462C805555068B48482E88494649
+          874B4666884A47EB8949491C894B466A99333305884A46C98A4A4748894B465F
+          884A46AF884A47EB884A46FE884A46FF884A46FF884A46EE874A47538B48482E
+          86514313874C4551000000000000000000000000894C4654884A46E7884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FA
+          8949457D89494650FF0000010000000000000000884A46CB884A46FF884A46E3
+          884A4794884B465889484543874B4633864C48398849464D884A456B884A46BA
+          884A46FA884A46FF894946500000000000000000884A46CF864C46548B4A444F
+          884A459E884A46DA884A46EF884A46FF884A46F9884946E5884A46C7884A4678
+          89474736884A46A38949476C0000000000000000874C4551894A46D3884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FB8A4B47858C4B46330000000000000000894946C6884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF894B454E0000000000000000884A45B4884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF8649453B00000000000000008A4A4A18894B46B5884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46EF894B46630000000000000000000000000000000000000000864D4628
+          874A4671894A47AA894A46C4884B46DB894A46D3894A46B7874A4695884A474F
+          8040400C00000000000000000000000000000000FFF70000C0C1000080C90000
+          1F9C000060D9000080C100000FF70000607F0000801F00000FC7000060370000
+          800700000007000000070000800F0000F03F0000280000002000000040000000
+          0100200000000000801000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000000000000000874A4768884A46FF
+          884A469C00000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000000000000000000000008446461D
+          894B4741894B4663874B4777884B478589494588874A468089494770864A4637
+          0000000000000000844C421B874944310000000000000000874B4593884A46FF
+          884A45CA00000000000000008A4A4A18894A4534000000000000000000000000
+          000000000000000000000000805555068849464D894A479B884A46DF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF874B4555
+          0000000086514313884A46D8884A46F98949457D874A4680884946EC884A46FF
+          884A46FA894A4597874B4666884A47EB884A46F2874B46330000000000000000
+          0000000080404008894A4679884A46EF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF88494765
+          0000000080555506884946CD884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46EF8C4A4A1F0000000000000000
+          864A4326884A46D7884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46BA87474724
+          0000000000000000894B4429884A46FF884A46FF884A46FF884A46FE884A46E3
+          884A46FA884A46FF884A46FF884A46FF8849475E0000000000000000894E451A
+          884A46EA884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884B46F38844440F00000000
+          0000000000000000884A475A884A46FF884A46FF884B46D48747472400000000
+          8F504010884A46AF884A46FF884A46FF884A478D000000000000000088494692
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46EA894A46A8884A456B
+          884B44478A4C4525874B4B11AA55550300000000000000000000000000000000
+          89494770884A46BB884A46F0884A46FF884A46FF884A463E0000000000000000
+          00000000894E4E0D884A46F7884A46FF884A46F8884A46C5894A4597884A46C1
+          884A46FF884A46FF884B46F3884946928649453B808080020000000000000000
+          8049490E8A4A4530874B4744894B4852874B4555894B47410000000000000000
+          894A46C4884A46FF884A46FF884A46FF884A46FF854E43170000000000000000
+          0000000000000000884A46DD884A46FF884A46FF884A46FF884A46FF894A46C4
+          884A46FF894A46A8894E451A00000000864A432688494576884A46B2884A46E9
+          884A46FF884A46FF884A46FF884A46FF884A46FF884946CD0000000000000000
+          8849464989494588884A46D7884A46FF884A46FF884A475A0000000000000000
+          000000008A494923884A46FD884A46FF884A46E988494692874A4564894A46C4
+          874B4777000000008849464D884A46C5884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46F8874B442200000000
+          0000000000000000874B4744884A46FF884A46FF884A47EB884A4756854E4317
+          884A463E874A46D1884A46FF884A46FF894A46790000000000000000894A466E
+          8C4D4014884A46BB884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF874A45E089484543
+          00000000000000008A4B473D884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF87494773000000000000000083464621
+          884A47D9884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF874A4560
+          000000008049490E884A46DE884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46F7884A442D0000000088494581
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FE884A45D5884A459E
+          8849457A884B4658874B4744894C4736874B4633894A4534874B474486494915
+          0000000080555506884A45B4884A46E3884A463E8649453B894A46D3884A46FF
+          884A46F0894B485287474724884A46C8884A46DA894E451A00000000884A46BB
+          884A46FF884A46FF884A46FF874A46C287494662865143130000000000000000
+          000000008049490E874B44228A4A4530874B46338649492A8A4A4A1880555506
+          000000000000000080404008865143130000000000000000884A4687884A46FF
+          884A46BD0000000000000000993333058B4646160000000000000000894A46C4
+          884A46FF884A46C78649453B000000008049490E89494654884A4790884A46C7
+          884A47EB884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46BE804D4D0A00000000000000000000000000000000884A474F884A46CC
+          874B4777000000000000000000000000000000000000000000000000894A46C4
+          884A469880404004884A442D884A46A3884A46F5884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46D287494662894A475D874C4840000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000089494588
+          804D4D0A89494699884A46FD884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46DC874747240000000000000000
+          000000000000000000000000000000000000000000000000000000008D4A4326
+          884B47C3884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46F8884A46CB884A46BB
+          894A47A6924949070000000000000000000000000000000000000000884A4572
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884B46F3874A46C0
+          884A469C8849457A874B4666884B4658874B455587494657874B4666884A4678
+          884B469A884B47BC884A46F1884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46830000000000000000000000000000000000000000894A46B7
+          884A46FF884A46FF884A46FF894A46E287494684894A45348040400400000000
+          0000000000000000000000008049490E874B4B118844440F0000000000000000
+          0000000000000000AA5555038A4A4530894A467F884A46DD884A46FF884A46FF
+          884A46FF884A46CF0000000000000000000000000000000000000000894A46C4
+          884A46FF884A46DF894A475D808080020000000087474724874A4768884A46A5
+          884A46C9884A47EB884A46FF884A46FF884A46FF884A46FF884A46FF884A46ED
+          884A46CB894A46A88949476C864D462800000000FF000001874B4555884A47D9
+          884A46FF884A46D70000000000000000000000000000000000000000894A46C4
+          884A45B48049490E86514313884B477E884A45D5884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46DA8749468485474719804D4D0A
+          884A45A9884A46D70000000000000000000000000000000000000000884B469D
+          804D4D0A874A4768884A46EE884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46F2884A4572
+          92494907894A47A60000000000000000000000000000000000000000894B4429
+          89494699884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          894A46A8884A4A2D0000000000000000000000000000000000000000894A4461
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884C48720000000000000000000000000000000000000000884A46B0
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884B47C30000000000000000000000000000000000000000884A46A1
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF874A46B30000000000000000000000000000000000000000894A4534
+          884A46FA884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FD87494642000000000000000000000000000000000000000000000000
+          874A4559884A46F6884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FA
+          874B466600000000000000000000000000000000000000000000000000000000
+          000000008847472B874A46B3884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884B47BC8A4D4732
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000854B462C894B458C884A46DC884A46FF884A46FF
+          884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF884A46FF
+          884A46FF884A46FF884A46FF874A45E0874A4691874B46330000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000008547471989494650
+          884B4674884B4696894A47AA884947B8884A46BB884A46B9894A47AA884A4698
+          88494576894946548446461D0000000000000000000000000000000000000000
+          00000000000000000000000000000000000000000000000000000000FFFFFF3F
+          FFF1FE3FFC00E413F000E003C000F0078001F1C300FFC3E007FF83E01E01C3E1
+          7001F1C7C000F0078000E003007FE63307FFFE3F1E003F7F30001FFF400003FF
+          8000003F803F801F03FFFC1F1F001F1F3800019F600000DF8000003F8000003F
+          0000001F0000001F8000003FC000007FE00000FFF80003FFFFC07FFF}
+      end
+      object lbl_titulo: TLabel
+        Left = 80
+        Top = 1
+        Width = 139
+        Height = 21
+        Caption = 'VIGAS DO PEDIDO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_sub_titulo: TLabel
+        Left = 80
+        Top = 28
+        Width = 221
+        Height = 13
+        Caption = 'Informe todas as vigas que comp'#245'em a laje'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clSilver
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 51
+        Width = 1294
+        Height = 1
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = clGray
+        ParentBackground = False
+        TabOrder = 0
+      end
+      object pnl_Botoes: TPanel
+        Left = 1093
+        Top = 0
+        Width = 201
+        Height = 51
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 1
+        object pln_sim: TPanel
+          Left = 6
+          Top = 5
+          Width = 95
+          Height = 33
+          BevelOuter = bvNone
+          Color = 11753229
+          ParentBackground = False
+          TabOrder = 0
+          object btn_sim: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 95
+            Height = 33
+            Cursor = crHandPoint
+            Align = alClient
+            Caption = 'Confirma'
+            Flat = True
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -11
+            Font.Name = 'Segoe UI'
+            Font.Style = [fsBold]
+            ParentFont = False
+            ExplicitLeft = -40
+            ExplicitHeight = 30
+          end
+        end
+        object pnl_nao: TPanel
+          Left = 104
+          Top = 5
+          Width = 90
+          Height = 33
+          BevelOuter = bvNone
+          Color = 11711154
+          ParentBackground = False
+          TabOrder = 1
+          object btn_nao: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 90
+            Height = 33
+            Cursor = crHandPoint
+            Align = alClient
+            Caption = 'Cancela'
+            Flat = True
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -11
+            Font.Name = 'Segoe UI'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = btn_naoClick
+            ExplicitLeft = 48
+            ExplicitTop = -5
+            ExplicitWidth = 95
+            ExplicitHeight = 30
+          end
+        end
+      end
+    end
+    object pnl_informacoes: TPanel
+      Left = 0
+      Top = 62
+      Width = 1300
+      Height = 40
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 1
+      object Label3: TLabel
+        Left = 223
+        Top = 6
+        Width = 155
+        Height = 21
+        Caption = 'DESCRI'#199#195'O DA LAJE'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 112
+        Top = 6
+        Width = 73
+        Height = 21
+        Caption = 'ITEM PED'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btn_add_viga: TSpeedButton
+        Left = 0
+        Top = 0
+        Width = 41
+        Height = 39
+        Align = alLeft
+        Flat = True
+        Glyph.Data = {
+          E6040000424DE604000000000000360000002800000014000000140000000100
+          180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFE7E5E3D5D0CCD5D0CCE7E5E3FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFA99F98614D42543F324F392C4F392C543F32614D42A99F98FFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE0DDDB5F4A3E
+          503A2D79685EB1A7A2CEC9C5CEC9C5B1A7A278685E4F3A2D5F4B3FE1DDDBFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE1DCDA5844385B473CD1CBC8FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD1CBC85B473A584438E1DDDBFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5E4A3F5B473BFAFAF9FFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAF8F95B473B5F4B3FFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFA89E97503A2DD1CDC9FFFFFFFFFFFFFFFFFFFFFFFFEBE8E7
+          EBE8E7FFFFFFFFFFFFFFFFFFFFFFFFD0CBC7503A2DA99F99FFFFFFFFFFFFFFFF
+          FFFFFFFF614C4179685FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6E5C516E5C51FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFF78685E614D41FFFFFFFFFFFFFFFFFFE7E4E2
+          543F33B2A8A3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF726157726157FFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFB1A8A1543F33E7E5E3FFFFFFFFFFFFD5D0CD4F392CCF
+          C9C5FFFFFFFFFFFFEBE8E76E5B517361576653486653487361576E5C51EBE8E7
+          FFFFFFFFFFFFCFC8C54F392CD5D0CDFFFFFFFFFFFFD5D0CD4F392CCFC9C6FFFF
+          FFFFFFFFEBE8E76D5B517361576653486653487361576D5C51EBE8E7FFFFFFFF
+          FFFFCEC8C54F392CD5CFCCFFFFFFFFFFFFE7E4E2543F33B2A9A3FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFF726157726157FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB2A8
+          A2543F32E7E4E3FFFFFFFFFFFFFFFFFF604C417A685FFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFF6E5C516E5C51FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF78685F614D42
+          FFFFFFFFFFFFFFFFFFFFFFFFA89D96503A2DD3CDC9FFFFFFFFFFFFFFFFFFFFFF
+          FFEBE8E7EBE8E7FFFFFFFFFFFFFFFFFFFFFFFFD2CCC8503A2DA99F98FFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFF5F4A3E5C473BFBFAFAFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFAFAF95C463B5F4A3FFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFE0DCD95844385C473BD3CECAFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFD1CCC85B473B594438E0DDDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFDFDCD95E493E503A2D796860B3A9A3CFC9C6CFC9C6B2A9A37968
+          5F503A2D5E4A3FE0DDDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFA89E96604C41543F324F392C4F392C543F32614D41A89D97
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFE7E4E2D4CFCCD5CFCCE7E4E2FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFF}
+        OnClick = btn_add_vigaClick
+      end
+      object btn_exc_viga: TSpeedButton
+        Left = 41
+        Top = 0
+        Width = 32
+        Height = 39
+        Align = alLeft
+        Flat = True
+        Glyph.Data = {
+          E6040000424DE604000000000000360000002800000014000000140000000100
+          180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFBFBF8F3F2F8F3F2FDFBFBFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFCAA09F98494782232178100E78100E822321984948C9A1A0
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE1CA
+          C983252378110E862927AC6D6BC19291C19291AC6D6B86292678110E832523E1
+          CACAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCBA2A278110E882D2B
+          D4B4B4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD4B4B3882D2B78110ECBA4
+          A3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE0CAC978100E8E3835FFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8E373578110EE1CBCA
+          FFFFFFFFFFFFFFFFFFFFFFFF842422892D2BFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF882D2B842523FFFFFFFF
+          FFFFFFFFFFC9A09F78100ED5B5B4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD4B4B278100EC9A1A0FFFFFFFFFF
+          FF974847862A27FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF862927974947FFFFFFFCFBFA822321
+          AC6D6CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFAC6D6A832321FDFBFBF8F2F378100EC19291FF
+          FFFFFFFFFFFFFFFFBE8E8C8C3432913C3A913C3B913C3B913C3A8C3432BE8E8C
+          FFFFFFFFFFFFFFFFFFC1929178110FF8F3F3F8F3F379120FC09190FFFFFFFFFF
+          FFFFFFFFBE8E8C8C3432913C3A913C3B913C3B913C3A8C3432BE8E8CFFFFFFFF
+          FFFFFFFFFFC1929178110EF8F3F3FCFBFB832422AC6C6AFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFAC6D6B832321FDFBFBFFFFFF984A48852827FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF862927
+          974947FFFFFFFFFFFFC9A19F78100ED2AFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD4B4B378100EC9A09FFF
+          FFFFFFFFFFFFFFFF7D1817A05957FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF882D2B832522FFFFFFFFFFFFFFFF
+          FFFFFFFFFEFDFDFFFFFFFDFBFBFCFAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFF8E383578110EE1CACAFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFF913D3A913E3CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFD5B5B5882D2A78110ECBA2A2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFDDC3C3DEC4C4FFFFFFCBA4A3A76362C19190C29291AC6D6C872A2878100E
+          832423E1CAC9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFB47A787F1D1B78100E77100D822220984847C9A09FFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFCFBFBF8F3F3F8F2F2FCFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFF}
+        OnClick = btn_exc_vigaClick
+      end
+      object pnl_traco: TPanel
+        Left = 0
+        Top = 39
+        Width = 1300
+        Height = 1
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = clGray
+        ParentBackground = False
+        TabOrder = 0
+      end
+    end
+    object pnl_precos_adicionais: TPanel
+      Left = 791
+      Top = 356
+      Width = 506
+      Height = 404
+      BevelOuter = bvNone
+      TabOrder = 2
+      object Label5: TLabel
+        Left = 168
+        Top = 19
+        Width = 147
+        Height = 21
+        Caption = 'Pre'#231'os dos refor'#231'os'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold, fsUnderline]
+        ParentFont = False
+      end
+      object dbg_reforcos: TDBGrid
+        Left = 0
+        Top = 46
+        Width = 506
+        Height = 358
+        Align = alBottom
+        DataSource = ds_ferragens
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGrayText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -15
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'produto_id'
+            ReadOnly = True
+            Title.Alignment = taCenter
+            Title.Caption = 'ID'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGrayText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Width = 25
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DIAMETRO'
+            Title.Alignment = taCenter
+            Title.Caption = 'Diametro'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGray
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome_fantasia'
+            ReadOnly = True
+            Title.Alignment = taCenter
+            Title.Caption = 'Descri'#231#227'o'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGray
+            Title.Font.Height = -13
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Width = 196
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'qtde_total'
+            ReadOnly = True
+            Title.Alignment = taCenter
+            Title.Caption = 'Qtde'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGray
+            Title.Font.Height = -13
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Width = 61
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'preco_vendedor'
+            Title.Alignment = taCenter
+            Title.Caption = 'P. Vendedor'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGray
+            Title.Font.Height = -13
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Width = 81
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'sub_total'
+            ReadOnly = True
+            Title.Alignment = taCenter
+            Title.Caption = 'Total'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clGray
+            Title.Font.Height = -13
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = []
+            Width = 95
+            Visible = True
+          end>
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Top = 102
+      Width = 785
+      Height = 658
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 3
+      object dbg_vigas: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 785
+        Height = 658
+        Align = alClient
+        DataSource = ds_vigas
+        TabOrder = 0
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -15
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Alignment = taCenter
+            Color = 11270394
+            Expanded = False
+            FieldName = 'qtde'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clMaroon
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Qtde'
+            Title.Color = 6087932
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Width = 47
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 11270394
+            Expanded = False
+            FieldName = 'tamanho'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clRed
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Tamanho'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Width = 77
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '4_2'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 4,2'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '5_0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 5,0'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '6_3'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 6,3'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '8_0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 8,0'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '10_0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 10,0'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = 16571574
+            Expanded = False
+            FieldName = '12_5'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = #162' 12,5'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = clMoneyGreen
+            Expanded = False
+            FieldName = 'dobra_ini'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGreen
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Dobra Ini'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Width = 72
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = clMoneyGreen
+            Expanded = False
+            FieldName = 'dobra_fim'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGreen
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Dobra Fim'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Width = 70
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = clMoneyGreen
+            Expanded = False
+            FieldName = 'posicao'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clNavy
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Posi'#231#227'o'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clBlack
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Width = 63
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Color = clMoneyGreen
+            Expanded = False
+            FieldName = 'metros_lineares'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'Mt Lin'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI'
+            Title.Font.Style = [fsBold]
+            Visible = False
+          end>
+      end
+    end
+    object pnl_totais: TPanel
+      Left = 791
+      Top = 108
+      Width = 505
+      Height = 242
+      BevelKind = bkFlat
+      BevelOuter = bvNone
+      TabOrder = 4
+      object Label7: TLabel
+        Left = 120
+        Top = 167
+        Width = 132
+        Height = 17
+        Caption = 'Quantidade de Lajotas'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label8: TLabel
+        Left = 140
+        Top = 133
+        Width = 112
+        Height = 17
+        Caption = 'Metros Quadrados'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label9: TLabel
+        Left = 158
+        Top = 99
+        Width = 94
+        Height = 17
+        Caption = 'Metros Lineares'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label10: TLabel
+        Left = 140
+        Top = 201
+        Width = 112
+        Height = 17
+        Caption = 'Quantidade de EPS'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label11: TLabel
+        Left = 0
+        Top = 0
+        Width = 501
+        Height = 21
+        Align = alTop
+        Alignment = taCenter
+        Caption = 'Totais da Laje'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold, fsUnderline]
+        ParentFont = False
+        ExplicitWidth = 103
+      end
+      object Label12: TLabel
+        Left = 84
+        Top = 34
+        Width = 168
+        Height = 17
+        Caption = 'Quantidade Vigas Informada'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label14: TLabel
+        Left = 70
+        Top = 66
+        Width = 182
+        Height = 17
+        Caption = 'Quantidade de Vigas Digitadas'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object edt_qtde_vigas_informadas: TEdit
+        Left = 258
+        Top = 32
+        Width = 121
+        Height = 25
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        NumbersOnly = True
+        ParentFont = False
+        TabOrder = 0
+        Text = '0'
+      end
+      object edt_qtde_vigas_digitadas: TPanel
+        Left = 258
+        Top = 63
+        Width = 121
+        Height = 25
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = cl3DDkShadow
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+      end
+      object edt_metros_lineares: TPanel
+        Left = 258
+        Top = 96
+        Width = 121
+        Height = 25
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = cl3DDkShadow
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+      end
+      object edt_metros_quadrados: TPanel
+        Left = 258
+        Top = 130
+        Width = 121
+        Height = 25
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = cl3DDkShadow
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 3
+      end
+      object edt_qtde_lajotas: TPanel
+        Left = 258
+        Top = 164
+        Width = 121
+        Height = 25
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = cl3DDkShadow
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+      end
+      object edt_qtde_eps: TPanel
+        Left = 258
+        Top = 198
+        Width = 121
+        Height = 25
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Caption = '0'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = cl3DDkShadow
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 464
+    Top = 0
+  end
+  object ds_vigas: TDataSource
+    DataSet = mtb_vigas
+    Left = 320
+    Top = 134
+  end
+  object mtb_vigas: TFDMemTable
+    Active = True
+    BeforePost = mtb_vigasBeforePost
+    AfterPost = mtb_vigasAfterPost
+    FieldDefs = <
+      item
+        Name = 'qtde'
+        DataType = ftInteger
+      end
+      item
+        Name = 'tamanho'
+        DataType = ftFloat
+      end
+      item
+        Name = '4_2'
+        DataType = ftInteger
+      end
+      item
+        Name = '5_0'
+        DataType = ftInteger
+      end
+      item
+        Name = '6_3'
+        DataType = ftInteger
+      end
+      item
+        Name = '8_0'
+        DataType = ftInteger
+      end
+      item
+        Name = '10_0'
+        DataType = ftInteger
+      end
+      item
+        Name = '12_5'
+        DataType = ftInteger
+      end
+      item
+        Name = 'dobra_ini'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dobra_fim'
+        DataType = ftFloat
+      end
+      item
+        Name = 'posicao'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'metros_lineares'
+        DataType = ftFloat
+        Precision = 15
+      end>
+    IndexDefs = <>
+    AggregatesActive = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 320
+    Top = 166
+    object mtb_vigasqtde: TIntegerField
+      FieldName = 'qtde'
+    end
+    object mtb_vigastamanho: TFloatField
+      FieldName = 'tamanho'
+      DisplayFormat = '0.00'
+    end
+    object mtb_vigasField4_2: TIntegerField
+      FieldName = '4_2'
+    end
+    object mtb_vigasField5_0: TIntegerField
+      FieldName = '5_0'
+    end
+    object mtb_vigasField6_3: TIntegerField
+      FieldName = '6_3'
+    end
+    object mtb_vigasField8_0: TIntegerField
+      FieldName = '8_0'
+    end
+    object mtb_vigasField10_0: TIntegerField
+      FieldName = '10_0'
+    end
+    object mtb_vigasField12_5: TIntegerField
+      FieldName = '12_5'
+    end
+    object mtb_vigasdobra_ini: TFloatField
+      FieldName = 'dobra_ini'
+      DisplayFormat = '0.00'
+    end
+    object mtb_vigasdobra_fim: TFloatField
+      FieldName = 'dobra_fim'
+      DisplayFormat = '0.00'
+    end
+    object mtb_vigasposicao: TStringField
+      FieldName = 'posicao'
+      Size = 30
+    end
+    object mtb_vigasmetros_lineares: TFloatField
+      FieldKind = fkInternalCalc
+      FieldName = 'metros_lineares'
+    end
+    object mtb_vigastotal_vigas: TAggregateField
+      FieldName = 'total_vigas'
+      Active = True
+      DisplayName = ''
+      Expression = 'sum(qtde)'
+    end
+    object mtb_vigasmetro_lineares_total: TAggregateField
+      FieldName = 'metro_lineares_total'
+      Active = True
+      DisplayName = ''
+      Expression = 'sum(metros_lineares)'
+    end
+  end
+  object ds_ferragens: TDataSource
+    DataSet = mtb_ferragens
+    Left = 959
+    Top = 583
+  end
+  object qry_ferragens: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      
+        'select P.ID, P.NOME_FANTASIA, PRECO_VENDEDOR from produtos p, pr' +
+        'odutos_adicional f where p.id = f.produto_id order by f.diametro')
+    Left = 815
+    Top = 575
+  end
+  object mtb_ferragens: TFDMemTable
+    Active = True
+    BeforePost = mtb_ferragensBeforePost
+    FieldDefs = <
+      item
+        Name = 'produto_id'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DIAMETRO'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nome_fantasia'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'qtde_total'
+        DataType = ftFloat
+      end
+      item
+        Name = 'preco_vendedor'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sub_total'
+        DataType = ftFloat
+        Precision = 15
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 991
+    Top = 583
+    object mtb_ferragensproduto_id: TIntegerField
+      FieldName = 'produto_id'
+    end
+    object mtb_ferragensDIAMETRO: TFloatField
+      FieldName = 'DIAMETRO'
+    end
+    object mtb_ferragensnome_fantasia: TStringField
+      FieldName = 'nome_fantasia'
+      Size = 100
+    end
+    object mtb_ferragensqtde_total: TFloatField
+      FieldName = 'qtde_total'
+      DisplayFormat = '0.00'
+    end
+    object mtb_ferragenspreco_vendedor: TFloatField
+      FieldName = 'preco_vendedor'
+      DisplayFormat = '0.00'
+    end
+    object mtb_ferragenssub_total: TFloatField
+      FieldKind = fkInternalCalc
+      FieldName = 'sub_total'
+      DisplayFormat = '0.00'
+    end
+  end
+end

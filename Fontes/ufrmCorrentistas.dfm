@@ -1,0 +1,87 @@
+inherited frmCorrentistas: TfrmCorrentistas
+  Caption = 'frmCorrentistas'
+  Position = poDesktopCenter
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    inherited btnLocalizar: TBitBtn
+      Top = 50
+      ExplicitTop = 50
+    end
+  end
+  inherited PageControl1: TPageControl
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited DBGrid1: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'CPF_CNPJ'
+              Title.Caption = 'CPF / CNPJ'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Caption = 'Nome'
+              Width = 596
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_CAD'
+              Title.Caption = 'Cadastrado em'
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    inherited lbl_titulo: TLabel
+      Width = 291
+      Height = 56
+      Caption = 'CONTROLE DE CORRENTISTAS'
+      ExplicitWidth = 291
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  p.id,'
+      '  p.cpf_cnpj,'
+      '  p.nome,'
+      '  p.data_cad'
+      'from'
+      '  pessoas p,'
+      '  correntistas c'
+      'where '
+      '  p.id = c.pessoa_id  ')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      Required = True
+      Size = 18
+    end
+    object qryNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryDATA_CAD: TDateField
+      FieldName = 'DATA_CAD'
+      Origin = 'DATA_CAD'
+    end
+  end
+end

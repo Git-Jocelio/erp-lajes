@@ -1,0 +1,206 @@
+inherited frmProdutosConcreto: TfrmProdutosConcreto
+  Caption = 'frmProdutosConcreto'
+  ClientWidth = 971
+  Position = poDesigned
+  ExplicitWidth = 987
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 971
+    inherited btnLocalizar: TBitBtn
+      OnClick = btnLocalizarClick
+    end
+    object cbDescricao: TCheckBox
+      Left = 32
+      Top = 24
+      Width = 97
+      Height = 17
+      Caption = 'Descri'#231#227'o'
+      TabOrder = 1
+    end
+    object edNome: TEdit
+      Left = 32
+      Top = 47
+      Width = 188
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+    object rgSituacao: TRadioGroup
+      Left = 462
+      Top = 16
+      Width = 89
+      Height = 78
+      Caption = ' Situa'#231#227'o '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ItemIndex = 0
+      Items.Strings = (
+        'Ativo'
+        'Inativo'
+        'Todos')
+      ParentFont = False
+      TabOrder = 3
+    end
+  end
+  inherited DBGrid1: TDBGrid
+    Width = 971
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'ID'
+        Title.Alignment = taCenter
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 47
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Descri'#231#227'o'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 271
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Un'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 46
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_CUSTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Custo'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Venda'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUE_FISICO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Fisico'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PEDIDO_ABERTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Aberto'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 86
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUE_DISPONIVEL'
+        Title.Alignment = taCenter
+        Title.Caption = 'Disponivel'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 108
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PEDIDO_AGUARDANDO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Aguardando'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 99
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUE_LIQUIDO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Liquido'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end>
+  end
+  inherited ToolBar1: TToolBar
+    Width = 971
+  end
+  inherited StatusBar: TStatusBar
+    Width = 971
+  end
+  inherited ds: TDataSource
+    Left = 56
+    Top = 200
+  end
+  inherited qry: TFDQuery
+    Left = 88
+    Top = 216
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

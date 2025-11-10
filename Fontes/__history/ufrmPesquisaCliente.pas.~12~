@@ -1,0 +1,144 @@
+unit ufrmPesquisaCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBasePesquisa, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, uTipos,
+  ufrmClientesE;
+
+type
+  TfrmPesquisaCliente = class(TfrmBasePesquisa)
+    rgTipo: TRadioGroup;
+    Panel2: TPanel;
+    btn_incluir_novo_cliente: TSpeedButton;
+    Label1: TLabel;
+    procedure rgTipoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
+    procedure edLocalizarChange(Sender: TObject);
+    procedure dbTitleClick(Column: TColumn);
+    procedure FormActivate(Sender: TObject);
+    procedure btn_incluir_novo_clienteClick(Sender: TObject);
+  private
+    FCodigo: integer;
+    FConfirmado: boolean;
+
+  public
+    property Codigo : integer read FCodigo write FCodigo;
+    property Confirmado : boolean read FConfirmado write FConfirmado;
+
+  end;
+
+  function executa: integer;
+var
+ aSql : string;
+
+implementation
+
+uses uBiblioteca;
+
+function executa: integer;
+var
+  loForm: TfrmPesquisaCliente;
+begin
+  loForm := TfrmPesquisaCliente.Create(Application);
+  try
+    loForm.ShowModal;
+    Result := loForm.Codigo;
+  finally
+    Freeandnil(loForm);
+  end;
+
+end;
+
+
+{$R *.dfm}
+
+
+procedure TfrmPesquisaCliente.btnConfirmaClick(Sender: TObject);
+begin
+  inherited;
+
+  confirmado := true;
+  Codigo     := qry.FieldByName('ID').AsInteger;
+  close;
+
+end;
+
+procedure TfrmPesquisaCliente.dbTitleClick(Column: TColumn);
+begin
+  //inherited;
+
+  {verifica se tem alguma coisa no grid}
+
+  if not qry.IsEmpty then
+  begin
+    uBiblioteca.OrdenaGrid(qry, db, Column, aSql);
+  end;
+
+
+end;
+
+procedure TfrmPesquisaCliente.edLocalizarChange(Sender: TObject);
+begin
+
+  inherited;
+  uBiblioteca.FilterCds(qry, uTipos.fsString,'%' + edLocalizar.Text + '%' );
+  db.ShowHint := not qry.IsEmpty;
+end;
+
+procedure TfrmPesquisaCliente.FormActivate(Sender: TObject);
+begin
+  inherited;
+
+
+
+  edLocalizar.Text := 'CONSUMIDOR';
+  confirmado := true;
+
+  Codigo     := qry.FieldByName('ID').AsInteger;
+
+  edLocalizar.SetFocus;
+
+end;
+
+procedure TfrmPesquisaCliente.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Confirmado       := false;
+  rgTipo.ItemIndex := 1;
+end;
+
+procedure TfrmPesquisaCliente.rgTipoClick(Sender: TObject);
+begin
+  inherited;
+  qry.SQL.Clear;
+  edLocalizar.Enabled := true;
+
+  if rgTipo.ItemIndex = 0  then
+  begin
+    edLocalizar.EditLabel.Caption := 'Informe um CNPJ ou CPF';
+    qry.SQL.Add('select P.ID, P.CPF_CNPJ, P.NOME, P.ENDERECO, P.NUMERO, P.BAIRRO, P.CIDADE, P.UF from PESSOAS P, CLIENTES C where P.ID = C.PESSOA_ID and CPF_CNPJ like :CNPJ_CPF');
+  end
+  else
+  begin
+    edLocalizar.EditLabel.Caption := 'Informe um Nome';
+    qry.SQL.Add('select P.ID, P.CPF_CNPJ, P.NOME, P.ENDERECO, P.NUMERO, P.BAIRRO, P.CIDADE, P.UF from PESSOAS P, CLIENTES C where P.ID = C.PESSOA_ID and NOME like :NOME');
+  end;
+
+  aSql := qry.SQL.Text;
+end;
+
+procedure TfrmPesquisaCliente.btn_incluir_novo_clienteClick(Sender: TObject);
+begin
+  inherited;
+  ufrmClientesE.Incluir;
+
+end;
+
+end.

@@ -1,0 +1,430 @@
+inherited frmChequesClientes: TfrmChequesClientes
+  Caption = 'frmChequesClientes'
+  ClientHeight = 577
+  ClientWidth = 1069
+  Position = poDesktopCenter
+  ExplicitWidth = 1069
+  ExplicitHeight = 577
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 1069
+    Height = 112
+    Caption = ''
+    ExplicitWidth = 1069
+    ExplicitHeight = 112
+    inherited lbl_texto: TLabel
+      Left = 952
+      Top = 39
+      Width = 41
+      Visible = False
+      ExplicitLeft = 952
+      ExplicitTop = 39
+      ExplicitWidth = 41
+    end
+    inherited btnLocalizar: TBitBtn
+      Left = 699
+      Top = 59
+      ExplicitLeft = 699
+      ExplicitTop = 59
+    end
+    inherited edt_consulta: TEdit
+      Left = 952
+      Top = 62
+      Width = 65
+      Visible = False
+      ExplicitLeft = 952
+      ExplicitTop = 62
+      ExplicitWidth = 65
+    end
+    object gbx_data_cheque: TGroupBox
+      Left = 185
+      Top = 19
+      Width = 250
+      Height = 91
+      Caption = '                                  '
+      TabOrder = 2
+      object Label1: TLabel
+        Left = 114
+        Top = 40
+        Width = 11
+        Height = 17
+        Caption = 'a '
+      end
+      object dtp_data_ini: TDateTimePicker
+        Left = 13
+        Top = 39
+        Width = 95
+        Height = 25
+        Date = 45866.000000000000000000
+        Time = 0.511850543982291100
+        TabOrder = 0
+      end
+      object dtp_data_fim: TDateTimePicker
+        Left = 131
+        Top = 39
+        Width = 92
+        Height = 25
+        Date = 45866.000000000000000000
+        Time = 0.511850543982291100
+        TabOrder = 1
+      end
+      object cb_data_cheque: TCheckBox
+        Left = 13
+        Top = 3
+        Width = 123
+        Height = 17
+        Caption = 'Data do cheque'
+        TabOrder = 2
+      end
+    end
+    object gbx_valor: TGroupBox
+      Left = 443
+      Top = 19
+      Width = 250
+      Height = 91
+      Caption = '                                  '
+      TabOrder = 3
+      object Label2: TLabel
+        Left = 114
+        Top = 40
+        Width = 11
+        Height = 17
+        Caption = 'a '
+      end
+      object cb_valor: TCheckBox
+        Left = 13
+        Top = 3
+        Width = 123
+        Height = 17
+        Caption = ' Valor'
+        TabOrder = 0
+      end
+      object edt_valor_ini: TEdit
+        Left = 14
+        Top = 40
+        Width = 92
+        Height = 25
+        TabOrder = 1
+        Text = '0'
+      end
+      object edt_valor_fim: TEdit
+        Left = 131
+        Top = 40
+        Width = 92
+        Height = 25
+        TabOrder = 2
+        Text = '0'
+      end
+    end
+    object rg_situacao_cheque: TRadioGroup
+      Left = 2
+      Top = 19
+      Width = 175
+      Height = 91
+      Align = alLeft
+      Caption = ' Situa'#231#227'o do Cheque'
+      ItemIndex = 0
+      Items.Strings = (
+        'em Carteira'
+        'Repassado'
+        'Todos')
+      TabOrder = 4
+      OnClick = rg_situacao_chequeClick
+      ExplicitHeight = 139
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 1069
+    ExplicitWidth = 1069
+  end
+  inherited StatusBar: TStatusBar
+    Top = 545
+    Width = 1069
+    ExplicitWidth = 1069
+  end
+  inherited PageControl1: TPageControl
+    Top = 217
+    Width = 1069
+    Height = 328
+    ExplicitWidth = 1069
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 1061
+      ExplicitHeight = 318
+      inherited Panel5: TPanel
+        Width = 1061
+        Height = 318
+        ExplicitWidth = 1061
+        inherited DBGrid1: TDBGrid
+          Width = 1021
+          Height = 267
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 41
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 91
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME_CORRENTISTA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pessoa'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 309
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME_BANCO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Banco'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 199
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'NR_AGENCIA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nr Ag'#234'ncia'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 101
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NR_CONTA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nr Conta'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'NR_CHEQUE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nr Cheque'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 72
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRE_DATADO_PARA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Datado para'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 103
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'REPASSADO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Repassado'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 1021
+          ExplicitWidth = 1021
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 1069
+    ExplicitWidth = 1069
+    inherited btn_fechar: TSpeedButton
+      Left = 999
+      ExplicitLeft = 971
+    end
+    inherited lbl_titulo: TLabel
+      Width = 365
+      Height = 56
+      Caption = 'CONTROLE DE CHEQUES DE CLIENTES'
+      ExplicitWidth = 365
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 1069
+      ExplicitWidth = 1069
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'SELECT'
+      '  p1.id as pessoa_id,'
+      '  cc.id,'
+      '  cc.cadastrado_em,'
+      '  p1.NOME AS NOME_CORRENTISTA, '
+      '  p2.NOME AS NOME_BANCO,'
+      '  c.nr_agencia,'
+      '  c.nr_conta,'
+      '  cc.NR_CHEQUE,'
+      '  cc.valor,'
+      '  cc.pre_datado_para,'
+      '  cc.historico,'
+      '  cc.repassado'
+      'FROM '
+      '  CHEQUES_CLIENTES cc, '
+      '  CORRENTISTA_CONTAS c, '
+      '  PESSOAS p1, '
+      '  BANCOS b, '
+      '  PESSOAS p2'
+      'WHERE '
+      '  cc.CORRENTISTA_CONTA_ID = c.ID AND '
+      '  c.PESSOA_ID = p1.ID AND '
+      '/*  c.BANCO_ID = b.ID AND */ '
+      '  c.BANCO_ID = b.pessoa_ID AND '
+      '  b.PESSOA_ID = p2.ID'
+      '  ')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryPESSOA_ID: TIntegerField
+      FieldName = 'PESSOA_ID'
+      Origin = 'PESSOA_ID'
+      Required = True
+    end
+    object qryCADASTRADO_EM: TDateField
+      FieldName = 'CADASTRADO_EM'
+      Origin = 'CADASTRADO_EM'
+    end
+    object qryNOME_CORRENTISTA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME_CORRENTISTA'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryNOME_BANCO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME_BANCO'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryNR_AGENCIA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NR_AGENCIA'
+      Origin = 'NR_AGENCIA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 10
+    end
+    object qryNR_CONTA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NR_CONTA'
+      Origin = 'NR_CONTA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 10
+    end
+    object qryNR_CHEQUE: TStringField
+      FieldName = 'NR_CHEQUE'
+      Origin = 'NR_CHEQUE'
+      Size = 10
+    end
+    object qryVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryPRE_DATADO_PARA: TDateField
+      FieldName = 'PRE_DATADO_PARA'
+      Origin = 'PRE_DATADO_PARA'
+    end
+    object qryHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Origin = 'HISTORICO'
+      Size = 60
+    end
+    object qryREPASSADO: TStringField
+      FieldName = 'REPASSADO'
+      Origin = 'REPASSADO'
+      Size = 1
+    end
+  end
+  inherited ActionList1: TActionList
+    inherited actLocalizar: TAction
+      OnExecute = actLocalizarExecute
+    end
+  end
+end

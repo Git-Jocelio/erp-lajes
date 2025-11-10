@@ -1,0 +1,304 @@
+inherited frmContasReceber_Baixa: TfrmContasReceber_Baixa
+  Caption = 'frmContasReceber_Baixa'
+  ClientHeight = 469
+  ClientWidth = 434
+  ExplicitWidth = 440
+  ExplicitHeight = 498
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 434
+    inherited lbl_titulo: TLabel
+      Left = 3
+      Top = 2
+      ExplicitLeft = 3
+      ExplicitTop = 2
+    end
+    inherited lbl_sub_titulo: TLabel
+      Left = 3
+      Top = 34
+      ExplicitLeft = 3
+      ExplicitTop = 34
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 434
+    Height = 375
+    ExplicitHeight = 176
+    object Label3: TLabel
+      Left = 7
+      Top = 191
+      Width = 24
+      Height = 15
+      Caption = 'Data'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 177
+      Top = 192
+      Width = 26
+      Height = 15
+      Caption = 'Valor'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 345
+      Top = 191
+      Width = 58
+      Height = 15
+      Caption = 'Autorizado'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 0
+      Top = 292
+      Width = 190
+      Height = 15
+      Caption = 'Hist'#243'rico ( Descrever o pagamento )'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object pnl_id_transacao: TPanel
+      Left = 0
+      Top = 0
+      Width = 434
+      Height = 28
+      Align = alTop
+      TabOrder = 0
+      object Label1: TLabel
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 86
+        Height = 20
+        Align = alLeft
+        Caption = 'ID Lan'#231'amento :'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ExplicitHeight = 15
+      end
+      object edt_ID: TPanel
+        Left = 93
+        Top = 1
+        Width = 53
+        Height = 26
+        Align = alLeft
+        Alignment = taRightJustify
+        BevelInner = bvLowered
+        Caption = 'edt_ID'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        ExplicitLeft = 116
+        ExplicitTop = 6
+        ExplicitHeight = 27
+      end
+    end
+    object GroupBox1: TGroupBox
+      Left = 0
+      Top = 28
+      Width = 434
+      Height = 87
+      Align = alTop
+      Caption = ' Cliente '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      object lbl_nome_cliente: TLabel
+        Left = 7
+        Top = 16
+        Width = 98
+        Height = 17
+        Caption = 'lbl_nome_cliente'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 12
+        Top = 42
+        Width = 66
+        Height = 15
+        Caption = 'Saldo aberto'
+      end
+      object lbl_saldo_aberto: TLabel
+        Left = 77
+        Top = 57
+        Width = 24
+        Height = 17
+        Alignment = taRightJustify
+        Caption = '0.00'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+    end
+    object rg_origem_conta: TRadioGroup
+      Left = 0
+      Top = 115
+      Width = 434
+      Height = 70
+      Align = alTop
+      Caption = ' Origem da conta '
+      Columns = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Items.Strings = (
+        'Pedido'
+        'Dinheiro'
+        'Contas Receber'
+        'N'#227'o encontrado')
+      ParentFont = False
+      TabOrder = 2
+    end
+    object edt_valor: TEdit
+      Left = 177
+      Top = 209
+      Width = 81
+      Height = 23
+      Alignment = taRightJustify
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      Text = '0.00'
+    end
+    object edt_autorizado: TEdit
+      Left = 343
+      Top = 209
+      Width = 81
+      Height = 23
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      NumbersOnly = True
+      ParentFont = False
+      PasswordChar = '*'
+      TabOrder = 4
+    end
+    object dtp_data: TDateTimePicker
+      Left = 7
+      Top = 209
+      Width = 105
+      Height = 23
+      Date = 44720.000000000000000000
+      Time = 0.883855462961946600
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+    end
+    object rg_baixar_conta: TRadioGroup
+      Left = 5
+      Top = 243
+      Width = 419
+      Height = 34
+      BiDiMode = bdLeftToRight
+      Columns = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ItemIndex = 0
+      Items.Strings = (
+        'Baixar pedido e conta'
+        'Baixar s'#243' conta')
+      ParentBiDiMode = False
+      ParentFont = False
+      TabOrder = 6
+    end
+    object mm_historico: TMemo
+      Left = 0
+      Top = 310
+      Width = 434
+      Height = 65
+      Align = alBottom
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      ExplicitTop = 311
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 432
+    Width = 434
+    inherited pnl_botoes: TPanel
+      Left = 150
+      ExplicitLeft = 150
+      inherited btnFechar: TBitBtn
+        ExplicitLeft = 148
+        ExplicitTop = 5
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 360
+    Top = 0
+  end
+  inherited ds: TDataSource
+    Left = 328
+    Top = 1
+  end
+  object qry_contas_receber: TFDQuery
+    Left = 184
+    Top = 117
+  end
+  object qry_pedidos: TFDQuery
+    Left = 216
+    Top = 117
+  end
+end

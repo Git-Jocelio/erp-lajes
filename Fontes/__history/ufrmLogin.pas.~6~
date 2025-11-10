@@ -1,0 +1,63 @@
+unit ufrmLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.Imaging.pngimage;
+
+type
+  TfrmLogin = class(TForm)
+    pnlFundo: TPanel;
+    pnlLateral: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    img_logo: TImage;
+    Label6: TLabel;
+    Panel1: TPanel;
+    Label5: TLabel;
+    Edit1: TEdit;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Label7: TLabel;
+    Edit2: TEdit;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmLogin.FormActivate(Sender: TObject);
+begin
+  pnlFundo.Left := Round((frmLogin.Width - pnlFundo.Width) / 2);
+  pnlFundo.Top := Round((frmLogin.Height - pnlFundo.Height) / 2);
+end;
+
+procedure TfrmLogin.SpeedButton1Click(Sender: TObject);
+begin
+ close;
+end;
+
+procedure TfrmLogin.SpeedButton2Click(Sender: TObject);
+begin
+  application.Terminate;
+end;
+
+end.

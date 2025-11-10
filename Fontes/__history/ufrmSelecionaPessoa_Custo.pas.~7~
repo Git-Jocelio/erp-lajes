@@ -1,0 +1,85 @@
+unit ufrmSelecionaPessoa_Custo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.DBCtrls, unit_conta_pessoa;
+
+type
+  TfrmSelecionaPessoa_Custo = class(TfrmBaseEdicao)
+    rg_opcoes: TRadioGroup;
+    gbx_pessoa: TGroupBox;
+    Label3: TLabel;
+    edt_nome_telefone: TEdit;
+    Label4: TLabel;
+    edt_endereco: TEdit;
+    gbx_historico: TGroupBox;
+    edt_historico: TEdit;
+    gbx_pessoa_conta: TGroupBox;
+    Label1: TLabel;
+    cbx_pessoa: TDBLookupComboBox;
+    Label2: TLabel;
+    cbx_conta: TDBLookupComboBox;
+    qry_contas: TFDQuery;
+    ds_contas: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure prc_componentes;
+  end;
+
+var
+  Conta : TConta;
+  function fnc_executa : TConta;
+
+implementation
+
+{$R *.dfm}
+
+function fnc_executa : TConta;
+var
+  loForm : TfrmSelecionaPessoa_Custo;
+begin
+
+  try
+    loForm := TfrmSelecionaPessoa_Custo.Create(application);
+    loform.ShowModal;
+  finally
+    result := conta;
+    freeandnil(loform);
+  end;
+
+end;
+
+procedure TfrmSelecionaPessoa_Custo.FormCreate(Sender: TObject);
+begin
+  inherited;
+  titulo := 'RELACIONAMENTO PESSOA E CONTA';
+  lbl_sub_titulo.Caption := 'Informe todos os dados requeridos e confirme.';
+end;
+
+procedure TfrmSelecionaPessoa_Custo.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmSelecionaPessoa_Custo.prc_componentes;
+begin
+  qry.Connection := conexao;
+  qry.Open;
+
+  qry_contas.Connection := conexao;
+  qry_contas.Open;
+
+end;
+
+end.

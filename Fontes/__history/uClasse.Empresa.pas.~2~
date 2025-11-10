@@ -1,0 +1,130 @@
+unit uClasse.Empresa;
+
+interface
+
+uses
+  FireDAC.Comp.Client, uTipos, uBiblioteca, System.AnsiStrings, Vcl.Forms,
+  System.SysUtils;
+  type
+  TEmpresa = class
+    private
+      Fconexao : TFDConnection;
+
+      { campos e tipos da tabela}
+      FId           : integer;
+      FPessoaId     : integer;
+      FNome_Fantasia: string;
+      FSite         : string;
+      FCrea         : string;
+      FFrase        : string;
+      FTelefone1    : string;
+      FTelefone2    : string;
+      //FCond : Blob;
+
+    public
+      property conexao : TFDConnection read Fconexao write Fconexao;
+      property Id : integer read FId write FId;
+      property PessoaId : integer read FPessoaId write FPessoaId;
+      property Nome_Fantasia : string read FNome_Fantasia write FNome_Fantasia;
+      property Site : string read FSite write FSite;
+      property Crea : string read FCrea write FCrea;
+      property Frase : string read FFrase write FFrase;
+      property Telefone1 : string read FTelefone1 write FTelefone1;
+      property Telefone2 : string read FTelefone2 write FTelefone2;
+
+
+      constructor create( conexao: TFDConnection );
+      destructor Destroy; override;
+
+      function fnc_inserir_alterar( operacao: TOperacao; out Erro: string ): boolean;
+      procedure prc_excluir( id_chave: integer );
+      function fnc_consulta( texto: string ): TFDQuery;
+  end;
+
+  var
+  qryConsulta: TFDQuery;
+
+implementation
+
+{ TEmpresa }
+
+constructor TEmpresa.create(conexao: TFDConnection);
+begin
+  FConexao := conexao;
+
+  qryConsulta := TFDQuery.Create( nil );
+  qryConsulta.Connection := Fconexao;
+end;
+
+destructor TEmpresa.Destroy;
+begin
+  qryConsulta.Destroy;
+  inherited;
+end;
+
+function TEmpresa.fnc_consulta(texto: string): TFDQuery;
+
+begin
+  try
+    Fconexao.Connected := false;
+    Fconexao.Connected := true;
+
+    qryConsulta.Close;
+    qryConsulta.SQL.Clear;
+    qryConsulta.SQL.Add('select id, pessoa_id, nome_fantasia, site, crea, ');
+    qryConsulta.SQL.Add(' frase, telefone1, telefone2');
+    qryConsulta.SQL.Add(' from EMPRESAS where nome_fantasia like :texto');
+    qryConsulta.ParamByName('texto').AsString := '%' + texto + '%' ;
+    qryConsulta.Open;
+  finally
+    result := qryConsulta;
+  end;
+
+end;
+
+function TEmpresa.fnc_inserir_alterar(operacao: TOperacao;
+  out Erro: string): boolean;
+var
+  qryInserir: TFDQuery;
+begin
+  try
+    try
+      Fconexao.Connected := false;
+      Fconexao.Connected := true;
+
+      qryConsulta := TFDQuery.Create( nil );
+      qryConsulta.Connection := Fconexao;
+
+
+      result := true;
+    except
+      on E: Exception do
+      begin
+        Erro := e.message;
+        result := false;
+      end;
+    end;
+  finally
+    qryInserir.Destroy;
+  end;
+
+end;
+
+procedure TEmpresa.prc_excluir(id_chave: integer);
+begin
+  if uBiblioteca.fnc_criar_mensagem(
+                                    'Confirmação', 'Excluir Dados',
+                                    'Tem certeza que deseja EXCLUIR essa Empresa?',
+                                    ExtractFilePath( Application.ExeName ) + '\Icones\question.ico',
+                                    'CONFIRMA'
+                                   ) then
+  begin
+    Fconexao.Connected := false;
+    Fconexao.Connected := true;
+
+    Fconexao.ExecSQL('delete from EMPRESAS where id =:id_chave', [id_chave])
+  end;
+
+end;
+
+end.

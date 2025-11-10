@@ -1,0 +1,241 @@
+inherited frmUsuarios: TfrmUsuarios
+  Caption = 'frmUsuarios'
+  ClientHeight = 370
+  ClientWidth = 961
+  ExplicitWidth = 973
+  ExplicitHeight = 408
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 961
+    ExplicitWidth = 957
+    inherited btnLocalizar: TBitBtn
+      Left = 772
+      Top = 19
+      ExplicitLeft = 772
+      ExplicitTop = 19
+    end
+    object cb_cpf_cnpj: TCheckBox
+      Left = 19
+      Top = 27
+      Width = 97
+      Height = 17
+      Caption = 'CPF / CNPJ'
+      TabOrder = 1
+    end
+    object edt_cpf_cnpj: TEdit
+      Left = 19
+      Top = 50
+      Width = 121
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+    object cb_nome: TCheckBox
+      Left = 153
+      Top = 27
+      Width = 97
+      Height = 17
+      Caption = 'Nome'
+      TabOrder = 3
+    end
+    object edt_nome: TEdit
+      Left = 153
+      Top = 50
+      Width = 255
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 4
+    end
+    object cb_telefone: TCheckBox
+      Left = 419
+      Top = 27
+      Width = 97
+      Height = 17
+      Caption = 'Telefone'
+      TabOrder = 5
+    end
+    object edt_telefone: TEdit
+      Left = 419
+      Top = 50
+      Width = 121
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 6
+    end
+    object cb_celular: TCheckBox
+      Left = 555
+      Top = 27
+      Width = 97
+      Height = 17
+      Caption = 'Celular'
+      TabOrder = 7
+    end
+    object edt_celular: TEdit
+      Left = 555
+      Top = 50
+      Width = 121
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 8
+    end
+    object rg_situacao: TRadioGroup
+      Left = 680
+      Top = 6
+      Width = 89
+      Height = 78
+      Caption = ' Situa'#231#227'o '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ItemIndex = 0
+      Items.Strings = (
+        'Ativo'
+        'Inativo'
+        'Todos')
+      ParentFont = False
+      TabOrder = 9
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 961
+    ExplicitWidth = 957
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Top = 351
+    Width = 961
+    ExplicitTop = 350
+    ExplicitWidth = 957
+  end
+  inherited PageControl1: TPageControl
+    Width = 961
+    Height = 203
+    ExplicitWidth = 957
+    ExplicitHeight = 202
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 953
+      ExplicitHeight = 193
+      inherited Panel5: TPanel
+        Width = 953
+        Height = 193
+        ExplicitWidth = 949
+        ExplicitHeight = 192
+        inherited DBGrid1: TDBGrid
+          Width = 953
+          Height = 193
+          Font.Height = -13
+          ParentFont = False
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 51
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CPF_CNPJ'
+              Title.Alignment = taCenter
+              Title.Caption = 'CPF / CNPJ'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 149
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 370
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TELEFONE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Telefone'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 130
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CELULAR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Celular'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 130
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited ds: TDataSource
+    Left = 72
+    Top = 200
+  end
+  inherited qry: TFDQuery
+    Left = 72
+    Top = 232
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+    inherited actLocalizar: TAction
+      OnExecute = actLocalizarExecute
+    end
+  end
+end

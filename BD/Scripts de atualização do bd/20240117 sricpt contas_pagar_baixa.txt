@@ -1,0 +1,25 @@
+CREATE TABLE CONTAS_PAGAR_BAIXA (
+    ID               INTEGER NOT NULL,
+    CONTAS_PAGAR_ID  INTEGER,
+    CADASTRADO_EM    DATE,
+    HISTORICO        VARCHAR(255),
+    VALOR            DECIMAL(15,2),
+    FORMA_PAGTO      SMALLINT,
+    USUARIO_ID       SMALLINT
+);
+
+
+
+/******************************************************************************/
+/****                             Primary keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR_BAIXA ADD CONSTRAINT PK_CONTAS_PAGAR_BAIXA PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/****                             Foreign keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR_BAIXA ADD CONSTRAINT FK_CONTAS_PAGAR_BAIXA_1 FOREIGN KEY (CONTAS_PAGAR_ID) REFERENCES CONTAS_PAGAR (ID);
+ALTER TABLE CONTAS_PAGAR_BAIXA ADD CONSTRAINT FK_CONTAS_PAGAR_BAIXA_2 FOREIGN KEY (USUARIO_ID) REFERENCES PESSOAS (ID);

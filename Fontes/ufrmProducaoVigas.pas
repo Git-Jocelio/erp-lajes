@@ -1,0 +1,597 @@
+unit ufrmProducaoVigas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.StorageBin, udmConn,
+  Vcl.ComCtrls, ufrmProducaoVigasPedidos, frxClass, frxDBSet;
+
+type
+  TfrmProducaoVigas = class(TfrmBaseConexao)
+    pnTitulo: TPanel;
+    lbl_titulo: TLabel;
+    lbl_sub_titulo: TLabel;
+    pnRodape: TPanel;
+    pnl_botoes: TPanel;
+    btnOk: TBitBtn;
+    btnFechar: TBitBtn;
+    ds_totaliza_vigas: TDataSource;
+    dsPedidos: TDataSource;
+    mtb_pedidos: TFDMemTable;
+    mtb_pedidosPEDIDO: TStringField;
+    PageControl1: TPageControl;
+    tbs_pedido_vigas: TTabSheet;
+    pnDados: TPanel;
+    Label1: TLabel;
+    dbg_pedidos: TDBGrid;
+    dbg_resumo_vigas: TDBGrid;
+    btn_incluir_pedido: TBitBtn;
+    btn_excluir_pedido: TBitBtn;
+    btn_gerar_resumo: TBitBtn;
+    tbs_producao: TTabSheet;
+    Memo: TMemo;
+    dbg_producao: TDBGrid;
+    db_clone: TDBGrid;
+    dsProducao: TDataSource;
+    qryTRELICA_ALTURA: TIntegerField;
+    qryQTDE: TLargeintField;
+    qryCOMPRIMENTO: TFloatField;
+    btn_executar: TBitBtn;
+    mtb_marcar_viga: TFDMemTable;
+    mtb_marcar_vigaID: TFloatField;
+    mtb_marcar_vigaVIGA: TFloatField;
+    mtb_marcar_vigaPEDIDO: TStringField;
+    qryClone: TFDQuery;
+    dsClone: TDataSource;
+    qryProducao: TFDQuery;
+    mtb_pedidosNOME: TStringField;
+    mtb_pedidosENDERECO: TStringField;
+    mtb_pedidosNUMERO: TStringField;
+    mtb_pedidosBAIRRO: TStringField;
+    frxReportResumo: TfrxReport;
+    frxDBDatasetResumo: TfrxDBDataset;
+    frxDBDatasetPedidos: TfrxDBDataset;
+    frxDBEmpresa: TfrxDBDataset;
+    qryEmpresa: TFDQuery;
+
+    procedure FormCreate(Sender: TObject);
+
+    procedure btn_gerar_resumoClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure tbs_producaoShow(Sender: TObject);
+    procedure btn_executarClick(Sender: TObject);
+    procedure btn_incluir_pedidoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure dsPedidosDataChange(Sender: TObject; Field: TField);
+    procedure btn_excluir_pedidoClick(Sender: TObject);
+    procedure ds_totaliza_vigasDataChange(Sender: TObject; Field: TField);
+    procedure btnOkClick(Sender: TObject);
+  private
+    function fnc_gerar_sql: string;
+    procedure prc_carregar_vigas;
+    //procedure prc_corte;
+    procedure prc_filtrar_clone(id: integer);
+    procedure prc_marcar_corte(simbolo: string; id: integer);
+    procedure prc_reservar_viga(id: integer; viga: double);
+
+    procedure prc_componentes;
+  public
+    { Public declarations }
+  end;
+
+  procedure prc_executa;
+
+
+implementation
+
+procedure prc_executa;
+var
+  loForm: TfrmProducaoVigas;
+begin
+  try
+    loForm:= TfrmProducaoVigas.Create(application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+
+
+procedure TfrmProducaoVigas.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  frxReportResumo.ShowReport;
+
+end;
+
+procedure TfrmProducaoVigas.btn_excluir_pedidoClick(Sender: TObject);
+begin
+  inherited;
+  mtb_pedidos.Delete;
+  qry.Close;
+end;
+
+procedure TfrmProducaoVigas.btn_executarClick(Sender: TObject);
+{ v3 }
+var
+  soma    : double;
+  id_clone: integer;
+  corte   : string;
+
+begin
+//  ShowMessage('em desenvolvimento...');
+//  exit;
+
+  qryProducao.DisableControls;
+  qryClone.DisableControls;
+
+  btn_executar.Enabled := false;
+
+  qryProducao.First;
+  id_clone := qryProducao.FieldByName('ID').AsInteger;
+  soma     := qryProducao.FieldByName('VIGA').AsFloat;
+  prc_reservar_viga(id_clone, qryProducao.FieldByName('VIGA').AsFloat );
+  while strtofloat(FormatFloat('0.00',soma)) <> 12 do
+  begin
+
+    if strtofloat(FormatFloat('0.00',soma)) < 12 then
+    begin
+//      ShowMessage('soma < 12 ' + formatfloat('0.00000000000', soma));
+      //ShowMessage(qryClone.SQL.Text);
+      {sql qryClone = select ID, VIGA, PEDIDO from PRODUCAO where PEDIDO ='' and ID > :ID}
+      prc_filtrar_clone(id_clone);
+
+      if qryClone.IsEmpty then
+      begin
+
+        //ShowMessage('clone vazio');
+        mtb_marcar_viga.Last;
+        id_clone := mtb_marcar_vigaID.AsInteger;
+        mtb_marcar_viga.Delete;
+
+        {select ID, VIGA, PEDIDO from PRODUCAO where PEDIDO = '' and ID > :ID}
+        prc_filtrar_clone(id_clone);
+        if qryClone.IsEmpty then
+        begin
+          //ShowMessage('clone vazio novamente');
+          {marcar com # as vigas do qryprodução que sobraram do  mtb_marcar_viga }
+          mtb_marcar_viga.First;
+          //while not mtb_marcar_viga.Eof do
+          //begin
+            //ShowMessage('id_clone da ultima viga tem que ser 19  mas é : ' + inttostr(id_clone));
+if not mtb_marcar_viga.IsEmpty then
+            prc_marcar_corte('#',mtb_marcar_viga.FieldByName('ID').AsInteger)
+else
+            prc_marcar_corte('#',id_clone);
+            //prc_marcar_corte('#',id_clone);
+            //mtb_marcar_viga.Next;
+          //end;
+          {limpar mtb_marcar_viga}
+          mtb_marcar_viga.Close;
+          mtb_marcar_viga.Open;
+
+          {filtrar novamente a qryprodução e recomeçar, ai vai ter alguma coisa}
+          {filtra sem as vigas marcadas}
+          qryProducao.Close;
+          qryProducao.Open;
+          qryProducao.First;
+          {soma recebe a proxima viga a ser cortada "1.a da qryprodução"}
+          //
+          if not qryProducao.IsEmpty then
+          begin
+            id_clone := qryProducao.FieldByName('ID').AsInteger;
+            soma     := qryProducao.FieldByName('VIGA').AsFloat;
+            prc_reservar_viga(qryProducao.FieldByName('ID').AsInteger, qryProducao.FieldByName('VIGA').AsFloat);
+
+            prc_filtrar_clone(id_clone);
+          end
+          else // ult alt
+          begin
+            soma := 0;
+            break;
+          end;
+        end
+        else
+        begin
+          qryClone.First;
+          soma := qryProducao.FieldByName('VIGA').AsFloat;// + qryClone.FieldByName('VIGA').AsFloat;
+         // ShowMessage(floattostr(soma));
+        end;
+      end;
+
+      soma := soma + qryClone.FieldByName('VIGA').AsFloat;
+      //ShowMessage('soma < 12 : ' + formatfloat('0.00', soma) );
+      if strtofloat(FormatFloat('0.00',soma)) < 12 then
+      begin
+        //ShowMessage('soma < 12 : ' + formatfloat('0.000000000000000', soma) );
+        id_clone := qryClone.FieldByName('ID').AsInteger;
+        prc_reservar_viga(id_clone, qryClone.FieldByName('VIGA').AsFloat )
+      end;
+
+    end;
+
+    //ShowMessage('soma > 12 ' + floattostr(soma) + ' vai subtrair');
+    if strtofloat(FormatFloat('0.00',soma)) > 12 then
+    begin
+      soma    := soma - qryClone.FieldByName('VIGA').AsFloat;
+      id_clone:= qryClone.FieldByName('ID').AsInteger;
+//      ShowMessage('ficou ' + floattostr(soma));
+    end;
+
+    //ShowMessage('soma = 12 ' + floattostr(soma));
+    if strtofloat(FormatFloat('0.00',soma)) = 12 then
+    begin
+
+      //prc_reservar_viga(id_clone, qryClone.FieldByName('VIGA').AsFloat );
+      prc_reservar_viga(qryClone.FieldByName('ID').AsInteger, qryClone.FieldByName('VIGA').AsFloat );
+
+      {marca as vigas }
+      corte := '';
+      mtb_marcar_viga.First;
+      while not mtb_marcar_viga.eof do
+      begin
+        prc_marcar_corte('*', mtb_marcar_vigaID.AsInteger);
+        corte := corte + formatfloat('0.00', mtb_marcar_vigaVIGA.AsFloat) + ' + ';
+        //Memo.Lines.Add(formatfloat('0.00', mtb_marcar_vigaVIGA.AsFloat) + ' + ');
+
+        mtb_marcar_viga.Next;
+      end;
+      corte := copy( corte, 1, (length(corte)-3) );
+      memo.Lines.Add(corte);
+
+      {limpar mtb_marcar_viga, para o prox corte}
+      //mtb_marcar_viga.First;
+      //while not mtb_marcar_viga.eof do mtb_marcar_viga.Delete;
+      mtb_marcar_viga.close;
+      mtb_marcar_viga.open;
+
+      {filtra sem as vigas marcadas}
+      qryProducao.Close;
+      qryProducao.Open;
+      qryProducao.First;
+
+      {verifica se tem mais alguma coisa pra cortar}
+      //if not qry.IsEmpty then
+      if (not qryProducao.IsEmpty) and (not qryClone.IsEmpty) then
+      begin
+         id_clone := qryProducao.FieldByName('ID').AsInteger;
+         soma     := qryProducao.FieldByName('VIGA').AsFloat;
+         prc_reservar_viga(qryProducao.FieldByName('ID').AsInteger, qryProducao.FieldByName('VIGA').AsFloat);
+      end
+      else
+      if (not qryProducao.IsEmpty) and (qryClone.IsEmpty) then
+      begin
+      //  ShowMessage('qry vazia');
+        prc_marcar_corte('#',qryProducao.FieldByName('ID').AsInteger);
+        soma := 0;
+      end;
+
+    end ;// soma = 12
+
+
+  end;// while soma <> 0
+
+  qryProducao.SQL.Clear;
+  qryProducao.SQL.Add('select * from PRODUCAO where PEDIDO = ' + QuotedStr('#'));
+  qryProducao.Open;
+  if not qryProducao.IsEmpty then
+  begin
+    Memo.Lines.Add('---------------------------------');
+    Memo.Lines.Add('Vigas que ficaram fora do corte :');
+    Memo.Lines.Add('');
+    qryProducao.First;
+    while not qryProducao.eof do
+    begin
+      Memo.Lines.Add('  ' + FormatFloat('0.00',  qryProducao.FieldByName('VIGA').AsFloat));
+      qryProducao.next;
+    end;
+    Memo.Lines.Add('---------------------------------');
+    Memo.Lines.Add('hasta la vista baby!');
+
+    qryProducao.EnableControls;
+    qryClone.EnableControls;
+
+
+  end;
+
+end;
+
+procedure TfrmProducaoVigas.btnFecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmProducaoVigas.btn_gerar_resumoClick(Sender: TObject);
+var
+  i : integer;
+  p : string;
+begin
+  inherited;
+  if mtb_pedidos.IsEmpty then
+  begin
+    ShowMessage('informe pelo menos um número de pedido valido');
+    exit;
+  end;
+
+  i := 0;
+  qry.SQL.Clear;
+
+  qry.SQL.Add( fnc_gerar_sql );
+
+  mtb_pedidos.First;
+  while not mtb_pedidos.Eof do
+  begin
+
+    i := i + 1;
+    p := 'p';
+    P := p + IntToStr(i);
+    qry.ParamByName(p).AsString := mtb_pedidosPEDIDO.AsString;
+    mtb_pedidos.Next;
+
+  end;
+
+  qry.Open;
+//  ShowMessage(qry.SQL.text);
+
+end;
+
+procedure TfrmProducaoVigas.btn_incluir_pedidoClick(Sender: TObject);
+begin
+  inherited;
+  if frmProducaoVigasPedidos = nil then
+  begin
+    try
+      frmProducaoVigasPedidos := TfrmProducaoVigasPedidos.Create(Application);
+      frmProducaoVigasPedidos.ShowModal;
+
+      mtb_pedidos.First;
+      if mtb_pedidos.Locate('PEDIDO',frmProducaoVigasPedidos.p_nosso_numero,[] ) then
+      begin
+        ShowMessage('Pedido JÁ foi incluso');
+        exit;
+      end;
+
+      if frmProducaoVigasPedidos.p_confirmado = true then
+      begin
+        mtb_pedidos.Append;
+        mtb_pedidosPEDIDO.AsString   := frmProducaoVigasPedidos.p_nosso_numero;
+        mtb_pedidosNOME.AsString     := frmProducaoVigasPedidos.p_nome;
+        mtb_pedidosENDERECO.AsString := frmProducaoVigasPedidos.p_endereco;
+        mtb_pedidosNUMERO.AsString   := frmProducaoVigasPedidos.p_numero;
+        mtb_pedidosBAIRRO.AsString   := frmProducaoVigasPedidos.p_bairro;
+        mtb_pedidos.Post;
+      end
+      else
+        ShowMessage('pedido NÃO informado');
+    finally
+      FreeAndNil(frmProducaoVigasPedidos);
+    end;
+  end;
+
+end;
+
+procedure TfrmProducaoVigas.dsPedidosDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  btn_excluir_pedido.Enabled := not mtb_pedidos.IsEmpty;
+  btn_gerar_resumo.Enabled   := not mtb_pedidos.IsEmpty;
+  tbs_producao.TabVisible    := not mtb_pedidos.IsEmpty;
+end;
+
+procedure TfrmProducaoVigas.ds_totaliza_vigasDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  tbs_producao.TabVisible:= not qry.IsEmpty;
+  btnOk.Enabled          := not qry.IsEmpty;
+
+end;
+
+function TfrmProducaoVigas.fnc_gerar_sql: string;
+var
+  pedido: string;
+  i : integer;
+  sSQl : string;
+begin
+  sSQl := '';
+  pedido := '';
+  i := 0;
+
+  mtb_pedidos.First;
+  while not mtb_pedidos.Eof do
+  begin
+
+    i := i + 1;
+    Pedido := pedido + ':p'+ IntToStr(i) + ', ';
+
+    mtb_pedidos.Next;
+
+  end;
+  {retira a ultima ","}
+  pedido := copy(pedido, 1, length(pedido)-2);
+  pedido := pedido + ' )';
+
+  sSQl :=
+  'select' +
+  '  v.trelica_altura,' +
+  '  cast( v.comprimento as float ) / 1000 as comprimento, ' +
+  '  sum(i.qtde) as qtde ' +
+  'from ' +
+  '  pedidos_itens_laje i, ' +
+  '  produtos_vigas v, ' +
+  '  pedidos p ' +
+  'where' +
+  '  i.pedido_id = p.id and ' +
+  '  i.produto_id = v.produto_id and ' +
+  //'  p.nosso_numero in (';
+  '  p.id in (';
+  sSQl := sSQl + pedido +
+  'group by ' +
+  '  v.trelica_altura, v.comprimento ' +
+  'order by' +
+  '  v.trelica_altura, v.comprimento DESC';
+
+
+  Result := sSQl;
+  //ShowMessage(sSQl);
+end;
+
+procedure TfrmProducaoVigas.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+   lbl_titulo.Caption := 'Produção de vigas';
+   lbl_sub_titulo.Caption := 'totaliza as vigas a serem produzidas conforme pedidos informados';
+
+
+
+
+end;
+
+procedure TfrmProducaoVigas.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmProducaoVigas.prc_carregar_vigas;
+var
+  i : integer;
+  id: integer;
+begin
+  id := 0;
+  qry.First;
+  while not qry.Eof do
+  begin
+    i:= qryQTDE.AsInteger;
+    for i := 1 to i do
+    begin
+      id := id + 1;
+
+      qryProducao.Insert;
+      qryProducao.FieldByName('ID').AsInteger       := id;
+      //qryProducao.FieldByName('ALTURA').AsInteger   := qryTRELICA_ALTURA.AsInteger;
+      qryProducao.FieldByName('VIGA').AsFloat:= qryCOMPRIMENTO.AsFloat;
+      qryProducao.FieldByName('PEDIDO').AsString    := '';
+      qryProducao.Post;
+
+      {clone}
+      qryClone.Insert;
+      qryClone.FieldByName('ID').AsInteger   := id;
+      //qryClone.FieldByName('ALTURA').AsInteger   := qryTRELICA_ALTURA.AsInteger;
+      qryClone.FieldByName('VIGA').AsFloat   := qryCOMPRIMENTO.AsFloat;
+      qryClone.FieldByName('PEDIDO').AsString:= '';
+      qryClone.Post;
+
+    end;
+    qry.Next;
+  end;
+
+end;
+
+procedure TfrmProducaoVigas.prc_componentes;
+begin
+
+  btn_excluir_pedido.Enabled:= false;
+  btn_gerar_resumo.Enabled  := false;
+  btnOk.Enabled             := false;
+  btnOk.Caption             := 'Imprimir';
+  mtb_pedidos.Open;
+  tbs_producao.TabVisible   := false;
+
+  PageControl1.ActivePage := tbs_pedido_vigas;
+
+  {qry totaliza vigas}
+  qry.Connection        := Conexao;
+
+  {qry das vigas a produzir uma a uma}
+  qryProducao.Connection:= Conexao;
+  qryProducao.SQL.Add('select ID, VIGA, PEDIDO from PRODUCAO where PEDIDO = ' + quotedstr('') );
+  qryProducao.Open;
+
+  dsProducao.DataSet := qryProducao;
+
+  {cópia da qryProducao}
+  qryClone.Connection := Conexao;
+  qryClone.SQL.Add('select ID, VIGA, PEDIDO from PRODUCAO where PEDIDO = ' + QuotedStr('') + ' and ID > :ID');
+  qryClone.open;
+  dsClone.DataSet := qryClone;
+
+  qryEmpresa.Connection := conexao;
+  qryEmpresa.open;
+
+end;
+
+procedure TfrmProducaoVigas.tbs_producaoShow(Sender: TObject);
+var
+  qryDel : TFDQuery;
+begin
+  inherited;
+  qryDel := TFDQuery.Create(Application);
+  qryDel.Connection := conexao;
+  qryDel.SQL.Add('delete from producao');
+  qryDel.ExecSQL;
+
+  qryProducao.Close;
+  qryProducao.open;
+
+  prc_carregar_vigas;
+
+ qryProducao.First;
+ qryClone.First;
+
+  FreeAndNil( qryDel );
+ end;
+
+
+procedure TfrmProducaoVigas.prc_reservar_viga(id: integer; viga: double);
+begin
+  //ShowMessage('reservar viga ' + inttostr(id) + ' viga ' + floattostr(viga));
+
+  mtb_marcar_viga.Append;
+  mtb_marcar_vigaID.AsInteger := id;
+  mtb_marcar_vigaVIGA.AsFloat := viga;
+  mtb_marcar_viga.post;
+
+end;
+
+procedure TfrmProducaoVigas.prc_filtrar_clone(id: integer);
+begin
+  qryClone.Close;
+  qryClone.ParamByName('ID').AsInteger := id;
+  qryClone.Open;
+  //ShowMessage('filtrou clone');
+end;
+
+
+procedure TfrmProducaoVigas.prc_marcar_corte(simbolo: string; id: integer);
+var
+  qry1: TFDQuery;
+begin
+ // ShowMessage('marcar viga : ' + inttostr(id));
+  qry1 := TFDQuery.Create(Application);
+  qry1.Connection := Conexao;
+  qry1.SQL.Add('select * from PRODUCAO where ID =:ID');
+  QRY1.ParamByName('ID').AsInteger := id;
+  qry1.Open;
+
+  qry1.Edit;
+  qry1.FieldByName('PEDIDO').AsString := simbolo;
+  QRY1.Post;
+
+  FreeAndNil( QRY1 );
+
+end;
+
+
+end.

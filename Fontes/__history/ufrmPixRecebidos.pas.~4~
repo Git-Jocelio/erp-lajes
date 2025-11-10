@@ -1,0 +1,59 @@
+unit ufrmPixRecebidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn;
+
+type
+  TfrmPixRecebidos = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryDATA_PIX: TDateField;
+    qryCONTAS_BANCARIAS_ITENS_ID: TIntegerField;
+    qryBANCO_ID: TIntegerField;
+    qryNOME_BANCO: TStringField;
+    qryAGENCIA: TStringField;
+    qryNR_CONTA: TStringField;
+    qryVALOR: TFMTBCDField;
+    qryOBS: TStringField;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure prc_componentes;
+  end;
+
+var
+  frmPixRecebidos: TfrmPixRecebidos;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmPixRecebidos }
+
+procedure TfrmPixRecebidos.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmPixRecebidos.prc_componentes;
+begin
+  DBGrid1.Columns[0].Visible := false;
+  DBGrid1.Columns[2].Visible := false;
+  DBGrid1.Columns[3].Visible := false;
+
+  btnIncluir.Visible := false;
+  btnAlterar.Visible := false;
+  btnExcluir.Visible := false;
+end;
+
+end.

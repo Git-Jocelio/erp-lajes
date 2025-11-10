@@ -1,0 +1,24 @@
+CREATE TABLE CONTAS_PAGAR_LANCAMENTOS (
+    ID               INTEGER NOT NULL,
+    CONTAS_PAGAR_ID  INTEGER NOT NULL,
+    CADASTRADO_EM    DATE,
+    HISTORICO        VARCHAR(255),
+    VALOR            DECIMAL(15,2),
+    DEBITO_CREDITO   VARCHAR(1)
+);
+
+
+
+/******************************************************************************/
+/****                             Primary keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR_LANCAMENTOS ADD CONSTRAINT PK_CONTAS_PAGAR_LANCAMENTOS PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/****                             Foreign keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR_LANCAMENTOS ADD CONSTRAINT FK_CONTAS_PAGAR_LANCAMENTOS_1 FOREIGN KEY (CONTAS_PAGAR_ID) REFERENCES CONTAS_PAGAR (ID);
+

@@ -1,0 +1,1661 @@
+inherited frmRecibosFornecedores: TfrmRecibosFornecedores
+  BorderWidth = 3
+  ClientHeight = 429
+  ClientWidth = 893
+  Position = poDesktopCenter
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 893
+    ExplicitWidth = 893
+    inherited edt_consulta: TEdit
+      Width = 437
+      ExplicitWidth = 437
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 893
+    ExplicitWidth = 893
+  end
+  inherited StatusBar: TStatusBar
+    Top = 397
+    Width = 893
+    ExplicitTop = 397
+    ExplicitWidth = 893
+  end
+  inherited PageControl1: TPageControl
+    Width = 893
+    Height = 192
+    ExplicitWidth = 893
+    ExplicitHeight = 192
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 885
+      ExplicitHeight = 182
+      inherited Panel5: TPanel
+        Width = 885
+        Height = 182
+        ExplicitWidth = 885
+        ExplicitHeight = 182
+        inherited DBGrid1: TDBGrid
+          Width = 845
+          Height = 131
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'N. Recibo'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 94
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Emiss'#227'o'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 78
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome do Fornecedor'
+              Width = 384
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 102
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PESSOA_ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'USUARIO_ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'OBSERVACAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Observa'#231#245'es'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 174
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 845
+          ExplicitWidth = 845
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 893
+    ExplicitWidth = 893
+    inherited btn_fechar: TSpeedButton
+      Left = 823
+      ExplicitLeft = 823
+    end
+    inherited lbl_titulo: TLabel
+      Width = 442
+      Height = 56
+      Caption = 'RECIBOS DE PAGAMENTOS A FORNECEDORES'
+      ExplicitWidth = 442
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 893
+      ExplicitWidth = 893
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select'
+      '  r.id,'
+      '  p.cpf_cnpj,'
+      '  p.nome,'
+      '  r.cadastrado_em,'
+      '  r.valor,'
+      '  r.pessoa_id,'
+      '  r.usuario_id,'
+      '  r.observacao,'
+      '  r.valor_extenso'
+      'from'
+      '  recibos_fornecedores r,'
+      '  pessoas p'
+      'where'
+      ' r.pessoa_id = p.id')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryCADASTRADO_EM: TDateField
+      FieldName = 'CADASTRADO_EM'
+      Origin = 'CADASTRADO_EM'
+    end
+    object qryPESSOA_ID: TIntegerField
+      FieldName = 'PESSOA_ID'
+      Origin = 'PESSOA_ID'
+    end
+    object qryCPF_CNPJ: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 18
+    end
+    object qryNOME: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryUSUARIO_ID: TIntegerField
+      FieldName = 'USUARIO_ID'
+      Origin = 'USUARIO_ID'
+    end
+    object qryOBSERVACAO: TStringField
+      FieldName = 'OBSERVACAO'
+      Origin = 'OBSERVACAO'
+      Size = 60
+    end
+    object qryVALOR_EXTENSO: TStringField
+      FieldName = 'VALOR_EXTENSO'
+      Origin = 'VALOR_EXTENSO'
+      Size = 250
+    end
+  end
+  inherited ActionList1: TActionList
+    inherited actImprimir: TAction
+      OnExecute = actImprimirExecute
+    end
+  end
+  object frxPDFExport1: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    EmbedFontsIfProtected = False
+    InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
+    OpenAfterExport = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Quality = 95
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    Creator = 'FastReport'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    PdfA = False
+    PDFStandard = psNone
+    PDFVersion = pv17
+    Left = 728
+    Top = 9
+  end
+  object qry_dinheiro: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '    ID,'
+      '    RECIBO_ID,'
+      '    VALOR,'
+      '    OBSERVACAO'
+      'from'
+      '  RECIBO_PAGTO_DINHEIRO'
+      'where'
+      '  RECIBO_ID =:RECIBO_ID')
+    Left = 584
+    Top = 57
+    ParamData = <
+      item
+        Name = 'RECIBO_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qry_dinheiroID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qry_dinheiroRECIBO_ID: TIntegerField
+      FieldName = 'RECIBO_ID'
+      Origin = 'RECIBO_ID'
+    end
+    object qry_dinheiroVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      EditFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qry_dinheiroOBSERVACAO: TStringField
+      FieldName = 'OBSERVACAO'
+      Origin = 'OBSERVACAO'
+      Size = 40
+    end
+  end
+  object qry_pix: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '    ID,'
+      '    RECIBO_ID,'
+      '    VALOR,'
+      '    OBSERVACAO'
+      'from'
+      '  RECIBO_PAGTO_PIX'
+      'where'
+      '  RECIBO_ID =:RECIBO_ID')
+    Left = 616
+    Top = 57
+    ParamData = <
+      item
+        Name = 'RECIBO_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qry_pixID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qry_pixRECIBO_ID: TIntegerField
+      FieldName = 'RECIBO_ID'
+      Origin = 'RECIBO_ID'
+    end
+    object qry_pixVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qry_pixOBSERVACAO: TStringField
+      FieldName = 'OBSERVACAO'
+      Origin = 'OBSERVACAO'
+      Size = 50
+    end
+  end
+  object qry_cheque: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '  ID,'
+      '  RECIBO_ID,'
+      '  BANCO,'
+      '  AGENCIA,'
+      '  NR_CONTA, '
+      '  NR_CHEQUE,'
+      '  VALOR,'
+      '  HISTORICO'
+      'from'
+      '  RECIBO_PAGTO_CHEQUE'
+      'where'
+      '  RECIBO_ID =:RECIBO_ID')
+    Left = 648
+    Top = 57
+    ParamData = <
+      item
+        Name = 'RECIBO_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qry_chequeID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qry_chequeRECIBO_ID: TIntegerField
+      FieldName = 'RECIBO_ID'
+      Origin = 'RECIBO_ID'
+    end
+    object qry_chequeBANCO: TStringField
+      FieldName = 'BANCO'
+      Origin = 'BANCO'
+      Size = 40
+    end
+    object qry_chequeAGENCIA: TStringField
+      FieldName = 'AGENCIA'
+      Origin = 'AGENCIA'
+      Size = 4
+    end
+    object qry_chequeNR_CONTA: TStringField
+      FieldName = 'NR_CONTA'
+      Origin = 'NR_CONTA'
+      Size = 40
+    end
+    object qry_chequeNR_CHEQUE: TStringField
+      FieldName = 'NR_CHEQUE'
+      Origin = 'NR_CHEQUE'
+      Size = 10
+    end
+    object qry_chequeVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qry_chequeHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Origin = 'HISTORICO'
+      Size = 60
+    end
+  end
+  object frxDBDinheiro: TfrxDBDataset
+    UserName = 'frxDBDinheiro'
+    CloseDataSource = False
+    DataSet = qry_dinheiro
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 584
+    Top = 89
+  end
+  object frxDBpix: TfrxDBDataset
+    UserName = 'frxDBPix'
+    CloseDataSource = False
+    DataSet = qry_pix
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 616
+    Top = 89
+  end
+  object frxDBCheque: TfrxDBDataset
+    UserName = 'frxDBCheque'
+    CloseDataSource = False
+    DataSet = qry_cheque
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 648
+    Top = 89
+  end
+  object qry_contas_pagar: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '  C.ID,'
+      '  C.RECIBO_ID,'
+      '  C.CONTAS_PAGAR_ID,'
+      '  C.HISTORICO,'
+      '  C.VALOR_PARCELA,'
+      '  C.BAIXAR'
+      'from'
+      '  RECIBO_PAGTO_CONTA_PAGAR C'
+      'where'
+      '  RECIBO_ID =:RECIBO_ID')
+    Left = 680
+    Top = 57
+    ParamData = <
+      item
+        Name = 'RECIBO_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qry_contas_pagarID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qry_contas_pagarRECIBO_ID: TIntegerField
+      FieldName = 'RECIBO_ID'
+      Origin = 'RECIBO_ID'
+    end
+    object qry_contas_pagarCONTAS_PAGAR_ID: TIntegerField
+      FieldName = 'CONTAS_PAGAR_ID'
+      Origin = 'CONTAS_PAGAR_ID'
+    end
+    object qry_contas_pagarHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Origin = 'HISTORICO'
+      Size = 60
+    end
+    object qry_contas_pagarVALOR_PARCELA: TFMTBCDField
+      FieldName = 'VALOR_PARCELA'
+      Origin = 'VALOR_PARCELA'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qry_contas_pagarBAIXAR: TFMTBCDField
+      FieldName = 'BAIXAR'
+      Origin = 'BAIXAR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+  end
+  object qry_contas_receber: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '  C.ID,'
+      '  C.RECIBO_ID,'
+      '  C.CONTAS_RECEBER_ID,'
+      '  C.HISTORICO,'
+      '  C.VALOR_PARCELA,'
+      '  C.BAIXAR'
+      'from'
+      '  RECIBO_PAGTO_CONTAS_RECEBER C'
+      'where'
+      '  RECIBO_ID =:RECIBO_ID')
+    Left = 712
+    Top = 57
+    ParamData = <
+      item
+        Name = 'RECIBO_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qry_contas_receberID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qry_contas_receberRECIBO_ID: TIntegerField
+      FieldName = 'RECIBO_ID'
+      Origin = 'RECIBO_ID'
+    end
+    object qry_contas_receberCONTAS_RECEBER_ID: TIntegerField
+      FieldName = 'CONTAS_RECEBER_ID'
+      Origin = 'CONTAS_RECEBER_ID'
+    end
+    object qry_contas_receberHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Origin = 'HISTORICO'
+      Size = 60
+    end
+    object qry_contas_receberVALOR_PARCELA: TFMTBCDField
+      FieldName = 'VALOR_PARCELA'
+      Origin = 'VALOR_PARCELA'
+      Precision = 18
+      Size = 2
+    end
+    object qry_contas_receberBAIXAR: TFMTBCDField
+      FieldName = 'BAIXAR'
+      Origin = 'BAIXAR'
+      Precision = 18
+      Size = 2
+    end
+  end
+  object frxDBContasPagar: TfrxDBDataset
+    UserName = 'frxDBContasPagar'
+    CloseDataSource = False
+    DataSet = qry_contas_pagar
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 680
+    Top = 89
+  end
+  object frxDBPedidos: TfrxDBDataset
+    UserName = 'frxDBContasReceber'
+    CloseDataSource = False
+    DataSet = qry_contas_receber
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 712
+    Top = 89
+  end
+  object frxDBEmpresa: TfrxDBDataset
+    UserName = 'frxDBEmpresa'
+    CloseDataSource = False
+    DataSet = qry_empresa
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 744
+    Top = 89
+  end
+  object frxReportReciboPagto: TfrxReport
+    Version = '2022.2'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 45852.802070462960000000
+    ReportOptions.LastChange = 45852.802070462960000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ' picture1.Picture.LoadFromFile ( <frxDBEmpresa."IMG_LOGO">  );  '
+      'end.')
+    Left = 696
+    Top = 8
+    Datasets = <
+      item
+        DataSet = frxDBDinheiro
+        DataSetName = 'frxDBDinheiro'
+      end
+      item
+        DataSet = frxDBpix
+        DataSetName = 'frxDBPix'
+      end
+      item
+        DataSet = frxDBCheque
+        DataSetName = 'frxDBCheque'
+      end
+      item
+        DataSet = frxDBContasPagar
+        DataSetName = 'frxDBContasPagar'
+      end
+      item
+        DataSet = frxDBPedidos
+        DataSetName = 'frxDBContasReceber'
+      end
+      item
+        DataSet = frxDBEmpresa
+        DataSetName = 'frxDBEmpresa'
+      end
+      item
+        DataSet = frxDBReciboPagto
+        DataSetName = 'frxDBReciboPagto'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object ReportTitle1: TfrxReportTitle
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 71.811070000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          AllowVectorExport = True
+          Left = 219.212740000000000000
+          Top = 51.000000000000000000
+          Width = 257.008040000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'RECIBO DE PAGAMENTO DE PEDIDOS')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          AllowVectorExport = True
+          Left = -0.440940000000000000
+          Top = 69.897650000000000000
+          Width = 718.110700000000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftBottom]
+          ParentFont = False
+        end
+        object Picture1: TfrxPictureView
+          Align = baLeft
+          AllowVectorExport = True
+          Width = 116.614100000000000000
+          Height = 65.747990000000000000
+          OnAfterData = 'Picture1OnAfterData'
+          Center = True
+          Frame.Typ = []
+          HightQuality = True
+          Transparent = False
+          TransparentColor = clWhite
+        end
+        object frxDBEmpresaNOME: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 120.944960000000000000
+          Top = 1.440940000000000000
+          Width = 491.338582680000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBEmpresa
+          DataSetName = 'frxDBEmpresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[frxDBEmpresa."NOME"] CNPJ : [frxDBEmpresa."CPF_CNPJ"]')
+          ParentFont = False
+        end
+        object frxDBEmpresaENDERECO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 120.944960000000000000
+          Top = 22.677180000000000000
+          Width = 680.315400000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBEmpresa
+          DataSetName = 'frxDBEmpresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              'End. [frxDBEmpresa."ENDERECO"],[frxDBEmpresa."NUMERO"] [frxDBEmp' +
+              'resa."BAIRRO"] [frxDBEmpresa."CIDADE"] [frxDBEmpresa."UF"] - CEP' +
+              ' [frxDBEmpresa."CEP"] Fone : [frxDBEmpresa."TELEFONE"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end>
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 204.094620000000000000
+        Top = 113.385900000000000000
+        Width = 718.110700000000000000
+        object frxDBReciboRECIBO_ID: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 96.385900000000000000
+          Top = 1.889763780000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."ID"]')
+          ParentFont = False
+        end
+        object frxDBReciboCADASTRADO_EM: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 636.181510000000000000
+          Top = 1.889763780000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."CADASTRADO_EM"]')
+          ParentFont = False
+        end
+        object frxDBReciboNOME: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 526.370440000000000000
+          Top = 33.795300000000000000
+          Width = 185.196970000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'CPF/CNPJ : [frxDBReciboPagto."CPF_CNPJ"]')
+          ParentFont = False
+        end
+        object frxDBReciboVALOR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 79.385900000000000000
+          Top = 56.913420000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."VALOR"]')
+          ParentFont = False
+        end
+        object frxDBReciboOBSERVACAO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 42.472480000000000000
+          Top = 105.826840000000000000
+          Width = 351.496290000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."OBSERVACAO"]')
+        end
+        object Memo2: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779527560000000000
+          Top = 1.889763780000000000
+          Width = 90.708671180000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'REBIBO N. :')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Left = 566.031850000000000000
+          Top = 1.889763780000000000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'EMISS'#195'O :')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779527560000000000
+          Top = 105.826840000000000000
+          Width = 34.015770000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'OBS. ')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          AllowVectorExport = True
+          Top = 126.929190000000000000
+          Width = 718.110700000000000000
+          Height = 0.377952755905512000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftBottom]
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          AllowVectorExport = True
+          Left = 26.456710000000000000
+          Top = 34.015770000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Recebemos  de :')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779527560000000000
+          Top = 56.692950000000000000
+          Width = 71.811070000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'a quantia R$ ')
+          ParentFont = False
+        end
+        object Memo11: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779527560000000000
+          Top = 83.149660000000000000
+          Width = 453.543600000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              'conforme relacionado abaixo, para pagamento e baixa dos pedidos ' +
+              'listados')
+          ParentFont = False
+        end
+        object Memo12: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 139.842610000000000000
+          Width = 192.756030000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Rela'#231#227'o de valores enviados :')
+          ParentFont = False
+        end
+        object frxDBDinheiroVALOR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 67.929190000000000000
+          Top = 162.519790000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBDinheiro
+          DataSetName = 'frxDBDinheiro'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'R$ [frxDBDinheiro."VALOR"]')
+          ParentFont = False
+        end
+        object frxDBDinheiroOBSERVACAO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 151.858380000000000000
+          Top = 162.299320000000000000
+          Width = 321.260050000000000000
+          Height = 18.897650000000000000
+          DataField = 'OBSERVACAO'
+          DataSet = frxDBDinheiro
+          DataSetName = 'frxDBDinheiro'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBDinheiro."OBSERVACAO"]')
+          ParentFont = False
+        end
+        object Memo13: TfrxMemoView
+          AllowVectorExport = True
+          Left = 1.889763780000000000
+          Top = 162.519790000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'DINHEIRO :')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          AllowVectorExport = True
+          Left = 1.889763780000000000
+          Top = 185.976500000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'PIX :')
+          ParentFont = False
+        end
+        object frxDBPixVALOR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 68.708720000000000000
+          Top = 185.976500000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBpix
+          DataSetName = 'frxDBPix'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'R$ [frxDBPix."VALOR"]')
+          ParentFont = False
+        end
+        object frxDBPixOBSERVACAO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 151.858380000000000000
+          Top = 184.976500000000000000
+          Width = 321.260050000000000000
+          Height = 18.897650000000000000
+          DataField = 'OBSERVACAO'
+          DataSet = frxDBpix
+          DataSetName = 'frxDBPix'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBPix."OBSERVACAO"]')
+          ParentFont = False
+        end
+        object frxDBReciboVALOR_EXTENSO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 141.535560000000000000
+          Top = 55.692950000000000000
+          Width = 570.709030000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '([frxDBReciboPagto."VALOR_EXTENSO"])')
+        end
+        object frxDBReciboNOME1: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 127.283550000000000000
+          Top = 33.236240000000000000
+          Width = 400.630180000000000000
+          Height = 18.897650000000000000
+          DataField = 'NOME'
+          DataSet = frxDBReciboPagto
+          DataSetName = 'frxDBReciboPagto'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."NOME"]')
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 377.953000000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBCheque
+        DataSetName = 'frxDBCheque'
+        RowCount = 0
+        object frxDBChequeBANCO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 142.740260000000000000
+          Top = 0.377952760000000000
+          Width = 253.228510000000000000
+          Height = 15.118120000000000000
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'BANCO : [frxDBCheque."BANCO"]')
+          ParentFont = False
+        end
+        object frxDBChequeAGENCIA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 351.275820000000000000
+          Top = 0.377952760000000000
+          Width = 185.196970000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'AG. : [frxDBCheque."AGENCIA"]')
+          ParentFont = False
+        end
+        object frxDBChequeNR_CONTA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 417.645950000000000000
+          Top = 0.377952760000000000
+          Width = 215.433210000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'CONTA : [frxDBCheque."NR_CONTA"]')
+          ParentFont = False
+        end
+        object frxDBChequeNR_CHEQUE: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 529.134200000000000000
+          Top = 1.889763780000000000
+          Width = 215.433210000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'N. CH : [frxDBCheque."NR_CHEQUE"]')
+          ParentFont = False
+        end
+        object frxDBChequeHISTORICO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 626.653990000000000000
+          Top = 0.377952760000000000
+          Width = 162.519790000000000000
+          Height = 18.897650000000000000
+          DataField = 'HISTORICO'
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBCheque."HISTORICO"]')
+          ParentFont = False
+        end
+        object frxDBChequeVALOR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 1.889763780000000000
+          Top = 0.377952760000000000
+          Width = 158.740260000000000000
+          Height = 15.118120000000000000
+          DataSet = frxDBCheque
+          DataSetName = 'frxDBCheque'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'CHEQUE :   R$ [frxDBCheque."VALOR"]')
+          ParentFont = False
+        end
+      end
+      object MasterData4: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 419.527830000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBPedidos
+        DataSetName = 'frxDBContasReceber'
+        RowCount = 0
+        object frxDBPedidosCONTAS_RECEBER_ID: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 1.000000000000000000
+          Top = 0.377952760000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBPedidos
+          DataSetName = 'frxDBContasReceber'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'CONTA N. [frxDBContasReceber."CONTAS_RECEBER_ID"]')
+          ParentFont = False
+        end
+        object frxDBPedidosHISTORICO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 185.196970000000000000
+          Top = 0.377952760000000000
+          Width = 529.134200000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBPedidos
+          DataSetName = 'frxDBContasReceber'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'HIST. [frxDBContasReceber."HISTORICO"]')
+          ParentFont = False
+        end
+        object frxDBPedidosBAIXAR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 102.937073780000000000
+          Top = 0.377952760000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBPedidos
+          DataSetName = 'frxDBContasReceber'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'R$ [frxDBContasReceber."BAIXAR"]')
+          ParentFont = False
+        end
+      end
+      object GroupHeader1: TfrxGroupHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 41.574830000000000000
+        Top = 461.102660000000000000
+        Width = 718.110700000000000000
+        Condition = 'frxDBPedidos."RECIBO_ID"'
+        object Memo15: TfrxMemoView
+          AllowVectorExport = True
+          Left = 1.889763780000000000
+          Top = 19.779530000000000000
+          Width = 366.614410000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'RELA'#199#195'O DE CONTAS A PAGAR PAGAS E BAIXADAS :')
+          ParentFont = False
+        end
+      end
+      object MasterData3: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 525.354670000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBContasPagar
+        DataSetName = 'frxDBContasPagar'
+        RowCount = 0
+        object frxDBContasPagarCONTAS_PAGAR_ID: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 158.740260000000000000
+          Top = 0.377952760000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBContasPagar
+          DataSetName = 'frxDBContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'N. CONTA : [frxDBContasPagar."CONTAS_PAGAR_ID"]')
+          ParentFont = False
+        end
+        object frxDBContasPagarHISTORICO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 241.889920000000000000
+          Top = 0.377952760000000000
+          Width = 476.220780000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBContasPagar
+          DataSetName = 'frxDBContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'HIST. : [frxDBContasPagar."HISTORICO"]')
+          ParentFont = False
+        end
+        object frxDBContasPagarBAIXAR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 1.889763779527560000
+          Top = 0.377952760000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBContasPagar
+          DataSetName = 'frxDBContasPagar'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'CR'#201'DITO : R$ [frxDBContasPagar."BAIXAR"]')
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 162.519790000000000000
+        Top = 604.724800000000000000
+        Width = 718.110700000000000000
+        object SysMemo1: TfrxSysMemoView
+          AllowVectorExport = True
+          Left = 619.504330000000000000
+          Top = 141.063080000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[PAGE#] de [TOTALPAGES#]')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          AllowVectorExport = True
+          Left = 559.031850000000000000
+          Top = 139.842610000000000000
+          Width = 56.692950000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Pagina :')
+        end
+        object Memo18: TfrxMemoView
+          AllowVectorExport = True
+          Top = 1.220470000000000000
+          Width = 718.110700000000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftBottom]
+          ParentFont = False
+        end
+        object Memo19: TfrxMemoView
+          AllowVectorExport = True
+          Left = 11.338590000000000000
+          Top = 83.149606300000000000
+          Width = 253.228510000000000000
+          Height = 45.354360000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -9
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '__________________________________________'
+            
+              'Fornecedor : [frxDBReciboPagto."NOME"] CPF/CNPJ[frxDBReciboPagto' +
+              '."CPF_CNPJ"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
+        object frxDBEmpresaNOME1: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 377.953000000000000000
+          Top = 83.031540000000000000
+          Width = 328.819110000000000000
+          Height = 37.795300000000000000
+          DataSet = frxDBEmpresa
+          DataSetName = 'frxDBEmpresa'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              #31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31#31'_______________________________________' +
+              '___'
+            '         Empresa : [frxDBEmpresa."NOME"]')
+        end
+        object Memo20: TfrxMemoView
+          AllowVectorExport = True
+          Left = 11.338590000000000000
+          Top = 41.456710000000000000
+          Width = 90.708720000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'S'#195'O PAULO, ')
+        end
+        object SysMemo2: TfrxSysMemoView
+          AllowVectorExport = True
+          Left = 123.504020000000000000
+          Top = 142.504020000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[DATE]')
+        end
+        object Memo21: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Top = 5.779530000000000000
+          Width = 302.362400000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Este recibo quita toda as contas listados acima.')
+        end
+        object Memo22: TfrxMemoView
+          AllowVectorExport = True
+          Left = 11.338590000000000000
+          Top = 143.622140000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Data impress'#227'o :')
+        end
+        object Memo23: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 105.826840000000000000
+          Top = 40.795300000000000000
+          Width = 351.496290000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRecibos.frxDBRecibo
+          DataSetName = 'frxDBRecibo'
+          DisplayFormat.FormatStr = 'd "de" mmmm "de" yyyy'
+          DisplayFormat.Kind = fkDateTime
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBReciboPagto."CADASTRADO_EM"]')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxDBReciboPagto: TfrxDBDataset
+    UserName = 'frxDBReciboPagto'
+    CloseDataSource = False
+    DataSet = qry
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 664
+    Top = 32
+  end
+  object qry_empresa: TFDQuery
+    Active = True
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '  p.nome,'
+      '  p.cpf_cnpj,'
+      '  p.endereco,'
+      '  p.numero,'
+      '  p.bairro,'
+      '  p.cidade,'
+      '  p.uf,'
+      '  p.telefone,'
+      '  P.cep,'
+      '  img_logo'
+      'from'
+      '  empresa e, pessoas p'
+      'where '
+      '  p.id = e.pessoa_id')
+    Left = 744
+    Top = 57
+    object qry_empresaNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qry_empresaCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      Required = True
+      Size = 18
+    end
+    object qry_empresaIMG_LOGO: TStringField
+      FieldName = 'IMG_LOGO'
+      Origin = 'IMG_LOGO'
+      Size = 255
+    end
+    object qry_empresaENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Origin = 'ENDERECO'
+      Size = 60
+    end
+    object qry_empresaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Origin = 'NUMERO'
+      Size = 10
+    end
+    object qry_empresaBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Origin = 'BAIRRO'
+      Size = 30
+    end
+    object qry_empresaCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Origin = 'CIDADE'
+      Size = 30
+    end
+    object qry_empresaUF: TStringField
+      FieldName = 'UF'
+      Origin = 'UF'
+      Size = 2
+    end
+    object qry_empresaTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Origin = 'TELEFONE'
+      Size = 13
+    end
+    object qry_empresaCEP: TStringField
+      FieldName = 'CEP'
+      Origin = 'CEP'
+      Size = 9
+    end
+  end
+end

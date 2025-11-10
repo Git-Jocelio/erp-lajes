@@ -1,0 +1,141 @@
+unit ufrmDepartamentosE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos;
+
+type
+  TfrmDepartamentosE = class(TfrmBaseEdicao)
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTitulo: string;
+    FTabela: string;
+    FCodigo: integer;
+
+    procedure Salvar();
+
+  protected
+    function valida: boolean;
+    procedure Inicializar();
+    procedure Componentes();
+    procedure LerDados();
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property Titulo   :string read FTitulo write FTitulo;
+  end;
+
+  procedure Incluir;
+  procedure Alterar(ACodigo :integer);
+  procedure Excluir(ACodigo :integer);
+
+implementation
+
+uses uBiblioteca;
+
+
+procedure Incluir;
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo :integer);
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo :integer);
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmDepartamentosE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  Salvar();
+
+end;
+
+procedure TfrmDepartamentosE.Componentes;
+begin
+  qry.Open('select * from '+ self.Tabela +' where ID = :ID');
+end;
+
+procedure TfrmDepartamentosE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qry.Connection := self.Conexao;
+  self.Tabela := 'DEPARTAMENTOS';
+
+end;
+
+procedure TfrmDepartamentosE.FormShow(Sender: TObject);
+begin
+  inherited;
+  Componentes;
+  Inicializar;
+
+end;
+
+procedure TfrmDepartamentosE.Inicializar;
+begin
+
+end;
+
+procedure TfrmDepartamentosE.LerDados;
+begin
+
+end;
+
+procedure TfrmDepartamentosE.Salvar;
+begin
+
+end;
+
+function TfrmDepartamentosE.valida: boolean;
+begin
+
+end;
+
+end.

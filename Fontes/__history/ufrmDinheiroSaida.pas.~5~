@@ -1,0 +1,118 @@
+unit ufrmDinheiroSaida;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn, unit_funcoes;
+
+type
+  TfrmDinheiroSaida = class(TfrmBaseGrade)
+    cb_valor: TCheckBox;
+    Label1: TLabel;
+    edt_valor_fim: TEdit;
+    cb_data: TCheckBox;
+    dtp_data_ini: TDateTimePicker;
+    Label2: TLabel;
+    dtp_data_fim: TDateTimePicker;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure prc_sql;
+    function fnc_validar_pesquisa: boolean;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDinheiroSaida: TfrmDinheiroSaida;
+
+implementation
+
+{$R *.dfm}
+
+function TfrmDinheiroSaida.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+  if cb_valor.Checked then
+  begin
+    if strtofloatdef(edt_consulta.Text,0) < 0 then
+    begin
+      criarmensagem('ERRO', 'INFORME UM VALOR VÁLIDO.');
+      edt_consulta.SetFocus;
+      exit;
+    end;
+
+    if strtofloatdef(edt_valor_fim.Text,0) < 0 then
+    begin
+      criarmensagem('ERRO', 'INFORME UM VALOR VÁLIDO.');
+      edt_valor_fim.SetFocus;
+      exit;
+    end;
+
+    if strtofloatdef(edt_valor_fim.Text,0) < strtofloatdef(edt_consulta.Text,0) then
+    begin
+      criarmensagem('ERRO', 'VALOR FINAL MAIOR QUE O VALOR INICIAL.' + slinebreak + 'CONFIRA OS DADOS E TENTE NOVAMENTE.');
+      edt_consulta.SetFocus;
+      exit;
+    end;
+  end;
+
+  if cb_data.Checked then
+  begin
+    if dtp_data_fim.date < dtp_data_ini.date then
+    begin
+      criarmensagem('ERRO', 'DATA FINAL MAIOR QUE A DATA INICIAL.' + slinebreak + 'CONFIRA OS DADOS E TENTE NOVAMENTE.');
+      dtp_data_ini.SetFocus;
+      exit;
+    end;
+  end;
+
+  result := true;
+
+end;
+
+procedure TfrmDinheiroSaida.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  dtp_data_ini.Date := date;
+  dtp_data_fim.Date := date;
+
+  //DBGrid1.Columns[4].Visible := false;
+
+  self.Tabela := 'DINHEIRO_SAIDA';
+  prc_sql;
+end;
+
+procedure TfrmDinheiroSaida.prc_sql;
+begin
+  sSql :=
+          'select                   ' +
+          '  id,                    ' +
+          '  cadastrado_em,         ' +
+          '  pessoa_id,             ' +
+          '  plano_contas_id,       ' +
+          '  historico,             ' +
+          '  valor,                 ' +
+          '  lancado_contas_receber ' +
+          'from                     ' +
+          ' dinheiro_saida          ' +
+          'where                    ' +
+          ' id > 0                  ';
+
+  qry.sql.Clear;
+  qry.sql.Add(sSql);
+  QRY.Open;
+
+end;
+
+end.

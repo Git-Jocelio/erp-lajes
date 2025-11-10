@@ -1,0 +1,157 @@
+inherited frmCartaoFormasPagto: TfrmCartaoFormasPagto
+  Caption = 'frmCartaoFormasPagto'
+  ExplicitWidth = 899
+  ExplicitHeight = 435
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    ExplicitLeft = 0
+    ExplicitTop = 48
+    ExplicitWidth = 883
+  end
+  inherited ToolBar1: TToolBar
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 883
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited PageControl1: TPageControl
+    ExplicitWidth = 883
+    ExplicitHeight = 209
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited DBGrid1: TDBGrid
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 41
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 272
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DEBITO'
+              Title.Alignment = taCenter
+              Title.Caption = 'D'#233'bito'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CREDITO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cr'#233'dito'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'QTDE_PARCELAS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Qtde Parcelas'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 92
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PARCELADO_EMISSOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Parcelado Emissor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 125
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PARCELADO_LOJA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Parcelado Loja'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 106
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 51
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited ds: TDataSource
+    Left = 144
+    Top = 88
+  end
+  inherited qry: TFDQuery
+    Left = 232
+    Top = 80
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

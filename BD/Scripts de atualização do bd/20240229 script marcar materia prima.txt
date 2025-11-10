@@ -1,0 +1,21 @@
+29/02/2024
+
+script de atualização do banco triunfo
+
+marcar materia prima = 'S'
+
+para produtos 
+= vergalhao
+= isopor
+= lajota
+= trelica
+
+
+select p.descricao, p.nome_fantasia, p.materia_prima, p.lajota, p.isopor, p.trelica, p.vergalhao
+from produtos p
+where
+ p.lajota = 'S' or p.isopor = 'S' or  p.trelica = 'S' or  p.vergalhao  = 'S'
+
+UPDATE PRODUTOS P SET P.materia_prima = 'S'
+where
+ p.lajota = 'S' or p.isopor = 'S' or  p.trelica = 'S' or  p.vergalhao  = 'S'

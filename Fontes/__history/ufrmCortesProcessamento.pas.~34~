@@ -1,0 +1,926 @@
+unit ufrmCortesProcessamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.Stan.Async, FireDAC.DApt, udmConn, Vcl.Buttons;
+
+type
+  TfrmCortesProcessamento = class(TForm)
+    pnl_fundo: TPanel;
+    pnl_cabecalho: TPanel;
+    lbl_titulo: TLabel;
+    Image: TImage;
+    pnl_separa_topo: TPanel;
+    pnl_fundo_inicio: TPanel;
+    PageControl1: TPageControl;
+    tbs_inicial: TTabSheet;
+    tbs_processamento: TTabSheet;
+    Shape1: TShape;
+    lbl_corte_manual: TLabel;
+    ds_producao: TDataSource;
+    mtb_producao: TFDMemTable;
+    mtb_producaoQTDE: TIntegerField;
+    mtb_producaoTAMANHO: TFloatField;
+    dbg_producao: TDBGrid;
+    dbg: TDBGrid;
+    ds_produzir: TDataSource;
+    qry_produzir: TFDQuery;
+    qry_produzirID: TIntegerField;
+    qry_produzirTAMANHO: TCurrencyField;
+    qry_produzirQTDE: TIntegerField;
+    qry_produzirMARCAR: TStringField;
+    ds_corte: TDataSource;
+    qry_corte: TFDQuery;
+    dbg_corte: TDBGrid;
+    rg_muda_corte: TRadioGroup;
+    DataSource1: TDataSource;
+    mtb_corte_selecionado: TFDMemTable;
+    mtb_corte_selecionadoTAMANHO: TFloatField;
+    mtb_corte_selecionadoPERTENCE: TIntegerField;
+    mtb_corte_selecionadoTAMANHO_ID: TIntegerField;
+    mtb_corte_selecionadoPOSICAO: TIntegerField;
+    mtb_corte_selecionadoTOTAL: TAggregateField;
+    DBGrid1: TDBGrid;
+    DataSource3: TDataSource;
+    mtb_cortes: TFDMemTable;
+    mtb_cortesCORTE_ID: TIntegerField;
+    mtb_cortesTAMANHO_BARRA: TFloatField;
+    Label4: TLabel;
+    DBGrid3: TDBGrid;
+    DataSource4: TDataSource;
+    mtb_sem_corte: TFDMemTable;
+    mtb_sem_corteTAMANHO_ID: TIntegerField;
+    mtb_sem_corteTAMANHO: TFloatField;
+    Label5: TLabel;
+    DBGrid4: TDBGrid;
+    tbs_resto: TTabSheet;
+    ds_resto: TDataSource;
+    mtb_resto: TFDMemTable;
+    mtb_restoTAMANHO: TFloatField;
+    mtb_restoMARCAR: TStringField;
+    DBGrid2: TDBGrid;
+    ds_corte_resto: TDataSource;
+    mtb_corte_resto: TFDMemTable;
+    mtb_corte_restoCORTE: TStringField;
+    DBGrid5: TDBGrid;
+    lbl_elaborar_cortes: TLabel;
+    btn_fechar: TSpeedButton;
+    tbs_resultados: TTabSheet;
+    dbg_corte_sugerido: TDBGrid;
+    label100: TLabel;
+    DBGrid6: TDBGrid;
+    Label1: TLabel;
+    Label2: TLabel;
+    DBGrid7: TDBGrid;
+    mtb_impressao: TFDMemTable;
+    mtb_impressaoQUANTIDADE: TIntegerField;
+    mtb_impressaoCORTE_SUGERIDO: TStringField;
+    ds_impressao: TDataSource;
+    mtb_impressaoCORTE_ID: TIntegerField;
+    mtb_impressaoTAMANHO_BARRA: TFloatField;
+    mtb_impressaoALTURA_TRELICA: TStringField;
+
+    procedure FormCreate(Sender: TObject);
+
+    procedure rg_muda_corteClick(Sender: TObject);
+    procedure lbl_elaborar_cortesClick(Sender: TObject);
+    procedure btn_fecharClick(Sender: TObject);
+    procedure lbl_elaborar_cortesMouseEnter(Sender: TObject);
+    procedure lbl_elaborar_cortesMouseLeave(Sender: TObject);
+  private
+    procedure prc_processamento_geral;
+    procedure prc_separar_vigas;
+    procedure prc_filtar_tabela_de_corte(tamanho: double);
+    function fnc_verifica_se_tem_corte(id: integer; tamanho: double): boolean;
+    procedure prc_preenche_mem_table;
+    procedure prc_procurar_viga;
+    function prc_processamento: boolean;
+    procedure prc_transferir_dados_memtable_sem_cortes_para_qry_produzir;
+    procedure prc_muda_corte;
+    procedure prc_resto;
+    procedure prc_monta_corte(tamanho_barra: double);
+    procedure prc_deleta_cortes;
+    procedure prc_salva_corte;
+    procedure prc_transferir_dados_memtable_sem_cortes_para_memtable_resto;
+    procedure prc_agrupar_cortes(altura_trelica: string);
+    function fnc_buscar_descricao_do_corte(id: integer; tamanho_barra: double): string;
+    { Private declarations }
+  public
+    var sql_10, sql_12: string;
+    tamanho_da_barra : integer;
+    corte : string;
+    quantidade_de_tentativas : integer;  end;
+
+var
+  frmCortesProcessamento: TfrmCortesProcessamento;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCortesProcessamento.FormCreate(Sender: TObject);
+begin
+  Width := 745;
+  tbs_processamento.TabVisible := false;
+  tbs_resto.TabVisible      := false;
+  tbs_resultados.TabVisible := false;
+
+  // vou usar essa variavel para finalizar as tentativas de formar os cortes
+  // primeiro tenta com barras de 12, depois tenta com barra de 10
+  // se mesmo assim ficar vigas sem corte sai do loop
+  quantidade_de_tentativas := 1;
+
+
+  mtb_producao.IndexFieldNames :='TAMANHO' + ':D';
+
+(*
+  sql_12 :=
+        '  select                                      ' +
+        '  id, c12,c11,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1  ' +
+        'from                                          ' +
+        '  corte_12                                    ' +
+        'where                                         ' +
+        '  c1=:tam or                                  ' +
+        '  c2=:tam or                                  ' +
+        '  c3=:tam or                                  ' +
+        '  c4=:tam or                                  ' +
+        ' c5=:tam or                                   ' +
+        '  c6=:tam or                                  ' +
+        '  c7=:tam or                                  ' +
+        '  c8=:tam or                                  ' +
+        '  c9=:tam or                                  ' +
+        '  c10=:tam or                                 ' +
+        '  c11=:tam or                                 ' +
+        '  c12=:tam                                    ' +
+        'order by                                      ' +
+        ' c12,c11,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1       ';
+*)
+
+  sql_12 :=
+        '  select                                      ' +
+        '  id, c12,c11,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1  ' +
+        'from                                          ' +
+        '  corte_12                                    ' +
+        'where                                         ' +
+        '  maior =:tam                                 ' +
+        'order by                                      ' +
+        ' c12,c11,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1       ';
+
+(*
+  sql_10 :=
+        '  select                                      ' +
+        '  id, c10,c9,c8,c7,c6,c5,c4,c3,c2,c1  ' +
+        'from                                          ' +
+        '  corte_10                                    ' +
+        'where                                         ' +
+        '  c1=:tam or                                  ' +
+        '  c2=:tam or                                  ' +
+        '  c3=:tam or                                  ' +
+        '  c4=:tam or                                  ' +
+        ' c5=:tam or                                   ' +
+        '  c6=:tam or                                  ' +
+        '  c7=:tam or                                  ' +
+        '  c8=:tam or                                  ' +
+        '  c9=:tam or                                  ' +
+        '  c10=:tam                                    ' +
+        'order by                                      ' +
+        ' c10,c9,c8,c7,c6,c5,c4,c3,c2,c1               ';
+*)
+
+  sql_10 :=
+        '  select                                      ' +
+        '  id,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1  ' +
+        'from                                          ' +
+        '  corte_10                                    ' +
+        'where                                         ' +
+        '  maior =:tam                                 ' +
+        'order by                                      ' +
+        ' c10,c9,c8,c7,c6,c5,c4,c3,c2,c1       ';
+
+
+end;
+
+procedure TfrmCortesProcessamento.lbl_elaborar_cortesClick(Sender: TObject);
+begin
+
+  lbl_elaborar_cortes.Caption :=   lbl_corte_manual.Caption;
+  Cursor := crHourGlass;
+
+  prc_processamento_geral;
+  if not mtb_sem_corte.IsEmpty then
+  begin
+    prc_transferir_dados_memtable_sem_cortes_para_memtable_resto;
+    prc_resto;
+  end;
+
+  prc_agrupar_cortes('H8');
+  tbs_inicial.TabVisible := false;
+  tbs_resultados.TabVisible := true;
+
+
+end;
+
+procedure TfrmCortesProcessamento.prc_transferir_dados_memtable_sem_cortes_para_memtable_resto;
+begin
+  mtb_sem_corte.First;
+  while not mtb_sem_corte.eof do
+  begin
+
+    mtb_resto.Insert;
+    mtb_resto.fieldByName('tamanho').AsFloat := mtb_sem_corteTAMANHO.AsFloat;
+    mtb_resto.fieldByName('MARCAR').AsString  := 'N';
+    mtb_resto.post;
+
+    mtb_sem_corte.Next;
+  end;
+
+end;
+
+procedure TfrmCortesProcessamento.lbl_elaborar_cortesMouseEnter(
+  Sender: TObject);
+begin
+
+
+  lbl_elaborar_cortes.Font.Color := clblue;
+  lbl_elaborar_cortes.Font.Size  := 12;
+end;
+
+procedure TfrmCortesProcessamento.lbl_elaborar_cortesMouseLeave(
+  Sender: TObject);
+begin
+  lbl_elaborar_cortes.Font.Color := clblack;
+  lbl_elaborar_cortes.Font.Size  := 10;
+
+end;
+
+procedure TfrmCortesProcessamento.prc_processamento_geral;
+var
+  loqry : TFDQuery;
+  //nao_achei_todos : boolean;
+  achei_todos : boolean;
+
+begin
+  try
+    {validação}
+    if rg_muda_corte.ItemIndex = -1 then
+    begin
+
+      ShowMessage('informe o tamanho da barra.');
+      exit;
+    end;
+
+    {limpa memória da memtable}
+    mtb_sem_corte.Close;
+    mtb_sem_corte.Open;
+
+
+    qry_produzir.DisableControls;
+    mtb_corte_selecionado.DisableControls;
+    qry_corte.DisableControls;
+
+    // pega a produção que o usuario digitou e separa uma a uma
+    // e preenche a grid detalhada(dbg)
+    prc_separar_vigas;
+
+
+    {qry para deletar e atualizar a tabela produzir}
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    // aqui começa o processamento
+    prc_filtar_tabela_de_corte(qry_produzir.FieldByName('tamanho').AsFloat);
+    qry_produzir.First;
+    while not qry_produzir.eof do
+    begin
+
+      {nesse ponto o sistema verifica se a viga que esta sendo passada como parametro
+      ja foi processada. se a viga estiver dentro da memtable sem corte é sinal
+      que ela ja foi verificada. então não à necessidade de fazer todo o processamento
+      novamente }
+
+      {funcão que recebe o tamanho da viga como parametro, dentro faz o processamento
+      necessario e devolve verdadeiro ou false. com base no retorno da função
+      o sistema continua ou passa pra proxima viga}
+      if fnc_verifica_se_tem_corte(qry_produzir.FieldByName('ID').AsInteger, qry_produzir.FieldByName('TAMANHO').AsFloat) then
+      begin
+        {viga encontrada e transferida para memtable sem corte}
+        qry_produzir.First;
+      end;
+
+
+
+
+      // filtra todos os cortes possiveis para o tamamho
+      prc_filtar_tabela_de_corte(qry_produzir.FieldByName('tamanho').AsFloat);
+
+
+
+      qry_corte.First;
+      while not qry_corte.eof do
+      begin
+        //nao_achei_todos := false;
+        achei_todos := true;
+        // preenche a memtable com o corte
+        prc_preenche_mem_table;
+
+        //procurar as vigas do corte selecionado na tabela de produzir
+        prc_procurar_viga;
+
+        // se o corte foi encontrado cai fora
+        if prc_processamento = true then
+        begin
+          //nao_achei_todos := true;
+          {muda o estado da variavel antes de sair do loop}
+          achei_todos := false;
+         // ShowMessage('corte encontrado') ;
+           qry_corte.last;
+           qry_produzir.Refresh;
+        end;
+
+        qry_corte.Next;
+      end;
+
+      //if nao_achei_todos = false then
+      if achei_todos = true then
+      begin
+      //  ShowMessage('achei_todos = true');
+        //transfere a viga que não achou
+        qry_produzir.Filtered := false;
+        if not qry_produzir.IsEmpty then
+        begin
+          qry_produzir.First;
+
+          mtb_sem_corte.Insert;
+          mtb_sem_corteTAMANHO_ID.AsInteger := qry_produzirID.AsInteger;
+          mtb_sem_corteTAMANHO.AsFloat      := qry_produzirTAMANHO.AsFloat;
+          mtb_sem_corte.Post;
+
+          loqry.SQL.Clear;
+          loqry.SQL.Add('delete from produzir where id =:id');
+          loqry.ParamByName('id').AsInteger := qry_produzir.FieldByName('id').AsInteger;
+          loqry.ExecSQL;
+
+          // marcar todos os campos marcar = 'N' a qry_produzir
+          loqry.SQL.Clear;
+          loqry.SQL.Add('UPDATE produzir SET MARCAR =:MARCAR');
+          loqry.ParamByName('marcar').AsString := 'N';
+          loqry.ExecSQL;
+          qry_produzir.Refresh;
+         // ShowMessage('PROZUZIR TEM QUE ESTAR ZERADO');
+        end;
+      end;
+      qry_produzir.first;
+
+    end;
+
+    ShowMessage('Corte finalizado!');
+
+    if quantidade_de_tentativas = 2 then
+    begin
+      exit;
+    end else
+    if quantidade_de_tentativas = 1 then
+    begin
+      {terminado do corte verifica ficou vigas sem corte.
+      se houver, ver que tamanho de barra utilizou e pergunta
+      para o usuario se quer fazer um novo corte das vigas que
+      ficaram sem corte com o outro tamanho de barra }
+
+      if not mtb_sem_corte.IsEmpty then
+      begin
+
+        if MessageBox(Handle, 'Deseja formar corte com outro tamanho de barra',
+        'Confirmação', MB_YESNO + MB_ICONINFORMATION + MB_DEFBUTTON2) = mrYes then
+        begin
+           if tamanho_da_barra = 12 then
+           begin
+             tamanho_da_barra        := 10;
+             rg_muda_corte.ItemIndex := 0;
+           end else
+           if tamanho_da_barra = 10 then
+           begin
+             tamanho_da_barra        := 12;
+             rg_muda_corte.ItemIndex := 1;
+           end;
+
+           {pegar o que sobrou da mtb_sem_cortes e inserir na qry_produzir}
+           prc_transferir_dados_memtable_sem_cortes_para_qry_produzir;
+
+
+           {zerar a mtb_sem_corte}
+           mtb_sem_corte.Close;
+           mtb_sem_corte.Open;
+
+           mtb_corte_selecionado.Close;
+           mtb_corte_selecionado.Open;
+
+
+           {recomeça com o novo tamanho}
+           //Button1.Click;
+           quantidade_de_tentativas := 2;
+           prc_processamento_geral;
+
+        end;
+
+      end;
+
+    end;
+
+    qry_produzir.EnableControls;
+    mtb_corte_selecionado.EnableControls;
+    qry_corte.EnableControls;
+  finally
+    FreeAndNil(loqry);
+  end;
+end;
+
+procedure TfrmCortesProcessamento.prc_separar_vigas;
+var total: integer;
+   id : integer;
+begin
+  // id será controlado por aqui, pois o banco controlar o id vai
+  //ficando muito grande
+  id:= 1;
+
+  // comando para excluir todo o conteudo da tabela produzir
+  qry_produzir.SQL.Clear;
+  qry_produzir.SQL.Add('delete from produzir');
+  qry_produzir.ExecSQL;
+
+  // comando para inserir viga a viga
+  qry_produzir.SQL.Clear;
+  qry_produzir.SQL.Add('insert into produzir (id, tamanho, qtde, marcar) values (:id, :tamanho, :qtde, :marcar)');
+
+  mtb_producao.First;
+  while not mtb_producao.eof do
+  begin
+
+    total := mtb_producao.fieldbyname('qtde').AsInteger;
+
+    while total > 0 do
+    begin
+
+      qry_produzir.ParamByName('id').AsInteger    := id;
+      qry_produzir.ParamByName('qtde').AsInteger  := 1;
+      qry_produzir.ParamByName('tamanho').AsFloat := mtb_producao.fieldbyname('tamanho').AsFloat;
+      qry_produzir.ParamByName('marcar').AsString := 'N';
+      qry_produzir.ExecSQL;
+
+      total := total -1;
+      id    := id +1;
+    end;
+
+    mtb_producao.Next;
+  end;
+
+  // comando para listar viga a viga
+  qry_produzir.SQL.Clear;
+  qry_produzir.SQL.Add('select id, tamanho, qtde, marcar from produzir order by tamanho desc');
+  qry_produzir.Open;
+
+end;
+
+procedure TfrmCortesProcessamento.prc_filtar_tabela_de_corte(tamanho :double);
+begin
+  // CORTES 12 MTS  ou 10 mts
+  qry_corte.Close;
+  qry_corte.ParamByName('tam').AsFloat := tamanho;
+  qry_corte.Open;
+
+
+end;
+
+procedure TfrmCortesProcessamento.btn_fecharClick(Sender: TObject);
+begin
+  close;
+end;
+
+function TfrmCortesProcessamento.fnc_verifica_se_tem_corte(id: integer; tamanho: double):boolean;
+var
+  loqry: TFDQuery;
+  i : integer;
+begin
+  i := 1;
+  loqry:= TFDQuery.Create(application);
+  loqry.Connection := dmConn.FDConnection;
+
+
+  result := false;
+
+  if not mtb_sem_corte.IsEmpty then
+  begin
+  //  ShowMessage('tem alguma coisa sem corte');
+    mtb_sem_corte.First;
+    if mtb_sem_corte.Locate('TAMANHO',tamanho,[]) then
+    begin
+
+      //seleciona os tamanhos
+      loqry.SQL.Clear;
+      loqry.SQL.Add('select id, tamanho from produzir where tamanho =:tamanho');
+      loqry.ParamByName('tamanho').AsFloat := tamanho;
+      loqry.open;
+
+      (*
+      while i <= loqry.RecordCount do
+      begin
+        {a viga foi encontrada, sinal que ela ja passou pelo processamento!
+        inclui-la novamente!}
+        mtb_sem_corte.Insert;
+        mtb_sem_corteTAMANHO_ID.AsInteger :=  loqry.FieldByName('id').AsInteger;// id ;
+        mtb_sem_corteTAMANHO.AsFloat      :=  tamanho;
+        mtb_sem_corte.post;
+        i := i +1;
+      end;
+      *)
+
+      loqry.First;
+      while not loqry.eof do
+      begin
+        {a viga foi encontrada, sinal que ela ja passou pelo processamento!
+        inclui-la novamente!}
+        mtb_sem_corte.Insert;
+        mtb_sem_corteTAMANHO_ID.AsInteger :=  loqry.FieldByName('id').AsInteger;// id ;
+        mtb_sem_corteTAMANHO.AsFloat      :=  tamanho;
+        mtb_sem_corte.post;
+
+        loqry.Next;
+      end;
+
+
+
+
+      {excluir da qry_produzir}
+      loqry.SQL.Clear;
+      //loqry.SQL.Add('delete from produzir where id =:id');
+      loqry.SQL.Add('delete from produzir where tamanho =:tamanho');
+      //loqry.ParamByName('id').AsInteger := id;
+      loqry.ParamByName('tamanho').AsFloat := tamanho;
+      loqry.ExecSQL;
+
+      {atualiza a tabela}
+      qry_produzir.Refresh;
+      Result := true;
+
+    end;
+  end;
+
+  FreeAndNil(loqry);
+
+end;
+
+procedure TfrmCortesProcessamento.prc_preenche_mem_table;
+var
+  i, contador: integer;
+  loqry : TFDQuery;
+
+begin
+
+  loqry:= TFDQuery.Create(application);
+  loqry.Connection := dmconn.FDConnection;
+  loqry.SQL.Clear;
+  loqry.SQL.Add('update produzir set marcar =:marcar');
+  loqry.ParamByName('marcar').AsString := 'N';
+  LOQRY.ExecSQL;
+  qry_produzir.Refresh;
+
+  contador:= 0;
+  mtb_corte_selecionado.Close;
+  mtb_corte_selecionado.Open;
+
+  i:= 1;// começo com 1, para não pegar a coluna ID
+  //tamanho_da_barra := 12;
+  //while i <=12 do
+  while i <= tamanho_da_barra do
+  begin
+    if qry_corte.Fields[i].AsString <> '' then
+    begin
+       contador := contador +1;
+       mtb_corte_selecionado.Insert;
+       mtb_corte_selecionadoTAMANHO.AsFloat    := qry_corte.Fields[i].AsFloat;
+       mtb_corte_selecionadoPERTENCE.AsInteger := 0;
+       mtb_corte_selecionadoPOSICAO.AsInteger  := contador;
+
+       mtb_corte_selecionado.Post;
+
+    end;
+    i := i +1;
+  end;
+
+  FreeAndNil(loqry);
+ //  ShowMessage('preencheu a memtable de corte');
+
+end;
+
+procedure TfrmCortesProcessamento.prc_procurar_viga;
+begin
+  qry_produzir.Filtered := true;
+  // procura o corte selecionado dentro da lista a produzir
+  mtb_corte_selecionado.First;
+  while not mtb_corte_selecionado.Eof do
+  begin
+    if qry_produzir.Locate('tamanho', mtb_corte_selecionadoTAMANHO.AsFloat, []) then
+    begin
+
+      // se achar, edita e marca o id do tamanho e pertence = 1
+      mtb_corte_selecionado.Edit;
+      mtb_corte_selecionadoTAMANHO_ID.AsInteger := qry_produzir.FieldByName('ID').AsInteger;
+      mtb_corte_selecionadoPERTENCE.AsInteger := 1;
+      mtb_corte_selecionado.Post;
+
+      qry_produzir.Edit;
+      qry_produzir.FieldByName('marcar').AsString := 'S';
+      qry_produzir.post;
+   //   ShowMessage('estou na posição : ' + qry_produzir.FieldByName('ID').Asstring ) ;
+
+    end;
+
+    mtb_corte_selecionado.Next;
+  end;
+
+end;
+
+function TfrmCortesProcessamento.prc_processamento: boolean;
+var
+  loqry : TFDQuery;
+  qtde_registros, encontrados: integer;
+
+begin
+  result := false;
+  loqry := TFDQuery.Create(application);
+  loqry.Connection := dmConn.FDConnection;
+
+
+
+  loqry.SQL.Add('delete from produzir where id =:id');
+//ShowMessage('here');
+  qtde_registros := mtb_corte_selecionado.RecordCount;
+  encontrados    := mtb_corte_selecionadoTOTAL.value;
+
+ // ShowMessage('qtde registros ' + inttostr(mtb_corte_selecionado.RecordCount) + ' encontrados ' + inttostr(encontrados) );
+  if qtde_registros > 0 then
+  begin
+//
+    // encontrou o corte ideal
+    if qtde_registros = encontrados then
+    begin
+//      ShowMessage('encontrado todos' + sLineBreak +
+//                  'id do corte : ' + qry_corte.FieldByName('id').AsString);
+      //salva o id do corte na tabela de cortes
+      mtb_cortes.Insert;
+      mtb_cortesCORTE_ID.AsInteger    := qry_corte.FieldByName('ID').AsInteger;
+      mtb_cortesTAMANHO_BARRA.AsFloat := tamanho_da_barra;
+      mtb_cortes.Post;
+
+      // deletar os tamanhos encontrados da lista a produzir
+      mtb_corte_selecionado.first;
+      while not mtb_corte_selecionado.Eof do
+      begin
+
+        loqry.ParamByName('id').AsInteger := mtb_corte_selecionadoTAMANHO_ID.AsInteger;
+        loqry.ExecSQL;
+
+        mtb_corte_selecionado.Next;
+      end;
+      //*** corte encontrado ***//
+      result := true;
+    end;
+  end
+  else
+  if qtde_registros <= 0 then
+  begin
+    // não tem o fazer
+    ShowMessage('memtable corte selecionado não foi preenchida! :(');
+  end;
+
+  FreeAndNil(loqry);
+end;
+
+procedure TfrmCortesProcessamento.prc_transferir_dados_memtable_sem_cortes_para_qry_produzir;
+begin
+  mtb_producao.Close;
+  mtb_producao.Open;
+
+//  ShowMessage('qtde de registros antes ' + inttostr(mtb_producao.RecordCount) );
+
+  mtb_sem_corte.First;
+  while not mtb_sem_corte.eof do
+  begin
+
+    mtb_producao.Insert;
+    mtb_producao.fieldByName('qtde').AsInteger  := 1;//mtb_sem_corteTAMANHO_ID.AsInteger;
+    mtb_producao.fieldByName('tamanho').AsFloat := mtb_sem_corteTAMANHO.AsFloat;
+    mtb_producao.post;
+
+    mtb_sem_corte.Next;
+  end;
+
+ // ShowMessage('qtde de registros depois ' + inttostr(mtb_producao.RecordCount) );
+ // ShowMessage(mtb_producaoTAMANHO.AsString);
+
+  {atualiza a qry_produzir}
+
+
+end;
+
+procedure TfrmCortesProcessamento.rg_muda_corteClick(Sender: TObject);
+begin
+  prc_muda_corte;
+end;
+
+procedure TfrmCortesProcessamento.prc_muda_corte;
+begin
+  if rg_muda_corte.ItemIndex = 0 then
+  begin
+    qry_corte.SQL.Clear;
+    qry_corte.SQL.Add(sql_10) ;
+    tamanho_da_barra := 10;
+  end else
+  if rg_muda_corte.ItemIndex = 1 then
+  begin
+    qry_corte.SQL.Clear;
+    qry_corte.SQL.Add(sql_12) ;
+    tamanho_da_barra := 12;
+  end;
+
+end;
+
+procedure TfrmCortesProcessamento.prc_resto;
+var tamanho : double;
+  corte: string;
+begin
+  tamanho := 0;
+
+  mtb_resto.First;
+  while not mtb_resto.Eof do
+  begin
+
+    if tamanho <= 12 then
+    begin
+
+      tamanho := tamanho + mtb_restoTAMANHO.AsFloat;
+
+      if tamanho <= 12 then
+      begin
+        // MARCAR OS ESCOLHIDOS
+        mtb_resto.Edit;
+        mtb_resto.fieldbyname('MARCAR').AsString := 'S';
+        mtb_resto.Post;
+      end;
+
+      mtb_resto.next;
+
+    end else
+    if tamanho > 12 then
+    begin
+      // PASSOU DA MEDIDA , DELETA O ÚLTIMO
+      mtb_resto.Filter := 'MARCAR = ' + QuotedStr('S');
+      mtb_resto.Filtered := true;
+
+      // agora monta o corte em uma memtable
+      prc_monta_corte(12);
+      prc_salva_corte;
+      // tira os itens do corte da lista
+      prc_deleta_cortes;
+
+      // libera o filtro
+      mtb_resto.Filter := 'MARCAR ='  + QuotedStr('N');
+      tamanho := 0;
+
+    end;
+    mtb_resto.First;
+
+  end;
+
+  // resto do resto
+  mtb_resto.Filtered := false;
+  prc_monta_corte(12);
+  prc_salva_corte;
+  prc_deleta_cortes;
+
+end;
+
+procedure TfrmCortesProcessamento.prc_monta_corte(tamanho_barra: double);
+var
+  total : double;
+begin
+  total := 0;
+  corte := '';
+  mtb_resto.First;
+  while not mtb_resto.eof do
+  begin
+    // monta o corte
+    corte := corte + formatfloat('0.00,', mtb_restoTAMANHO.AsFloat) + ' + ';
+    total := total + mtb_restoTAMANHO.AsFloat;
+    mtb_resto.next;
+  end;
+  corte := corte + ' Sobra (' + formatfloat('0.00', (tamanho_barra-total)) + ' )';
+
+end;
+
+procedure TfrmCortesProcessamento.prc_salva_corte;
+begin
+  // salva o corte
+  mtb_corte_resto.Insert;
+  mtb_corte_restoCORTE.AsString := corte;
+  mtb_corte_resto.post;
+end;
+
+
+procedure TfrmCortesProcessamento.prc_deleta_cortes;
+begin
+  mtb_resto.First;
+  while not mtb_resto.eof do
+  begin
+    // deleta o corte
+    mtb_resto.delete;
+  end;
+end;
+
+procedure TfrmCortesProcessamento.prc_agrupar_cortes(altura_trelica:string);
+var
+  id_atual: integer;
+  qtde : integer;
+  descricao_do_corte : string;
+begin
+
+  while not mtb_cortes.Eof do
+  begin
+    id_atual := mtb_cortes.FieldByName('corte_id').AsInteger;
+    qtde := 0;
+
+    // Soma todas as qtde com o mesmo id
+    while (not mtb_cortes.Eof) and (mtb_cortes.FieldByName('corte_id').AsInteger = id_atual) do
+    begin
+      qtde := qtde + 1;
+      mtb_cortes.Next;
+    end;
+
+    // Adiciona o resultado na tabela destino
+    mtb_impressao.Append;
+    mtb_impressao.FieldByName('quantidade').AsInteger := qtde;
+
+    descricao_do_corte:= fnc_buscar_descricao_do_corte(id_atual,
+                 mtb_cortes.FieldByName('tamanho_barra').AsFloat);
+
+    mtb_impressao.FieldByName('corte_sugerido').AsString := descricao_do_corte;
+    mtb_impressao.FieldByName('corte_id').AsInteger := id_atual;
+    mtb_impressao.FieldByName('tamanho_barra').AsFloat := mtb_cortes.FieldByName('tamanho_barra').AsFloat;
+    mtb_impressao.FieldByName('altura_trelica').AsString := altura_trelica;
+    mtb_impressao.Post;
+  end;
+end;
+
+
+function TfrmCortesProcessamento.fnc_buscar_descricao_do_corte(id: integer; tamanho_barra: double): string;
+var
+  loqry : TFDQuery;
+  i : integer;
+begin
+  try
+   loqry := TFDQuery.Create(application);
+   loqry.Connection := dmconn.FDConnection;
+   i := 1;
+   if tamanho_barra = 10 then
+   begin
+     loqry.SQL.Text := 'select * from corte_10 where id =:id';
+     loqry.ParamByName('id').AsInteger := id;
+     loqry.Open;
+     result := '';
+     while i <= 10 do
+     begin
+       result := Result + loqry.FieldByName('c' + inttostr(i)).AsString + ' + ';
+       i := i +1;
+     end;
+   end else
+   if tamanho_barra = 12 then
+   begin
+     loqry.SQL.Text := 'select * from corte_12 where id =:id';
+     loqry.ParamByName('id').AsInteger := id;
+     loqry.Open;
+     result := '';
+     while i <= 12 do
+     begin
+       // se o campo não estiver vazio
+       if loqry.FieldByName('c' + inttostr(i)).AsString <> '' then
+       result := Result + loqry.FieldByName('c' + inttostr(i)).AsString + ' + ';
+       i := i +1;
+     end;
+
+    // ShowMessage(result);
+     // tira o ultimo sinal de +
+     result := copy( result, 1, length(result) -3 );
+
+   end;
+
+
+  finally
+    freeandnil(loqry);
+  end;
+end;
+end.

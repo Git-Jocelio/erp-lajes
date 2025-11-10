@@ -1,0 +1,2086 @@
+inherited frmContasReceber: TfrmContasReceber
+  Top = 222
+  BorderStyle = bsDialog
+  Caption = 'SYSLAJES - SISTEMA DE GERENCIAMENTO DE FABRICA DE LAJES '
+  ClientHeight = 491
+  ClientWidth = 1243
+  OnActivate = FormActivate
+  ExplicitWidth = 1255
+  ExplicitHeight = 529
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Top = 89
+    Width = 1243
+    Height = 161
+    ExplicitTop = 89
+    ExplicitWidth = 1255
+    ExplicitHeight = 161
+    inherited lbl_texto: TLabel
+      Left = 930
+      Top = 6
+      Visible = False
+      ExplicitLeft = 930
+      ExplicitTop = 6
+    end
+    inherited btnLocalizar: TBitBtn
+      Left = 859
+      Top = 121
+      Height = 37
+      ExplicitLeft = 859
+      ExplicitTop = 121
+      ExplicitHeight = 37
+    end
+    inherited edt_consulta: TEdit
+      Left = 1015
+      Top = 47
+      Width = 174
+      TabOrder = 8
+      ExplicitLeft = 1015
+      ExplicitTop = 47
+      ExplicitWidth = 186
+    end
+    object rgOrdem: TRadioGroup
+      Left = 2
+      Top = 19
+      Width = 157
+      Height = 140
+      Align = alLeft
+      Caption = ' Filtrar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ItemIndex = 2
+      Items.Strings = (
+        'Pedidos'
+        'Lan'#231'amentos avulsos'
+        'Todos'
+        'Vales em dinheiro')
+      ParentFont = False
+      TabOrder = 1
+      OnClick = rgOrdemClick
+    end
+    object rgSituacaoPagto: TRadioGroup
+      Left = 859
+      Top = 22
+      Width = 215
+      Height = 69
+      Caption = 'Situa'#231#227'o'
+      Columns = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Items.Strings = (
+        'Pago'
+        'Receber'
+        'Todos')
+      ParentFont = False
+      TabOrder = 2
+    end
+    object gbEmissao: TGroupBox
+      Left = 164
+      Top = 98
+      Width = 220
+      Height = 60
+      Caption = '                         '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      object Label7: TLabel
+        Left = 102
+        Top = 26
+        Width = 14
+        Height = 14
+        Caption = 'at'#233
+      end
+      object cbEmissao: TCheckBox
+        Left = 15
+        Top = 0
+        Width = 82
+        Height = 17
+        Caption = 'Emiss'#227'o'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object dtpEmissaoIni: TDateTimePicker
+        Left = 5
+        Top = 23
+        Width = 93
+        Height = 21
+        Date = 44602.000000000000000000
+        Time = 0.928669293978600800
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+      end
+      object dtpEmissaoFim: TDateTimePicker
+        Left = 122
+        Top = 23
+        Width = 93
+        Height = 21
+        Date = 44602.000000000000000000
+        Time = 0.928669293978600800
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+      end
+    end
+    object gbPessoa: TGroupBox
+      Left = 164
+      Top = 19
+      Width = 449
+      Height = 72
+      Caption = '                   '
+      TabOrder = 4
+      object cbPessoa: TCheckBox
+        Left = 15
+        Top = 3
+        Width = 82
+        Height = 17
+        Caption = 'Pessoa'
+        TabOrder = 0
+      end
+      object cbxClientes: TDBLookupComboBox
+        Left = 5
+        Top = 26
+        Width = 436
+        Height = 25
+        KeyField = 'ID'
+        ListField = 'NOME'
+        ListSource = dsPessoas
+        TabOrder = 1
+      end
+    end
+    object GroupBox1: TGroupBox
+      Left = 620
+      Top = 19
+      Width = 233
+      Height = 72
+      Caption = ' Situa'#231#227'o dos pedidos '
+      TabOrder = 5
+      object cbxSituacao: TComboBox
+        Left = 6
+        Top = 26
+        Width = 221
+        Height = 25
+        Enabled = False
+        TabOrder = 0
+        Items.Strings = (
+          'ABERTO'
+          'AGUARDANDO'
+          'ENTREGUE'
+          'ENTREGUE E RETIROU'
+          'RETIROU')
+      end
+    end
+    object gb_data_contabil: TGroupBox
+      Left = 388
+      Top = 98
+      Width = 225
+      Height = 60
+      Caption = '                                '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      object Label5: TLabel
+        Left = 104
+        Top = 27
+        Width = 16
+        Height = 13
+        Caption = 'at'#233
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object cb_data_contabil: TCheckBox
+        Left = 15
+        Top = 0
+        Width = 98
+        Height = 17
+        Caption = 'Data cont'#225'bil'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object dtp_data_contabil_ini: TDateTimePicker
+        Left = 5
+        Top = 23
+        Width = 93
+        Height = 21
+        Date = 44602.000000000000000000
+        Time = 0.928669293978600800
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+      end
+      object dtp_data_contabil_fim: TDateTimePicker
+        Left = 124
+        Top = 23
+        Width = 93
+        Height = 21
+        Date = 44602.000000000000000000
+        Time = 0.928669293978600800
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+      end
+    end
+    object gb_historico: TGroupBox
+      Left = 623
+      Top = 98
+      Width = 230
+      Height = 60
+      Caption = '                              '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      object cb_historico: TCheckBox
+        Left = 15
+        Top = 0
+        Width = 74
+        Height = 17
+        Caption = 'Hist'#243'rico'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object edt_historico: TEdit
+        Left = 3
+        Top = 23
+        Width = 221
+        Height = 21
+        CharCase = ecUpperCase
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+      end
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Top = 0
+    Width = 1243
+    Height = 46
+    ButtonHeight = 38
+    ButtonWidth = 99
+    Font.Height = -12
+    ExplicitTop = 0
+    ExplicitWidth = 1255
+    ExplicitHeight = 46
+    inherited btnIncluir: TToolButton
+      ExplicitWidth = 99
+      ExplicitHeight = 38
+    end
+    inherited btnAlterar: TToolButton
+      Left = 99
+      ExplicitLeft = 99
+      ExplicitWidth = 99
+      ExplicitHeight = 38
+    end
+    inherited btnExcluir: TToolButton
+      Left = 198
+      ExplicitLeft = 198
+      ExplicitWidth = 99
+      ExplicitHeight = 38
+    end
+    inherited ToolButton4: TToolButton
+      Left = 297
+      ExplicitLeft = 297
+      ExplicitHeight = 38
+    end
+    inherited btnPesquisar: TToolButton
+      Left = 302
+      ExplicitLeft = 302
+      ExplicitWidth = 99
+      ExplicitHeight = 38
+    end
+    inherited ToolButton7: TToolButton
+      Left = 401
+      ExplicitLeft = 401
+      ExplicitHeight = 38
+    end
+    inherited btnImprimir: TToolButton
+      Left = 406
+      ExplicitLeft = 406
+      ExplicitWidth = 99
+      ExplicitHeight = 38
+    end
+    object ToolButton1: TToolButton
+      Left = 505
+      Top = 0
+      Width = 8
+      Caption = 'ToolButton1'
+      ImageIndex = 1
+      Style = tbsSeparator
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Top = 459
+    Width = 1243
+    ExplicitTop = 497
+    ExplicitWidth = 1255
+  end
+  inherited PageControl1: TPageControl
+    Top = 250
+    Width = 1243
+    Height = 168
+    ParentShowHint = False
+    ExplicitTop = 250
+    ExplicitWidth = 1255
+    ExplicitHeight = 206
+    inherited TabSheet1: TTabSheet
+      Caption = 'Contas Receber'
+      TabVisible = True
+      ExplicitTop = 26
+      ExplicitWidth = 1235
+      ExplicitHeight = 138
+      inherited Panel5: TPanel
+        Width = 1235
+        Height = 138
+        ExplicitWidth = 1247
+        ExplicitHeight = 176
+        inherited DBGrid1: TDBGrid
+          Width = 1195
+          Height = 87
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 50
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DATA_EMI'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Emiss'#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_CONTABIL'
+              Title.Alignment = taCenter
+              Title.Caption = 'Dt Contabil'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 76
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 400
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 286
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TOTAL'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Total'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_PAGO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Pago'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'SALDO_ABERTO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Aberto'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 100
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 1195
+          ExplicitWidth = 1207
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+    object tbs_contas_receber_baixa: TTabSheet
+      Caption = 'Baixar / Recebimentos'
+      ImageIndex = 1
+      OnShow = tbs_contas_receber_baixaShow
+      object pnl_dados_da_conta: TPanel
+        Left = 0
+        Top = 0
+        Width = 1235
+        Height = 121
+        Align = alTop
+        BevelInner = bvRaised
+        BevelOuter = bvNone
+        TabOrder = 0
+        ExplicitWidth = 1247
+        object Label8: TLabel
+          Left = 4
+          Top = 36
+          Width = 84
+          Height = 15
+          Caption = 'N. Documento :'
+        end
+        object Label9: TLabel
+          Left = 228
+          Top = 36
+          Width = 86
+          Height = 15
+          Caption = 'Cadastrado em :'
+        end
+        object Label10: TLabel
+          Left = 4
+          Top = 9
+          Width = 84
+          Height = 15
+          Caption = 'Pessoa               :'
+        end
+        object Label11: TLabel
+          Left = 4
+          Top = 66
+          Width = 100
+          Height = 15
+          Caption = 'Valor Total         : R$'
+        end
+        object Label12: TLabel
+          Left = 228
+          Top = 66
+          Width = 103
+          Height = 15
+          Caption = 'Valor Recebido  : R$'
+        end
+        object Label13: TLabel
+          Left = 429
+          Top = 66
+          Width = 98
+          Height = 15
+          Caption = 'Resta Receber  : R$'
+        end
+        object Label14: TLabel
+          Left = 4
+          Top = 95
+          Width = 84
+          Height = 15
+          Caption = 'Hist'#243'rico           :'
+        end
+        object Label15: TLabel
+          Left = 429
+          Top = 36
+          Width = 82
+          Height = 15
+          Caption = 'Data cont'#225'bil   :'
+        end
+        object lbl_nr_documento: TLabel
+          Left = 92
+          Top = 34
+          Width = 21
+          Height = 17
+          Caption = '000'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_cadastrado_em: TLabel
+          Left = 318
+          Top = 34
+          Width = 66
+          Height = 17
+          Caption = '00/00/0000'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_data_contabil: TLabel
+          Left = 515
+          Top = 35
+          Width = 66
+          Height = 17
+          Caption = '00/00/0000'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_nome_pessoa: TLabel
+          Left = 92
+          Top = 5
+          Width = 91
+          Height = 20
+          Caption = 'nome_pessoa'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_historico: TLabel
+          Left = 92
+          Top = 93
+          Width = 52
+          Height = 17
+          Caption = 'historico'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_valor: TLabel
+          Left = 108
+          Top = 64
+          Width = 24
+          Height = 17
+          Caption = '0,00'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_valor_pago: TLabel
+          Left = 335
+          Top = 64
+          Width = 24
+          Height = 17
+          Caption = '0,00'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbl_valor_aberto: TLabel
+          Left = 531
+          Top = 64
+          Width = 24
+          Height = 17
+          Caption = '0,00'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+      end
+      object pnl_contas_receber_baixa: TPanel
+        Left = 30
+        Top = 121
+        Width = 1205
+        Height = 17
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 1
+        ExplicitWidth = 1217
+        ExplicitHeight = 55
+        object DBGrid2: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 1205
+          Height = 17
+          Align = alClient
+          DataSource = ds_contas_receber_baixa
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          TabOrder = 0
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -12
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CONTAS_RECEBER_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Conta Receber ID'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 108
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ALTERADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Alterado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 93
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PESSOA_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pessoa_ID'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'RECIBO_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Recibo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'HISTORICO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Hist'#243'rico'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 313
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 112
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'USUARIO_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Usu'#225'rio'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 99
+              Visible = True
+            end>
+        end
+      end
+      object Panel4: TPanel
+        Left = 0
+        Top = 121
+        Width = 30
+        Height = 17
+        Align = alLeft
+        BevelOuter = bvNone
+        TabOrder = 2
+        ExplicitHeight = 55
+        object btn_incluir_recebimento: TSpeedButton
+          Left = 0
+          Top = 0
+          Width = 30
+          Height = 25
+          Hint = 'Incluir um pagamento'
+          Align = alTop
+          Caption = '+'
+          ParentShowHint = False
+          ShowHint = True
+          OnClick = actBaixarExecute
+          ExplicitTop = -7
+        end
+        object btn_alterar_recebimento: TSpeedButton
+          Left = 0
+          Top = 25
+          Width = 30
+          Height = 25
+          Hint = 'Alterar dados de um pagamento'
+          Align = alTop
+          Caption = '...'
+          Enabled = False
+          ParentShowHint = False
+          ShowHint = True
+          OnClick = btn_alterar_recebimentoClick
+          ExplicitLeft = 2
+          ExplicitTop = 9
+          ExplicitWidth = 28
+        end
+      end
+    end
+  end
+  object pnl_rodape: TPanel [4]
+    Left = 0
+    Top = 418
+    Width = 1243
+    Height = 41
+    Align = alBottom
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    ExplicitTop = 456
+    ExplicitWidth = 1255
+    object Label1: TLabel
+      Left = 8
+      Top = 10
+      Width = 93
+      Height = 17
+      Caption = 'Qtde registro(s)'
+    end
+    object Label2: TLabel
+      Left = 212
+      Top = 12
+      Width = 115
+      Height = 17
+      Caption = 'Total acumulado R$'
+    end
+    object Label3: TLabel
+      Left = 492
+      Top = 12
+      Width = 82
+      Height = 17
+      Caption = 'Total pago R$'
+    end
+    object Label4: TLabel
+      Left = 751
+      Top = 12
+      Width = 90
+      Height = 17
+      Caption = 'Total aberto R$'
+    end
+    object edQtdeRegistros: TEdit
+      Left = 107
+      Top = 7
+      Width = 62
+      Height = 25
+      TabOrder = 0
+    end
+    object edTotalAcum: TEdit
+      Left = 335
+      Top = 7
+      Width = 121
+      Height = 25
+      TabOrder = 1
+    end
+    object edTotalPago: TEdit
+      Left = 581
+      Top = 7
+      Width = 121
+      Height = 25
+      TabOrder = 2
+    end
+    object edTotalAberto: TEdit
+      Left = 852
+      Top = 7
+      Width = 121
+      Height = 25
+      TabOrder = 3
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Top = 46
+    Width = 1243
+    Height = 43
+    ExplicitTop = 46
+    ExplicitWidth = 1255
+    ExplicitHeight = 43
+    inherited btn_fechar: TSpeedButton
+      Left = 1173
+      Height = 42
+      ExplicitLeft = 1185
+      ExplicitHeight = 42
+    end
+    inherited lbl_titulo: TLabel
+      Width = 333
+      Height = 42
+      Caption = 'CONSULTA DE CONTAS A RECEBER'
+      ExplicitWidth = 333
+    end
+    inherited pnl_separa_topo: TPanel
+      Top = 42
+      Width = 1243
+      ExplicitTop = 42
+      ExplicitWidth = 1255
+    end
+  end
+  inherited ds: TDataSource
+    Left = 648
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select'
+      '  R.ID,'
+      '  R.DATA_EMI,'
+      '  R.DATA_CONTABIL,'
+      '  P.NOME,'
+      '  R.DESCRICAO,'
+      '  R.TOTAL,'
+      '  R.VALOR_PAGO,'
+      '  R.SALDO_ABERTO'
+      'from'
+      '  CONTAS_RECEBER R, PESSOAS P'
+      'where'
+      '  R.PESSOA_ID = P.ID  ')
+    Left = 648
+    Top = 40
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryDATA_EMI: TDateField
+      FieldName = 'DATA_EMI'
+      Origin = 'DATA_EMI'
+    end
+    object qryDATA_CONTABIL: TDateField
+      FieldName = 'DATA_CONTABIL'
+      Origin = 'DATA_CONTABIL'
+    end
+    object qryNOME: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      Required = True
+      Size = 100
+    end
+    object qryTOTAL: TCurrencyField
+      FieldName = 'TOTAL'
+      Origin = 'TOTAL'
+    end
+    object qryVALOR_PAGO: TCurrencyField
+      FieldName = 'VALOR_PAGO'
+      Origin = 'VALOR_PAGO'
+    end
+    object qrySALDO_ABERTO: TCurrencyField
+      FieldName = 'SALDO_ABERTO'
+      Origin = 'SALDO_ABERTO'
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 584
+    Top = 40
+    Bitmap = {
+      494C01010A001800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000003000000001002000000000000030
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000314B6200AC7D7E000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000005084B2000F6FE100325F8C00B87E
+      7A00000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      9A0000009A000000000000000000000000000000000000000000000000000000
+      9A0000009A0000000000000000000000000032A0FE0037A1FF00106FE200325F
+      8B00B67D79000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000009A00174A
+      FD00103BF40000009A000000000000000000000000000000000000009A00002C
+      F8000030FC0000009A0000000000000000000000000037A4FE00379FFF000E6D
+      DE00355F8900BB7F790000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000009A001A47
+      F8001A4CFF00123BF10000009A00000000000000000000009A00012DF6000132
+      FF00002AF30000009A000000000000000000000000000000000037A4FE00359E
+      FF000F6FDE0035608B00A67B7F00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      9A001C47F6001B4DFF00143EF40000009A0000009A00002DF8000134FF00032B
+      F20000009A0000000000000000000000000000000000000000000000000038A5
+      FE00329DFF00156DCE00444F5B00000000009C6B6500AF887B00AF887E00AA80
+      7500000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000009A001D48F6001D50FF00103DFB000431FE000132FF00002CF6000000
+      9A00000000000000000000000000000000000000000000000000000000000000
+      00003BABFF00A1CAE700AD867900A9837300E0CFB100FFFFDA00FFFFDD00FCF8
+      CF00CCB29F00A1746B0000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000009A001A48F9001342FF000C3CFF000733F60000009A000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000C0917D00FCE9AC00FFFFCC00FFFFCF00FFFFD000FFFF
+      DE00FFFFFA00E3D3D10099696500000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000009A00214EFC001D4BFF001847FF001743F60000009A000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000B0897800FAD19200FEF4C200FFFFD000FFFFDA00FFFF
+      F600FFFFFC00FFFFFC00B6938400000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000009A002E5BF9002C5FFF00224DF800204BF8002355FF001B46F6000000
+      9A00000000000000000000000000000000000000000000000000000000000000
+      000000000000B0897800FEDA9700EDB47800FBEEBB00FFFFD300FFFFDC00FFFF
+      F400FFFFF400FFFFE200E9DDBC00A67B73000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      9A003664FA00386BFF002D59F40000009A0000009A00224CF4002558FF001D49
+      F60000009A000000000000000000000000000000000000000000000000000000
+      000000000000B18A7800FFDE9900E9A16700F4D19900FEFCCC00FFFFD500FFFF
+      DA00FFFFDC00FFFFD700EFE6C500A97E75000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000009A004071
+      FA004274FF00325DF10000009A00000000000000000000009A00224DF100275A
+      FF00204CF80000009A0000000000000000000000000000000000000000000000
+      000000000000AA7F7300FAE0A400F0B77800EEBA7B00F6DDA600FEFBCC00FFFF
+      D300FFFFD100FFFFD700D9C5A700A3756C000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000009A00497A
+      FC003B66F30000009A000000000000000000000000000000000000009A002550
+      F4002655FA0000009A0000000000000000000000000000000000000000000000
+      00000000000000000000CEB29300FFFEDD00F4D1A500EEBA7B00F2C78F00F8E1
+      AB00FCF0BA00FCFACA00A3776F00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      9A0000009A000000000000000000000000000000000000000000000000000000
+      9A0000009A000000000000000000000000000000000000000000000000000000
+      00000000000000000000A1746B00E1D4D300FFFEEE00F7CC8C00F0B47300F7C7
+      8800FCE3A500C2A08800A5776C00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000098686500BA958700EAD7A400EAD59E00E0C0
+      9700A5776C00A5776C0000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000A77E7000A9807300A478
+      6E00000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000A4676900A467
+      6900A4676900A4676900A4676900A4676900A4676900A4676900A4676900A467
+      6900A4676900A4676900A4676900000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000314B6200AC7D7E000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000B7918400FEE9
+      C700F4DAB500F3D5AA00F2D0A000EFCB9600EFC68B00EDC18200EBC17F00EBC1
+      8000EBC18000F2C78200A46769000000000000000000000000007F2B28007F2B
+      2800A1828300A1828300A1828300A1828300A1828300A1828300A18283007A1C
+      1C007F2B28000000000000000000000000005084B2000F6FE100325F8C00B87E
+      7A00000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000A6A8A9009B9B9B009B9B9B009B9B9B009B9B9B009B9B9B009B9B
+      9B00000000000000000000000000000000000000000000000000B7918700FCEA
+      CE00F3DABC00F2D5B100F0D0A700EECB9E00EDC79300EDC28B00E9BD8100E9BD
+      7F00E9BD7F00EFC48100A467690000000000000000007F2B2800CA4D4D00B645
+      4500DDD4D5007916170079161700DCE0E000D7DADE00CED5D700BDBABD007610
+      0F009A2D2D007F2B2800000000000000000032A0FE0037A1FF00106FE200325F
+      8B00B67D79000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000A6A8A900FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+      9B00000000000000000000000000000000000000000000000000B7938A00FEEF
+      DA00F6E0C600F2DABC00F2D5B200EFD0A900EECB9E00EDC79600EBC28C00E9BD
+      8200E9BD7F00EFC48100A467690000000000000000007F2B2800C24A4B00B144
+      4400E2D9D9007916170079161700D9D8DA00D9DEE100D3D9DC00C1BDC1007611
+      1100982D2D007F2B280000000000000000000000000037A4FE00379FFF000E6D
+      DE00355F8900BB7F790000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000737373006969
+      69006565630092939100FFFFFF00AFAFAF00AFAFAF00AFAFAF00FFFFFF007B7B
+      75004F4F4F005454540054545400000000000000000000000000BA978F00FFF4
+      E500F7E5CF00F4E0C500F3DABB00F2D5B100F0D0A600EECB9E00EDC79500EBC2
+      8A00EABF8100EFC48000A467690000000000000000007F2B2800C24A4A00B042
+      4200E6DCDC007916170079161700D5D3D500D8DEE100D7DDE000C6C2C500700F
+      0F00962C2C007F2B28000000000000000000000000000000000037A4FE00359E
+      FF000F6FDE0035608B00A67B7F00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000073737300939797009397
+      97007577750090918E00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF007B7B
+      75005B5C5C00787B7B0060616100545454000000000000000000C09E9500FFFB
+      F000F8EADC00F6E3CF00F4E0C600F2D9BC00F2D5B100F0D0A900EDCB9E00EDC6
+      9500EBC28A00EFC58300A467690000000000000000007F2B2800C24A4A00B041
+      4100EADEDE00E7DDDD00DDD4D500D7D3D500D5D7D900D7D8DA00CAC2C5007E17
+      17009E3131007F2B2800000000000000000000000000000000000000000038A5
+      FE00329DFF00156DCE00444F5B00000000009C6B6500AF887B00AF887E00AA80
+      750000000000000000000000000000000000000000007373730093979700ADB5
+      B500666766005F5F5F0077777700777777007777770077777700717171005A5A
+      5800686969007F82820070717100545454000000000000000000C6A49A00FFFF
+      FC00FAF0E600F8EADA00F7E5CF00F4E0C500F2DABA00F2D5B100F0D0A700EECB
+      9D00EBC79300F2C98C00A467690000000000000000007F2B2800BF474800B845
+      4500BA4C4C00BD575700BB575600B64E4E00B4494900BD525100BB4B4C00B542
+      4200BF4A4A007F2B280000000000000000000000000000000000000000000000
+      00003BABFF00A1CAE700AD867900A9837300E0CFB100FFFFDA00FFFFDD00FCF8
+      CF00CCB29F00A1746B0000000000000000000000000073737300ADB5B500ADB5
+      B500ADB5B500ADB5B500ADB5B500ADB5B500ADB5B500ADB5B500ADB5B500A2A8
+      A8006AA4770008B5180076787800565757000000000000000000CBA99E00FFFF
+      FF00FEF7F200FAEFE600F8EAD900F7E3CF00F6E0C500F2DABB00F2D4B100F0D0
+      A700EECC9E00F3CE9700A467690000000000000000007F2B2800A33B3900B160
+      5D00C6868400CB918F00CC919000CC908F00CB898800C9898800CB939100CC96
+      9600BD4B4C007F2B280000000000000000000000000000000000000000000000
+      00000000000000000000C0917D00FCE9AC00FFFFCC00FFFFCF00FFFFD000FFFF
+      DE00FFFFFA00E3D3D10099696500000000000000000073737300D2D2D200988D
+      9100997C80009A797B00AA818600AA7F8600AA7E8600AD828A00A77F85009D7C
+      7F008B7D7A005E906300787A7A00575858000000000000000000CFAC9F00FFFF
+      FF00FFFEFC00FCF6F000FAEFE600F7EADA00F6E3CF00F4E0C500F3D9BB00F3D4
+      B000F0D0A600F6D3A000A467690000000000000000007F2B2800BD4B4C00F7F7
+      F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      00000000000000000000B0897800FAD19200FEF4C200FFFFD000FFFFDA00FFFF
+      F600FFFFFC00FFFFFC00B6938400000000000000000073737300D2D2D200855A
+      6200956B6D008A696900896D6D00876B6B00866A6A00886E6D008A706F008D6A
+      690093636A009C6C8100939797005C5D5D000000000000000000D4B0A100FFFF
+      FF00FFFFFF00FFFEFC00FEF7F000FAEFE500F8EAD900F7E5CE00F6DEC400F3D9
+      B800F4D8B100EBCFA400A467690000000000000000007F2B2800BD4B4C00F7F7
+      F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      000000000000B0897800FEDA9700EDB47800FBEEBB00FFFFD300FFFFDC00FFFF
+      F400FFFFF400FFFFE200E9DDBC00A67B73000000000073737300D2D2D2006F49
+      5200583F41005F4C4C0074696900726767007166660071666600716666005E42
+      420054393C008A727400939797006C6D6D000000000000000000D9B5A100FFFF
+      FF00FFFFFF00FFFFFF00FFFEFC00FCF7F000FAEFE500F8E9D900F8E7D100FBEA
+      CE00DECEB400B6AA9300A467690000000000000000007F2B2800BD4B4C00F7F7
+      F700BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      000000000000B18A7800FFDE9900E9A16700F4D19900FEFCCC00FFFFD500FFFF
+      DA00FFFFDC00FFFFD700EFE6C500A97E75000000000073737300ADB5B5007E68
+      6A0075727200A6A8A900FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+      9B006E5F610098898900ADB5B5006C6D6D000000000000000000DDB7A400FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFEFC00FCF6EF00FCF3E600EDD8C900B68A
+      7B00A17B6F009C766700A467690000000000000000007F2B2800BD4B4C00F7F7
+      F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      000000000000AA7F7300FAE0A400F0B77800EEBA7B00F6DDA600FEFBCC00FFFF
+      D300FFFFD100FFFFD700D9C5A700A3756C000000000000000000737373008E81
+      81008F848500A6A8A900FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+      9B00847374008F8585006C6D6D00000000000000000000000000E2BCA500FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFEFB00FFFEF700DAC1BA00AD73
+      5B00E19E5500E68F3100B56D4D0000000000000000007F2B2800BD4B4C00F7F7
+      F700BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00BFBFBF00F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      00000000000000000000CEB29300FFFEDD00F4D1A500EEBA7B00F2C78F00F8E1
+      AB00FCF0BA00FCFACA00A3776F00000000000000000000000000000000000000
+      000000000000A6A8A900FFFFFF00FFFFFF00FFFFFF00A6A8A9009B9B9B009B9B
+      9B00000000000000000000000000000000000000000000000000E6BFA700FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00DCC7C500B882
+      6500F8B55C00BF7A5C000000000000000000000000007F2B2800BD4B4C00F7F7
+      F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700BD4B4C007F2B280000000000000000000000000000000000000000000000
+      00000000000000000000A1746B00E1D4D300FFFEEE00F7CC8C00F0B47300F7C7
+      8800FCE3A500C2A08800A5776C00000000000000000000000000000000000000
+      000000000000A6A8A900FFFFFF00FFFFFF00FFFFFF00A6A8A900FFFFFF009B9B
+      9B00000000000000000000000000000000000000000000000000E4BCA400FBF4
+      F000FBF4EF00FAF3EF00FAF3EF00F8F2EF00F7F2EF00F7F2EF00D8C2C000B77F
+      6200C1836C0000000000000000000000000000000000000000007F2B2800F7F7
+      F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F7007F2B28000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000098686500BA958700EAD7A400EAD59E00E0C0
+      9700A5776C00A5776C0000000000000000000000000000000000000000000000
+      000000000000A6A8A900FFFFFF00FCFCFC00FFFFFF00A6A8A9009B9B9B000000
+      0000000000000000000000000000000000000000000000000000E8C4AD00EBCB
+      B700EBCBB700EACBB700EACAB600EACAB600EACAB600EACAB600E3C2B100A56B
+      5F00000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000A77E7000A9807300A478
+      6E00000000000000000000000000000000000000000000000000000000000000
+      000000000000A6A8A9009B9B9B009B9B9B009B9B9B009B9B9B00000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000824B4B004E1E1F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FF000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000F8F8F800E8E8E800B9B9B90091919100888888009A9A9A00C4C4C400DCDC
+      DC00FCFCFC000000000000000000000000000000000000000000000000000000
+      0000824B4B00824B4B00A64B4B00A94D4D004E1E1F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000FFFFFF0000000000FFFFFF00FF0000000000
+      0000000000000000000000000000000000000000000000000000FEFEFE00D8D8
+      D8006169AE001627A7000C21C1000E24CC000B20BC000719A2003946AD005D61
+      84008F8F8F00EAEAEA0000000000000000000000000000000000824B4B00824B
+      4B00B64F5000C24F5000C54D4E00B24D4E004E1E1F00824B4B00824B4B00824B
+      4B00824B4B00824B4B00824B4B00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FFFFFF0000000000FFFFFF00FFFFFF0000FFFF00FFFFFF00FF00
+      0000000000000000000000000000000000000000000000000000C4C5CE001129
+      E000142EF500142EF500142EF500142EF500142EF500142EF500142EF5000E25
+      D1001627A7006D6D6D00E7E7E700000000000000000000000000824B4B00D458
+      5900CB555600C9545500C9525300B74F52004E1E1F00FE8B8C00FB9A9C00F8AA
+      AB00F7B5B600F7B5B600824B4B00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000FFFF
+      FF0000000000FFFFFF00FFFFFF0000FFFF0000000000FFFFFF00FFFFFF00FFFF
+      FF00FF00000000000000000000000000000000000000E9E9E900142EF500142E
+      F500142EF500142EF500142EF500142EF500142EF500142EF500142EF500142E
+      F500132DF0001627A70084848400F9F9F9000000000000000000824B4B00D75C
+      5D00D05A5B00CF595A00CF575800BD5356004E1E1F0023B54A0013C1480016BD
+      48000CBC4100F7B5B600824B4B0000000000000000000000000000FFFF0000FF
+      FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF00000000000000
+      000000000000000000000000000000000000000000000000000000000000FFFF
+      FF00FFFFFF0000FFFF0000000000FFFFFF00FFFFFF0000FFFF0000000000FFFF
+      FF00FFFFFF00FF0000000000000000000000FCFCFC00223BF500142EF500142E
+      F5004E62F700E1E4FD000000000000000000FDFDFD0098A0DB00142EF500142E
+      F500142EF500122AE500545DA200D0D0D0000000000000000000824B4B00DD63
+      6400D75F6000D55E5F00D55C5D00C2575A004E1E1F002AB44D001CBF4C001EBC
+      4C0013BC4500F7B5B600824B4B0000000000000000000000000000FFFF0000FF
+      FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF00000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF00FFFFFF00FFFFFF0000FFFF0000000000FFFFFF00FFFFFF0000FF
+      FF00FFFFFF00FFFFFF00FF00000000000000C4CAFC00142EF500142EF5008894
+      F40000000000000000000000000000000000D0D3ED00142EF500142EF500142E
+      F500142EF500142EF5000719A200979797000000000000000000824B4B00E368
+      6900DD656600DA636400DE666700C6595B004E1E1F0026B1490016BC48001BBB
+      490010BB4300F7B5B600824B4B0000000000000000000000000000FFFF0000FF
+      FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF00000000000000
+      0000000000000000000000000000FF0000000000000000000000000000000000
+      00000000000000FFFF0000000000FFFFFF00FFFFFF0000FFFF0000000000FFFF
+      FF00FFFFFF0000FFFF00FFFFFF00FF000000223BF500142EF500142EF5000000
+      0000000000000000000000000000D0D3ED00142EF500142EF500142EF500223B
+      F500142EF500142EF5000F26D600747474000000000000000000824B4B00EB6D
+      6E00E2676800E67E7F00FAD3D400CC6E70004E1E1F00A5D8970050D16F0042C9
+      66002DC75800F7B5B600824B4B0000000000000000000000000000FFFF00FF00
+      0000FF000000FF000000A0C0A000A0C0A000A0C0A00000C0A00000C0A00000C0
+      A000A0C0A00000C0A000A0C0A000FF000000FF00000000000000000000000000
+      0000FFFFFF00FFFFFF00FFFFFF00000000000000000000008000FFFFFF008080
+      8000FFFFFF00FFFFFF00FFFFFF0000000000142EF500142EF5000E24CC000000
+      00000000000000000000D0D3ED00142EF500142EF500142EF500D2D7FD00ECEC
+      EC003E53F500142EF500142EF500707070000000000000000000824B4B00F273
+      7400E96C6D00EB818200FCD1D300CF6E70004E1E1F00FFF2CC00FFFFD700FFFF
+      D400E6FCC700F7B5B600824B4B0000000000000000000000000000FFFF00FF00
+      000000FFFF0000000000A00000000000000000000000A0C0A00000C0A000A0C0
+      A000A0C0A00000C0A000A0C0A000FF000000FF00000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000000000000000000000000080808000FFFFFF00FFFF
+      FF00FFFFFF00000000000000000000000000142EF500142EF5000B20BC000000
+      000000000000D0D3ED00142EF500142EF500142EF500D2D7FD00000000000000
+      00004C60F400142EF500142EF500868686000000000000000000824B4B00F878
+      7900F0757600EE727300F0737400D16566004E1E1F00FCEFC700FFFFD500FFFF
+      D300FFFFD700F7B5B600824B4B000000000000000000000000000000000000FF
+      FF000000000000000000FFFF0000A000000000000000A0C0A000A0C0A00000C0
+      A00000C0A000A0C0A00000000000A0000000FF00000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000000000FFFF0000000000FFFFFF00000000008080
+      800000000000000000000000000000000000142EF500142EF5001027DB00DFE2
+      F3002038EB00142EF500142EF500142EF500D2D7FD000000000000000000FEFE
+      FE00142EF500142EF500132DF000BCBCBC000000000000000000824B4B00FE7F
+      8000F77A7B00F6797A00F7777900D76B6B004E1E1F00FCEFC700FFFFD500FFFF
+      D300FFFFD500F7B5B600824B4B00000000000000000000000000000000000000
+      0000000000000000000000C0A00000C0A000A00000000000000000C0A00000C0
+      A00000000000000000000000000000000000000000000000000000000000FFFF
+      FF00FFFFFF00FFFFFF0000FFFF00000000000000000000FFFF00000000000000
+      0000000000000000000000000000000000005D6FF800142EF500142EF500122A
+      E500142EF500142EF500142EF500D2D7FD00000000000000000000000000BBBC
+      C900142EF500142EF5003546CC00EFEFEF000000000000000000824B4B00FF83
+      8400FC7F8000FB7E7F00FE7F8000DA6E6F004E1E1F00FCEFC700FFFFD500FFFF
+      D300FFFFD500F7B5B600824B4B00000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFF0000A0000000A0C0A000A0C0
+      A000000000000000000000000000000000000000000000000000000000000000
+      00000000000000FFFF00FFFFFF00000000000000000000000000808080000000
+      00000000000000000000000000000000000000000000142EF500142EF500142E
+      F500142EF500142EF500D2D7FD000000000000000000000000001E34DB00142E
+      F500142EF500142EF500C8C8C800000000000000000000000000824B4B00FF88
+      8900FF828300FF818200FF828300E07374004E1E1F00FCEFC700FFFFD500FFFF
+      D300FFFFD500F7B5B600824B4B00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000A0000000A000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000FFFF000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000008996F900142EF500142E
+      F500142EF500132DF0000A1EB7000719A2000C21C100142EF500142EF500142E
+      F500142EF500949ACC00FCFCFC00000000000000000000000000824B4B00824B
+      4B00E2757600FE818200FF868700E57677004E1E1F00FAEBC500FCFBD100FCFB
+      CF00FCFBD100F7B5B600824B4B00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000000000000000FF
+      FF00000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000007B89F900142E
+      F500142EF500142EF500142EF500142EF500142EF500142EF500142EF500142E
+      F5008E97E200FBFBFB0000000000000000000000000000000000000000000000
+      0000824B4B009C565700CB6C6D00CF6E6E004E1E1F00824B4B00824B4B00824B
+      4B00824B4B00824B4B00824B4B00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000FFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000F0F1
+      FE003148F600142EF500142EF500142EF500142EF500142EF500C4CAFC00F1F1
+      F100000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000824B4B00824B4B004E1E1F0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000300000000100010000000000800100000000000000000000
+      000000000000000000000000FFFFFF00FFFF9FFF00000000FFFF0FFF00000000
+      E7E707FF00000000C3C383FF00000000C183C1FF00000000E007E10F00000000
+      F00FF00300000000F81FFC0100000000F81FFC0100000000F00FF80000000000
+      E007F80000000000C183F80000000000C3C3FC0100000000E7E7FC0100000000
+      FFFFFE0300000000FFFFFF8F00000000C001FFFF9FFFFFFFC001C0070FFFF80F
+      C001800307FFF80FC001800383FFC001C0018003C1FF8000C0018003E10F8000
+      C0018003F0038000C0018003FC018000C0018003FC018000C0018003F8008000
+      C0018003F8008000C0018003F800C001C0018003FC01F80FC0038003FC01F80F
+      C007C007FE03F81FC00FFFFFFF8FF83FFE7FFFFFFF3FF007F07FFFFFFC1FC003
+      C001FFFFF00FC001C001FFFFE0878000C001803FE2230300C001803FF0810F00
+      C00180001A001E00C001800020001C00C001800000011830C001C00000830060
+      C001F807C11F00E0C001FD0FF0CF81C1C001FF0FF7FF8001C001FFFFEFFFC003
+      F001FFFFDFFFE00FFC7FFFFFFFFFFFFF00000000000000000000000000000000
+      000000000000}
+  end
+  inherited ActionList1: TActionList
+    Left = 584
+    inherited actIncluir: TAction
+      ImageIndex = 4
+    end
+    inherited actExcluir: TAction
+      ImageIndex = 8
+    end
+    inherited actPesquisar: TAction
+      ImageIndex = 6
+    end
+    inherited actImprimir: TAction
+      Caption = '&Imprimir Pesqusa'
+      ImageIndex = 7
+      OnExecute = actImprimirExecute
+    end
+    inherited actLocalizar: TAction
+      OnExecute = actLocalizarExecute
+    end
+    object actBaixar: TAction
+      Caption = 'Baixar'
+      ImageIndex = 2
+      OnExecute = actBaixarExecute
+    end
+  end
+  object PrintDialog1: TPrintDialog
+    Left = 616
+    Top = 6
+  end
+  object qryPessoas: TFDQuery
+    SQL.Strings = (
+      'select id,nome from pessoas where ativo = '#39'S'#39' order by nome')
+    Left = 680
+    Top = 40
+  end
+  object dsPessoas: TDataSource
+    AutoEdit = False
+    DataSet = qryPessoas
+    Left = 680
+    Top = 8
+  end
+  object ds_contas_receber_baixa: TDataSource
+    AutoEdit = False
+    DataSet = qry_contas_receber_baixa
+    OnDataChange = ds_contas_receber_baixaDataChange
+    Left = 468
+    Top = 377
+  end
+  object qry_contas_receber_baixa: TFDQuery
+    Left = 468
+    Top = 409
+  end
+  object rel_contas_receber: TfrxReport
+    Version = '2022.2'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 45701.822410011580000000
+    ReportOptions.LastChange = 45701.822410011580000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    OnBeforePrint = rel_contas_receberBeforePrint
+    Left = 712
+    Top = 8
+    Datasets = <
+      item
+        DataSet = frxDBContasReceber
+        DataSetName = 'ContasReceber'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 148.500000000000000000
+      PaperSize = 256
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object ReportTitle1: TfrxReportTitle
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object lbl_titulo_relatorio: TfrxMemoView
+          Align = baCenter
+          AllowVectorExport = True
+          Left = 204.094620000000000000
+          Top = -0.661410000000000000
+          Width = 309.921460000000000000
+          Height = 18.897650000000000000
+          AutoWidth = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'RELAT'#211'RIO DE CONTAS A RECEBER - POR PESSOA')
+          ParentFont = False
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 31.189022760000000000
+        Top = 60.472480000000000000
+        Width = 718.110700000000000000
+        object Memo20: TfrxMemoView
+          AllowVectorExport = True
+          Top = 27.031540000000000000
+          Width = 718.110236220000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object lbl_descricao_pessoa: TfrxMemoView
+          IndexTag = 1
+          Align = baLeft
+          AllowVectorExport = True
+          Left = 64.252010000000000000
+          Top = 7.015770000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[ContasReceber."NOME"]')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Top = 3.779530000000000000
+          Width = 718.110236220472000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object label_pessoa: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Top = 7.000000000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          AutoWidth = True
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'PESSOA :')
+          ParentFont = False
+        end
+      end
+      object ColumnHeader1: TfrxColumnHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677167800000000000
+        Top = 113.385900000000000000
+        Width = 718.110700000000000000
+        object lbl_emissao: TfrxMemoView
+          AllowVectorExport = True
+          Width = 71.811048030000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Emiss'#227'o')
+          ParentFont = False
+        end
+        object lbl_descricao: TfrxMemoView
+          AllowVectorExport = True
+          Left = 253.440940000000000000
+          Width = 83.149660000000000000
+          Height = 15.118120000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Hist'#243'rico')
+          ParentFont = False
+        end
+        object lbl_total: TfrxMemoView
+          AllowVectorExport = True
+          Left = 490.889920000000000000
+          Width = 90.708720000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Valor')
+          ParentFont = False
+        end
+        object lbl_valor_pago: TfrxMemoView
+          AllowVectorExport = True
+          Left = 563.275820000000000000
+          Width = 71.811070000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Pago')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          AllowVectorExport = True
+          Top = 19.456710000000000000
+          Width = 718.110236220000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object lbl_saldo_aberto: TfrxMemoView
+          AllowVectorExport = True
+          Left = 624.764070000000000000
+          Width = 90.708720000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Saldo Aberto')
+          ParentFont = False
+        end
+        object lbl_pessoa: TfrxMemoView
+          AllowVectorExport = True
+          Left = 172.000000000000000000
+          Width = 71.811048030000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Pessoa')
+          ParentFont = False
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 196.535560000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBContasReceber
+        DataSetName = 'ContasReceber'
+        RowCount = 0
+        object lbl_coluna_emissao: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 177.637795280000000000
+          Width = 71.811023620000000000
+          Height = 15.118110240000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[ContasReceber."DATA_EMI"]')
+          ParentFont = False
+        end
+        object lbl_coluna_descricao: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 258.897637800000000000
+          Width = 260.787570000000000000
+          Height = 15.118110240000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[ContasReceber."DESCRICAO"]')
+          ParentFont = False
+        end
+        object lbl_coluna_total: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 468.629921260000000000
+          Width = 90.708661420000000000
+          Height = 15.118110240000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[ContasReceber."TOTAL"]')
+          ParentFont = False
+        end
+        object lbl_coluna_saldo_aberto: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 629.212598430000000000
+          Width = 86.929133860000000000
+          Height = 15.118110240000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[ContasReceber."SALDO_ABERTO"]')
+          ParentFont = False
+        end
+        object lbl_coluna_valor_pago: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 533.818897640000000000
+          Width = 90.708661420000000000
+          Height = 15.118110240000000000
+          DataSet = frmContasPagar.frxDBContasPagar
+          DataSetName = 'ContasPagar'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[ContasReceber."VALOR_PAGO"]')
+          ParentFont = False
+        end
+        object lbl_coluna_pessoa: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          DataField = 'NOME'
+          DataSet = frxDBContasReceber
+          DataSetName = 'ContasReceber'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[ContasReceber."NOME"]')
+        end
+      end
+      object ReportSummary1: TfrxReportSummary
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 275.905690000000000000
+        Width = 718.110700000000000000
+        object Memo6: TfrxMemoView
+          AllowVectorExport = True
+          Left = 629.291338580000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[SUM(<CONTASRECEBER."SALDO_ABERTO">,MasterData1)]')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          AllowVectorExport = True
+          Left = 532.913385830000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'TOTAL R$ ')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          AllowVectorExport = True
+          Width = 718.110236220000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677165350000000000
+        Top = 321.260050000000000000
+        Width = 718.110700000000000000
+        object Memo27: TfrxMemoView
+          AllowVectorExport = True
+          Width = 740.787401570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 3.779527560000000000
+          Width = 234.330860000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Data da Impress'#227'o: [Date][Time]')
+          ParentFont = False
+        end
+        object Memo34: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 268.787570000000000000
+          Top = 3.779527560000000000
+          Width = 268.346630000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'SysLajes - Sistema de Gerenciamento de Lajes ')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 610.165740000000000000
+          Top = 3.779527560000000000
+          Width = 136.063080000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'P'#225'gina : [Page]')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxDBContasReceber: TfrxDBDataset
+    UserName = 'ContasReceber'
+    CloseDataSource = False
+    DataSet = qry
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 712
+    Top = 40
+  end
+  object frxPDFExport1: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    EmbedFontsIfProtected = False
+    InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
+    OpenAfterExport = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Quality = 95
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    Creator = 'FastReport'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    PdfA = False
+    PDFStandard = psNone
+    PDFVersion = pv17
+    Left = 528
+    Top = 70
+  end
+end

@@ -1,0 +1,70 @@
+unit ufrmRel_Vendas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.DBCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmRel_vendas = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    pnl_topo: TPanel;
+    lbl_sub_titulo: TLabel;
+    gb_pesquisa: TGroupBox;
+    gb_vendedor: TGroupBox;
+    cb_vendedor: TCheckBox;
+    gb_data_contabil: TGroupBox;
+    cb_data_contabil: TCheckBox;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label1: TLabel;
+    cbx_vendedor: TDBLookupComboBox;
+    pgc_vendas: TPageControl;
+    btn_pesquisar: TBitBtn;
+    tbs_vendas: TTabSheet;
+    tbs_pagamentos: TTabSheet;
+    tbs_custos: TTabSheet;
+    tbs_comissoes: TTabSheet;
+    gb_totais: TGroupBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    gb_totais_produtos: TGroupBox;
+    dbg_totais_produtos: TDBGrid;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    pnl_endereco: TPanel;
+    Label4: TLabel;
+    gb_contas_receber: TGroupBox;
+    dbg_contas_receber: TDBGrid;
+    gb_pagamentos: TGroupBox;
+    gb_pgamentos: TDBGrid;
+    gb_pedidos: TGroupBox;
+    dbg_vendas: TDBGrid;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRel_vendas: TfrmRel_vendas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmRel_vendas.FormShow(Sender: TObject);
+begin
+  inherited;
+  Caption := 'SYSLAJES - SISTEMA DE GERENCIAMENTO DE LAJES';
+end;
+
+end.

@@ -1,0 +1,108 @@
+unit ufrmPedidosBaixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmPedidosBaixa = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    pnl_cabecalho: TPanel;
+    btn_fechar: TSpeedButton;
+    lbl_titulo: TLabel;
+    pnl_separa_topo: TPanel;
+    pnl_traco: TPanel;
+    Panel5: TPanel;
+    DBGrid1: TDBGrid;
+    pnl_resultado: TPanel;
+    lbl_resultado: TLabel;
+    pnRodape: TPanel;
+    pnl_botoes: TPanel;
+    btnOk: TBitBtn;
+    btnFechar: TBitBtn;
+    ds: TDataSource;
+    procedure btn_fecharClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+  private
+    procedure prc_componentes;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPedidosBaixa: TfrmPedidosBaixa;
+
+implementation
+
+{$R *.dfm}
+
+uses unit_principal, udmConn, unit_funcoes;
+
+procedure TfrmPedidosBaixa.btn_fecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmPedidosBaixa.prc_componentes;
+begin
+  qry.open;
+
+  prc_ordenar_dgrid( ds, DBGrid1, DBGrid1.Columns[0] ) ;
+
+
+  //ajustas as colunas do dbgrid
+  prc_ajustar_colunas_grid( DBGrid1 );
+
+  //aumenta o tamanho da linha do ddgrid
+  prc_ajusta_tamanho_linha( DBGrid1 );
+
+end;
+
+
+procedure TfrmPedidosBaixa.DBGrid1TitleClick(Column: TColumn);
+begin
+  inherited;
+  prc_ordenar_dgrid( ds, DBGrid1, column ) ;
+
+end;
+
+procedure TfrmPedidosBaixa.FormActivate(Sender: TObject);
+begin
+  inherited;
+    form_principal.prc_controla_menu(false);
+
+    // se abrir dentro no painel principal no funciona os edites
+    //loform.Parent := form_principal.pnl_principal;
+
+    frmPedidosBaixa.top    :=  form_principal.pnl_Principal.Top;
+    frmPedidosBaixa.Left   := form_principal.pnl_menulateral.Width;
+
+    frmPedidosBaixa.Width  := form_principal.pnl_principal.Width;
+    frmPedidosBaixa.Height := form_principal.pnl_principal.Height;
+
+end;
+
+procedure TfrmPedidosBaixa.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+ form_principal.prc_controla_menu(true);
+end;
+
+procedure TfrmPedidosBaixa.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+end.

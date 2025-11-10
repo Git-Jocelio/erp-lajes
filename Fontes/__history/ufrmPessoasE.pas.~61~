@@ -1,0 +1,561 @@
+unit ufrmPessoasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TfrmPessoasE = class(TfrmBaseEdicao)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label13: TLabel;
+    Label12: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label9: TLabel;
+    DBText3: TDBText;
+    Bevel3: TBevel;
+    edt_id: TPanel;
+    edt_cadastrado_em: TPanel;
+    edt_alterado_em: TPanel;
+    cb_ativo: TCheckBox;
+    rg_pessoa: TRadioGroup;
+    edt_cpf_cnpj: TEdit;
+    edt_rg_ie: TEdit;
+    edt_telefone: TEdit;
+    edt_celular: TEdit;
+    edt_nome: TEdit;
+    edt_endereco: TEdit;
+    edt_numero: TEdit;
+    edt_complemento: TEdit;
+    edt_bairro: TEdit;
+    edt_cidade: TEdit;
+    edt_cep: TEdit;
+    edt_email: TEdit;
+    edt_uf: TComboBox;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btnOkClick(Sender: TObject);
+
+  private
+    FOperacao: uTipos.TOperacao;
+    FTitulo: string;
+    FTabela: string;
+    FCodigo: integer;
+   // Fpessoa_id: integer;
+
+    procedure Salvar();
+    procedure prc_incluir_alterar(operacao: TOperacao);
+
+  protected
+    procedure Componentes();
+    procedure Inicializar();
+
+    procedure LerDados();
+    function Validar: boolean;
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property Titulo   :string read FTitulo write FTitulo;
+
+   // property pessoa_id:integer read Fpessoa_id write Fpessoa_id;
+
+  end;
+
+  function Incluir: integer;
+  procedure Alterar(ACodigo :integer);
+  procedure Excluir(ACodigo :integer);
+
+implementation
+
+uses uBiblioteca, unit_funcoes;
+
+
+function Incluir: integer;
+var
+  loForm : TfrmPessoasE;
+begin
+  loForm := TfrmPessoasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+    Result := loForm.codigo;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo :integer);
+var
+  loForm : TfrmPessoasE;
+begin
+  loForm := TfrmPessoasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo :integer);
+var
+  loForm : TfrmPessoasE;
+begin
+  loForm := TfrmPessoasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+
+{$R *.dfm}
+
+{ TfrmPessoasE }
+
+{ TfrmPessoasE }
+
+procedure TfrmPessoasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qry.Connection := self.Conexao;
+  self.Tabela := 'PESSOAS';
+
+end;
+
+procedure TfrmPessoasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  Componentes;
+  Inicializar;
+end;
+
+procedure TfrmPessoasE.Inicializar;
+begin
+  inherited;
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       pnTitulo.Caption := 'CADASTRO DE PESSOAS';
+                       lbl_sub_titulo.Caption := 'Incluir Novo';
+                       btnOk.Caption    := 'Incluir';
+                       //
+                       edt_id.Caption := '[NOVO]';
+                       edt_cadastrado_em.Caption := DateToStr(Date);
+                       edt_uf.Text := 'SP';
+                       cb_ativo.Checked := true;
+                       rg_pessoa.ItemIndex := 0;
+
+                       edt_cpf_cnpj.SetFocus;
+                     end;
+  uTipos.opAlterar: begin
+                      self.LerDados;
+                       pnTitulo.Caption := 'CADASTRO DE PESSOAS';
+                       lbl_sub_titulo.Caption := 'Alterar';
+                      btnOk.Caption := 'Alterar';
+                      rg_pessoa.Enabled  := false;;
+                      edt_cpf_cnpj.Enabled := false;
+                      //
+                      edt_cadastrado_em.Caption := datetostr( Date );
+                      btnOk.SetFocus;
+                    end;
+  uTipos.opExcluir: begin
+                      self.LerDados;
+                       pnTitulo.Caption := 'CADASTRO DE PESSOAS';
+                       lbl_sub_titulo.Caption := 'Excluir';
+                      pnDados.Enabled := false;
+                      btnOk.Caption   := 'Excluir';
+                      cb_ativo.Checked := false;
+                      btnFechar.SetFocus;
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfrmPessoasE.LerDados;
+var
+  loQry : TFDQuery;
+begin
+  loQry := TFDQuery.Create(Application);
+  loQry.Connection := Conexao;
+
+  loQry.SQL.Add('select * from pessoas where id =:id');
+  loQry.ParamByName('id').AsInteger := self.Codigo;
+  loqry.Open;
+
+  edt_id.Caption := inttostr(self.Codigo);
+  edt_cadastrado_em.Caption := datetostr(loQry.FieldByName('DATA_CAD').AsDateTime);
+  edt_alterado_em.Caption := datetostr(loQry.FieldByName('DATA_ALT').AsDateTime);
+  cb_ativo.Checked := SeSenao(loQry.FieldByName('ATIVO').AsString = 'S', true, false );
+  rg_pessoa.ItemIndex := SeSenao(loQry.FieldByName('ATIVO').AsString = 'F', 0, 1);
+  edt_cpf_cnpj.Text := loQry.FieldByName('CPF_CNPJ').AsString;
+  edt_rg_ie.Text := loQry.FieldByName('RG_IE').AsString;
+  edt_telefone.Text := loQry.FieldByName('TELEFONE').AsString;
+  edt_celular.Text := loQry.FieldByName('CELULAR').AsString;
+  edt_nome.Text := loQry.FieldByName('NOME').AsString;
+  edt_endereco.Text := loQry.FieldByName('ENDERECO').AsString;
+  edt_numero.Text := loQry.FieldByName('NUMERO').AsString;
+  edt_complemento.Text := loQry.FieldByName('COMPLEMENTO').AsString;
+  edt_bairro.Text := loQry.FieldByName('BAIRRO').AsString;
+  edt_cidade.Text := loQry.FieldByName('CIDADE').AsString;
+  edt_cep.Text := loQry.FieldByName('CEP').AsString;
+  edt_uf.Text := loQry.FieldByName('UF').AsString;
+  edt_email.Text := loQry.FieldByName('EMAIL').AsString;
+
+  loQry.Close;
+  FreeAndNil(loQry);
+
+end;
+
+procedure TfrmPessoasE.Salvar;
+begin
+  //ShowMessage('salvar');
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not Validar then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        prc_incluir_alterar(OpIncluir);
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      except
+        conexao.Rollback;
+        criarMensagem('AVISO','Não foi possível salvar o registro');
+//    on E : Exception do
+//       Raise Exception.Create(E.Message +  slinebreak +' NÃO FOI POSSIVEL SALVAR O REGISTRO! ' );
+
+
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not Validar then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        prc_incluir_alterar(opAlterar);
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      except
+        conexao.Rollback;
+        criarMensagem('AVISO','Não foi possível alterar o registro');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        try
+          prc_incluir_alterar(opExcluir);
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+          ModalResult := mrOk;
+        except
+          conexao.Rollback;
+          criarMensagem('AVISO','Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+  end;// case
+
+end;
+
+procedure TfrmPessoasE.prc_incluir_alterar(operacao: TOperacao);
+begin
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+    qry.SQL.Add('update pessoas set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+  end;
+
+
+  if operacao = OpIncluir then
+  begin
+    qry.SQL.Add('insert into pessoas ');
+    qry.SQL.Add('(');
+    qry.SQL.Add('  ID, ');
+    qry.SQL.Add('  NOME, ');
+    qry.SQL.Add('  CPF_CNPJ, ');
+    qry.SQL.Add('  RG_IE, ');
+    qry.SQL.Add('  ENDERECO, ');
+    qry.SQL.Add('  NUMERO, ');
+    qry.SQL.Add('  COMPLEMENTO, ');
+    qry.SQL.Add('  BAIRRO, ');
+    qry.SQL.Add('  CIDADE, ');
+    qry.SQL.Add('  UF, ');
+    qry.SQL.Add('  CEP, ');
+    qry.SQL.Add('  TELEFONE, ');
+    qry.SQL.Add('  CELULAR, ');
+    qry.SQL.Add('  DATA_CAD, ');
+    qry.SQL.Add('  EMAIL, ');
+    qry.SQL.Add('  FIS_JUR, ');
+    qry.SQL.Add('  ATIVO ');
+    qry.SQL.Add(') ');
+    qry.SQL.Add('VALUES ');
+    qry.SQL.Add('(');
+    qry.SQL.Add('  :ID, ');
+    qry.SQL.Add('  :NOME, ');
+    qry.SQL.Add('  :CPF_CNPJ, ');
+    qry.SQL.Add('  :RG_IE, ');
+    qry.SQL.Add('  :ENDERECO, ');
+    qry.SQL.Add('  :NUMERO, ');
+    qry.SQL.Add('  :COMPLEMENTO, ');
+    qry.SQL.Add('  :BAIRRO, ');
+    qry.SQL.Add('  :CIDADE, ');
+    qry.SQL.Add('  :UF, ');
+    qry.SQL.Add('  :CEP, ');
+    qry.SQL.Add('  :TELEFONE, ');
+    qry.SQL.Add('  :CELULAR, ');
+    qry.SQL.Add('  :DATA_CAD, ');
+    qry.SQL.Add('  :EMAIL, ');
+    qry.SQL.Add('  :FIS_JUR, ');
+    qry.SQL.Add('  :ATIVO ');
+    qry.SQL.Add(') ');
+
+    Codigo := uBiblioteca.AutoIncremento(conexao, 'PESSOAS');
+    qry.ParamByName('ID').AsInteger      := Codigo;
+    qry.ParamByName('DATA_CAD').AsDate   := Date;
+    qry.ParamByName('CPF_CNPJ').AsString := edt_cpf_cnpj.Text;
+    qry.ParamByName('RG_IE').AsString    := edt_rg_ie.Text;
+    qry.ParamByName('FIS_JUR').AsString  := SeSenao(rg_pessoa.ItemIndex = 0, 'F', 'J');
+
+  end
+  else
+  begin
+    qry.SQL.Add('UPDATE                        ');
+    qry.SQL.Add('  PESSOAS                     ');
+    qry.SQL.Add('SET                           ');
+    qry.SQL.Add('  NOME        = :NOME,        ');
+    qry.SQL.Add('  ENDERECO    = :ENDERECO,    ');
+    qry.SQL.Add('  NUMERO      = :NUMERO,      ');
+    qry.SQL.Add('  COMPLEMENTO = :COMPLEMENTO, ');
+    qry.SQL.Add('  BAIRRO      = :BAIRRO,      ');
+    qry.SQL.Add('  CIDADE      = :CIDADE,      ');
+    qry.SQL.Add('  UF          = :UF,          ');
+    qry.SQL.Add('  CEP         = :CEP,         ');
+    qry.SQL.Add('  TELEFONE    = :TELEFONE,    ');
+    qry.SQL.Add('  CELULAR     = :CELULAR,     ');
+    qry.SQL.Add('  EMAIL       = :EMAIL,       ');
+    qry.SQL.Add('  ATIVO       = :ATIVO,       ');
+    qry.SQL.Add('  DATA_ALT    = :DATA_ALT     ');
+    qry.SQL.Add('WHERE                         ');
+    qry.SQL.Add('  ID = :ID                    ');
+    qry.ParamByName('ID').AsInteger := Codigo;
+    qry.ParamByName('DATA_ALT').AsDate := Date;
+
+  end;
+
+  qry.ParamByName('NOME').AsString := edt_nome.Text;
+  qry.ParamByName('ENDERECO').AsString := edt_endereco.Text;
+  qry.ParamByName('NUMERO').AsString := edt_numero.text;
+  qry.ParamByName('COMPLEMENTO').AsString := edt_complemento.Text;
+  qry.ParamByName('BAIRRO').AsString := edt_bairro.Text;
+  qry.ParamByName('CIDADE').AsString := edt_cidade.Text;
+  qry.ParamByName('UF').AsString := edt_uf.Text;
+  qry.ParamByName('CEP').AsString := edt_cep.Text;
+  qry.ParamByName('TELEFONE').AsString := edt_telefone.Text;
+  qry.ParamByName('CELULAR').AsString := edt_celular.Text;
+  qry.ParamByName('EMAIL').AsString := edt_email.Text;
+  qry.ParamByName('ATIVO').AsString := SeSenao(cb_ativo.Checked = true, 'S', 'N');
+
+  qry.ExecSQL;
+
+end;
+
+function TfrmPessoasE.validar():boolean;
+var
+  loQuery: TFDQuery;
+begin
+  result := false;
+
+  if rg_pessoa.ItemIndex = -1 then
+  begin
+    criarMensagem('AVISO','Selecione o tipo de Pessoa');
+    rg_pessoa.SetFocus;
+    exit;
+
+  end;
+  (* LAJES TRIUNFO
+  if edCpfCnpj.Text ='00000000000'  then
+   edCpfCnpj.Text := '';
+  *)
+  if edt_cpf_cnpj.Text <> ''  then
+  begin
+    {Valida cpf / cnpj}
+    if length(trim(edt_cpf_cnpj.Text)) = 11 then // cpf
+    begin
+      rg_pessoa.ItemIndex := 0;
+      if not uBiblioteca.ValidarCpf(edt_cpf_cnpj.Text) then
+      begin
+        criarMensagem('AVISO','Informe um Cpf válido');
+        edt_cpf_cnpj.SetFocus;
+        exit;
+      end;
+    end
+    else
+    if length(trim(edt_cpf_cnpj.Text)) = 14 then // cnpj
+    begin
+      rg_pessoa.ItemIndex := 1;
+      if not uBiblioteca.ValidarCgc(edt_cpf_cnpj.Text) then
+      begin
+        criarMensagem('AVISO','Informe um Cnpj válido');
+        edt_cpf_cnpj.SetFocus;
+        exit;
+      end;
+    end
+    else
+    begin
+      criarMensagem('AVISO','Informe um Cpf / Cnpj válido ou deixe o campo em branco');
+      edt_cpf_cnpj.SetFocus;
+      exit;
+    end;
+
+    {duplicidade}
+    if self.Operacao = uTipos.OpIncluir then
+    begin
+      try
+        try
+          {O cpf/cnpj é válido... então verificar a duplicidade}
+          loQuery := TFDQuery.Create(self);
+          loQuery.Connection := Self.Conexao;
+          loQuery.SQL.Add('select CPF_CNPJ from PESSOAS where CPF_CNPJ =:CPF_CNPF');
+          loQuery.ParamByName('CPF_CNPF').AsString := trim(edt_cpf_cnpj.Text);
+          loQuery.Open;
+          if not loQuery.IsEmpty then
+          begin
+            criarMensagem('AVISO','Cpf/Cnpj : ' + trim(loQuery.fieldbyname('CPF_CNPJ').AsString) + ' já está cadastrado no sistema');
+            exit;
+          end;
+        finally
+          FreeAndNil(loQuery);
+        end;
+      except
+        on E : Exception do
+        Raise Exception.Create(E.Message + Self.Name +'.Valida : ' + self.Caption );
+      end;
+    end;
+  end // cpf/cnpj diferente de vazio
+  else
+  begin
+   // lajes triunfo qry.FieldByName('CPF_CNPJ').AsString :='00000000000';
+
+
+    criarMensagem('AVISO','Informe um documento válido');
+    edt_cpf_cnpj.SetFocus;
+    exit
+
+  end;
+
+  if (edt_telefone.Text = '') and (edt_celular.Text = '') then
+  begin
+    criarMensagem('AVISO','Informe pelo menos um telefone');
+    exit;
+  end;
+
+  if edt_nome.Text = '' then
+  begin
+    criarMensagem('AVISO','Informe o nome do cliente');
+    if edt_nome.CanFocus then edt_nome.SetFocus;
+    exit;
+  end;
+
+  if edt_endereco.Text = '' then
+  begin
+    criarMensagem('AVISO','Informe o endereço');
+    if edt_endereco.CanFocus then edt_endereco.SetFocus;
+    exit;
+  end;
+
+  if (trim(edt_numero.Text) = '') then
+  begin
+    criarMensagem('AVISO','Informe o número do endereço');
+    if edt_numero.CanFocus then edt_numero.SetFocus;
+    exit;
+  end;
+
+  if edt_bairro.Text = '' then
+  begin
+    criarMensagem('AVISO','Informe o bairro do endereço');
+    if edt_bairro.CanFocus then edt_bairro.SetFocus;
+    exit;
+  end;
+
+  if edt_cidade.Text = '' then
+  begin
+    criarMensagem('AVISO','Informe a cidade do endereço');
+    if edt_cidade.CanFocus then edt_cidade.SetFocus;
+    exit;
+  end;
+
+  if edt_uf.Text = '' then
+  begin
+    criarMensagem('AVISO','Informe a UF do endereço');
+    if edt_uf.CanFocus then edt_uf.SetFocus;
+    exit;
+  end;
+
+
+  //***
+  //ShowMessage('Cliente validado com sucesso!');
+
+  result := true;
+
+end;
+
+
+procedure TfrmPessoasE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  Salvar();
+
+end;
+
+procedure TfrmPessoasE.Componentes;
+begin
+ // qry.Open('select * from '+ self.Tabela +' where ID = :ID');
+end;
+
+
+
+end.

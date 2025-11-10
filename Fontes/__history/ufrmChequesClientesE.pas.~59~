@@ -1,0 +1,662 @@
+unit ufrmChequesClientesE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.ComCtrls, uTipos, unit_funcoes, Vcl.DBCtrls, uBiblioteca,
+  ufrmCorrentistasE, Vcl.Grids, Vcl.DBGrids, udmConn, uFinanceiro;
+
+type
+  TfrmChequesClientesE = class(TfrmBaseEdicao)
+    qry_contas: TFDQuery;
+    ds_contas: TDataSource;
+    PageControl1: TPageControl;
+    tbs_pesquisa: TTabSheet;
+    pnl_pesquisa: TPanel;
+    Label3: TLabel;
+    Label18: TLabel;
+    edt_cpf_cnpj: TEdit;
+    btn_novo_correntista: TBitBtn;
+    btn_alterar_dados: TBitBtn;
+    btn_confirma: TBitBtn;
+    tbs_cadastro: TTabSheet;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    pnl_id: TPanel;
+    pnl_rg_ie: TPanel;
+    pnl_cpf_cnpj: TPanel;
+    pnl_cadastrado_em: TPanel;
+    pnl_telefone: TPanel;
+    pnl_celular: TPanel;
+    pnl_nome: TPanel;
+    GroupBox2: TGroupBox;
+    Label4: TLabel;
+    Label6: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label16: TLabel;
+    pnl_nr_banco: TPanel;
+    pnl_nr_agencia: TPanel;
+    pnl_nr_conta: TPanel;
+    edt_nr_cheque: TEdit;
+    dtp_data_cheque: TDateTimePicker;
+    edt_histórico: TEdit;
+    edt_valor: TEdit;
+    dbg_contas: TDBGrid;
+    btn_fechar: TSpeedButton;
+    GroupBox3: TGroupBox;
+    cb_repassado: TCheckBox;
+    Label15: TLabel;
+    pnl_id_conta: TPanel;
+    dtp_repassado: TDateTimePicker;
+    lbl_repassado: TLabel;
+    edt_repassado: TEdit;
+    cb_devolvido: TCheckBox;
+    dtp_devolvido: TDateTimePicker;
+    lbl_receber: TLabel;
+    cbx_receber: TDBLookupComboBox;
+    qry_devedor: TFDQuery;
+    ds_devedor: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+    procedure edt_cpf_cnpjChange(Sender: TObject);
+    procedure btn_confirmaClick(Sender: TObject);
+    procedure ds_contasDataChange(Sender: TObject; Field: TField);
+    procedure tbs_pesquisaShow(Sender: TObject);
+    procedure tbs_cadastroShow(Sender: TObject);
+    procedure edt_nr_chequeExit(Sender: TObject);
+    procedure btn_novo_correntistaClick(Sender: TObject);
+    procedure btn_alterar_dadosClick(Sender: TObject);
+    procedure edt_valorKeyPress(Sender: TObject; var Key: Char);
+    procedure edt_valorExit(Sender: TObject);
+    procedure btn_fecharClick(Sender: TObject);
+    procedure cb_repassadoClick(Sender: TObject);
+    procedure cb_devolvidoClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fpessoa_id: integer;
+    Fp_somente_leitura: boolean;
+    Fp_confirmado: boolean;
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_busca_pessoa(pessoa_id: integer);
+    procedure prc_ler_dados;
+    procedure prc_salvar;
+    function prc_validar: boolean;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_carrega_dados_da_conta;
+    procedure prc_limpar_dados;
+    { Private declarations }
+  public
+    { Public declarations }
+    {esta propriedade quando true sera usado somente para leitura. será chamando
+    pelo form de recibo de pagamento  }
+    property p_somente_leitura :boolean read Fp_somente_leitura write Fp_somente_leitura;
+    property p_confirmado :boolean read Fp_confirmado write Fp_confirmado;
+
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+
+    property pessoa_id : integer read Fpessoa_id write Fpessoa_id;
+  end;
+
+var
+  frmChequesClientesE: TfrmChequesClientesE;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmChequesClientesE.btnOkClick(Sender: TObject);
+begin
+  prc_salvar;
+end;
+
+procedure TfrmChequesClientesE.btn_alterar_dadosClick(Sender: TObject);
+begin
+  try
+    if frmCorrentistasE = nil then
+      frmCorrentistasE := TfrmCorrentistasE.Create(application);
+
+    frmCorrentistasE.Operacao := utipos.opAlterar;
+    frmCorrentistasE.Codigo   := qry_contas.FieldByName('pessoa_id').AsInteger;
+    frmCorrentistasE.ShowModal;
+
+  finally
+    FreeAndNil(frmCorrentistasE)
+  end;
+end;
+
+procedure TfrmChequesClientesE.btn_confirmaClick(Sender: TObject);
+begin
+  PageControl1.ActivePage := tbs_cadastro;
+
+  // carrega os dados da pessoa na tela
+  prc_busca_pessoa(qry_contas.FieldByName('pessoa_id').AsInteger);
+  prc_carrega_dados_da_conta;
+  edt_nr_cheque.SetFocus;
+
+end;
+
+procedure TfrmChequesClientesE.btn_fecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmChequesClientesE.btn_novo_correntistaClick(Sender: TObject);
+begin
+  try
+    if frmCorrentistasE = nil then
+      frmCorrentistasE := TfrmCorrentistasE.Create(application);
+
+    frmCorrentistasE.Operacao := utipos.OpIncluir;
+    frmCorrentistasE.ShowModal;
+
+  finally
+    FreeAndNil(frmCorrentistasE)
+  end;
+end;
+
+procedure TfrmChequesClientesE.cb_devolvidoClick(Sender: TObject);
+begin
+  inherited;
+  if cb_devolvido.Checked then
+  begin
+    dtp_devolvido.Visible := true;
+    lbl_receber.Visible := true;
+    cbx_receber.Visible := true;
+  end else
+  if cb_devolvido.Checked = false then
+  begin
+    dtp_devolvido.Visible := false;
+    lbl_receber.Visible := false;
+    cbx_receber.Visible := false;
+  end;
+
+end;
+
+procedure TfrmChequesClientesE.cb_repassadoClick(Sender: TObject);
+begin
+  inherited;
+  if cb_repassado.Checked then
+  begin
+    dtp_repassado.Visible := true;
+    lbl_repassado.Visible := true;
+    edt_repassado.Visible := true;
+  end else
+  if cb_repassado.Checked = false then
+  begin
+    dtp_repassado.Visible := false;
+    lbl_repassado.Visible := false;
+    edt_repassado.Visible := false;
+    cb_devolvido.Visible  := false;
+  end;
+
+end;
+
+procedure TfrmChequesClientesE.ds_contasDataChange(Sender: TObject;
+  Field: TField);
+begin
+
+  btn_confirma.Enabled      := not qry_contas.IsEmpty;
+  btn_alterar_dados.Enabled := not qry_contas.IsEmpty;
+
+end;
+
+procedure TfrmChequesClientesE.edt_cpf_cnpjChange(Sender: TObject);
+begin
+  qry_contas.Close;
+  qry_contas.ParamByName('cpf_cnpj').AsString := '%' + edt_cpf_cnpj.Text + '%';
+  qry_contas.Open;
+
+
+  // se não achar nada limpar campos
+  if qry_contas.IsEmpty then
+    prc_limpar_dados;
+end;
+
+procedure TfrmChequesClientesE.edt_nr_chequeExit(Sender: TObject);
+begin
+  inherited;
+  if edt_nr_cheque.Text <> '' then
+    edt_nr_cheque.Text :=  unit_funcoes.fnc_completa_zeros(edt_nr_cheque.Text, 6);
+end;
+
+procedure TfrmChequesClientesE.edt_valorExit(Sender: TObject);
+begin
+  ubiblioteca.prc_formata_dinheiro(sender);
+end;
+
+procedure TfrmChequesClientesE.edt_valorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  uBiblioteca.prc_somente_numeros(sender,key);
+end;
+
+procedure TfrmChequesClientesE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CHEQUES_CLIENTES';
+  p_somente_leitura := false;
+  p_confirmado      := false;
+end;
+
+procedure TfrmChequesClientesE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmChequesClientesE.prc_componentes;
+begin
+  qry_contas.Connection   := conexao;
+  // esconder os captions da pagecontrol
+  PageControl1.TabPosition := tpBottom;
+  PageControl1.TabHeight   := 1;
+  PageControl1.TabWidth    := 1;
+
+  // esconde tab cadastro
+  PageControl1.ActivePage  := tbs_pesquisa;
+  PageControl1.Pages[1].TabVisible := false;
+  //
+  pnRodape.Visible := false;
+
+  qry_devedor.Connection := conexao;
+  qry_devedor.Open;
+end;
+
+procedure TfrmChequesClientesE.prc_inicializar;
+begin
+  pnTitulo.Caption := 'CADASTRO DE CHEQUE DE CLIENTE';
+
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       //lbl_sub_titulo.Caption    := 'Informe um cpf/cnpj e preencha os dados necessários';
+                       pnl_Id.Caption            := '-1';
+                       pnl_cadastrado_em.Caption := datetostr(date);
+                       dtp_data_cheque.Date      := date;
+                       btnOk.Caption             := 'SALVAR CHEQUE';
+                     end;
+  uTipos.opAlterar: begin
+                       prc_ler_dados;
+                      //lbl_sub_titulo.Caption    := 'ALTERAÇÃO';
+                        btnOk.Caption             := 'SALVAR ALTERAÇÕES';
+
+                      btnOk.SetFocus;
+                    end;
+  uTipos.opExcluir: begin
+                      prc_ler_dados;
+                      //lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled        := false;
+                      btnOk.Caption          := 'EXCLUIR CHEQUE';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+
+procedure TfrmChequesClientesE.prc_ler_dados;
+begin
+
+  PageControl1.Pages[0].TabVisible := false;
+
+  {mostra tab cadastro}
+  PageControl1.ActivePage          := tbs_cadastro;
+  PageControl1.Pages[1].TabVisible := true;
+  pnRodape.Visible := true;
+
+  {carrega a pessoa}
+  prc_busca_pessoa(pessoa_id);
+
+  {carrega dados do conta}
+  prc_carrega_dados_da_conta;
+
+  if cb_repassado.Checked then
+  begin
+    dtp_repassado.Visible := true;
+    lbl_repassado.Visible := true;
+    edt_repassado.Visible := true;
+  end else
+  if cb_repassado.Checked = false then
+  begin
+    dtp_repassado.Visible := false;
+    lbl_repassado.Visible := false;
+    edt_repassado.Visible := false;
+    cb_devolvido.Visible  := false;
+  end;
+
+  if cb_devolvido.Checked then
+  begin
+    dtp_devolvido.Visible := true;
+    lbl_receber.Visible := true;
+    cbx_receber.Visible := true;
+    btnok.Caption := 'SOMENTE LEITURA';
+    btnOk.Enabled := false;
+  end else
+  if cb_devolvido.Checked = false then
+  begin
+    dtp_devolvido.Visible := false;
+    lbl_receber.Visible := false;
+    cbx_receber.Visible := false;
+  end;
+
+
+
+end;
+
+
+
+procedure TfrmChequesClientesE.prc_limpar_dados;
+begin
+  pnl_Id.Caption            := '-1';
+  pnl_cadastrado_em.Caption := '';
+  pnl_cpf_cnpj.Caption      := '';
+  pnl_rg_ie.Caption         := '';
+  pnl_telefone.Caption      := '';
+  pnl_celular.Caption       := '';
+  pnl_nome.Caption          := '';
+
+  pnl_nr_banco.Caption   := '';
+  pnl_nr_agencia.Caption := '';
+  pnl_nr_conta.Caption   := '';
+
+end;
+
+
+
+procedure TfrmChequesClientesE.prc_busca_pessoa(pessoa_id: integer);
+var
+ loQry: TFDQuery;
+begin
+
+  try
+    loQry := TFDQuery.Create(Self);
+    loQry.Connection := Conexao;
+    loqry.SQL.Clear;
+    {carrega a pessoa}
+    loQry.sql.Add('select * from pessoas where id =:id');
+    loQry.ParamByName('id').AsInteger := pessoa_id;
+    loQry.Open;
+    pnl_Id.Caption            := loQry.FieldByName('id').AsString;
+    pnl_cadastrado_em.Caption := loQry.FieldByName('data_cad').AsString;
+    pnl_cpf_cnpj.Caption      := loQry.FieldByName('cpf_cnpj').AsString;
+    pnl_rg_ie.Caption         := loQry.FieldByName('rg_ie').AsString;
+    pnl_telefone.Caption      := loQry.FieldByName('telefone').AsString;
+    pnl_celular.Caption       := loQry.FieldByName('celular').AsString;
+    pnl_nome.Caption          := loQry.FieldByName('nome').AsString;
+    loqry.Close;
+  finally
+    freeandnil(loqry);
+  end;
+end;
+
+procedure TfrmChequesClientesE.prc_carrega_dados_da_conta;
+begin
+  qry_contas.Close;
+  qry_contas.ParamByName('cpf_cnpj').AsString := pnl_cpf_cnpj.Caption;
+  qry_contas.Open;
+
+  pnl_id_conta.Caption   := qry_contas.FieldByName('id').AsString;
+  pnl_nr_banco.Caption   := qry_contas.FieldByName('nome_banco').AsString;
+  pnl_nr_agencia.Caption := qry_contas.FieldByName('nr_agencia').AsString;
+  pnl_nr_conta.Caption   := qry_contas.FieldByName('nr_conta').AsString;
+end;
+
+procedure TfrmChequesClientesE.prc_salvar;
+begin
+  if not prc_validar then Exit;
+
+  {importante essa informação antes de verificar o parametro p_somente_leitura}
+  p_confirmado := true;
+
+  {se o form foi chamado pelo recibo não salva no banco}
+  if p_somente_leitura = true then
+  begin
+    CLOSE;
+    exit;
+  end;
+
+
+  if not Conexao.InTransaction then Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Conexao.InTransaction then Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    on E : Exception do
+       begin
+         unit_funcoes.CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O REGISTRO.' + slinebreak + slinebreak + E.Message);
+         if Conexao.InTransaction then
+           Conexao.Rollback;;
+         Raise;
+       end;
+  end;
+
+end;
+
+function TfrmChequesClientesE.prc_validar: boolean;
+var
+  loQry : TFDQuery;
+begin
+  result := false;
+
+  if StrToIntDef(pnl_id.Caption,0) <= 0 then
+  begin
+    criarmensagem('AVISO','INFORME UMA PESSOA.');
+    edt_cpf_cnpj.setfocus;
+    exit;
+  end;
+
+  if edt_nr_cheque.Text = '' then
+  begin
+    criarmensagem('AVISO','INFORME O NÚMERO DO CHEQUE.');
+    edt_nr_cheque.setfocus;
+    exit;
+  end;
+
+  // verificar duplicidade
+  if operacao = opincluir then
+    begin
+    try
+      loqry := TFDQuery.Create(application);
+      loqry.Connection := conexao;
+      loqry.SQL.Add('select Id from cheques_clientes where correntista_conta_id =:conta and nr_cheque =:nr_cheque');
+      loqry.ParamByName('conta').AsInteger    := qry_contas.FieldByName('id').AsInteger;
+      loqry.ParamByName('nr_cheque').AsString := edt_nr_cheque.Text;
+      loqry.Open;
+      if loqry.RecordCount > 0 then
+      begin
+        criarmensagem('AVISO','CHEQUE QUE ESTA SENDO CADASTRADO JÁ INCLUSO NO SISTEMA.');
+        exit;
+      end;
+    finally
+      freeandnil(loqry);
+    end;
+  end;
+
+  if strtofloatdef(edt_valor.Text, 0) <= 0 then
+  begin
+    criarmensagem('AVISO','INFORME UM VALOR VÁLIDO.');
+    edt_valor.setfocus;
+    exit;
+  end;
+
+  if cb_repassado.Checked then
+    if edt_repassado.Text = '' then
+  begin
+    criarmensagem('AVISO','INFORME PARA QUEM REPASSOU O CHEQUE.');
+    edt_repassado.setfocus;
+    exit;
+  end;
+
+  if cb_devolvido.Checked then
+    if cbx_receber.Text = '' then
+  begin
+    criarmensagem('AVISO','INFORME QUEM PAGARÁ ESTE CHEQUE DEVOLVIDO.');
+    cbx_receber.setfocus;
+    exit;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmChequesClientesE.tbs_cadastroShow(Sender: TObject);
+begin
+  inherited;
+  pnRodape.Visible := true;
+end;
+
+procedure TfrmChequesClientesE.tbs_pesquisaShow(Sender: TObject);
+begin
+  inherited;
+  pnRodape.Visible := false;
+
+end;
+
+procedure TfrmChequesClientesE.prc_incluir_alterar(operacao: TOperacao);
+begin
+
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+
+  end;
+
+  if operacao = OpIncluir then
+  begin
+    qry.sql.clear;
+    qry.SQL.Add('insert into ' + Tabela       );
+    qry.SQL.Add('(                           ');
+    qry.SQL.Add('  CADASTRADO_EM,            ');
+    qry.SQL.Add('  CORRENTISTA_CONTA_ID,     ');
+    qry.SQL.Add('  NR_CHEQUE,                ');
+    qry.SQL.Add('  PRE_DATADO_PARA,          ');
+    qry.SQL.Add('  VALOR,                    ');
+    qry.SQL.Add('  RECIBO_ID,                ');
+    qry.SQL.Add('  HISTORICO,                ');
+    qry.SQL.Add('  REPASSADO,                ');
+    qry.SQL.Add('  DATA_REPASSE,             ');
+    qry.SQL.Add('  REPASSADO_PARA,           ');
+    qry.SQL.Add('  DEVOLVIDO                 ');
+    qry.SQL.Add(')                           ');
+    qry.SQL.Add('VALUES                      ');
+    qry.SQL.Add('(                           ');
+    qry.SQL.Add('  :CADASTRADO_EM,           ');
+    qry.SQL.Add('  :CORRENTISTA_CONTA_ID,    ');
+    qry.SQL.Add('  :NR_CHEQUE,               ');
+    qry.SQL.Add('  :PRE_DATADO_PARA,         ');
+    qry.SQL.Add('  :VALOR,                   ');
+    qry.SQL.Add('  :RECIBO_ID,               ');
+    qry.SQL.Add('  :HISTORICO,               ');
+    qry.SQL.Add('  :REPASSADO,               ');
+    qry.SQL.Add('  :DATA_REPASSE,            ');
+    qry.SQL.Add('  :REPASSADO_PARA,          ');
+    qry.SQL.Add('  :DELVOVIDO,               ');
+    qry.SQL.Add(')                           ');
+    qry.SQL.Add('returning ID                ');
+
+    qry.ParamByName('CADASTRADO_EM').AsDate := date;
+
+  end
+  else
+  begin
+    qry.sql.clear;
+    qry.SQL.Add('UPDATE                                          ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                                             ');
+    qry.SQL.Add('  CORRENTISTA_CONTA_ID = :CORRENTISTA_CONTA_ID, ');
+    qry.SQL.Add('  NR_CHEQUE            = :NR_CHEQUE,            ');
+    qry.SQL.Add('  PRE_DATADO_PARA      = :PRE_DATADO_PARA,      ');
+    qry.SQL.Add('  VALOR                = :VALOR,                ');
+    qry.SQL.Add('  RECIBO_ID            = :RECIBO_ID,            ');
+    qry.SQL.Add('  HISTORICO            = :HISTORICO,            ');
+    qry.SQL.Add('  REPASSADO            = :REPASSADO,            ');
+    qry.SQL.Add('  DATA_REPASSE         = :DATA_REPASSE,         ');
+    qry.SQL.Add('  REPASSADO_PARA       = :REPASSADO_PARA,       ');
+    qry.SQL.Add('  DATA_DEVOLUCAO       = :DATA_DEVOLUCAO,       ');
+    qry.SQL.Add('  DEVEDOR_PESSOA_ID    = :DEVEDOR_PESSOA_ID,    ');
+    qry.SQL.Add('  DEVOLVIDO            = :DEVOLVIDO             ');
+    qry.SQL.Add('WHERE                                           ');
+    qry.SQL.Add('  ID = :ID                                      ');
+    //
+    qry.ParamByName('ID').AsInteger := codigo;
+    qry.ParamByName('DATA_DEVOLUCAO').AsDate       := dtp_repassado.DateTime;
+    qry.ParamByName('DEVEDOR_PESSOA_ID').AsInteger := ubiblioteca.SeSenao(cbx_receber.text = '', -1, cbx_receber.KeyValue);
+
+  end;
+  //ShowMessage(QRY.SQL.Text);
+
+  qry.ParamByName('CORRENTISTA_CONTA_ID').AsInteger := qry_contas.FieldByName('id').AsInteger;
+  qry.ParamByName('NR_CHEQUE').AsString             := edt_nr_cheque.Text;
+  qry.ParamByName('PRE_DATADO_PARA').AsDate         := dtp_data_cheque.Date;
+  qry.ParamByName('VALOR').AsFloat                  := StrToFloatdef( edt_valor.Text,0);
+  qry.ParamByName('HISTORICO').AsString             := edt_histórico.Text;
+  qry.ParamByName('REPASSADO').AsString             := ubiblioteca.sesenao(cb_repassado.Checked = true , 'S','N');
+  qry.ParamByName('DATA_REPASSE').AsDate            := dtp_repassado.DateTime;
+  qry.ParamByName('REPASSADO_PARA').AsString        := edt_repassado.Text;
+  qry.ParamByName('DEVOLVIDO').AsString             := ubiblioteca.sesenao(cb_devolvido.Checked = true , 'S','N');
+  qry.ParamByName('RECIBO_ID').AsInteger            := -1; // qdo emitido pelo recibo aqui tem que mudar
+
+  if operacao = opincluir then
+  begin
+    QRY.Open;
+    codigo := qry.FieldByName('ID').AsInteger;
+  end else
+  begin
+    //showmessage('alterar');
+    qry.ExecSQL;
+  end;
+
+  // caso o cheque foi devolvido, enviar ao contas a receber
+  if cb_devolvido.Checked then
+  begin
+    ufinanceiro.AddContasReceber(conexao, -1, date, cbx_receber.KeyValue, 'CHEQUES_CLIENTES', codigo,
+                                1,1,StrToFloat(edt_valor.Text), 0,0,0,0,date,-1,0,
+                                'CHEQUE DEV :BANCO ' + pnl_nr_banco.Caption + ' AG. ' + pnl_nr_agencia.Caption +
+                                ' CC ' + pnl_nr_conta.Caption + ' NR. ' + edt_nr_cheque.Text,
+                                '',57);
+
+     CriarMensagem('AVISO','CHEQUE DEVOLVIDO ENVIADO AO CONTAS A RECEBER COM SUCESSO!');
+  end;
+
+
+end;
+
+
+
+
+end.

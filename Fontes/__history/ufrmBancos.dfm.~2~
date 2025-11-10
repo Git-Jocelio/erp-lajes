@@ -1,0 +1,27 @@
+inherited frmBancos: TfrmBancos
+  Caption = 'frmBancos'
+  ExplicitWidth = 899
+  ExplicitHeight = 435
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    inherited btnLocalizar: TBitBtn
+      OnClick = btnLocalizarClick
+    end
+  end
+  inherited ToolBar1: TToolBar
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

@@ -1,0 +1,281 @@
+inherited frmProdutosLajotas: TfrmProdutosLajotas
+  Caption = 'frmProdutosLajotas'
+  ClientHeight = 441
+  ClientWidth = 984
+  Position = poDesigned
+  ExplicitWidth = 984
+  ExplicitHeight = 441
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 984
+    ExplicitWidth = 984
+    inherited btnLocalizar: TBitBtn
+      Left = 557
+      Top = 42
+      ExplicitLeft = 557
+      ExplicitTop = 42
+    end
+    inherited edt_consulta: TEdit
+      TabOrder = 4
+    end
+    object cbDescricao: TCheckBox
+      Left = 32
+      Top = 24
+      Width = 97
+      Height = 17
+      Caption = 'Descri'#231#227'o'
+      TabOrder = 1
+    end
+    object edNome: TEdit
+      Left = 32
+      Top = 47
+      Width = 188
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+    object rgSituacao: TRadioGroup
+      Left = 462
+      Top = 16
+      Width = 89
+      Height = 78
+      Caption = ' Situa'#231#227'o '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ItemIndex = 0
+      Items.Strings = (
+        'Ativo'
+        'Inativo'
+        'Todos')
+      ParentFont = False
+      TabOrder = 3
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 984
+    ExplicitWidth = 984
+  end
+  inherited StatusBar: TStatusBar
+    Top = 409
+    Width = 984
+    ExplicitTop = 409
+    ExplicitWidth = 984
+  end
+  inherited PageControl1: TPageControl
+    Width = 984
+    Height = 204
+    ExplicitWidth = 984
+    ExplicitHeight = 204
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 976
+      ExplicitHeight = 194
+      inherited Panel5: TPanel
+        Width = 976
+        Height = 194
+        ExplicitWidth = 976
+        ExplicitHeight = 194
+        inherited DBGrid1: TDBGrid
+          Width = 936
+          Height = 143
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 48
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 372
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'UNIDADE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Un'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 61
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_CUSTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pre'#231'o Fornecedor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 166
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_VENDEDOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pre'#231'o Vendedor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 127
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_VENDA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pre'#231'o de Venda'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 128
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ESTOQUE_FISICO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Fisico'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PEDIDO_ABERTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Aberto'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ESTOQUE_DISPONIVEL'
+              Title.Alignment = taCenter
+              Title.Caption = 'Disponivel'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PEDIDO_AGUARDANDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Aguardando'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ESTOQUE_LIQUIDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Liquido'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 936
+          ExplicitWidth = 936
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 984
+    ExplicitWidth = 984
+    inherited btn_fechar: TSpeedButton
+      Left = 914
+    end
+    inherited lbl_titulo: TLabel
+      Height = 56
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 984
+      ExplicitWidth = 984
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      '  sSql := '#39' select '#39' +'
+      '          '#39'    ID, NOME_FANTASIA, UNIDADE, '#39' +'
+      '          '#39'    PRECO_CUSTO, PRECO_VENDEDOR, PRECO_VENDA, '#39' +'
+      
+        '          '#39'    ESTOQUE_FISICO, PEDIDO_ABERTO, ESTOQUE_DISPONIVEL' +
+        ', PEDIDO_AGUARDANDO, ESTOQUE_LIQUIDO '#39' +'
+      '          '#39' from '#39' +'
+      '          '#39'    PRODUTOS_LAJOTAS '#39' +'
+      '          '#39' where '#39' +'
+      '          '#39'    REVENDA = '#39' + QuotedStr('#39'S'#39');'
+      '')
+  end
+  inherited ActionList1: TActionList
+    Left = 352
+    Top = 72
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

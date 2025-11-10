@@ -1,0 +1,259 @@
+unit ufrmDepartamentosE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask;
+
+type
+  TfrmProdutosE = class(TfrmBaseEdicao)
+    Label1: TLabel;
+    edID: TDBEdit;
+    Label7: TLabel;
+    eddataCad: TDBEdit;
+    Label8: TLabel;
+    edDataAlt: TDBEdit;
+    cbAtivo: TDBCheckBox;
+    Label2: TLabel;
+    edNome: TDBEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTitulo: string;
+    FTabela: string;
+    FCodigo: integer;
+
+    procedure Salvar();
+
+  protected
+    procedure Componentes();
+    procedure Inicializar();
+
+    procedure LerDados();
+    function valida: boolean;
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property Titulo   :string read FTitulo write FTitulo;
+  end;
+
+  procedure Incluir;
+  procedure Alterar(ACodigo :integer);
+  procedure Excluir(ACodigo :integer);
+
+implementation
+
+uses uBiblioteca;
+
+
+procedure Incluir;
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo :integer);
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo :integer);
+var
+  loForm : TfrmDepartamentosE;
+begin
+  loForm := TfrmDepartamentosE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmProdutosE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  Salvar();
+
+end;
+
+procedure TfrmProdutosE.Componentes;
+begin
+  qry.Open('select * from '+ self.Tabela +' where ID = :ID');
+end;
+
+procedure TfrmProdutosE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qry.Connection := self.Conexao;
+  self.Tabela := 'DEPARTAMENTOS';
+
+end;
+
+procedure TfrmProdutosE.FormShow(Sender: TObject);
+begin
+  inherited;
+  Componentes;
+  Inicializar;
+
+end;
+
+procedure TfrmProdutosE.Inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       pnTitulo.Caption := 'Manutenção de ' + self.Tabela +' [Inclusão]';
+                       btnOk     .Caption := 'Incluir';
+                       //
+                       qry.Insert;
+                       qry.FieldByName('ID').AsInteger := ubiblioteca.AutoIncremento(self.Conexao,'PESSOAS');
+                       qry.FieldByName('DATA_CAD').AsDateTime := Date;
+                       qry.FieldByName('ATIVO').AsString := 'S';
+                       cbAtivo.Checked := true;
+                     end;
+  uTipos.opAlterar: begin
+                      self.LerDados;
+                      pnTitulo.Caption := 'Manutenção de ' + self.Tabela +' [Alteração]';
+                      btnOk.Caption := 'Alterar';
+                      //
+                      qry.Edit;
+                      qry.FieldByName('DATA_ALT').AsDateTime := Date;
+                      btnOk.SetFocus;
+                    end;
+  uTipos.opExcluir: begin
+                      self.LerDados;
+                      pnTitulo.Caption        := 'Manutenção de ' + self.Tabela +' [Exclusão]';
+                      pnDados.Enabled   := false;
+                      btnOk.Caption := 'Excluir';
+                      qry.Edit;
+                      qry.FieldByName('ATIVO').AsString := 'N';
+                      btnFechar.SetFocus;
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmProdutosE.LerDados;
+begin
+  uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(self.Codigo));
+
+end;
+
+procedure TfrmProdutosE.Salvar;
+begin
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not Valida then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        {Próximo código}
+        qry.Post;
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
+          Self.Inicializar
+        else
+          ModalResult := mrOk;
+      except
+        ShowMessage('Não foi possível salvar o registro');
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not Valida then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        qry.Post;
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      except
+        ShowMessage('Não foi possível alterar o registro');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        try
+          //qryPessoas.Delete;
+          qry.Post;
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+          ModalResult := mrOk;
+        except
+          ShowMessage('Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+  end;// case
+
+end;
+
+function TfrmProdutosE.valida: boolean;
+var
+  loQuery: TFDQuery;
+begin
+  result := false;
+
+  if trim(qry.fieldbyname('NOME').AsString) = '' then
+  begin
+    ShowMessage('Informe o nome do cliente');
+    if edNome.CanFocus then edNome.SetFocus;
+    exit;
+  end;
+
+
+  //***
+  ShowMessage('Cliente validado com sucesso!');
+
+  result := true;
+
+end;
+
+end.

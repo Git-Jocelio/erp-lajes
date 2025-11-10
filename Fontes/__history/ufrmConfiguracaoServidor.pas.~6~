@@ -1,0 +1,123 @@
+unit ufrmConfiguracaoServidor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  udmConn, uBiblioteca;
+
+type
+  TfrmConfiguracaoServidor = class(TForm)
+    shp_fundo: TShape;
+    pnl_panels: TPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    Label3: TLabel;
+    pnl_barra: TPanel;
+    Panel4: TPanel;
+    edt_caminho: TEdit;
+    Label5: TLabel;
+    Panel5: TPanel;
+    edt_porta: TEdit;
+    Label6: TLabel;
+    Panel6: TPanel;
+    edt_nomeBanco: TEdit;
+    Label7: TLabel;
+    Panel7: TPanel;
+    edt_login: TEdit;
+    Label8: TLabel;
+    Panel8: TPanel;
+    edt_senha: TEdit;
+    Label9: TLabel;
+    Panel9: TPanel;
+    Edit6: TEdit;
+    Label10: TLabel;
+    Panel10: TPanel;
+    Edit7: TEdit;
+    Label11: TLabel;
+    Panel11: TPanel;
+    Edit8: TEdit;
+    Label12: TLabel;
+    Panel12: TPanel;
+    Edit9: TEdit;
+    Label13: TLabel;
+    Panel13: TPanel;
+    Edit10: TEdit;
+    Label14: TLabel;
+    Panel14: TPanel;
+    Label4: TLabel;
+    procedure btn_simClick(Sender: TObject);
+    procedure btn_naoClick(Sender: TObject);
+  private
+    function fnc_validar: boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfiguracaoServidor: TfrmConfiguracaoServidor;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConfiguracaoServidor.btn_naoClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TfrmConfiguracaoServidor.btn_simClick(Sender: TObject);
+begin
+  if fnc_validar then
+  begin
+    dmConn.conexao.servidor := edt_caminho.Text ;
+    dmConn.conexao.base     := edt_nomeBanco.Text;
+    dmConn.conexao.login    := edt_login.Text;
+    dmConn.conexao.senha    := edt_senha.Text;
+    dmConn.conexao.porta    := edt_porta.Text;
+
+    if dmConn.conexao.fnc_conectar_banco_dados then
+    begin
+      dmConn.conexao.prc_gravar_arquivo_ini;
+
+      uBiblioteca.fnc_criar_mensagem('CONEXÃO AO BANCO DE DADOS',
+                               'CONECTADO !',
+                               'Conexão estabelicida com sucesso',
+                               ExtractFilePath(Application.ExeName) + '\Icones\aviso.ico',
+                               'OK');
+
+      close;
+
+    end else
+    begin
+      uBiblioteca.fnc_criar_mensagem('CONEXÃO AO BANCO DE DADOS',
+                               'Erro a tentar conectar',
+                               'não foi possivel conectar ao banco de dados' + 'possivem erro : '
+                               + dmConn.conexao.msgErro,
+                               ExtractFilePath(Application.ExeName) + '\Icones\aviso.ico',
+                               'OK');
+
+      edt_caminho.SetFocus;
+    end;
+
+
+  end;
+end;
+
+function TfrmConfiguracaoServidor.fnc_validar : boolean;
+begin
+ result := true;
+end;
+
+end.

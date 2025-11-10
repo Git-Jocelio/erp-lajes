@@ -1,0 +1,325 @@
+inherited frmContasReceber_Baixa: TfrmContasReceber_Baixa
+  ClientHeight = 538
+  ClientWidth = 540
+  Font.Height = -13
+  ExplicitWidth = 546
+  ExplicitHeight = 567
+  PixelsPerInch = 96
+  TextHeight = 15
+  inherited pnTitulo: TPanel
+    Width = 540
+    ExplicitWidth = 540
+  end
+  inherited pnDados: TPanel
+    Width = 540
+    Height = 442
+    ExplicitWidth = 540
+    ExplicitHeight = 442
+    object Bevel2: TBevel
+      Left = 92
+      Top = 32
+      Width = 87
+      Height = 25
+    end
+    object Bevel1: TBevel
+      Left = 5
+      Top = 32
+      Width = 81
+      Height = 25
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 16
+      Width = 13
+      Height = 15
+      Caption = 'ID'
+    end
+    object Label7: TLabel
+      Left = 92
+      Top = 15
+      Width = 79
+      Height = 15
+      Caption = 'Cadastrado em'
+    end
+    object lbl_ID: TLabel
+      Left = 5
+      Top = 37
+      Width = 34
+      Height = 15
+      Caption = 'lbl_ID'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 97
+      Top = 36
+      Width = 37
+      Height = 15
+      Caption = 'Label2'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 414
+      Top = 16
+      Width = 100
+      Height = 15
+      Caption = 'Valor total da baixa'
+    end
+    object Bevel4: TBevel
+      Left = 184
+      Top = 32
+      Width = 223
+      Height = 25
+    end
+    object Label8: TLabel
+      Left = 184
+      Top = 15
+      Width = 42
+      Height = 15
+      Caption = 'Usu'#225'rio'
+    end
+    object lbl_usuario: TLabel
+      Left = 221
+      Top = 36
+      Width = 37
+      Height = 15
+      Caption = 'Label2'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl_usuarioID: TLabel
+      Left = 185
+      Top = 36
+      Width = 76
+      Height = 15
+      Caption = 'lbl_usuarioID'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Bevel3: TBevel
+      Left = 5
+      Top = 81
+      Width = 530
+      Height = 25
+    end
+    object Label2: TLabel
+      Left = 5
+      Top = 64
+      Width = 38
+      Height = 15
+      Caption = 'Pessoa'
+    end
+    object lbl_pessoaName: TLabel
+      Left = 56
+      Top = 85
+      Width = 37
+      Height = 15
+      Caption = 'Label2'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl_pessoaID: TLabel
+      Left = 9
+      Top = 85
+      Width = 34
+      Height = 15
+      Caption = 'lbl_ID'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object edt_valor: TEdit
+      Left = 414
+      Top = 33
+      Width = 121
+      Height = 23
+      TabOrder = 0
+    end
+    object PageControl: TPageControl
+      Left = 1
+      Top = 112
+      Width = 538
+      Height = 329
+      ActivePage = Tab_forma_de_pagto
+      Align = alBottom
+      TabOrder = 1
+      object Tab_debitos: TTabSheet
+        Caption = 'D'#233'bitos '
+        object dbg_debitos: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 530
+          Height = 299
+          Align = alClient
+          DataSource = ds
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ReadOnly = True
+          TabOrder = 0
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Times New Roman'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Times New Roman'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 40
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Times New Roman'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 203
+              Visible = True
+            end
+            item
+              Alignment = taRightJustify
+              Expanded = False
+              FieldName = 'TOTAL'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Times New Roman'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Total'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_PAGO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Times New Roman'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Pago'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'SALDO_ABERTO'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Times New Roman'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Aberto'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end>
+        end
+      end
+      object Tab_forma_de_pagto: TTabSheet
+        Caption = 'Forma de Pagamento'
+        object mm_forma_de_pagto: TMemo
+          Left = 0
+          Top = 0
+          Width = 530
+          Height = 299
+          Align = alClient
+          Lines.Strings = (
+            '< Descreva a forma de pagamento >')
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 483
+    Width = 540
+    ExplicitTop = 483
+    ExplicitWidth = 540
+    inherited btnOk: TBitBtn
+      OnClick = btnOkClick
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 48
+    Top = 168
+  end
+  inherited ds: TDataSource
+    DataSet = nil
+    Left = 88
+    Top = 169
+  end
+  object qryPedidos: TFDQuery
+    CachedUpdates = True
+    SQL.Strings = (
+      'select * from pedidos where id = :id')
+    Left = 61
+    Top = 259
+  end
+  object qryContaReceber: TFDQuery
+    Left = 93
+    Top = 259
+  end
+end

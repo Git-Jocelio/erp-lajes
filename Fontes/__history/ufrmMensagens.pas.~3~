@@ -1,0 +1,40 @@
+unit ufrmMensagens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.StdCtrls;
+
+type
+  TfrmMensagens = class(TfrmBaseConexao)
+    Panel1: TPanel;
+    shpFundo: TShape;
+    pnl_barra: TPanel;
+    lbl_Atencao: TLabel;
+    img_icone: TImage;
+    lbl_titulo: TLabel;
+    lbl_msg: TLabel;
+    pnlBotoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMensagens: TfrmMensagens;
+
+implementation
+
+{$R *.dfm}
+
+end.

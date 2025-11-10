@@ -1,0 +1,214 @@
+program LajesTriunfo;
+
+uses
+  Vcl.Forms,
+  ufrmPrincipal in 'ufrmPrincipal.pas' {frmPrincipal},
+  udmConn in 'udmConn.pas' {dmConn: TDataModule},
+  ufrmBaseConexao in 'ufrmBaseConexao.pas' {frmBaseConexao},
+  ufrmBaseGrade in 'ufrmBaseGrade.pas' {frmBaseGrade},
+  uBiblioteca in '..\Lib\uBiblioteca.pas',
+  ufrmPessoas in 'ufrmPessoas.pas' {frmPessoas},
+  ufrmBaseEdicao in 'ufrmBaseEdicao.pas' {frmBaseEdicao},
+  uTipos in '..\Lib\uTipos.pas',
+  ufrmPessoasE in 'ufrmPessoasE.pas' {frmPessoasE},
+  ufrmVendedores in 'ufrmVendedores.pas' {frmVendedores},
+  ufrmVendedoresE in 'ufrmVendedoresE.pas' {frmVendedoresE},
+  ufrmBasePesquisa in 'ufrmBasePesquisa.pas' {frmBasePesquisa},
+  ufrmPesquisaPessoa in 'ufrmPesquisaPessoa.pas' {frmPesquisaPessoa},
+  ufrmClientes in 'ufrmClientes.pas' {frmClientes},
+  ufrmClientesE in 'ufrmClientesE.pas' {frmClientesE},
+  ufrmFormaPagto in 'ufrmFormaPagto.pas' {frmFormaPagto},
+  ufrmDepartamentos in 'ufrmDepartamentos.pas' {frmDepartamentos},
+  ufrmDepartamentosE in 'ufrmDepartamentosE.pas' {frmDepartamentosE},
+  ufrmProdutos in 'ufrmProdutos.pas' {frmProdutos},
+  ufrmProdutosE in 'ufrmProdutosE.pas' {frmProdutosE},
+  ufrmProdutosTrelicaE in 'ufrmProdutosTrelicaE.pas' {frmProdutosTrelicaE},
+  ufrmProdutoTrelica in 'ufrmProdutoTrelica.pas' {frmProdutoTrelica},
+  ufrmProdutosEps in 'ufrmProdutosEps.pas' {frmProdutosEps},
+  ufrmProdutosEpsE in 'ufrmProdutosEpsE.pas' {frmProdutosEpsE},
+  ufrmProdutosAdicional in 'ufrmProdutosAdicional.pas' {frmProdutosAdicional},
+  ufrmProdutosAdicionalE in 'ufrmProdutosAdicionalE.pas' {frmProdutosAdicionalE},
+  ufrmProdutosLajotas in 'ufrmProdutosLajotas.pas' {frmProdutosLajotas},
+  ufrmProdutosLajotasE in 'ufrmProdutosLajotasE.pas' {frmProdutosLajotasE},
+  ufrmProdutosConcreto in 'ufrmProdutosConcreto.pas' {frmProdutosConcreto},
+  ufrmProdutosConcretoE in 'ufrmProdutosConcretoE.pas' {frmProdutosConcretoE},
+  ufrmProdutosLajes in 'ufrmProdutosLajes.pas' {frmProdutosLajes},
+  ufrmProdutosLajesE in 'ufrmProdutosLajesE.pas' {frmProdutosLajesE},
+  ufrmPedidos in 'ufrmPedidos.pas' {frmPedidos},
+  ufrmPedidosE in 'ufrmPedidosE.pas' {frmPedidosE},
+  ufrmProdutosVigas in 'ufrmProdutosVigas.pas' {frmProdutosVigas},
+  ufrmPesquisaMateriaPrima in 'ufrmPesquisaMateriaPrima.pas' {frmPesquisaMateriaPrima},
+  udmPesquisa in 'udmPesquisa.pas' {dmPesquisa: TDataModule},
+  udmPrincipal in 'udmPrincipal.pas' {dmPrincipal: TDataModule},
+  ufrmPesquisaCliente in 'ufrmPesquisaCliente.pas' {frmPesquisaCliente},
+  ufrmPesquisaProdutos in 'ufrmPesquisaProdutos.pas' {frmPesquisaProdutos},
+  ufrmTransportadoras in 'ufrmTransportadoras.pas' {frmTransportadoras},
+  ufrmTransportadorasE in 'ufrmTransportadorasE.pas' {frmTransportadorasE},
+  ufrmPesquisaAdicionais in 'ufrmPesquisaAdicionais.pas' {frmPesquisaAdicionais},
+  ufrmRelPedidos in 'ufrmRelPedidos.pas' {frmRelPedidos},
+  ufrmPedididosFerragensE in 'ufrmPedididosFerragensE.pas' {frmPedididosFerragensE},
+  ufrmViga_AlteracaoPreco in 'ufrmViga_AlteracaoPreco.pas' {frmViga_AlteracaoPreco},
+  ufrmProdutosVigas_Pesquisa in 'ufrmProdutosVigas_Pesquisa.pas' {frmProdutosVigas_Pesquisa},
+  ufrmComissoes in 'ufrmComissoes.pas' {frmComissoes},
+  ufrmLogin in 'ufrmLogin.pas' {frmLogin},
+  ufrmMensagens in 'ufrmMensagens.pas' {frmMensagens},
+  ufrmConfiguracaoServidor in 'ufrmConfiguracaoServidor.pas' {frmConfiguracaoServidor},
+  Classe.Conexao in 'Classe.Conexao.pas',
+  System.SysUtils,
+  ufrmProdutosBomba in 'ufrmProdutosBomba.pas' {frmProdutosBomba},
+  ufrmProdutosBombaE in 'ufrmProdutosBombaE.pas' {frmProdutosBombaE},
+  ufrmPedidosAddVigas in 'ufrmPedidosAddVigas.pas' {frmPedidosAddVigas},
+  ufrmPedidosDigitarVigas in 'ufrmPedidosDigitarVigas.pas' {frmPedidosDigitarVigas},
+  uClasse.Empresa in 'uClasse.Empresa.pas',
+  ufrmEmpresa in 'ufrmEmpresa.pas' {frmEmpresa},
+  ufrmEmpresaE in 'ufrmEmpresaE.pas' {frmEmpresaE},
+  ufrmContasReceber in 'ufrmContasReceber.pas' {frmContasReceber},
+  UImpressao in 'UImpressao.pas',
+  ufrmContaReceberE in 'ufrmContaReceberE.pas' {frmContaReceberE},
+  uFinanceiro in 'uFinanceiro.pas',
+  ufrmUsuarios in 'ufrmUsuarios.pas' {frmUsuarios},
+  ufrmUsuariosE in 'ufrmUsuariosE.pas' {frmUsuariosE},
+  ufrmComissoesE in 'ufrmComissoesE.pas' {frmComissoesE},
+  ufrmComissoesDespesaE in 'ufrmComissoesDespesaE.pas' {frmComissoesDespesasE},
+  ufrmComissoesFechamento in 'ufrmComissoesFechamento.pas' {frmComissaoFechamentoE},
+  ufrmComissoesPesquisa in 'ufrmComissoesPesquisa.pas' {frmComissoesPesquisa},
+  ufrmComissoesPesquisaContasReceber in 'ufrmComissoesPesquisaContasReceber.pas' {frmComissoesPesquisaContasReceber},
+  ufrmComissaoFechamento in 'ufrmComissaoFechamento.pas' {frmComissaoFechamento},
+  ufrmComissoesItensE in 'ufrmComissoesItensE.pas' {frmComissoesItensE},
+  ufrmComissaoFechamento_Alt_Valor in 'ufrmComissaoFechamento_Alt_Valor.pas' {frmComissaoFechamento_Alt_Valor},
+  uAtualizaSistema in 'uAtualizaSistema.pas',
+  ufrmContasReceber_Baixa in 'ufrmContasReceber_Baixa.pas' {frmContasReceber_Baixa},
+  ufrmProducaoVigas in 'ufrmProducaoVigas.pas' {frmProducaoVigas},
+  ufrmProducaoVigasPedidos in 'ufrmProducaoVigasPedidos.pas' {frmProducaoVigasPedidos},
+  ufrmPlanoContas in 'ufrmPlanoContas.pas' {frmPlanoContas},
+  ufrmPlanoContasE in 'ufrmPlanoContasE.pas' {frmPlanoContasE},
+  ufrmContasPagar in 'ufrmContasPagar.pas' {frmContasPagar},
+  ufrmContasPagarE in 'ufrmContasPagarE.pas' {frmContasPagarE},
+  ufrmContasPagar_Lancamentos in 'ufrmContasPagar_Lancamentos.pas' {frmContasPagar_Lancamentos},
+  ufrmContasPagar_Baixa in 'ufrmContasPagar_Baixa.pas' {frmContasPagar_Baixa},
+  ufrmTabelaPrecos in 'ufrmTabelaPrecos.pas' {frmTabelaPrecos},
+  ufrmTabelaPrecosE in 'ufrmTabelaPrecosE.pas' {frmTabelaPrecosE},
+  ufrmPesquisaFormaPagamento in 'ufrmPesquisaFormaPagamento.pas' {frmPesquisaFormaPagamento},
+  ufrmConfiguracoesSistema in 'ufrmConfiguracoesSistema.pas' {frmConfiguracoesSistema},
+  ufrmFornecedores in 'ufrmFornecedores.pas' {frmFornecedores},
+  ufrmFornecedoresE in 'ufrmFornecedoresE.pas' {frmFornecedoresE},
+  ufrmCompras in 'ufrmCompras.pas' {frmCompras},
+  ufrmComprasE in 'ufrmComprasE.pas' {frmComprasE},
+  ufrmMaoObra in 'ufrmMaoObra.pas' {frmMaoObra},
+  ufrmMaoObraE in 'ufrmMaoObraE.pas' {frmMaoObraE},
+  ufrmPesquisaMaoObra in 'ufrmPesquisaMaoObra.pas' {frmPesquisaMaoObra},
+  ufrmPedidosCustos in 'ufrmPedidosCustos.pas' {frmPedidosCustos},
+  ufrmPedidosTotais in 'ufrmPedidosTotais.pas' {frmPedidosTotais},
+  ufrmCartaoOperadoras in 'ufrmCartaoOperadoras.pas' {frmCartaoOperadoras},
+  ufrmCartaoOperadorasE in 'ufrmCartaoOperadorasE.pas' {frmCartaoOperadorasE},
+  ufrmCartaoBandeiras in 'ufrmCartaoBandeiras.pas' {frmCartaoBandeiras},
+  ufrmCartaoBandeirasE in 'ufrmCartaoBandeirasE.pas' {frmCartaoBandeirasE},
+  ufrmCartaoFormasPagto in 'ufrmCartaoFormasPagto.pas' {frmCartaoFormasPagto},
+  ufrmCartaoFormasPagtoE in 'ufrmCartaoFormasPagtoE.pas' {frmCartaoFormasPagtoE},
+  ufrmCartaoMaquinas in 'ufrmCartaoMaquinas.pas' {frmCartaoMaquinas},
+  ufrmCartaoMaquinasE in 'ufrmCartaoMaquinasE.pas' {frmCartaoMaquinasE},
+  ufrmContasBancarias in 'ufrmContasBancarias.pas' {frmContasBancarias},
+  ufrmContasBancariasE in 'ufrmContasBancariasE.pas' {frmContasBancariasE},
+  ufrmCartaoVendas in 'ufrmCartaoVendas.pas' {frmCartaoVendas},
+  ufrmCartaoVendasE in 'ufrmCartaoVendasE.pas' {frmCartaoVendasE},
+  ufrmCartaoTaxas in 'ufrmCartaoTaxas.pas' {frmCartaoTaxas},
+  ufrmCartaoTaxasE in 'ufrmCartaoTaxasE.pas' {frmCartaoTaxasE},
+  ufrmCartaoTaxasItens in 'ufrmCartaoTaxasItens.pas' {frmCartaoTaxasItens},
+  ufrmBancos in 'ufrmBancos.pas' {frmBancos},
+  ufrmBancosE in 'ufrmBancosE.pas' {frmBancosE},
+  ufrmContasBancariasItens in 'ufrmContasBancariasItens.pas' {frmContasBancariasItens},
+  unit_funcoes in 'unit_funcoes.pas',
+  unit_fundo_esmaecer in 'unit_fundo_esmaecer.pas' {form_fundo_esmaecer},
+  unit_mensagem in 'unit_mensagem.pas' {form_mensagem},
+  unit_principal in 'unit_principal.pas' {form_principal},
+  unit_consulta_padrao in 'unit_consulta_padrao.pas' {form_consulta_padrao},
+  ufrmEstoquesMovimentacao in 'ufrmEstoquesMovimentacao.pas' {frmEstoquesMovimentacao},
+  ufrmEstoquesMovimentacaoE in 'ufrmEstoquesMovimentacaoE.pas' {frmEstoquesMovimentacaoE},
+  unit_controle_estoques in 'unit_controle_estoques.pas',
+  ufrmPedidosBaixa in 'ufrmPedidosBaixa.pas' {frmPedidosBaixa},
+  ufrmPedidosBaixaE in 'ufrmPedidosBaixaE.pas' {frmPedidosBaixaE},
+  unit_calcular_custo_de_lajes in 'unit_calcular_custo_de_lajes.pas',
+  ufrmEstoquesConsulta in 'ufrmEstoquesConsulta.pas' {frmEstoquesConsulta},
+  ufrmEstoquesDetalhes in 'ufrmEstoquesDetalhes.pas' {frmEstoquesDetalhes},
+  ufrmProducoesVigas in 'ufrmProducoesVigas.pas' {frmProducoesVigas},
+  ufrmProducoesVigasE in 'ufrmProducoesVigasE.pas' {frmProducoesVigasE},
+  ufrmEstoquesProducao in 'ufrmEstoquesProducao.pas' {frmEstoquesProducao},
+  unit_atualizacao_banco_de_dados in 'unit_atualizacao_banco_de_dados.pas',
+  unit_seguranca_sistema in 'unit_seguranca_sistema.pas',
+  ufrmNotificacoes in 'ufrmNotificacoes.pas' {frmNotificacoes},
+  unit_movimenta_estoques in 'unit_movimenta_estoques.pas',
+  ufrmPedidosConsultaConcreto in 'ufrmPedidosConsultaConcreto.pas' {frmPedidosConsultaConcreto},
+  ufrmPedidosPesquisaConcreto in 'ufrmPedidosPesquisaConcreto.pas' {frmPedidosPesquisaConcreto},
+  ufrmPrestadoresServicos in 'ufrmPrestadoresServicos.pas' {frmPrestadoresServicos},
+  ufrmPrestadoresServicosE in 'ufrmPrestadoresServicosE.pas' {frmPrestadoresServicosE},
+  ufrmProducaoTelasE in 'ufrmProducaoTelasE.pas' {frmProducaoTelasE},
+  ufrmProducaoTelasPesquisa in 'ufrmProducaoTelasPesquisa.pas' {frmProducaoTelasPesquisa},
+  ufrmProducaoTelas in 'ufrmProducaoTelas.pas' {frmProducaoTelas},
+  ufrmComprasParcelaE in 'ufrmComprasParcelaE.pas' {frmComprasParcelaE},
+  ufrmRecibos in 'ufrmRecibos.pas' {frmRecibos},
+  ufrmRecibosE in 'ufrmRecibosE.pas' {frmRecibosE},
+  ufrmDinheiroEntrada in 'ufrmDinheiroEntrada.pas' {frmDinheiroEntrada},
+  ufrmDinheiroEntradaE in 'ufrmDinheiroEntradaE.pas' {frmDinheiroEntradaE},
+  unit_conta_pessoa in 'unit_conta_pessoa.pas',
+  ufrmSelecionaPessoa_Custo in 'ufrmSelecionaPessoa_Custo.pas' {frmSelecionaPessoa_Custo},
+  ufrmDinheiroSaida in 'ufrmDinheiroSaida.pas' {frmDinheiroSaida},
+  ufrmDinheiroSaidaE in 'ufrmDinheiroSaidaE.pas' {frmDinheiroSaidaE},
+  ufrmDinheiroMovimentacao in 'ufrmDinheiroMovimentacao.pas' {frmDinheiroMovimentacao},
+  ufrmCorrentistas in 'ufrmCorrentistas.pas' {frmCorrentistas},
+  ufrmCorrentistasE in 'ufrmCorrentistasE.pas' {frmCorrentistasE},
+  ufrmCorrentistasContas in 'ufrmCorrentistasContas.pas' {frmCorrentistasContas},
+  ufrmChequesClientes in 'ufrmChequesClientes.pas' {frmChequesClientes},
+  ufrmChequesClientesE in 'ufrmChequesClientesE.pas' {frmChequesClientesE},
+  ufrmPesquisaContas in 'ufrmPesquisaContas.pas' {frmPesquisaContas},
+  ufrmRecibosAterarValorConta in 'ufrmRecibosAterarValorConta.pas' {frmRecibosAlterarValorConta},
+  ufrmPixRecebidos in 'ufrmPixRecebidos.pas' {frmPixRecebidos},
+  ufrmRecibosFornecedores in 'ufrmRecibosFornecedores.pas' {frmRecibosFornecedores},
+  ufrmRecibosFornecedoresE in 'ufrmRecibosFornecedoresE.pas' {frmRecibosFornecedoresE},
+  ufrmPesquisaChequeCliente in 'ufrmPesquisaChequeCliente.pas' {frmPesquisaChequeCliente},
+  ufrmPixEnviados in 'ufrmPixEnviados.pas' {frmPixEnviados};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TdmConn, dmConn);
+  if dmConn.conexao.fnc_conectar_banco_dados then
+  begin
+
+    {conectou ao banco}
+    Application.CreateForm(TdmPrincipal, dmPrincipal);
+    Application.CreateForm(TdmPesquisa, dmPesquisa);
+
+    frmLogin := TfrmLogin.Create(nil);
+    frmLogin.ShowModal;
+
+    // MENU ANTIGO
+    //Application.CreateForm(TfrmPrincipal, frmPrincipal);
+
+    // NOVO MENU
+    Application.CreateForm(Tform_principal, form_principal);
+    //Application.CreateForm(Tform_fundo_esmaecer, form_fundo_esmaecer);
+
+    frmLogin.Hide;
+    frmLogin.Free;
+
+    Application.Run;
+
+  end
+  else
+  begin
+
+     uBiblioteca.fnc_criar_mensagem('CONEXÃO AO BANCO DE DADOS',
+                                   'Erro a tentar conectar',
+                                   'não foi possivel conectar ao banco de dados' + ' possivem erro : '
+                                   + dmConn.conexao.msgErro,
+                                   ExtractFilePath(Application.ExeName) + '\Icones\information.ico',
+                                   'OK');
+
+     Application.CreateForm(TfrmConfiguracaoServidor, frmConfiguracaoServidor);
+     frmConfiguracaoServidor.ShowModal;
+
+  end;
+
+end.

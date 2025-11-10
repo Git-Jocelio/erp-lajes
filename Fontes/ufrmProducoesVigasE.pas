@@ -1,0 +1,773 @@
+unit ufrmProducoesVigasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls;
+
+type
+  TfrmProducoesVigasE = class(TfrmBaseEdicao)
+    mtb_vigas: TFDMemTable;
+    pnl_topo: TPanel;
+    Label1: TLabel;
+    lbl_producao_id: TLabel;
+    Label2: TLabel;
+    lbl_Cadastrado_em: TLabel;
+    Label4: TLabel;
+    lbl_alterado_em: TLabel;
+    Label3: TLabel;
+    rg_tipo_forma: TRadioGroup;
+    edt_capacidade_producao: TEdit;
+    Label5: TLabel;
+    edt_qtde_cimento: TEdit;
+    pnl_botoes_produtos: TPanel;
+    btn_produto_incluir: TSpeedButton;
+    btn_produto_excluir: TSpeedButton;
+    btn_produto_editar: TSpeedButton;
+    dbg_produtos: TDBGrid;
+    ds_vigas: TDataSource;
+    mtb_vigasID: TIntegerField;
+    mtb_vigasPRODUCAO_ID: TIntegerField;
+    mtb_vigasPRODUTO_ID: TIntegerField;
+    mtb_vigasNOME_FANTASIA: TStringField;
+    mtb_vigasQUANTIDADE: TIntegerField;
+    mt_itens_deletados: TFDMemTable;
+    mt_itens_deletadosID: TIntegerField;
+    Label6: TLabel;
+    Label8: TLabel;
+    mtb_vigasCOMPRIMENTO: TFloatField;
+    mtb_vigasMETROS_LINEARES: TFloatField;
+    edt_qtde_vigas: TDBText;
+    mtb_vigasQTDE_VIGAS: TAggregateField;
+    mtb_vigasTOTAL_LINEAR: TAggregateField;
+    edt_total_linear: TDBText;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure rg_tipo_formaClick(Sender: TObject);
+    procedure btn_produto_incluirClick(Sender: TObject);
+    procedure ds_vigasDataChange(Sender: TObject; Field: TField);
+    procedure btn_produto_excluirClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+    procedure btn_produto_editarClick(Sender: TObject);
+    procedure mtb_vigasCalcFields(DataSet: TDataSet);
+
+  private
+    FTabela: string;
+    FOperacao: uTipos.TOperacao;
+    FCodigo: integer;
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+
+    function fnc_validar: boolean;
+    procedure prc_salvar;
+
+    procedure prc_incluir_alterar_na_grid(operacao: TOperacao);
+    procedure prc_incluir_alterar(_operacao: TOperacao);
+    procedure prc_incluir_alterar_itens;
+    function fnc_buscar_comprimento_da_viga(produto_id: integer): Integer;
+
+    { Private declarations }
+  public
+    property Tabela   :string read FTabela write FTabela;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Codigo   :integer read FCodigo write FCodigo;
+  end;
+
+var
+  loForm: TfrmProducoesVigasE;
+  comprimento_viga : double;
+
+  procedure prc_incluir;
+  procedure prc_alterar(ACodigo :integer);
+  procedure prc_excluir(ACodigo :integer);
+
+
+implementation
+
+uses unit_movimenta_estoques, unit_principal, ufrmPesquisaProdutos,
+     unit_funcoes, uBiblioteca;
+
+procedure prc_incluir;
+begin
+  try
+    if loForm = nil then
+    begin
+
+      loForm := TfrmProducoesVigasE.Create(Application);
+      loForm.Operacao := uTipos.OpIncluir;
+      loForm.codigo   := 0;
+
+    end;
+
+    loForm.ShowModal;
+
+  finally
+    freeandnil(loForm);
+  end;
+end;
+
+procedure prc_alterar(ACodigo :integer);
+begin
+  try
+    if loForm = nil then
+    begin
+
+      loForm := TfrmProducoesVigasE.Create(Application);
+      loForm.Operacao := uTipos.opAlterar;
+      loForm.Codigo   := ACodigo;
+
+    end;
+
+    loForm.ShowModal;
+
+  finally
+    FreeAndNil(loForm)
+  end;
+
+end;
+
+procedure prc_excluir(ACodigo :integer);
+begin
+
+  try
+    if loForm = nil then
+    begin
+
+      loForm := TfrmProducoesVigasE.Create(Application);
+      loForm.Operacao := uTipos.opExcluir;
+      loForm.Codigo   := ACodigo;
+
+    end;
+
+    loForm.ShowModal;
+
+  finally
+    FreeAndNil(loForm)
+  end;
+
+end;
+
+
+
+
+{$R *.dfm}
+
+procedure TfrmProducoesVigasE.btnOkClick(Sender: TObject);
+begin
+
+  inherited;
+  prc_salvar;
+
+end;
+
+procedure TfrmProducoesVigasE.btn_produto_editarClick(Sender: TObject);
+begin
+  if frmPesquisaProdutos = nil then
+  begin
+    frmPesquisaProdutos := TfrmPesquisaProdutos.Create(self);
+    try
+      {abre a pesquisa mostrando todos os produtos}
+      frmPesquisaProdutos.rgFiltrar.ItemIndex := 7; // todos
+      frmPesquisaProdutos.btnBuscar.Click;
+
+      // bloqueia qq opção, o usuario terá que escolher a viga rolando do grid
+      // manualmente
+      frmPesquisaProdutos.pnTopo.Enabled := FALSE;
+
+      frmPesquisaProdutos.gb_preco_fornecedor.Visible := FALSE;
+      frmPesquisaProdutos.gb_Preco_vendedor.Visible   := FALSE;
+      frmPesquisaProdutos.gbPrecoVenda.Visible        := FALSE;
+      frmPesquisaProdutos.gbItemPedido.Visible        := FALSE;
+
+
+      {esconde a coluna preço do fornecedor}
+      frmPesquisaProdutos.dbgProdutos.Columns[3].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[4].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[5].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[6].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[7].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[8].Visible := false;
+      frmPesquisaProdutos.gb_Preco_vendedor.Visible      := false;
+      frmPesquisaProdutos.gbPrecoVenda.Visible           := false;
+
+      frmPesquisaProdutos.edTamanho.MaxLength   := 3;
+
+      {posiciona no item selecionado}
+      frmPesquisaProdutos.qry.First;
+      if frmPesquisaProdutos.qry.Locate('ID', mtb_vigas.FieldByName('PRODUTO_ID').AsInteger, []) then
+      begin
+       frmPesquisaProdutos.edQtde.Text := mtb_vigas.FieldByName('QUANTIDADE').AsString;
+      end;
+      // chama o form
+      frmPesquisaProdutos.ShowModal;
+
+      if frmPesquisaProdutos.itemConfirmado then
+      begin
+        prc_incluir_alterar_na_grid(opAlterar);
+      end;
+
+    finally
+      freeandnil(frmPesquisaProdutos) ;
+    end;
+  end;
+
+end;
+
+procedure TfrmProducoesVigasE.btn_produto_excluirClick(Sender: TObject);
+begin
+  inherited;
+  if CriarMensagem('CONFIRMACAO', 'DESEJA EXCLUIR ESTE LANÇAMENTO') then
+    prc_incluir_alterar_na_grid(opExcluir);
+end;
+
+procedure TfrmProducoesVigasE.btn_produto_incluirClick(Sender: TObject);
+begin
+  if rg_tipo_forma.ItemIndex = -1 then
+  begin
+    criarmensagem('AVISO', 'INFORME O TIPO DE FORMA');
+    rg_tipo_forma.SetFocus;
+    exit;
+  end;
+
+  if frmPesquisaProdutos = nil then
+  begin
+    frmPesquisaProdutos := TfrmPesquisaProdutos.Create(self);
+    try
+      {abre a pesquisa mostrando OPÇÃO DE VIGAS}
+      frmPesquisaProdutos.rgFiltrar.ItemIndex := 1; // VIGAS
+      frmPesquisaProdutos.rgFiltrar.Enabled   := FALSE;
+
+      if rg_tipo_forma.ItemIndex =0  then
+      begin
+        frmPesquisaProdutos.rgTipoForma.ItemIndex := 0; // forma 130
+      end
+      else if rg_tipo_forma.ItemIndex =1  then
+      begin
+        frmPesquisaProdutos.rgTipoForma.ItemIndex := 1; // forma 250
+      end;
+      frmPesquisaProdutos.rgTipoForma.Enabled         := FALSE;
+
+      frmPesquisaProdutos.gb_preco_fornecedor.Visible := FALSE;
+      frmPesquisaProdutos.gb_Preco_vendedor.Visible   := FALSE;
+      frmPesquisaProdutos.gbPrecoVenda.Visible        := FALSE;
+      frmPesquisaProdutos.gbItemPedido.Visible        := FALSE;
+
+
+      {esconde a coluna preço do fornecedor}
+      frmPesquisaProdutos.dbgProdutos.Columns[3].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[4].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[5].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[6].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[7].Visible := false;
+      frmPesquisaProdutos.dbgProdutos.Columns[8].Visible := false;
+      frmPesquisaProdutos.gb_Preco_vendedor.Visible      := false;
+      frmPesquisaProdutos.gbPrecoVenda.Visible           := false;
+
+      frmPesquisaProdutos.edTamanho.MaxLength   := 5;
+      //frmPesquisaProdutos.edTamanho.NumbersOnly := true;
+
+      frmPesquisaProdutos.ShowModal;
+
+
+      if frmPesquisaProdutos.itemConfirmado then
+      begin
+        // verificar duplicidade antes de incluir
+        mtb_vigas.First;
+        if mtb_vigas.Locate('PRODUTO_ID',frmPesquisaProdutos.Produto,[]) then
+        begin
+          CriarMensagem('AVISO', 'VIGA JÁ FOI INCLUSA NESTA PRODUÇÃO');
+          exit;
+        end else
+        prc_incluir_alterar_na_grid(OpIncluir);
+      end
+
+    finally
+      freeandnil(frmPesquisaProdutos) ;
+    end;
+  end;
+
+
+end;
+
+
+
+procedure TfrmProducoesVigasE.prc_incluir_alterar(_operacao: TOperacao);
+begin
+
+  qry.sql.clear;
+  if _operacao = opExcluir then
+  begin
+
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where COMPRAS_ID =:COMPRAS_ID');
+    qry.ParamByName('COMPRAS_ID').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+
+  end;
+
+  if _operacao = OpIncluir then
+  begin
+//ShowMessage('incluir');
+    qry.SQL.Add('insert into ' + self.Tabela );  // PRODUCAO_VIGAS
+    qry.SQL.Add('(');
+    qry.SQL.Add('  CADASTRADO_EM,      ');
+    qry.SQL.Add('  TIPO_FORMA,         ');
+    qry.SQL.Add('  QTDE_VIGAS,         ');
+    qry.SQL.Add('  QTDE_PRODUZIDA,     ');
+    qry.SQL.Add('  QTDE_CIMENTO        ');
+    qry.SQL.Add(')                     ');
+    qry.SQL.Add('VALUES                ');
+    qry.SQL.Add('(                     ');
+    qry.SQL.Add(' :CADASTRADO_EM,      ');
+    qry.SQL.Add(' :TIPO_FORMA,         ');
+    qry.SQL.Add(' :QTDE_VIGAS,         ');
+    qry.SQL.Add(' :QTDE_PRODUZIDA,     ');
+    qry.SQL.Add(' :QTDE_CIMENTO        ');
+    qry.SQL.Add(')                     ');
+    qry.SQL.Add('returning PRODUCAO_ID ');
+
+    qry.ParamByName('CADASTRADO_EM').AsDate := Date;
+  end
+  else
+  if _operacao = opAlterar then
+  begin
+    qry.SQL.Add('UPDATE                              ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                                 ');
+    qry.SQL.Add('  ALTERADO_EM    = :ALTERADO_EM,    ');
+    qry.SQL.Add('  TIPO_FORMA     = :TIPO_FORMA,     ');
+    qry.SQL.Add('  QTDE_VIGAS     = :QTDE_VIGAS,     ');
+    qry.SQL.Add('  QTDE_PRODUZIDA = :QTDE_PRODUZIDA, ');
+    qry.SQL.Add('  QTDE_CIMENTO   = :QTDE_CIMENTO    ');
+    qry.SQL.Add('WHERE                               ');
+    qry.SQL.Add('  PRODUCAO_ID = :PRODUCAO_ID        ');
+    //
+    qry.ParamByName('PRODUCAO_ID').AsInteger := Codigo;
+    qry.ParamByName('ALTERADO_EM').AsDate    := Date;
+
+  end;
+
+  qry.ParamByName('TIPO_FORMA').AsInteger   := ubiblioteca.SeSenao(rg_tipo_forma.ItemIndex = 0, 130, 250 );
+  qry.ParamByName('QTDE_VIGAS').AsInteger   := mtb_vigas.FieldByName('QTDE_VIGAS').Value;
+  qry.ParamByName('QTDE_PRODUZIDA').AsFloat := mtb_vigas.FieldByName('TOTAL_LINEAR').VALUE;
+  qry.ParamByName('QTDE_CIMENTO').AsFloat   := StrToFloat( edt_qtde_cimento.Text );
+
+  //ShowMessage(qry.SQL.Text);
+
+  if _operacao = opincluir then
+  begin
+    QRY.Open;
+    codigo := qry.FieldByName('PRODUCAO_ID').AsInteger;
+  end
+  else
+    qry.ExecSQL;
+
+
+
+  {inclui/alterar/excluir itens da producao}
+  prc_incluir_alterar_itens;
+
+end;
+
+procedure TfrmProducoesVigasE.prc_incluir_alterar_itens;
+var
+  loQry: TFDQuery;
+  novo_id: integer;
+begin
+
+  loQry:= TFDQuery.Create(self);
+  loqry.Connection := conexao;
+
+  {excluir itens da memoria "mt_itens_deletados"}
+  mt_itens_deletados.First;
+  while not mt_itens_deletados.Eof do
+  begin
+    {inserir}
+    loqry.SQL.Clear;
+    loQry.SQL.Add('delete from PRODUCAO_VIGAS_ITENS where ID =:ITENS_ID ') ;
+    loQry.ParamByName('ITENS_ID').AsInteger := mt_itens_deletadosID.AsInteger;
+
+    //ShowMessage('excluir item ' + inttostr(mt_itens_deletadosID.AsInteger)) ;
+    loqry.ExecSQL;
+
+    mt_itens_deletados.Next;
+  end;
+
+  // salva os itens da produção
+  // itens com id < 0 , insere.
+  // itens com id > 0 , altera
+
+  mtb_vigas.First;
+  while not mtb_vigas.Eof do
+  begin
+    {Insert}
+    if mtb_vigas.FieldByName('ID').AsInteger < 0 then
+    begin
+      {inserir}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('insert into PRODUCAO_VIGAS_ITENS                 ') ;
+      loQry.SQL.Add(' ( PRODUCAO_VIGAS_ID, PRODUTO_ID, QUANTIDADE )   ') ;
+      loQry.SQL.Add(' values                                          ') ;
+      loQry.SQL.Add(' ( :PRODUCAO_VIGAS_ID, :PRODUTO_ID, :QUANTIDADE ) returning ID') ;
+      loQry.ParamByName('PRODUCAO_VIGAS_ID').AsInteger := codigo;
+    end
+    else if mtb_vigas.FieldByName('ID').AsInteger > 0 then
+    begin
+      {Update}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('update                                             ');
+      loQry.SQL.Add('  PRODUCAO_VIGAS_ITENS                             ');
+      loQry.SQL.Add('set                                                ');
+      loQry.SQL.Add('  produto_id =:produto_id, quantidade =:quantidade ');
+      loQry.SQL.Add('where                                              ');
+      loQry.SQL.Add(' id = :ITENS_ID                                    ');
+      loQry.ParamByName('ITENS_ID').AsInteger := mtb_vigas.FieldByName('ID').AsInteger;
+    end;
+    // ShowMessage(loQry.SQL.Text);
+    {parametros}
+    loQry.Params.ParamByName('produto_id').AsInteger := mtb_vigas.FieldByName('PRODUTO_ID').AsInteger;
+    loQry.Params.ParamByName('quantidade').AsFloat   := mtb_vigas.FieldByName('QUANTIDADE').AsFloat;
+////
+      if mtb_vigas.FieldByName('ID').AsInteger < 0 then
+      begin
+         loQry.Open;
+         novo_id := loqry.FieldByName('ID').AsInteger;
+      end
+      else
+      if mtb_vigas.FieldByName('ID').AsInteger > 0 then
+        loqry.ExecSQL;
+////
+
+
+    {Atualiza saldos na tabela de produtos}
+    unit_movimenta_estoques.prc_atualizar_estoque(
+                                 mtb_vigas.FieldByName('PRODUTO_ID').AsInteger,
+                                 'ENTRADA', 'PRODUCAO',
+                                 mtb_vigas.FieldByName('QUANTIDADE').AsFloat );
+
+    {lança movimento de entrada na tabela de movimentação de estoques}
+    unit_movimenta_estoques.prc_incluir_alterar_movimento( OpIncluir,'ENTRADA','PRODUCAO_VIGAS_ITENS',sesenao(mtb_vigas.FieldByName('ID').AsInteger < 0, novo_id, mtb_vigas.FieldByName('ID').AsInteger), mtb_vigas.FieldByName('PRODUTO_ID').AsInteger,'PRODUÇÃO', mtb_vigas.FieldByName('QUANTIDADE').AsFloat );
+
+
+
+    // proximo produto
+    mtb_vigas.Next;
+  end;
+
+  FreeAndNil(loqry) ;
+
+end;
+
+
+
+
+procedure TfrmProducoesVigasE.prc_salvar;
+begin
+  if not fnc_validar then Exit;
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+    CriarMensagem('AVISO',' PRODUÇÃO CADASTRADA COM SUCESSO! ');
+
+    Close;
+  except
+    conexao.Rollback;
+    CriarMensagem('AVISO',' NÃO FOI POSSIVEL SALVAR O REGISTRO! ');
+ //   on E : Exception do
+ //      Raise Exception.Create(E.Message +  slinebreak +' NÃO FOI POSSIVEL SALVAR O REGISTRO! ' );
+  end;
+
+end;
+
+function TfrmProducoesVigasE.fnc_validar: boolean;
+begin
+  result := false;
+
+  if rg_tipo_forma.ItemIndex = -1 then
+  begin
+    CriarMensagem('AVISO','Informe o TIPO DE FORMA');
+    rg_tipo_forma.SetFocus;
+    exit;
+  end;
+
+
+  if strtofloatdef( edt_qtde_cimento.Text,0 ) <= 0 then
+  begin
+    CriarMensagem('AVISO','Informe uma QUANTIDADE VALIDA');
+    edt_qtde_cimento.SetFocus;
+    exit;
+  end;
+
+  if mtb_vigas.IsEmpty then
+  begin
+    CriarMensagem('AVISO','INFORME AS VIGAS PRODUZIDAS');
+    exit;
+  end;
+
+
+  result := true;
+
+end;
+
+
+procedure TfrmProducoesVigasE.prc_incluir_alterar_na_grid(operacao: TOperacao);
+begin
+
+  {inclui o id da tabela na memoria para deletar na confirmação }
+  if operacao = opExcluir then
+  begin
+    if mtb_vigasID.AsInteger > 0 then
+    begin
+      mt_itens_deletados.Insert;
+      mt_itens_deletadosID.AsInteger := mtb_vigasID.AsInteger;
+      mt_itens_deletados.Post;
+    end;
+
+    mtb_vigas.Delete;
+
+    exit;
+  end;
+
+  // pegar o comprimento da viga
+  comprimento_viga := fnc_buscar_comprimento_da_viga(frmPesquisaProdutos.Produto)/1000;
+
+
+  if operacao = OpIncluir then
+  begin
+
+    mtb_vigas.Insert;
+    mtb_vigas.FieldByName('ID').AsInteger            := -1;
+    mtb_vigas.FieldByName('PRODUCAO_ID').AsInteger   := -1;
+    mtb_vigas.FieldByName('PRODUTO_ID').AsInteger    := frmPesquisaProdutos.Produto;
+    mtb_vigas.FieldByName('NOME_FANTASIA').AsString  := frmPesquisaProdutos.nomeFantasia;
+    mtb_vigas.FieldByName('COMPRIMENTO').AsFloat     := comprimento_viga;
+    mtb_vigas.FieldByName('QUANTIDADE').AsFloat      := frmPesquisaProdutos.Qtde;
+    mtb_vigas.FieldByName('METROS_LINEARES').AsFloat := frmPesquisaProdutos.Qtde * comprimento_viga;
+
+    mtb_vigas.post;
+
+  end
+  else if operacao = opAlterar then
+  begin
+
+    mtb_vigas.Edit;
+    mtb_vigas.FieldByName('PRODUTO_ID').AsInteger    := frmPesquisaProdutos.Produto;
+    mtb_vigas.FieldByName('NOME_FANTASIA').AsString  := frmPesquisaProdutos.nomeFantasia;
+    mtb_vigas.FieldByName('COMPRIMENTO').AsFloat     := comprimento_viga;
+    mtb_vigas.FieldByName('QUANTIDADE').AsFloat      := frmPesquisaProdutos.Qtde;
+    mtb_vigas.FieldByName('METROS_LINEARES').AsFloat := frmPesquisaProdutos.Qtde * comprimento_viga;
+    mtb_vigas.post;
+
+  end;
+
+end;
+
+function TfrmProducoesVigasE.fnc_buscar_comprimento_da_viga( produto_id: integer ): integer;
+var
+  loQry : TFDQuery;
+begin
+  // pegar o comprimento da viga
+  try
+    loQry := TFDQuery.Create(application);
+    loQry.Connection := conexao;
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select V.COMPRIMENTO from PRODUTOS_VIGAS V where V.PRODUTO_ID =:PRODUTO_ID');
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loQry.Open;
+    // comprimento da viga
+    result := loQry.FieldByName('COMPRIMENTO').AsInteger;
+  finally
+    loQry.Close;
+    FreeAndNil( loQry );
+  end;
+
+end;
+
+procedure TfrmProducoesVigasE.ds_vigasDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_produto_excluir.Enabled := not mtb_vigas.IsEmpty;
+  btn_produto_editar.Enabled  := not mtb_vigas.IsEmpty;
+
+end;
+
+procedure TfrmProducoesVigasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'PRODUCAO_VIGAS';
+
+end;
+
+procedure TfrmProducoesVigasE.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmProducoesVigasE.mtb_vigasCalcFields(DataSet: TDataSet);
+begin
+  inherited;
+ // mtb_vigasMETROS_LINEARES.AsFloat := mtb_vigasQUANTIDADE.AsInteger *
+end;
+
+procedure TfrmProducoesVigasE.prc_componentes;
+begin
+  lbl_titulo.Caption := '   ENTRADA DE VIGAS';
+  QRY.Connection     := conexao;
+  {qry de compras}
+  qry.SQL.Add('select * from ' + tabela +' where ID =:ID');
+
+  {vigas}
+  mtb_vigas.Open;
+
+  dbg_produtos.Columns[0].Visible := FALSE;
+  dbg_produtos.Columns[1].Visible := FALSE;
+
+
+end;
+
+procedure TfrmProducoesVigasE.prc_inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                      pnDados.Enabled           := true;
+                      lbl_sub_titulo.Caption := 'INCLUSÃO';
+                      btnOk     .Caption        := 'INCLUIR PRODUÇÃO';
+                      lbl_Cadastrado_em.Caption := datetostr(date);
+                    end;
+  uTipos.opAlterar: begin
+                      self.prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'ALTERAÇÃO';
+                      btnOk.Caption := 'Somente Leitura';
+                      btnok.Enabled := false;
+                    end;
+  uTipos.opExcluir: begin
+                      self.prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUSÃO';
+                      btnOk.Caption := 'Excluir';
+                      btnFechar.SetFocus;
+                    end;
+  else
+    begin
+      pnDados.Enabled       := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmProducoesVigasE.prc_ler_dados;
+var
+  loQry: TFDQuery;
+begin
+  try
+
+    loQry:= TFDQuery.Create(self);
+    loQry.Connection := conexao;
+    loQry.SQL.Clear;
+    loqry.sql.Add('select * from ' + tabela + ' where PRODUCAO_ID = :PRODUCAO_ID');
+    loQry.Params.ParamByName('PRODUCAO_ID').AsInteger := Codigo;
+    loQry.Open;
+    // preencher dados da compra
+    lbl_producao_id.Caption   := loQry.FieldByName('PRODUCAO_ID').AsString;
+    lbl_Cadastrado_em.Caption := loQry.FieldByName('CADASTRADO_EM').AsString;
+    lbl_alterado_em.Caption   := loQry.FieldByName('ALTERADO_EM').AsString;
+
+    rg_tipo_forma.ItemIndex := uBiblioteca.SeSenao(loQry.FieldByName('TIPO_FORMA').AsInteger = 130, 0, 1);
+    rg_tipo_forma.Enabled   := FALSE;
+    edt_qtde_cimento.Text   := formatfloat( '0.00', loQry.FieldByName('QTDE_CIMENTO').AsFloat );
+
+    loQry.Close;
+
+    // ITENS
+
+    loQry.SQL.Clear;
+    loqry.sql.Add('select                                          ');
+    loQry.SQL.Add('  ID, PRODUCAO_VIGAS_ID, PRODUTO_ID, QUANTIDADE ');
+    loQry.SQL.Add('from                                            ');
+    loQry.SQL.Add('  PRODUCAO_VIGAS_ITENS                          ');
+    loQry.SQL.Add('where                                           ');
+    loQry.SQL.Add('  PRODUCAO_VIGAS_ID = :PRODUCAO_ID              ');
+    loQry.Params.ParamByName('PRODUCAO_ID').AsInteger := Codigo;
+    loQry.Open;
+
+    loQry.First;
+    while not loQry.Eof do
+    begin
+
+      comprimento_viga := fnc_buscar_comprimento_da_viga(loQry.FieldByName('PRODUTO_ID').AsInteger)/1000;
+
+      mtb_vigas.Insert;
+      mtb_vigas.FieldByName('ID').AsInteger            := loQry.FieldByName('ID').AsInteger;
+      mtb_vigas.FieldByName('PRODUCAO_ID').AsInteger   := loQry.FieldByName('PRODUCAO_VIGAS_ID').AsInteger;
+      mtb_vigas.FieldByName('PRODUTO_ID').AsInteger    := loQry.FieldByName('PRODUTO_ID').AsInteger;
+      mtb_vigas.FieldByName('COMPRIMENTO').AsFloat     := comprimento_viga;
+      mtb_vigas.FieldByName('QUANTIDADE').AsInteger    := loQry.FieldByName('QUANTIDADE').AsInteger;
+      mtb_vigas.FieldByName('METROS_LINEARES').AsFloat := loQry.FieldByName('QUANTIDADE').AsInteger * comprimento_viga;
+
+      // pega o nome fantasia da viga
+      Qry.Close;
+      Qry.SQL.Clear;
+      qry.sql.Add('select NOME_FANTASIA, UNIDADE from PRODUTOS where ID = :PRODUTO_ID');
+      Qry.Params.ParamByName('PRODUTO_ID').AsInteger := mtb_vigas.FieldByName('PRODUTO_ID').AsInteger;
+      Qry.Open;
+      mtb_vigas.FieldByName('NOME_FANTASIA').AsString:= Qry.FieldByName('NOME_FANTASIA').AsString;
+
+      mtb_vigas.post;
+
+      loQry.Next;
+
+    end;
+
+  finally
+    Qry.Close;
+    loQry.Close;
+    FreeAndNil(loQry) ;
+  end;
+
+end;
+
+
+
+procedure TfrmProducoesVigasE.rg_tipo_formaClick(Sender: TObject);
+var
+  loQry : TFDQuery;
+begin
+  inherited;
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select GERAL_QTDE_FORMA_130, GERAL_QTDE_FORMA_250 from CONFIGURACOES_SISTEMA ');
+    loQry.Open;
+
+  if rg_tipo_forma.ItemIndex = 0 then
+  begin
+    edt_capacidade_producao.Text := loQry.FieldByName('GERAL_QTDE_FORMA_130').AsString;
+  end
+  else if rg_tipo_forma.ItemIndex = 1 then
+  begin
+    edt_capacidade_producao.Text := loQry.FieldByName('GERAL_QTDE_FORMA_250').AsString;
+  end;
+  finally
+    loQry.Close;
+    FreeAndNil( loQry );
+  end;
+end;
+
+end.

@@ -1,0 +1,53 @@
+unit ufrmBasePesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Buttons;
+
+type
+  TfrmBasePesquisa = class(TfrmBaseConexao)
+    Panel1: TPanel;
+    edLocalizar: TLabeledEdit;
+    rgTipo: TRadioGroup;
+    db: TDBGrid;
+    ds: TDataSource;
+    BitBtn1: TBitBtn;
+    btnFechar: TBitBtn;
+    procedure rgTipoClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBasePesquisa: TfrmBasePesquisa;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmBasePesquisa.btnFecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmBasePesquisa.rgTipoClick(Sender: TObject);
+begin
+  inherited;
+  if rgTipo.ItemIndex = 1 then
+   edLocalizar.EditLabel.Caption := 'Informe um nome'
+  else
+    edLocalizar.EditLabel.Caption := 'Informe um CNPJ/CPJ';
+
+end;
+
+end.

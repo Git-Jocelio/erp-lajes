@@ -1,0 +1,71 @@
+unit ufrmConfiguracaoServidor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TfrmConfiguracaoServidor = class(TForm)
+    shp_fundo: TShape;
+    pnl_panels: TPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    Label3: TLabel;
+    pnl_barra: TPanel;
+    Panel4: TPanel;
+    Edit1: TEdit;
+    Label5: TLabel;
+    Panel5: TPanel;
+    Edit2: TEdit;
+    Label6: TLabel;
+    Panel6: TPanel;
+    Edit3: TEdit;
+    Label7: TLabel;
+    Panel7: TPanel;
+    Edit4: TEdit;
+    Label8: TLabel;
+    Panel8: TPanel;
+    Edit5: TEdit;
+    Label9: TLabel;
+    Panel9: TPanel;
+    Edit6: TEdit;
+    Label10: TLabel;
+    Panel10: TPanel;
+    Edit7: TEdit;
+    Label11: TLabel;
+    Panel11: TPanel;
+    Edit8: TEdit;
+    Label12: TLabel;
+    Panel12: TPanel;
+    Edit9: TEdit;
+    Label13: TLabel;
+    Panel13: TPanel;
+    Edit10: TEdit;
+    Label14: TLabel;
+    Panel14: TPanel;
+    Label4: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfiguracaoServidor: TfrmConfiguracaoServidor;
+
+implementation
+
+{$R *.dfm}
+
+end.

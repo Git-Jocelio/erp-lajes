@@ -1,0 +1,211 @@
+unit ufrmEstoquesDetalhes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, udmConn, uBiblioteca,
+  uTipos;
+
+type
+  TfrmEstoquesDetalhes = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    pnl_topo: TPanel;
+    lbl_titulo: TLabel;
+    pnl_descricao_produto: TPanel;
+    lbl_descricao_do_produto: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    SpeedButton1: TSpeedButton;
+    lbl_estoque_fisico: TLabel;
+    lbl_pedido_aberto: TLabel;
+    lbl_estoque_Disponivel: TLabel;
+    lbl_pedido_aguardando: TLabel;
+    lbl_estoque_liquido: TLabel;
+    lbl_produto_id: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label9: TLabel;
+    lbl_nome_cliente: TLabel;
+    Label11: TLabel;
+    Label13: TLabel;
+    pnl_itens_pedido: TPanel;
+    pnl_venda_avulso: TPanel;
+    pnl_venda_laje: TPanel;
+    dbg_detalhes_pedido: TDBGrid;
+    DBGrid3: TDBGrid;
+    qry_detalhes_pedido: TFDQuery;
+    qry_detalhes_laje: TFDQuery;
+    qry_detalhes_pedidoSITUACAO: TStringField;
+    qry_detalhes_pedidoDATA_ENTREGA: TDateField;
+    qry_detalhes_pedidoQTDE: TCurrencyField;
+    qry_detalhes_pedidoNOME: TStringField;
+    qry_detalhes_lajeSITUACAO: TStringField;
+    qry_detalhes_lajeDATA_ENTREGA: TDateField;
+    qry_detalhes_lajePRODUTO_ID: TIntegerField;
+    qry_detalhes_lajeQTDE: TIntegerField;
+    qry_detalhes_lajeNOME: TStringField;
+    dbg_detalhes_laje: TDBGrid;
+    qry_itens_pedidos: TFDQuery;
+    ds_detalhes_pedido: TDataSource;
+    ds_detalhes_laje: TDataSource;
+    DataSource1: TDataSource;
+    qry_detalhes_pedidoPEDIDO_ID: TIntegerField;
+    qry_detalhes_lajePEDIDO_ID: TIntegerField;
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbg_detalhes_pedidoEnter(Sender: TObject);
+    procedure dbg_detalhes_lajeEnter(Sender: TObject);
+    procedure qry_detalhes_pedidoAfterScroll(DataSet: TDataSet);
+    procedure qry_detalhes_lajeAfterScroll(DataSet: TDataSet);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure DataSource1DataChange(Sender: TObject; Field: TField);
+  private
+    procedure prc_localizar_produto;
+    { Private declarations }
+  public
+    produto_id : integer;
+
+  end;
+
+var
+  frmEstoquesDetalhes: TfrmEstoquesDetalhes;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmEstoquesDetalhes.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmEstoquesDetalhes.prc_localizar_produto;
+begin
+  // datasource ainda nao foi configurado, tag = 0
+  if qry_itens_pedidos.Tag = 0 then exit;
+
+  {localiza o produto dentro do pedido}
+  if qry_itens_pedidos.tag = 1 then // venda avulso
+    qry_itens_pedidos.Locate( 'PRODUTO_ID', produto_id, [] )
+  else
+  if qry_itens_pedidos.Tag = 2 then // venda de laje
+    qry_itens_pedidos.Locate( 'PRODUTO_ID',produto_id,[] );
+
+end;
+
+procedure TfrmEstoquesDetalhes.qry_detalhes_lajeAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  prc_localizar_produto;
+end;
+
+procedure TfrmEstoquesDetalhes.qry_detalhes_pedidoAfterScroll(
+  DataSet: TDataSet);
+begin
+  inherited;
+  prc_localizar_produto;
+end;
+
+procedure TfrmEstoquesDetalhes.DataSource1DataChange(Sender: TObject;
+  Field: TField);
+var
+ // VQryPedido, VQryCliente :TFDQuery;
+  loQry : TFDQuery;
+begin
+ // VQryPedido := uBiblioteca.CriaQuery('select NRCONTROLE, CDCLI from CADPEDIDOS where NRCONTROLE =:ID');
+ // VQryCliente := uBiblioteca.CriaQuery('select ID, NOME from PESSOAS where ID =:ID');
+  try
+    loQry := TFDQuery.Create(application);
+    loQry.Connection := conexao;
+    loqry.SQL.Add('select PS.NOME from PESSOAS PS, PEDIDOS P where P.CLIENTE_ID = P.ID and P.ID =:PEDIDO_ID ');
+    loQry.ParamByName('PEDIDO_ID').AsInteger := qry_itens_pedidos.fieldbyname('PEDIDO_ID').AsInteger;
+    loQry.Open;
+
+    if not qry_itens_pedidos.IsEmpty then
+    begin
+      (*
+      //localiza o pedido e pega o id do cliente
+      uBiblioteca.FilterCds(VQryPedido, uTipos.fsInteger, qry_itens_pedidos.fieldbyname('PEDIDO_ID').AsString);
+
+      // Localiza o cliente e pega o nome
+      uBiblioteca.FilterCds(VQryCliente, uTipos.fsInteger, VQryPedido.fieldbyname('CDCLI').AsString);
+      *)
+      lbl_nome_cliente.Caption := '[ ' + loQry.fieldbyname('NOME').AsString + ' ]';
+    end;
+  finally
+    FreeAndNil(loQry);
+   // FreeAndNil(VQryPedido);
+   // FreeAndNil(VQryCliente);
+  end;
+end;
+
+procedure TfrmEstoquesDetalhes.dbg_detalhes_lajeEnter(Sender: TObject);
+begin
+  inherited;
+  qry_itens_pedidos.Close;
+
+//  DBText1.DataSource := dsDetalhesDaLaje;
+//  DBText2.DataSource := dsDetalhesDaLaje;
+//  DBText3.DataSource := dsDetalhesDaLaje;
+
+  qry_itens_pedidos.DataSource := ds_detalhes_laje;
+
+  qry_itens_pedidos.SQL.Clear;
+  qry_itens_pedidos.SQL.Add('select it.pedido_id, it.produto_Id, prod.nome_fantasia, it.qtde ');
+  qry_itens_pedidos.SQL.Add('from itens_laje it, produtos prod ');
+  qry_itens_pedidos.SQL.Add('where it.produto_Id = prod.id and ');
+  qry_itens_pedidos.SQL.Add('prod.viga = ' + quotedstr('S') + ' and it.pedido_id = :pedido_id');
+  qry_itens_pedidos.Tag := 2;
+
+  qry_itens_pedidos.Open;
+  prc_localizar_produto;
+
+end;
+
+procedure TfrmEstoquesDetalhes.dbg_detalhes_pedidoEnter(Sender: TObject);
+begin
+  qry_itens_pedidos.Close;
+
+  {configura os labels nome e endereço de entrega}
+ // DBText1.DataSource := dsDetalhesDoPedido;
+ // DBText2.DataSource := dsDetalhesDoPedido;
+ // DBText3.DataSource := dsDetalhesDoPedido;
+
+  qry_itens_pedidos.DataSource := ds_detalhes_pedido;
+
+  qry_itens_pedidos.SQL.Clear;
+  qry_itens_pedidos.SQL.Add('select it.pedido_id, it.produto_id, prod.nome_fantasia, it.qtde ');
+  qry_itens_pedidos.SQL.Add('from pedidos_itens it, produtos prod ');
+  qry_itens_pedidos.SQL.Add('where it.produto_id = prod.id and ');
+  qry_itens_pedidos.SQL.Add('prod.viga = ' + quotedstr('S') + ' and it.pedido_id = :pedido_id');
+  qry_itens_pedidos.Tag := 1;
+
+  qry_itens_pedidos.Open;
+  prc_localizar_produto;
+
+end;
+
+procedure TfrmEstoquesDetalhes.FormCreate(Sender: TObject);
+begin
+  inherited;
+//  ShowMessage(lbl_produto_id.Caption);
+  qry_itens_pedidos.tag := 0;
+end;
+
+
+procedure TfrmEstoquesDetalhes.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #27 then close;
+end;
+
+end.

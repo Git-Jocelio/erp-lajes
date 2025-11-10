@@ -1,0 +1,335 @@
+inherited frmContasBancariasE: TfrmContasBancariasE
+  Caption = 'frmContasBancariasE'
+  ClientHeight = 392
+  ClientWidth = 656
+  ExplicitWidth = 668
+  ExplicitHeight = 430
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 656
+    Font.Height = -16
+    inherited lbl_titulo: TLabel
+      Width = 656
+      Height = 40
+      ExplicitWidth = 103
+      ExplicitHeight = 21
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 656
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 656
+    Height = 298
+    ExplicitHeight = 154
+    object Label2: TLabel
+      Left = 5
+      Top = 11
+      Width = 12
+      Height = 17
+      Caption = 'ID'
+    end
+    object lbl_Id: TLabel
+      Left = 28
+      Top = 11
+      Width = 21
+      Height = 15
+      Caption = '000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 37
+      Width = 97
+      Height = 17
+      Caption = 'Cadastrado em :'
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 107
+      Top = 37
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 6
+      Top = 73
+      Width = 95
+      Height = 17
+      Caption = 'Nome do Banco'
+    end
+    object Label4: TLabel
+      Left = 320
+      Top = 37
+      Width = 79
+      Height = 17
+      Caption = 'Alterado em :'
+    end
+    object lbl_alterado_em: TLabel
+      Left = 397
+      Top = 37
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object cb_ativo: TCheckBox
+      Left = 537
+      Top = 36
+      Width = 54
+      Height = 17
+      Caption = 'Ativo'
+      Checked = True
+      State = cbChecked
+      TabOrder = 0
+    end
+    object gb_contas: TGroupBox
+      Left = 0
+      Top = 144
+      Width = 656
+      Height = 154
+      Align = alBottom
+      Caption = ' Contas '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      ExplicitWidth = 721
+      object dbg_taxas: TDBGrid
+        Left = 29
+        Top = 17
+        Width = 625
+        Height = 135
+        Align = alClient
+        DataSource = ds_itens
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 0
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'ID'
+            Title.Alignment = taCenter
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 54
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CONTAS_BANCARIAS_ID'
+            Title.Alignment = taCenter
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 165
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'BANCO_ID'
+            Title.Alignment = taCenter
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 88
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'AGENCIA'
+            Title.Alignment = taCenter
+            Title.Caption = 'Ag'#234'ncia'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 74
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'NR_CONTA'
+            Title.Alignment = taCenter
+            Title.Caption = 'N'#250'mero da conta'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 200
+            Visible = True
+          end>
+      end
+      object pnl_botoes_itens: TPanel
+        Left = 2
+        Top = 17
+        Width = 27
+        Height = 135
+        Align = alLeft
+        Alignment = taLeftJustify
+        TabOrder = 1
+        ExplicitHeight = 178
+        object btn_incluir: TBitBtn
+          Left = 1
+          Top = 1
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '+'
+          TabOrder = 0
+          OnClick = btn_incluirClick
+        end
+        object btn_alterar: TBitBtn
+          Left = 1
+          Top = 26
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '...'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btn_alterarClick
+        end
+        object btn_excluir: TBitBtn
+          Left = 1
+          Top = 51
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '-'
+          Enabled = False
+          TabOrder = 2
+          OnClick = btn_excluirClick
+        end
+      end
+    end
+    object cbx_banco: TDBLookupComboBox
+      Left = 74
+      Top = 96
+      Width = 240
+      Height = 25
+      KeyField = 'ID'
+      ListField = 'DESCRICAO'
+      ListSource = ds_banco
+      TabOrder = 2
+    end
+    object edt_cod_banco: TDBEdit
+      Left = 5
+      Top = 96
+      Width = 65
+      Height = 25
+      DataField = 'COD_BANCO'
+      DataSource = ds_banco
+      TabOrder = 3
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 355
+    Width = 656
+    ExplicitTop = 211
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 345
+    Top = 169
+  end
+  inherited ds: TDataSource
+    Left = 345
+    Top = 142
+  end
+  object qry_banco: TFDQuery
+    Left = 318
+    Top = 169
+  end
+  object ds_banco: TDataSource
+    AutoEdit = False
+    DataSet = qry_banco
+    Left = 318
+    Top = 142
+  end
+  object ds_itens: TDataSource
+    AutoEdit = False
+    DataSet = mt_itens
+    Left = 384
+    Top = 244
+  end
+  object mt_itens_deletados: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 384
+    Top = 303
+    object mt_itens_deletadosID: TIntegerField
+      FieldName = 'ID'
+    end
+  end
+  object mt_itens: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 384
+    Top = 273
+    object mt_itensID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mt_itensAGENCIA: TStringField
+      FieldName = 'AGENCIA'
+    end
+    object mt_itensNR_CONTA: TStringField
+      FieldName = 'NR_CONTA'
+    end
+    object mt_itensATIVO: TStringField
+      FieldName = 'ATIVO'
+    end
+  end
+end

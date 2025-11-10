@@ -1,0 +1,605 @@
+inherited frmCartaoTaxasE: TfrmCartaoTaxasE
+  Caption = 'frmCartaoTaxasE'
+  ClientHeight = 519
+  ClientWidth = 731
+  Font.Height = -12
+  ExplicitWidth = 743
+  ExplicitHeight = 557
+  TextHeight = 15
+  inherited pnTitulo: TPanel
+    Width = 731
+    ExplicitWidth = 727
+    inherited lbl_titulo: TLabel
+      Width = 731
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 731
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 731
+    Height = 425
+    Font.Height = -12
+    ExplicitWidth = 727
+    ExplicitHeight = 424
+    object Label2: TLabel
+      Left = 5
+      Top = 11
+      Width = 11
+      Height = 15
+      Caption = 'ID'
+    end
+    object lbl_Id: TLabel
+      Left = 28
+      Top = 13
+      Width = 21
+      Height = 15
+      Caption = '000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 4
+      Top = 43
+      Width = 86
+      Height = 15
+      Caption = 'Cadastrado em :'
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 96
+      Top = 43
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 322
+      Top = 43
+      Width = 71
+      Height = 15
+      Caption = 'Alterado em :'
+    end
+    object lbl_alterado_em: TLabel
+      Left = 399
+      Top = 43
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 4
+      Top = 76
+      Width = 56
+      Height = 15
+      Caption = 'Operadora'
+    end
+    object Label7: TLabel
+      Left = 260
+      Top = 76
+      Width = 46
+      Height = 15
+      Caption = 'Bandeira'
+    end
+    object cbx_operadora: TDBLookupComboBox
+      Left = 53
+      Top = 97
+      Width = 196
+      Height = 23
+      KeyField = 'ID'
+      ListField = 'DESCRICAO'
+      ListSource = ds_operadora
+      TabOrder = 0
+    end
+    object edt_id_operadora: TDBEdit
+      Left = 4
+      Top = 97
+      Width = 47
+      Height = 23
+      DataField = 'ID'
+      DataSource = ds_operadora
+      Enabled = False
+      TabOrder = 1
+    end
+    object cbx_bandeiras: TDBLookupComboBox
+      Left = 309
+      Top = 97
+      Width = 244
+      Height = 23
+      KeyField = 'ID'
+      ListField = 'DESCRICAO'
+      ListSource = ds_bandeiras
+      TabOrder = 2
+    end
+    object edt_id_bandeira: TDBEdit
+      Left = 260
+      Top = 97
+      Width = 47
+      Height = 23
+      DataField = 'ID'
+      DataSource = ds_bandeiras
+      Enabled = False
+      TabOrder = 3
+    end
+    object gb_conta: TGroupBox
+      Left = 0
+      Top = 139
+      Width = 731
+      Height = 89
+      Align = alBottom
+      Caption = 'Informe a conta banc'#225'ria onde os cr'#233'ditos ser'#227'o depositados '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      ExplicitTop = 138
+      ExplicitWidth = 727
+      object Label6: TLabel
+        Left = 3
+        Top = 24
+        Width = 33
+        Height = 15
+        Caption = 'Banco'
+      end
+      object Label5: TLabel
+        Left = 259
+        Top = 24
+        Width = 86
+        Height = 15
+        Caption = 'Ag'#234'ncia / Conta'
+      end
+      object cbx_bancos: TDBLookupComboBox
+        Left = 53
+        Top = 45
+        Width = 196
+        Height = 23
+        KeyField = 'ID'
+        ListField = 'descricao'
+        ListSource = ds_bancos
+        TabOrder = 0
+        OnCloseUp = cbx_bancosCloseUp
+      end
+      object edt_agencia: TDBEdit
+        Left = 260
+        Top = 45
+        Width = 47
+        Height = 23
+        DataField = 'agencia'
+        DataSource = ds_contas
+        Enabled = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+      end
+      object DBEdit1: TDBEdit
+        Left = 3
+        Top = 45
+        Width = 47
+        Height = 23
+        DataField = 'cod_banco'
+        DataSource = ds_bancos
+        Enabled = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+      end
+      object cbx_contas_bancarias: TDBLookupComboBox
+        Left = 309
+        Top = 45
+        Width = 244
+        Height = 23
+        KeyField = 'id'
+        ListField = 'nr_conta'
+        ListSource = ds_contas
+        TabOrder = 3
+      end
+    end
+    object gb_taxas: TGroupBox
+      Left = 0
+      Top = 228
+      Width = 731
+      Height = 197
+      Align = alBottom
+      Caption = 'Taxas '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      ExplicitTop = 227
+      ExplicitWidth = 727
+      object dbg_taxas: TDBGrid
+        Left = 29
+        Top = 17
+        Width = 700
+        Height = 178
+        Align = alClient
+        DataSource = ds_itens
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 0
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        OnDblClick = btn_alterarClick
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'ID'
+            Title.Alignment = taCenter
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 34
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'FORMA_PAGTO_ID'
+            Title.Alignment = taCenter
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'DESCRICAO'
+            Title.Alignment = taCenter
+            Title.Caption = 'Descri'#231#227'o'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 206
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'QTDE_PARCELAS'
+            Title.Alignment = taCenter
+            Title.Caption = 'Qtde Parcelas'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 106
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'PRIMEIRO_VENCIMENTO'
+            Title.Alignment = taCenter
+            Title.Caption = '1'#186' Vencimento'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 112
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'INTERVALO_DEMAIS_PARC'
+            Title.Alignment = taCenter
+            Title.Caption = 'Intervalo entre parcelas'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Width = 151
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'TAXA'
+            Title.Alignment = taCenter
+            Title.Caption = 'Taxa (%)'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -12
+            Title.Font.Name = 'Segoe UI Semibold'
+            Title.Font.Style = [fsBold]
+            Visible = True
+          end>
+      end
+      object pnl_botoes_itens: TPanel
+        Left = 2
+        Top = 17
+        Width = 27
+        Height = 178
+        Align = alLeft
+        Alignment = taLeftJustify
+        TabOrder = 1
+        object btn_incluir: TBitBtn
+          Left = 1
+          Top = 1
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '+'
+          TabOrder = 0
+          OnClick = btn_incluirClick
+        end
+        object btn_alterar: TBitBtn
+          Left = 1
+          Top = 26
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '...'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btn_alterarClick
+        end
+        object btn_excluir: TBitBtn
+          Left = 1
+          Top = 51
+          Width = 25
+          Height = 25
+          Align = alTop
+          Caption = '-'
+          Enabled = False
+          TabOrder = 2
+          OnClick = btn_excluirClick
+        end
+      end
+    end
+    object cb_ativo: TCheckBox
+      Left = 499
+      Top = 43
+      Width = 54
+      Height = 17
+      Caption = 'Ativo'
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 482
+    Width = 731
+    ExplicitTop = 481
+    ExplicitWidth = 727
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 432
+    Top = 36
+  end
+  inherited ds: TDataSource
+    Left = 432
+    Top = 9
+  end
+  object ds_operadora: TDataSource
+    AutoEdit = False
+    DataSet = qry_operadora
+    Left = 459
+    Top = 9
+  end
+  object qry_operadora: TFDQuery
+    Left = 459
+    Top = 36
+  end
+  object ds_bandeiras: TDataSource
+    AutoEdit = False
+    DataSet = qry_bandeiras
+    Left = 486
+    Top = 9
+  end
+  object qry_bandeiras: TFDQuery
+    Left = 486
+    Top = 36
+  end
+  object ds_bancos: TDataSource
+    AutoEdit = False
+    DataSet = qry_bancos
+    Left = 513
+    Top = 9
+  end
+  object qry_bancos: TFDQuery
+    Left = 513
+    Top = 36
+  end
+  object ds_itens: TDataSource
+    AutoEdit = False
+    DataSet = mt_itens
+    OnDataChange = ds_itensDataChange
+    Left = 320
+    Top = 340
+  end
+  object mt_itens: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'FORMA_PAGTO_ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DESCRICAO'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'QTDE_PARCELAS'
+        DataType = ftInteger
+      end
+      item
+        Name = 'PRIMEIRO_VENCIMENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'INTERVALO_DEMAIS_PARC'
+        DataType = ftInteger
+      end
+      item
+        Name = 'TAXA'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    IndexFieldNames = 'QTDE_PARCELAS'
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 320
+    Top = 367
+    Content = {
+      4144425310000000BA030000FF00010001FF02FF030400100000006D0074005F
+      006900740065006E0073000500100000006D0074005F006900740065006E0073
+      00060000000000070000080032000000090000FF0AFF0B040004000000490044
+      00050004000000490044000C00010000000E000D000F00011000011100011200
+      0113000114000115000400000049004400FEFF0B04001C00000046004F005200
+      4D0041005F0050004100470054004F005F004900440005001C00000046004F00
+      52004D0041005F0050004100470054004F005F00490044000C00020000000E00
+      0D000F000110000111000112000113000114000115001C00000046004F005200
+      4D0041005F0050004100470054004F005F0049004400FEFF0B04001200000044
+      0045005300430052004900430041004F00050012000000440045005300430052
+      004900430041004F000C00030000000E0016001700320000000F000110000111
+      0001120001130001140001150012000000440045005300430052004900430041
+      004F00180032000000FEFF0B04001A00000051005400440045005F0050004100
+      5200430045004C004100530005001A00000051005400440045005F0050004100
+      5200430045004C00410053000C00040000000E000D000F000110000111000112
+      000113000114000115001A00000051005400440045005F005000410052004300
+      45004C0041005300FEFF0B0400260000005000520049004D004500490052004F
+      005F00560045004E00430049004D0045004E0054004F00050026000000500052
+      0049004D004500490052004F005F00560045004E00430049004D0045004E0054
+      004F000C00050000000E000D000F000110000111000112000113000114000115
+      00260000005000520049004D004500490052004F005F00560045004E00430049
+      004D0045004E0054004F00FEFF0B04002A00000049004E005400450052005600
+      41004C004F005F00440045004D004100490053005F0050004100520043000500
+      2A00000049004E00540045005200560041004C004F005F00440045004D004100
+      490053005F0050004100520043000C00060000000E000D000F00011000011100
+      0112000113000114000115002A00000049004E00540045005200560041004C00
+      4F005F00440045004D004100490053005F005000410052004300FEFF0B040008
+      000000540041005800410005000800000054004100580041000C00070000000E
+      0019000F00011000011100011200011300011400011500080000005400410058
+      004100FEFEFF1AFEFF1BFEFF1CFEFEFEFF1DFEFF1EFF1FFEFEFE0E004D006100
+      6E0061006700650072001E005500700064006100740065007300520065006700
+      6900730074007200790012005400610062006C0065004C006900730074000A00
+      5400610062006C00650008004E0061006D006500140053006F00750072006300
+      65004E0061006D0065000A0054006100620049004400240045006E0066006F00
+      72006300650043006F006E00730074007200610069006E00740073001E004D00
+      69006E0069006D0075006D004300610070006100630069007400790018004300
+      6800650063006B004E006F0074004E0075006C006C00140043006F006C007500
+      6D006E004C006900730074000C0043006F006C0075006D006E00100053006F00
+      7500720063006500490044000E006400740049006E0074003300320010004400
+      6100740061005400790070006500140053006500610072006300680061006200
+      6C006500120041006C006C006F0077004E0075006C006C000800420061007300
+      650014004F0041006C006C006F0077004E0075006C006C0012004F0049006E00
+      55007000640061007400650010004F0049006E00570068006500720065001A00
+      4F0072006900670069006E0043006F006C004E0061006D006500180064007400
+      41006E007300690053007400720069006E0067000800530069007A0065001400
+      53006F007500720063006500530069007A00650010006400740044006F007500
+      62006C0065001C0043006F006E00730074007200610069006E0074004C006900
+      73007400100056006900650077004C006900730074000E0052006F0077004C00
+      6900730074001800520065006C006100740069006F006E004C00690073007400
+      1C0055007000640061007400650073004A006F00750072006E0061006C000E00
+      4300680061006E00670065007300}
+    object mt_itensID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mt_itensFORMA_PAGTO_ID: TIntegerField
+      FieldName = 'FORMA_PAGTO_ID'
+    end
+    object mt_itensDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
+    end
+    object mt_itensQTDE_PARCELAS: TIntegerField
+      FieldName = 'QTDE_PARCELAS'
+    end
+    object mt_itensPRIMEIRO_VENCIMENTO: TIntegerField
+      FieldName = 'PRIMEIRO_VENCIMENTO'
+    end
+    object mt_itensINTERVALO_DEMAIS_PARC: TIntegerField
+      FieldName = 'INTERVALO_DEMAIS_PARC'
+    end
+    object mt_itensTAXA: TFloatField
+      FieldName = 'TAXA'
+      DisplayFormat = '0.00'
+    end
+  end
+  object mt_itens_deletados: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 320
+    Top = 394
+    object mt_itens_deletadosID: TIntegerField
+      FieldName = 'ID'
+    end
+  end
+  object ds_contas: TDataSource
+    AutoEdit = False
+    DataSet = qry_contas
+    Left = 540
+    Top = 9
+  end
+  object qry_contas: TFDQuery
+    Left = 540
+    Top = 36
+  end
+end

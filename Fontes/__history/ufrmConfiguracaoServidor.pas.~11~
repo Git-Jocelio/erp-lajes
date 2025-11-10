@@ -1,0 +1,180 @@
+unit ufrmConfiguracaoServidor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  udmConn, uBiblioteca;
+
+type
+  TfrmConfiguracaoServidor = class(TForm)
+    shp_fundo: TShape;
+    pnl_panels: TPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    Label3: TLabel;
+    pnl_barra: TPanel;
+    Panel4: TPanel;
+    edt_servidor: TEdit;
+    Label5: TLabel;
+    Panel5: TPanel;
+    edt_porta: TEdit;
+    Label6: TLabel;
+    Panel6: TPanel;
+    edt_caminho_banco: TEdit;
+    Label7: TLabel;
+    Panel7: TPanel;
+    edt_login: TEdit;
+    Label8: TLabel;
+    Panel8: TPanel;
+    edt_senha: TEdit;
+    Label9: TLabel;
+    Panel9: TPanel;
+    edt_caminho_atual_banco: TEdit;
+    Label10: TLabel;
+    Panel10: TPanel;
+    edt_porta_atual: TEdit;
+    Label11: TLabel;
+    Panel11: TPanel;
+    edt_servidor_atual: TEdit;
+    Label12: TLabel;
+    Panel12: TPanel;
+    edt_login_atual: TEdit;
+    Label13: TLabel;
+    Panel13: TPanel;
+    edt_senha_atual: TEdit;
+    Label14: TLabel;
+    Panel14: TPanel;
+    Label4: TLabel;
+    procedure btn_simClick(Sender: TObject);
+    procedure btn_naoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    function fnc_validar: boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfiguracaoServidor: TfrmConfiguracaoServidor;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConfiguracaoServidor.btn_naoClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TfrmConfiguracaoServidor.btn_simClick(Sender: TObject);
+begin
+  if fnc_validar then
+  begin
+    dmConn.conexao.servidor := edt_servidor.Text ;
+    dmConn.conexao.base     := edt_caminho_banco.Text;
+    dmConn.conexao.login    := edt_login.Text;
+    dmConn.conexao.senha    := edt_senha.Text;
+    dmConn.conexao.porta    := edt_porta.Text;
+
+    dmConn.conexao.prc_gravar_arquivo_ini;
+
+    if dmConn.conexao.fnc_conectar_banco_dados then
+    begin
+
+      uBiblioteca.fnc_criar_mensagem('CONEXÃO AO BANCO DE DADOS',
+                               'CONECTADO !',
+                               'Conexão estabelicida com sucesso.'+ 'O Sistema deve ser reiniciado!',
+                               ExtractFilePath(Application.ExeName) + '\Icones\aviso.ico',
+                               'OK');
+
+      application.Terminate;
+
+    end else
+    begin
+      uBiblioteca.fnc_criar_mensagem('CONEXÃO AO BANCO DE DADOS',
+                               'Erro a tentar conectar',
+                               'não foi possivel conectar ao banco de dados' + 'possivem erro : '
+                               + dmConn.conexao.msgErro,
+                               ExtractFilePath(Application.ExeName) + '\Icones\aviso.ico',
+                               'OK');
+
+      edt_servidor.SetFocus;
+    end;
+
+
+  end;
+end;
+
+function TfrmConfiguracaoServidor.fnc_validar : boolean;
+begin
+ result := false;
+
+ if edt_caminho_banco.Text = '' then
+ begin
+   ShowMessage('Informe o caminho do banco ');
+   edt_caminho_banco.SetFocus;
+   exit;
+ end;
+
+ if edt_porta.Text = '' then
+ begin
+   ShowMessage('Informe a porta "3050" ');
+   edt_porta.SetFocus;
+   exit;
+ end;
+
+ if edt_servidor.Text = '' then
+ begin
+   ShowMessage('Informe o servidor de banco de dados ');
+   edt_servidor.SetFocus;
+   exit;
+ end;
+
+ if edt_login.Text = '' then
+ begin
+   ShowMessage('Informe o login do banco de dados ');
+   edt_login.SetFocus;
+   exit;
+ end;
+
+ if edt_senha.Text = '' then
+ begin
+   ShowMessage('Informe a senha do banco de dados ');
+   edt_senha.SetFocus;
+   exit;
+ end;
+
+
+ result := true;
+end;
+
+procedure TfrmConfiguracaoServidor.FormShow(Sender: TObject);
+begin
+  if not dmConn.conexao.fnc_ler_arquivo_ini then
+  begin
+
+    edt_servidor_atual.Text      := dmConn.conexao.servidor;
+    edt_caminho_atual_banco.Text := dmConn.conexao.base;
+    edt_login_atual.Text         := dmConn.conexao.login;
+    edt_senha_atual.Text         := dmConn.conexao.senha;
+    edt_porta_atual.Text         := dmConn.conexao.porta;
+
+
+
+  end;
+
+end;
+
+end.

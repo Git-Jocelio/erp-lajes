@@ -1,0 +1,134 @@
+unit ufrmDinheiroEntrada;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn, ufrmDinheiroEntradaE, uTipos, uBiblioteca;
+
+type
+  TfrmDinheiroEntrada = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryVALOR: TFMTBCDField;
+    qryOBS: TStringField;
+    qryRECIBO_ID: TIntegerField;
+    Label1: TLabel;
+    edt_valor_fim: TEdit;
+    cb_valor: TCheckBox;
+    cb_data: TCheckBox;
+    dtp_data_ini: TDateTimePicker;
+    dtp_data_fim: TDateTimePicker;
+    Label2: TLabel;
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
+
+  private
+    procedure prc_sql;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDinheiroEntrada: TfrmDinheiroEntrada;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmDinheiroEntrada.actAlterarExecute(Sender: TObject);
+begin
+
+  try
+    if frmDinheiroEntradaE = nil then
+      frmDinheiroEntradaE := TfrmDinheiroEntradaE.Create(application);
+
+    frmDinheiroEntradaE.Operacao := utipos.opAlterar;
+    frmDinheiroEntradaE.Codigo   := qry.FieldByName('ID').AsInteger;
+    frmDinheiroEntradaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroEntradaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroEntrada.actExcluirExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroEntradaE = nil then
+      frmDinheiroEntradaE := TfrmDinheiroEntradaE.Create(application);
+
+    frmDinheiroEntradaE.Operacao := utipos.opExcluir;
+    frmDinheiroEntradaE.Codigo   := qry.FieldByName('ID').AsInteger;
+    frmDinheiroEntradaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroEntradaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroEntrada.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+
+  try
+    if frmDinheiroEntradaE = nil then
+      frmDinheiroEntradaE := TfrmDinheiroEntradaE.Create(application);
+
+    frmDinheiroEntradaE.Operacao := utipos.OpIncluir;
+    frmDinheiroEntradaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroEntradaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroEntrada.FormCreate(Sender: TObject);
+begin
+  dtp_data_ini.Date := date;
+  dtp_data_fim.Date := date;
+
+  DBGrid1.Columns[4].Visible := false;
+
+  self.Tabela := 'DINHEIRO_ENTRADA';
+  prc_sql;
+  inherited;
+end;
+
+procedure TfrmDinheiroEntrada.prc_sql;
+begin
+
+  sSql :=
+          'select            ' +
+          '  id,             ' +
+          '  cadastrado_em,  ' +
+          '  valor,          ' +
+          '  obs,            ' +
+          '  recibo_id       ' +
+          'from              ' +
+          ' dinheiro_entrada ';
+
+  qry.sql.Clear;
+  qry.sql.Add(sSql);
+  QRY.Open;
+
+end;
+
+
+end.

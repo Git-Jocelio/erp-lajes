@@ -1,0 +1,606 @@
+inherited frmPedidosBaixaE: TfrmPedidosBaixaE
+  Caption = 'frmPedidosBaixaE'
+  ClientHeight = 505
+  ClientWidth = 949
+  ExplicitWidth = 961
+  ExplicitHeight = 543
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 949
+    ExplicitWidth = 945
+    inherited lbl_titulo: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 943
+      Height = 34
+      Caption = 'BAIXA DO PEDIDO'
+      Font.Height = -27
+      ParentFont = False
+      ExplicitLeft = 3
+      ExplicitTop = 3
+      ExplicitWidth = 219
+      ExplicitHeight = 37
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 949
+      Caption = ''
+      ExplicitWidth = 4
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 949
+    Height = 411
+    ExplicitWidth = 945
+    ExplicitHeight = 410
+    object DBGrid1: TDBGrid
+      Left = 113
+      Top = 145
+      Width = 836
+      Height = 266
+      Align = alClient
+      DataSource = dsItens
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      TabOrder = 0
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PEDIDO_ID'
+          Title.Alignment = taCenter
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 76
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ITEM'
+          Title.Alignment = taCenter
+          Title.Caption = 'Item'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 41
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'IDPRODUTO'
+          Title.Alignment = taCenter
+          Title.Caption = 'ProdutoId'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOME_FANTASIA'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 329
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'QTDE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Quantidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 90
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'UNIDADE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Unidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 85
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'SITUACAO_ATUAL'
+          Title.Alignment = taCenter
+          Title.Caption = 'Situa'#231#227'o Atual'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 101
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'SITUACAO_NOVA'
+          Title.Alignment = taCenter
+          Title.Caption = 'Nova Situa'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 99
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ESTOQUE_CONTROLADO'
+          Width = 172
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LAJE'
+          Width = 52
+          Visible = True
+        end>
+    end
+    object pnl_situacao: TPanel
+      Left = 303
+      Top = 180
+      Width = 410
+      Height = 189
+      ParentColor = True
+      TabOrder = 1
+      Visible = False
+      object Label6: TLabel
+        Left = 1
+        Top = 125
+        Width = 193
+        Height = 13
+        Caption = '* Bot'#227'o Cancelar desfaz as altera'#231#245'es '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object pnl_situacao_topo: TPanel
+        Left = 1
+        Top = 1
+        Width = 408
+        Height = 23
+        Align = alTop
+        BevelOuter = bvNone
+        Caption = 'SITUA'#199#195'O DO PEDIDO'
+        Color = clAppWorkSpace
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+      end
+      object rg_opcao: TRadioGroup
+        Left = 1
+        Top = 24
+        Width = 408
+        Height = 95
+        Align = alTop
+        Caption = '  Selecione uma Op'#231#227'o  '
+        Columns = 2
+        Items.Strings = (
+          'ENTREGUE'
+          'RETIROU')
+        TabOrder = 1
+      end
+      object btn_confirma: TButton
+        Left = 105
+        Top = 153
+        Width = 115
+        Height = 25
+        Caption = 'Baixar Item(s)'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        OnClick = btn_confirmaClick
+      end
+      object btn_cancelar: TButton
+        Left = 229
+        Top = 153
+        Width = 88
+        Height = 25
+        Caption = 'Cancela'
+        TabOrder = 3
+        OnClick = btn_cancelarClick
+      end
+    end
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 949
+      Height = 104
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = #39#39
+      TabOrder = 2
+      ExplicitWidth = 945
+      object DBText1: TDBText
+        Left = 76
+        Top = 53
+        Width = 47
+        Height = 17
+        AutoSize = True
+        DataField = 'NOME'
+        DataSource = ds
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label1: TLabel
+        Left = 5
+        Top = 53
+        Width = 66
+        Height = 17
+        Caption = 'Cliente     : '
+      end
+      object Label2: TLabel
+        Left = 553
+        Top = 4
+        Width = 56
+        Height = 17
+        Caption = 'Situa'#231#227'o :'
+      end
+      object DBText2: TDBText
+        Left = 615
+        Top = 0
+        Width = 70
+        Height = 25
+        AutoSize = True
+        DataField = 'SITUACAO'
+        DataSource = ds
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 5
+        Top = 4
+        Width = 59
+        Height = 17
+        Caption = 'Emiss'#227'o : '
+      end
+      object DBText3: TDBText
+        Left = 72
+        Top = 4
+        Width = 65
+        Height = 17
+        DataField = 'DATA_EMISSAO'
+        DataSource = ds
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 263
+        Top = 4
+        Width = 106
+        Height = 17
+        Caption = 'Data de entrega : '
+      end
+      object Label5: TLabel
+        Left = 5
+        Top = 80
+        Width = 66
+        Height = 17
+        Caption = 'Endere'#231'o : '
+      end
+      object Label8: TLabel
+        Left = 5
+        Top = 22
+        Width = 68
+        Height = 17
+        Caption = 'Vendedor : '
+      end
+      object DBText4: TDBText
+        Left = 76
+        Top = 22
+        Width = 49
+        Height = 17
+        AutoSize = True
+        DataField = 'NM_VENDEDOR'
+        DataSource = ds
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_endereco: TLabel
+        Left = 77
+        Top = 78
+        Width = 64
+        Height = 20
+        Caption = 'endere'#231'o'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object dtp_data_entrega: TDateTimePicker
+        Left = 375
+        Top = 0
+        Width = 140
+        Height = 25
+        Date = 45566.000000000000000000
+        Time = 0.918055104164523100
+        TabOrder = 0
+      end
+    end
+    object pnl_titulo_itens: TPanel
+      Left = 0
+      Top = 104
+      Width = 949
+      Height = 41
+      Align = alTop
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 3
+      ExplicitWidth = 945
+      DesignSize = (
+        949
+        41)
+      object Label7: TLabel
+        Left = 365
+        Top = 6
+        Width = 196
+        Height = 32
+        Alignment = taCenter
+        Anchors = [akTop]
+        Caption = 'Itens deste Pedido'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -24
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ExplicitLeft = 376
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Top = 145
+      Width = 113
+      Height = 266
+      Align = alLeft
+      TabOrder = 4
+      ExplicitHeight = 265
+      object btn_baixar_todos: TBitBtn
+        Left = 1
+        Top = 1
+        Width = 111
+        Height = 61
+        Align = alTop
+        Caption = 'Baixar Todos os Itens do Pedido'
+        TabOrder = 0
+        WordWrap = True
+        OnClick = btn_baixar_todosClick
+      end
+      object btn_baixar_item: TBitBtn
+        Left = 1
+        Top = 62
+        Width = 111
+        Height = 53
+        Align = alTop
+        Caption = 'Baixar Item Selecionado'
+        TabOrder = 1
+        WordWrap = True
+        OnClick = btn_baixar_itemClick
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 468
+    Width = 949
+    ExplicitTop = 467
+    ExplicitWidth = 945
+    inherited pnl_botoes: TPanel
+      Left = 216
+      Width = 249
+      ExplicitLeft = 216
+      ExplicitWidth = 249
+      inherited btnOk: TBitBtn
+        Width = 137
+        Caption = 'Confirmar'
+        OnClick = btnOkClick
+        ExplicitWidth = 137
+      end
+      inherited btnFechar: TBitBtn
+        Left = 137
+        Width = 112
+        ExplicitLeft = 137
+        ExplicitWidth = 112
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  PD.ID as PEDIDO_ID,'
+      '  PD.DATA_EMISSAO,'
+      '  PD.DATA_ENTREGA,'
+      '  PD.SITUACAO,'
+      '  P.NOME,'
+      '  V.NOME AS NM_VENDEDOR,'
+      '  P.ENDERECO,'
+      '  P.NUMERO,'
+      '  P.BAIRRO,'
+      '  P.CIDADE,'
+      '  P.UF'
+      'from'
+      '  PEDIDOS PD, PESSOAS P, PESSOAS V'
+      ''
+      'where'
+      '  PD.CLIENTE_ID = P.ID and'
+      '  PD.VENDEDOR_ID = V.ID and'
+      '  PD.ID = :PEDIDO_ID'
+      '')
+    Left = 132
+    Top = 268
+    ParamData = <
+      item
+        Name = 'PEDIDO_ID'
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  inherited ds: TDataSource
+    Left = 132
+    Top = 241
+  end
+  object dsItens: TDataSource
+    AutoEdit = False
+    DataSet = mtb_pedido_itens
+    OnDataChange = dsItensDataChange
+    Left = 159
+    Top = 241
+  end
+  object mtb_pedido_itens: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'ITEM'
+        DataType = ftInteger
+      end
+      item
+        Name = 'NOME_FANTASIA'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'QTDE'
+        DataType = ftFloat
+      end
+      item
+        Name = 'UNIDADE'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'SITUACAO_ATUAL'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'SITUACAO_NOVA'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'IDPRODUTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'ESTOQUE_CONTROLADO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'LAJE'
+        DataType = ftString
+        Size = 20
+      end>
+    IndexDefs = <>
+    IndexFieldNames = 'ITEM'
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 159
+    Top = 268
+    object mtb_pedido_itensID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mtb_pedido_itensITEM: TIntegerField
+      FieldName = 'ITEM'
+    end
+    object mtb_pedido_itensNOME_FANTASIA: TStringField
+      FieldName = 'NOME_FANTASIA'
+      Size = 100
+    end
+    object mtb_pedido_itensQTDE: TFloatField
+      FieldName = 'QTDE'
+    end
+    object mtb_pedido_itensUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+    end
+    object mtb_pedido_itensSITUACAO_ATUAL: TStringField
+      FieldName = 'SITUACAO_ATUAL'
+    end
+    object mtb_pedido_itensSITUACAO_NOVA: TStringField
+      FieldName = 'SITUACAO_NOVA'
+    end
+    object mtb_pedido_itensIDPRODUTO: TIntegerField
+      FieldName = 'IDPRODUTO'
+    end
+    object mtb_pedido_itensESTOQUE_CONTROLADO: TStringField
+      FieldName = 'ESTOQUE_CONTROLADO'
+    end
+    object mtb_pedido_itensLAJE: TStringField
+      FieldName = 'LAJE'
+    end
+  end
+end

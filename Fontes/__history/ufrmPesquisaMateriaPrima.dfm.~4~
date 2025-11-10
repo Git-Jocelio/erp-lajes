@@ -1,0 +1,55 @@
+inherited frmPesquisaMateriaPrima: TfrmPesquisaMateriaPrima
+  Caption = 'Pesquisa Mat'#233'ria Prima'
+  ClientHeight = 363
+  ExplicitHeight = 402
+  PixelsPerInch = 96
+  TextHeight = 17
+  object Label1: TLabel [0]
+    Left = 8
+    Top = 292
+    Width = 122
+    Height = 17
+    Caption = 'Quantidade de Latas'
+  end
+  inherited Panel1: TPanel
+    ExplicitWidth = 484
+    inherited btnFiltrar: TBitBtn
+      OnClick = btnFiltrarClick
+    end
+  end
+  inherited db: TDBGrid
+    DataSource = ds
+  end
+  inherited btnConfirma: TBitBtn
+    Left = 183
+    Top = 315
+    ExplicitLeft = 183
+    ExplicitTop = 315
+  end
+  inherited btnFechar: TBitBtn
+    Left = 264
+    Top = 315
+    ExplicitLeft = 264
+    ExplicitTop = 315
+  end
+  object Edit1: TEdit [5]
+    Left = 8
+    Top = 315
+    Width = 89
+    Height = 25
+    TabOrder = 4
+    Text = 'Edit1'
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.Conn
+    SQL.Strings = (
+      'select * from PRODUTOS '
+      'where DESCRICAO like :DESCRICAO')
+    ParamData = <
+      item
+        Name = 'DESCRICAO'
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+end

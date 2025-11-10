@@ -1,0 +1,46 @@
+CREATE TABLE CONTAS_PAGAR (
+    ID                    INTEGER NOT NULL,
+    CADASTRADO_EM         DATE,
+    ALTERADO_EM           DATE,
+    PLANO_CONTAS_ID       INTEGER,
+    PESSOA_ID             INTEGER,
+    NR_DOCUMENTO          VARCHAR(30),
+    DESCRICAO             VARCHAR(255),
+    TABELA_ORIGEM         VARCHAR(51),
+    TABELA_ID             INTEGER,
+    NR_PARCELA            INTEGER,
+    QTDE_PARCELA          INTEGER,
+    VALOR_PARCELA         DECIMAL(15,2),
+    ACRESCIMO             DECIMAL(15,2),
+    DESCONTO              DECIMAL(15,2),
+    MULTA                 DECIMAL(15,2),
+    JUROS                 DECIMAL(15,2),
+    TOTAL_PARCELA         DECIMAL(15,2),
+    DATA_VENC             DATE,
+    VALOR_PAGO            DECIMAL(15,2),
+    DATA_PAGAMENTO        DATE,
+    SALDO_ABERTO          DECIMAL(15,2),
+    PAGO                  VARCHAR(1),
+    VAI_PARA_DRE          VARCHAR(1),
+    VAI_PARA_FLUXO_CAIXA  VARCHAR(1),
+    VAI_PARA_BALANCO      VARCHAR(1),
+    ATIVO                 VARCHAR(1),
+    HISTORICO_PAGAMENTO   VARCHAR(500),
+    HISTORICO_COBRANCA    VARCHAR(500)
+);
+
+
+
+/******************************************************************************/
+/****                             Primary keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR ADD CONSTRAINT PK_CONTAS_PAGAR PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/****                             Foreign keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE CONTAS_PAGAR ADD CONSTRAINT FK_CONTAS_PAGAR_PESSOA FOREIGN KEY (PESSOA_ID) REFERENCES PESSOAS (ID);
+ALTER TABLE CONTAS_PAGAR ADD CONSTRAINT FK_CONTAS_PAGAR_PLANO_CONTAS FOREIGN KEY (PLANO_CONTAS_ID) REFERENCES PLANO_CONTAS (ID);

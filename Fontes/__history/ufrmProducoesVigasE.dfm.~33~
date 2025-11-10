@@ -1,0 +1,485 @@
+inherited frmProducoesVigasE: TfrmProducoesVigasE
+  Caption = ''
+  ClientHeight = 574
+  ClientWidth = 952
+  ExplicitWidth = 964
+  ExplicitHeight = 612
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 952
+    ExplicitWidth = 948
+    inherited lbl_titulo: TLabel
+      Width = 210
+      Height = 40
+      Align = alLeft
+      Caption = '   ENTRADA DE VIGAS'
+      Font.Color = clBlack
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 210
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 952
+      Caption = ''
+      ExplicitTop = 49
+      ExplicitWidth = 4
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 952
+    Height = 480
+    ExplicitWidth = 948
+    ExplicitHeight = 479
+    object Label6: TLabel
+      Left = 110
+      Top = 440
+      Width = 134
+      Height = 17
+      Caption = 'Quantidade de Vigas : '
+    end
+    object Label8: TLabel
+      Left = 342
+      Top = 440
+      Width = 151
+      Height = 17
+      Caption = 'Total em metros lineares :'
+    end
+    object edt_qtde_vigas: TDBText
+      Left = 246
+      Top = 440
+      Width = 65
+      Height = 17
+      DataField = 'QTDE_VIGAS'
+      DataSource = ds_vigas
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object edt_total_linear: TDBText
+      Left = 499
+      Top = 441
+      Width = 65
+      Height = 17
+      DataField = 'TOTAL_LINEAR'
+      DataSource = ds_vigas
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object pnl_topo: TPanel
+      Left = 0
+      Top = 0
+      Width = 952
+      Height = 113
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitWidth = 948
+      object Label1: TLabel
+        Left = 8
+        Top = 6
+        Width = 63
+        Height = 17
+        Caption = 'Produ'#231#227'o :'
+      end
+      object lbl_producao_id: TLabel
+        Left = 78
+        Top = 8
+        Width = 21
+        Height = 15
+        Caption = '000'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 211
+        Top = 6
+        Width = 101
+        Height = 17
+        Caption = 'Cadastrado em : '
+      end
+      object lbl_Cadastrado_em: TLabel
+        Left = 313
+        Top = 8
+        Width = 66
+        Height = 15
+        Caption = '00/00/0000'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 483
+        Top = 6
+        Width = 83
+        Height = 17
+        Caption = 'Alterado em : '
+      end
+      object lbl_alterado_em: TLabel
+        Left = 572
+        Top = 6
+        Width = 66
+        Height = 15
+        Caption = '00/00/0000'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 211
+        Top = 37
+        Width = 198
+        Height = 34
+        Caption = 'Capacidade M'#225'xima de Produ'#231#227'o ( em metros lineares )'
+        WordWrap = True
+      end
+      object Label5: TLabel
+        Left = 483
+        Top = 37
+        Width = 197
+        Height = 34
+        Caption = 'Quantidade Utilizada de Cimento ( em Kilos )'
+        WordWrap = True
+      end
+      object rg_tipo_forma: TRadioGroup
+        Left = 8
+        Top = 37
+        Width = 185
+        Height = 65
+        Caption = ' Tipo de Forma '
+        Items.Strings = (
+          '130 mm'
+          '250 mm')
+        TabOrder = 0
+        OnClick = rg_tipo_formaClick
+      end
+      object edt_capacidade_producao: TEdit
+        Left = 211
+        Top = 77
+        Width = 121
+        Height = 25
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object edt_qtde_cimento: TEdit
+        Left = 483
+        Top = 77
+        Width = 121
+        Height = 25
+        MaxLength = 4
+        NumbersOnly = True
+        TabOrder = 2
+      end
+    end
+    object pnl_botoes_produtos: TPanel
+      Left = 0
+      Top = 113
+      Width = 99
+      Height = 367
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 1
+      ExplicitHeight = 366
+      object btn_produto_incluir: TSpeedButton
+        Left = 0
+        Top = 0
+        Width = 99
+        Height = 30
+        Cursor = crHandPoint
+        Hint = 'Adicionar um novo Produto'
+        Align = alTop
+        Caption = 'Incluir'
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = btn_produto_incluirClick
+      end
+      object btn_produto_excluir: TSpeedButton
+        Left = 0
+        Top = 60
+        Width = 99
+        Height = 30
+        Cursor = crHandPoint
+        Hint = 'Excluir um produto'
+        Align = alTop
+        Caption = 'Excluir'
+        Enabled = False
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = btn_produto_excluirClick
+      end
+      object btn_produto_editar: TSpeedButton
+        Left = 0
+        Top = 30
+        Width = 99
+        Height = 30
+        Cursor = crHandPoint
+        Hint = 'Editar um produto'
+        Align = alTop
+        Caption = 'Alterar'
+        Enabled = False
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = btn_produto_editarClick
+      end
+    end
+    object dbg_produtos: TDBGrid
+      Left = 105
+      Top = 108
+      Width = 832
+      Height = 327
+      DataSource = ds_vigas
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ReadOnly = True
+      TabOrder = 2
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ID'
+          Title.Alignment = taCenter
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 36
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PRODUCAO_ID'
+          Title.Alignment = taCenter
+          Title.Caption = 'PRODUCAO'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 88
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PRODUTO_ID'
+          Title.Alignment = taCenter
+          Title.Caption = 'C'#243'digo'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 77
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOME_FANTASIA'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 281
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'QUANTIDADE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Quantidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COMPRIMENTO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Comprimento'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 97
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'METROS_LINEARES'
+          Title.Alignment = taCenter
+          Title.Caption = 'Mts Lineares'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 126
+          Visible = True
+        end>
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 537
+    Width = 952
+    ExplicitTop = 536
+    ExplicitWidth = 948
+    inherited pnl_botoes: TPanel
+      Width = 292
+      ExplicitWidth = 292
+      inherited btnOk: TBitBtn
+        Width = 185
+        OnClick = btnOkClick
+        ExplicitWidth = 185
+      end
+      inherited btnFechar: TBitBtn
+        Left = 185
+        Width = 107
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 680
+    Top = 96
+  end
+  inherited ds: TDataSource
+    Left = 680
+    Top = 65
+  end
+  object mtb_vigas: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'PRODUCAO_ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'PRODUTO_ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'NOME_FANTASIA'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'QUANTIDADE'
+        DataType = ftInteger
+      end
+      item
+        Name = 'COMPRIMENTO'
+        DataType = ftFloat
+      end
+      item
+        Name = 'METROS_LINEARES'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    AggregatesActive = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 168
+    Top = 273
+    object mtb_vigasID: TIntegerField
+      FieldName = 'ID'
+    end
+    object mtb_vigasPRODUCAO_ID: TIntegerField
+      FieldName = 'PRODUCAO_ID'
+    end
+    object mtb_vigasPRODUTO_ID: TIntegerField
+      FieldName = 'PRODUTO_ID'
+    end
+    object mtb_vigasNOME_FANTASIA: TStringField
+      FieldName = 'NOME_FANTASIA'
+      Size = 100
+    end
+    object mtb_vigasQUANTIDADE: TIntegerField
+      FieldName = 'QUANTIDADE'
+    end
+    object mtb_vigasCOMPRIMENTO: TFloatField
+      FieldName = 'COMPRIMENTO'
+      DisplayFormat = '0.00'
+    end
+    object mtb_vigasMETROS_LINEARES: TFloatField
+      FieldName = 'METROS_LINEARES'
+      DisplayFormat = '0.00'
+    end
+    object mtb_vigasQTDE_VIGAS: TAggregateField
+      FieldName = 'QTDE_VIGAS'
+      Active = True
+      DisplayName = ''
+      Expression = 'SUM( QUANTIDADE )'
+    end
+    object mtb_vigasTOTAL_LINEAR: TAggregateField
+      FieldName = 'TOTAL_LINEAR'
+      Active = True
+      DisplayName = ''
+      DisplayFormat = '0.00'
+      Expression = 'SUM( METROS_LINEARES )'
+    end
+  end
+  object ds_vigas: TDataSource
+    AutoEdit = False
+    DataSet = mtb_vigas
+    OnDataChange = ds_vigasDataChange
+    Left = 168
+    Top = 241
+  end
+  object mt_itens_deletados: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 164
+    Top = 308
+    object mt_itens_deletadosID: TIntegerField
+      FieldName = 'ID'
+    end
+  end
+end

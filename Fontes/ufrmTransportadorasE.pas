@@ -1,0 +1,357 @@
+unit ufrmTransportadorasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask;
+
+type
+  TfrmTransportadorasE = class(TfrmBaseEdicao)
+    qryTransportadoras: TFDQuery;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label13: TLabel;
+    Label12: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    edID: TDBEdit;
+    edNome: TDBEdit;
+    edCpfCnpj: TDBEdit;
+    edRgIe: TDBEdit;
+    edEndereco: TDBEdit;
+    edNumero: TDBEdit;
+    eddataCad: TDBEdit;
+    edDataAlt: TDBEdit;
+    edCelular: TDBEdit;
+    edTelefone: TDBEdit;
+    edBairro: TDBEdit;
+    edCidade: TDBEdit;
+    edCep: TDBEdit;
+    edEmail: TDBEdit;
+    cbAtivo: TDBCheckBox;
+    rgPessoa: TDBRadioGroup;
+    edUF: TDBComboBox;
+    btnBuscaPessoa: TBitBtn;
+    btnIncluirPessoa: TBitBtn;
+    pnVendedor: TPanel;
+    Label9: TLabel;
+    Label10: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    dsTransportadoras: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnBuscaPessoaClick(Sender: TObject);
+    procedure btnIncluirPessoaClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTitulo: string;
+    FTabela: string;
+    FCodigo: integer;
+  protected
+
+    procedure Componentes();
+    procedure Inicializar();
+    procedure LerDados();
+
+    function Valida(): Boolean;
+    procedure Salvar();
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property Titulo   :string read FTitulo write FTitulo;
+
+  end;
+
+  procedure Incluir;
+  procedure Alterar(ACodigo :integer);
+  procedure Excluir(ACodigo :integer);
+
+implementation
+
+uses uBiblioteca, ufrmPesquisaPessoa, ufrmPessoasE;
+
+procedure Incluir;
+var
+  loForm : TfrmTransportadorasE;
+begin
+  loForm := TfrmTransportadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo :integer);
+var
+  loForm : TfrmTransportadorasE;
+begin
+  loForm := TfrmTransportadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo :integer);
+var
+  loForm : TfrmTransportadorasE;
+begin
+  loForm := TfrmTransportadorasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+
+{$R *.dfm}
+
+procedure TfrmTransportadorasE.btnBuscaPessoaClick(Sender: TObject);
+begin
+  inherited;
+  if frmPesquisaPessoa = nil  then
+  frmPesquisaPessoa := TfrmPesquisaPessoa.Create(Application);
+  try
+    frmPesquisaPessoa.ShowModal;
+
+    //ShowMessage(inttostr(frmPesquisaPessoa.Codigo));
+    if frmPesquisaPessoa.Confirmado then
+    begin
+      uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(frmPesquisaPessoa.Codigo));
+      qryTransportadoras.FieldByName('PESSOA_ID').AsInteger := frmPesquisaPessoa.Codigo;
+    end
+    else
+      qry.Close;
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+
+  end;
+end;
+
+procedure TfrmTransportadorasE.btnIncluirPessoaClick(Sender: TObject);
+begin
+  inherited;
+  ufrmPessoasE.incluir;
+
+end;
+
+procedure TfrmTransportadorasE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  Salvar;
+
+end;
+
+procedure TfrmTransportadorasE.Componentes;
+begin
+ // qry.Connection := self.Conexao;
+  qry.SQL.Add('select * from PESSOAS where ID =:ID');
+
+  qryTransportadoras.Connection := self.Conexao;
+  qryTransportadoras.SQL.Add('select * from ' + self.Tabela + ' where PESSOA_ID =:PESSOA_ID');
+
+  qryTransportadoras.Open;
+
+end;
+
+procedure TfrmTransportadorasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'TRANSPORTADORAS';
+
+end;
+
+procedure TfrmTransportadorasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  Componentes;
+  Inicializar;
+
+end;
+
+procedure TfrmTransportadorasE.Inicializar;
+begin
+  Self.Caption := 'SYSLAJES - SISTEMA DE GERENCIAMENTO DE LAJES';
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       pnDados.Enabled := true;
+                       pnTitulo.Caption := 'Manutenção de Transportadoras [Inclusão]';
+                       btnOk     .Caption := 'Incluir';
+                       {Abre um novo registro}
+                       qryTransportadoras.Insert;
+                       {Novo id}
+                       qryTransportadoras.FieldByName('ID').AsInteger := ubiblioteca.AutoIncremento(self.Conexao,Tabela);
+
+                       btnBuscaPessoa.SetFocus;
+                       qry.Close;
+                     end;
+  uTipos.opAlterar: begin
+                      self.LerDados;
+                      pnTitulo.Caption := 'Manutenção de Transportadoras [Alteração]';
+                      qryTransportadoras.Edit;
+                      btnOk.Caption := 'Alterar';
+                      //
+                      btnOk.SetFocus;
+                    end;
+  uTipos.opExcluir: begin
+                      self.LerDados;
+                      pnTitulo.Caption := 'Manutenção de Transportadoras [Exclusão]';
+                      pnDados.Enabled   := false;
+                      btnOk.Caption := 'Excluir';
+                      btnFechar.SetFocus;
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      //pnCliente.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmTransportadorasE.LerDados;
+begin
+  uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(self.Codigo));
+  uBiblioteca.FilterCds(qryTransportadoras, uTipos.fsInteger, inttostr(self.Codigo));
+  //
+  pnDados.Enabled := false;
+end;
+
+procedure TfrmTransportadorasE.Salvar;
+begin
+
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not Valida() then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+
+        qryTransportadoras.Post;
+        if Self.Conexao.InTransaction then begin qryTransportadoras.ApplyUpdates; Self.Conexao.Commit end;
+
+        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
+          Self.Inicializar
+        else
+          ModalResult := mrOk;
+      except
+        ShowMessage('Não foi possível salvar o registro');
+        Self.Conexao.Rollback;
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not Valida then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        qryTransportadoras.Post;
+        if Self.Conexao.InTransaction then begin qryTransportadoras.ApplyUpdates; Self.Conexao.Commit end;
+        ModalResult := mrOk;
+      except
+        ShowMessage('Não foi possível alterar o registro');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        try
+          qryTransportadoras.Delete;
+          if Self.Conexao.InTransaction then begin qryTransportadoras.ApplyUpdates; Self.Conexao.Commit end;
+          ModalResult := mrOk;
+        except
+          ShowMessage('Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+  end;// case
+
+end;
+
+function TfrmTransportadorasE.Valida: Boolean;
+var
+  loQuery: TFDQuery;
+begin
+  result := false;
+
+
+  if qry.IsEmpty then
+  begin
+    ShowMessage('Selecione ou cadastre uma pessoa');
+    btnBuscaPessoa.SetFocus;
+    exit;
+  end;
+
+  {verifica duplicidade}
+  if self.Operacao = uTipos.OpIncluir then
+  begin
+    try
+      try
+        loQuery := TFDQuery.Create(self);
+        loQuery.Connection := Self.Conexao;
+        loQuery.SQL.Add('select PESSOA_ID from ' + self.Tabela + ' where PESSOA_ID =:PESSOA_ID');
+        loQuery.Params[0].AsInteger := qry.fieldbyname('ID').AsInteger;
+        loQuery.Open;
+        if not loQuery.IsEmpty then
+        begin
+          ShowMessage('Transportadora já está cadastrado no sistema');
+          exit;
+        end;
+      finally
+        FreeAndNil(loQuery);
+      end;
+    except
+      on E : Exception do
+      Raise Exception.Create(E.Message + Self.Name +'.Valida : ' + self.Caption );
+    end;
+  end;
+
+
+  //***
+  ShowMessage('Transportadora validada com sucesso!');
+
+  result := true;
+  //ShowMessage(qryVendedor.SQL.Text);
+end;
+
+end.

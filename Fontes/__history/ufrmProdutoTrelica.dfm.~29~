@@ -1,0 +1,227 @@
+inherited frmProdutoTrelica: TfrmProdutoTrelica
+  Caption = 'frmProdutoTrelica'
+  ClientHeight = 441
+  ClientWidth = 984
+  Position = poDesigned
+  ExplicitWidth = 984
+  ExplicitHeight = 441
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 984
+    ExplicitWidth = 984
+  end
+  inherited ToolBar1: TToolBar
+    Width = 984
+    ExplicitWidth = 984
+  end
+  inherited StatusBar: TStatusBar
+    Top = 409
+    Width = 984
+    ExplicitTop = 409
+    ExplicitWidth = 984
+  end
+  inherited PageControl1: TPageControl
+    Width = 984
+    Height = 204
+    ExplicitWidth = 984
+    ExplicitHeight = 204
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 976
+      ExplicitHeight = 194
+      inherited Panel5: TPanel
+        Width = 976
+        Height = 194
+        ExplicitWidth = 976
+        ExplicitHeight = 194
+        inherited DBGrid1: TDBGrid
+          Width = 936
+          Height = 143
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME_FANTASIA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 376
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_CUSTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Custo Barra'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PERCA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Perca(%)'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 96
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CUSTO_LIQUIDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Custo Liquido'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'KGS_METRO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Kgs / Mt'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 936
+          ExplicitWidth = 936
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 984
+    ExplicitWidth = 984
+    inherited btn_fechar: TSpeedButton
+      Left = 914
+      ExplicitLeft = 914
+    end
+    inherited lbl_titulo: TLabel
+      Width = 200
+      Caption = 'CONSULTA TRELI'#199'AS'
+      ExplicitWidth = 200
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 984
+      ExplicitWidth = 984
+    end
+  end
+  inherited ds: TDataSource
+    Top = 16
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
+    FormatOptions.FmtDisplayNumeric = '0.00'
+    SQL.Strings = (
+      'select '
+      
+        '  P.ID, P.NOME_FANTASIA, P.PRECO_CUSTO, P.PERCA, P.CUSTO_LIQUIDO' +
+        ', T.KGS_METRO, P.ATIVO'
+      'from '
+      '  PRODUTOS P, PRODUTOS_TRELICA T '
+      'where'
+      '  P.ID = T.PRODUTO_ID')
+    Left = 736
+    Top = 16
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryATIVO: TStringField
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      Required = True
+      Size = 1
+    end
+    object qryNOME_FANTASIA: TStringField
+      FieldName = 'NOME_FANTASIA'
+      Origin = 'NOME_FANTASIA'
+      Size = 100
+    end
+    object qryPRECO_CUSTO: TCurrencyField
+      FieldName = 'PRECO_CUSTO'
+      Origin = 'PRECO_CUSTO'
+      DisplayFormat = '0.00'
+    end
+    object qryPERCA: TCurrencyField
+      FieldName = 'PERCA'
+      Origin = 'PERCA'
+      DisplayFormat = '0.00'
+    end
+    object qryKGS_METRO: TCurrencyField
+      AutoGenerateValue = arDefault
+      FieldName = 'KGS_METRO'
+      Origin = 'KGS_METRO'
+      ProviderFlags = []
+      ReadOnly = True
+      DisplayFormat = '0.00'
+    end
+    object qryCUSTO_LIQUIDO: TCurrencyField
+      FieldName = 'CUSTO_LIQUIDO'
+      Origin = 'CUSTO_LIQUIDO'
+      DisplayFormat = '0.00'
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 664
+    Top = 16
+  end
+  inherited ActionList1: TActionList
+    Left = 696
+    Top = 16
+  end
+end

@@ -1,0 +1,1062 @@
+inherited frmProducaoVigas: TfrmProducaoVigas
+  BorderStyle = bsDialog
+  Caption = 'frmProducaoVigas'
+  ClientHeight = 529
+  ClientWidth = 904
+  OnShow = FormShow
+  ExplicitWidth = 910
+  ExplicitHeight = 558
+  PixelsPerInch = 96
+  TextHeight = 15
+  object pnTitulo: TPanel [0]
+    Left = 0
+    Top = 0
+    Width = 904
+    Height = 57
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 14803425
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clGray
+    Font.Height = -21
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object lbl_titulo: TLabel
+      Left = 15
+      Top = 3
+      Width = 137
+      Height = 30
+      Caption = 'Titulo principal'
+    end
+    object lbl_sub_titulo: TLabel
+      Left = 15
+      Top = 37
+      Width = 58
+      Height = 17
+      Caption = 'SubTitulo]'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object pnRodape: TPanel [1]
+    Left = 0
+    Top = 492
+    Width = 904
+    Height = 37
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = 14803425
+    ParentBackground = False
+    TabOrder = 1
+    object pnl_botoes: TPanel
+      Left = 340
+      Top = 1
+      Width = 222
+      Height = 34
+      BevelOuter = bvNone
+      TabOrder = 0
+      object btnOk: TBitBtn
+        Left = 0
+        Top = 0
+        Width = 108
+        Height = 34
+        Align = alLeft
+        Caption = 'Confirma'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = btnOkClick
+      end
+      object btnFechar: TBitBtn
+        Left = 108
+        Top = 0
+        Width = 114
+        Height = 34
+        Align = alClient
+        Caption = 'Fechar'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnClick = btnFecharClick
+      end
+    end
+  end
+  object PageControl1: TPageControl [2]
+    Left = 0
+    Top = 57
+    Width = 904
+    Height = 435
+    ActivePage = tbs_pedido_vigas
+    Align = alClient
+    TabOrder = 2
+    object tbs_pedido_vigas: TTabSheet
+      Caption = 'resumo de vigas por pedido'
+      object pnDados: TPanel
+        Left = 0
+        Top = 0
+        Width = 896
+        Height = 405
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+        object Label1: TLabel
+          Left = 15
+          Top = 6
+          Width = 228
+          Height = 17
+          Caption = 'Informe o(s) n'#250'mero(s) do(s) pedido(s)'
+        end
+        object dbg_pedidos: TDBGrid
+          Left = 54
+          Top = 29
+          Width = 827
+          Height = 157
+          DataSource = dsPedidos
+          TabOrder = 0
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'PEDIDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pedido'
+              Width = 148
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome'
+              Width = 174
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ENDERECO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Endere'#231'o'
+              Width = 227
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NUMERO'
+              Title.Alignment = taCenter
+              Title.Caption = 'N'#250'mero'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'BAIRRO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Bairro'
+              Width = 154
+              Visible = True
+            end>
+        end
+        object dbg_resumo_vigas: TDBGrid
+          Left = 0
+          Top = 235
+          Width = 896
+          Height = 170
+          Align = alBottom
+          DataSource = ds_totaliza_vigas
+          TabOrder = 1
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'TRELICA_ALTURA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Treli'#231'a'
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'COMPRIMENTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Tamanho'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'QTDE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Quantidade'
+              Visible = True
+            end>
+        end
+        object btn_incluir_pedido: TBitBtn
+          Left = 15
+          Top = 29
+          Width = 33
+          Height = 25
+          Caption = '+'
+          TabOrder = 2
+          OnClick = btn_incluir_pedidoClick
+        end
+        object btn_excluir_pedido: TBitBtn
+          Left = 15
+          Top = 55
+          Width = 33
+          Height = 25
+          Caption = '-'
+          TabOrder = 3
+          OnClick = btn_excluir_pedidoClick
+        end
+        object btn_gerar_resumo: TBitBtn
+          Left = 15
+          Top = 192
+          Width = 178
+          Height = 25
+          Caption = 'Gerar Resumo de vigas'
+          TabOrder = 4
+          OnClick = btn_gerar_resumoClick
+        end
+      end
+    end
+    object tbs_producao: TTabSheet
+      Caption = 'Gerar produ'#231#227'o'
+      ImageIndex = 1
+      OnShow = tbs_producaoShow
+      object Memo: TMemo
+        Left = 0
+        Top = 316
+        Width = 896
+        Height = 89
+        Align = alBottom
+        TabOrder = 0
+      end
+      object dbg_producao: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 337
+        Height = 316
+        Align = alLeft
+        DataSource = dsProducao
+        TabOrder = 1
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+      end
+      object db_clone: TDBGrid
+        Left = 574
+        Top = 0
+        Width = 322
+        Height = 316
+        Align = alRight
+        DataSource = dsClone
+        TabOrder = 2
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+      end
+      object btn_executar: TBitBtn
+        Left = 343
+        Top = 95
+        Width = 75
+        Height = 25
+        Caption = 'v3'
+        TabOrder = 3
+        OnClick = btn_executarClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select'
+      '  v.trelica_altura,'
+      '  cast ( v.comprimento as float ) /1000 as comprimento,'
+      '  sum(i.qtde) as qtde'
+      'from'
+      '  pedidos_itens_laje i,'
+      '  produtos_vigas v,'
+      '  pedidos p'
+      'where'
+      '  i.pedido_id = p.id and'
+      '  i.produto_id = v.produto_id and'
+      '  p.nosso_numero in (:p1,:p2,:p3)'
+      'group by'
+      '  v.trelica_altura, v.comprimento')
+    Left = 189
+    Top = 29
+    ParamData = <
+      item
+        Name = 'P1'
+        DataType = ftString
+        ParamType = ptInput
+        Size = 20
+      end
+      item
+        Name = 'P2'
+        DataType = ftString
+        ParamType = ptInput
+        Size = 20
+      end
+      item
+        Name = 'P3'
+        DataType = ftString
+        ParamType = ptInput
+        Size = 20
+      end>
+    object qryTRELICA_ALTURA: TIntegerField
+      FieldName = 'TRELICA_ALTURA'
+      Origin = 'TRELICA_ALTURA'
+    end
+    object qryQTDE: TLargeintField
+      FieldName = 'QTDE'
+      Origin = 'QTDE'
+    end
+    object qryCOMPRIMENTO: TFloatField
+      FieldName = 'COMPRIMENTO'
+      Origin = 'COMPRIMENTO'
+      DisplayFormat = '0.00'
+    end
+  end
+  object ds_totaliza_vigas: TDataSource
+    AutoEdit = False
+    DataSet = qry
+    OnDataChange = ds_totaliza_vigasDataChange
+    Left = 189
+    Top = 1
+  end
+  object dsPedidos: TDataSource
+    AutoEdit = False
+    DataSet = mtb_pedidos
+    OnDataChange = dsPedidosDataChange
+    Left = 160
+    Top = 1
+  end
+  object mtb_pedidos: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'PEDIDO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'NOME'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'ENDERECO'
+        DataType = ftString
+        Size = 80
+      end
+      item
+        Name = 'NUMERO'
+        DataType = ftString
+        Size = 10
+      end
+      item
+        Name = 'BAIRRO'
+        DataType = ftString
+        Size = 30
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 160
+    Top = 29
+    Content = {
+      414442530F00192750020000FF00010001FF02FF030400160000006D00740062
+      005F00700065006400690064006F00730005000A0000005400610062006C0065
+      00060000000000070000080032000000090000FF0AFF0B04000C000000500045
+      004400490044004F0005000C000000500045004400490044004F000C00010000
+      000E000D000F001400000010000111000112000113000114000115000116000C
+      000000500045004400490044004F00170014000000FEFF0B0400080000004E00
+      4F004D0045000500080000004E004F004D0045000C00020000000E000D000F00
+      320000001000011100011200011300011400011500011600080000004E004F00
+      4D004500170032000000FEFF0B04001000000045004E00440045005200450043
+      004F0005001000000045004E00440045005200450043004F000C00030000000E
+      000D000F00500000001000011100011200011300011400011500011600100000
+      0045004E00440045005200450043004F00170050000000FEFF0B04000C000000
+      4E0055004D00450052004F0005000C0000004E0055004D00450052004F000C00
+      040000000E000D000F000A000000100001110001120001130001140001150001
+      16000C0000004E0055004D00450052004F0017000A000000FEFF0B04000C0000
+      00420041004900520052004F0005000C000000420041004900520052004F000C
+      00050000000E000D000F001E0000001000011100011200011300011400011500
+      0116000C000000420041004900520052004F0017001E000000FEFEFF18FEFF19
+      FEFF1AFEFEFEFF1BFEFF1CFF1DFEFEFE0E004D0061006E006100670065007200
+      1E00550070006400610074006500730052006500670069007300740072007900
+      12005400610062006C0065004C006900730074000A005400610062006C006500
+      08004E0061006D006500140053006F0075007200630065004E0061006D006500
+      0A0054006100620049004400240045006E0066006F0072006300650043006F00
+      6E00730074007200610069006E00740073001E004D0069006E0069006D007500
+      6D0043006100700061006300690074007900180043006800650063006B004E00
+      6F0074004E0075006C006C00140043006F006C0075006D006E004C0069007300
+      74000C0043006F006C0075006D006E00100053006F0075007200630065004900
+      440018006400740041006E007300690053007400720069006E00670010004400
+      61007400610054007900700065000800530069007A0065001400530065006100
+      720063006800610062006C006500120041006C006C006F0077004E0075006C00
+      6C000800420061007300650014004F0041006C006C006F0077004E0075006C00
+      6C0012004F0049006E0055007000640061007400650010004F0049006E005700
+      68006500720065001A004F0072006900670069006E0043006F006C004E006100
+      6D006500140053006F007500720063006500530069007A0065001C0043006F00
+      6E00730074007200610069006E0074004C006900730074001000560069006500
+      77004C006900730074000E0052006F0077004C00690073007400180052006500
+      6C006100740069006F006E004C006900730074001C0055007000640061007400
+      650073004A006F00750072006E0061006C000E004300680061006E0067006500
+      7300}
+    object mtb_pedidosPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+    end
+    object mtb_pedidosNOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object mtb_pedidosENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 80
+    end
+    object mtb_pedidosNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 10
+    end
+    object mtb_pedidosBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+  end
+  object dsProducao: TDataSource
+    DataSet = qryProducao
+    Left = 68
+    Top = 163
+  end
+  object mtb_marcar_viga: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 52
+    Top = 368
+    object mtb_marcar_vigaID: TFloatField
+      FieldName = 'ID'
+    end
+    object mtb_marcar_vigaVIGA: TFloatField
+      FieldName = 'VIGA'
+    end
+    object mtb_marcar_vigaPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+      Size = 30
+    end
+  end
+  object qryClone: TFDQuery
+    CachedUpdates = True
+    IndexFieldNames = 'ID'
+    Left = 732
+    Top = 184
+  end
+  object dsClone: TDataSource
+    DataSet = qryClone
+    Left = 732
+    Top = 155
+  end
+  object qryProducao: TFDQuery
+    IndexFieldNames = 'ID'
+    Left = 68
+    Top = 195
+  end
+  object frxReportResumo: TfrxReport
+    Version = '6.9.3'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 44371.837864548600000000
+    ReportOptions.LastChange = 44429.514777766200000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 340
+    Top = 11
+    Datasets = <
+      item
+        DataSet = frxDBEmpresa
+        DataSetName = 'Empresa'
+      end
+      item
+        DataSet = frxDBDatasetPedidos
+        DataSetName = 'mtb_pedidos'
+      end
+      item
+        DataSet = frxDBDatasetResumo
+        DataSetName = 'qry_resumo'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 6.500000000000000000
+      RightMargin = 6.500000000000000000
+      TopMargin = 6.500000000000000000
+      BottomMargin = 6.500000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 15.118110240000000000
+        Top = 351.496290000000000000
+        Width = 744.567410000000000000
+        object Memo1: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Width = 234.330860000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Data da Impress'#227'o: [Date][Time]')
+          ParentFont = False
+        end
+        object Memo2: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 606.386210000000000000
+          Width = 136.063080000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'P'#225'gina : [Page]')
+          ParentFont = False
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 75.590590240000000000
+        Top = 18.897650000000000000
+        Width = 744.567410000000000000
+        object Picture1: TfrxPictureView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Width = 180.866110000000000000
+          Height = 61.968460000000000000
+          Center = True
+          Frame.Typ = []
+          Picture.Data = {
+            0A544A504547496D616765AC0C0000FFD8FFE000104A46494600010100000100
+            010000FFDB008400090607111010130F1111151611160F1510100D1010101516
+            13151511161615111313181C2820181A251B161521312125292B2E2E2E171F33
+            38332D37282D2E2B010A0A0A0E0D0E1A0F10192D1F1D252E2D2E2B2B352B2D2D
+            2D2D2D2B2B2D2D2D2D2B2D2B2D2D2D2D2D2B2D2D2D2D2D2D2D2D2D2D372D2D2D
+            2D2D2D2D2B2B2B2D2DFFC0001108008200E603012200021101031101FFC4001C
+            0001000203010101000000000000000000000607030405010802FFC4004B1000
+            020201020302050F0A010D000000000102000304051106071213211422415493
+            16173135515253617172748191C3D115233233344263A2B2B362242543446473
+            82839294B1C1E2FFC40019010100030101000000000000000000000000010203
+            0405FFC400221101000202020203010101000000000000000102031104122131
+            134151332214FFDA000C03010002110311003F00BC6222022220222202222022
+            2202222022220222202222022220222202222022220222202222022220222202
+            2220222202222022220222202222022220222202222022220222202222022220
+            22220261BAD5456763B2AA9663EE0037266595A71E715DDA76A543A92D43637E
+            7F1BFE69F193F8926B59B4EA1133A4C138C34F23719759FACFE13DF55D81E749
+            FCDF84AFF8A387D2DA86A9A69EAA5C75DB4A797F888BEEC8B63E4758DC7D6234
+            2E7F55B83E755FF347AADC0F3AAFF9A53BBC6F1A1727AADC0F3AAFED31EAB703
+            CEABFB4CA6F78DE342E3F55D81E729F698F55D81E729F6994E6F1BC685C7EABB
+            03CE53ED31EABB03CE53ED329CDE60C9C823C55EF7242850373B9F6140F298D0
+            BA4F17600FF5AAFBFBBD9337B3353A29216DBABAC90485B2C45247C40C87F02F
+            05F61D39797E3647B35D67BC53FF00D4AF398B982DCFB9BD90BE2A9334C38BE5
+            9D22674BEB17252D40F5BABA1F61D18329F9088C8C84AD4BD8C1500DD9DC8550
+            3E32673784707C1F071E9F7B8E9BFCE2BB9900E716B3BB2612FB0076B6C8C78B
+            BDFAC266750B16BD73118855C9A4B13B2AADD5924CE9CF9CF8728E8D47115877
+            8CCA27D192DC8C3F14C444ED159DB53373E9A40375A95EE765363A2827E2DE61
+            1ACE37476BDBD5D983D26CED53A437BDEA953F3732FAF316AF67A1271B541D9E
+            9B874FC2BD994C935A717B562667D9365DDEA8713CEE8FFB8AA6C616A14DC0F6
+            56A59D276635D8ADB1F8F694770EF04D99B4F6EB6D55AF5B285B66E711E3BE99
+            88BA7A5BBB5D61BEFB6A057A86C00AE2DC6AF6EB16F28ED2B57238BB02B6E87C
+            BA437B9DAA99D4C3CBAEE41654EAE87D87460C0FD62507A370DF8562B3639EBC
+            A5B3BF194AAF4552C6E5668795875DE3213A03D8AD5D7D5F177CAE6C14A44EAD
+            E61313329FC444E658888808888094C73ABF6DA7E89F7A65CF298E757EDB4FD0
+            FEF4CDF8DFD15B7A4638378AEDD32EDFBDF19C8EDA8FBCAFF89267C4BC30B7A2
+            EA5A5FE72AB3C77C7ABFAEB5FBB9579125DCACD72EC6CFAF114EF4E4311654DE
+            46D8B0B126FC8C51AED08ACBDFC95A8F98DDE86C8FC95A8F98DDE86C97E44E15
+            DF3E016AB9AEEACA38FDC605587CA0CC93B7C7FED9DDF32BFEC89C49286344BE
+            C735D14B5842F515452C76F7DB099FF24EA3E6177A17924E577B6167D11FFBB5
+            CB62050674AD47CC6FFAA979607037052E374E4E480D927BC293BAD3F8BC9E44
+            84B5B3AEECEA77F7AA4CF9E7169F0BCE44F85CB51FF0F5FE025E5C5E6CF03B56
+            AAD9EC65E954404994B6370CEA55B2BA635EAEBDEB6202194CEDE24D622D333A
+            956CBEB50CB5A2A7B5BF4514B19F3DDD9EB9398723218F66F775D842F51E8F22
+            813B16E9FAD588F5D899762B2F4F458EECB3A7C35CBB7B2AB6ECC5B2BDBF5742
+            1F1880B2D86298A26D6B6D13B9477032859AAD3728EE6D46A655F88DA25DD571
+            2E1B59D8AE4D46DEA358AC58A58B0F24A631B84B3C5EBD389674ADDB8246DE20
+            79E59A1E762E4F69550E596D635D895F5032F9698F26B56F50889986A717651B
+            F36F6F29B3A04DAE3A7E9C85A3BB6A31ABA761E4204ED708F03E4BDDE1597594
+            AD09B7B17FD65AE272758E1CCFBB22DB3C12D3D76123749A532D22D15DF88835
+            2CD8DCB7CEBD15C0A943D61B776FD10564A38B385E8B2BAEB5C8A52CA6A4AFA0
+            D8808D9003BA48EE0E97AE3BA561B2D5770A4B5EE88A935B8AB8632972EDB168
+            760D6F68AE1772B33999B5E376859C5CEC2BF12D01B7AEC003D7656EC0EDE428
+            E25DDCBED46DC9D3E9BAE3BD87AD4D87D9708E4079582F0E6A9A95FDA5D5B292
+            075645CBD0AABFE14973E8FA7262D15E357FA15A045DE67CCBD66B11E26C561B
+            F111385622220222202531CEAFDB69FA1FDF4B9E52FCEAFDB69FA27DF19BF1BF
+            A2B6F4AF676B80BDB7C3FF007BF74671666D3732CC7BEBC9A881621DD091D401
+            E9227A196B36AEA1587D491286F5CCD4FE16AF4027EA8E68EA08EAD61AEC4047
+            6950AC212B38278D75BB43A9C7FED9DDF32BFEC89C392BE28D35352A46AFA7B1
+            73D205F4794F47C5F08B21D8F7871B8FAC4C5295F2C7DB07FA337F52490712F3
+            16AC3C838FD8BD8CA37675650048EF2CCFF9C4FD1ECFEA499799DA0E363D46F0
+            19B22C70058EF2F86B5B5E22C89DE9B5EBB9579A5BE92A996DE6A54895B782D9
+            BBAB37475D63A40322BCB7E1AA73ACB8DE09AAB0800076DDCCE0F1394F09B12A
+            5E9AEBDAAA901242813B63061B5FAC47A46E75B589EBB9579A5BE92A9DACBE3D
+            C65C25CE4567566ECD69D806EA06551C48714BD55E18EA0B4AABD88ADBDB66C3
+            EB336F5FC5B3170F1712CEEB199F2ACABCA9EE2989E363FF003A8D6D1DA53CC5
+            E66D4F55D778358AB52A1D8B21EB673B049B5C3DCC1AB2BB6FCC3D694D5DABBB
+            32B4AADBC4D397DDBB2C93F36A5FC4CEAE8DF99D1F2EFF002DD7AD0BF220FC5A
+            45B8D4D4EA3EF5045A536D179975E55E942E2DABD7B92E5D08501492D35AFE6C
+            D2ACCA316D6D9CA06EB41BC83F07ED59CAC83FE8B0D82FCEB247803D3BFB9B12
+            7E3978E2E39998D7883B4AEBE29E6155837F61D8BD87A43332B280B3F1AB7312
+            BC64A19B1EC2D755DB765D480D6255DAFBB64E630F64B35548FF00A424DBE3EB
+            8366BA277A54894A4AC71693311AFADC9DA535F5DDABCCEDF4954EBE4730F1AB
+            C4A726C470F7216AF117A5AC904D2B2343ECEA4B6AB9EED915F6ABB9AC91EE23
+            7EBCAB12B002AB0A2940770A01D828958E3E3B5B5A983B4A7A39B83CCDFD3ACB
+            0342D5EACDA17269DFA1BC8C36604771044A6B983875E3DD4E254AA055405247
+            958EDB932C6E53D1D1A6544FEFBD968F90BCCB3E3C718E2D584C4CEF499C444E
+            45C8888088881E4A639D1FB6D5F43FBE7973CAC799DC299B9B935D98C88CA31F
+            B362F604D8F69BCDB8F68ADF72ADA370A9224A8F2CB56F2555FA758F5B4D5FE0
+            6BF4F54EFF009E9FAA75945679257EB67ABFC0D5E9D279EB65ABFC0D7E9D247C
+            F8FF004EB2E570BF11DDA6DFDB55E356C40BB1C9D858BFFA7126BC43A3D59357
+            E56D37C6A9B76BE851B153E53D1FF9591FF5B4D5FE06BF4F54ECF0970AEB7A75
+            FDAA535B56DB0BA9392803CE6CDD2DE6B3E568DB3F2C2CEAD401F76879939C99
+            9BDD553EF4759931C0E135C7D43C329D96B6ADC5B8FEE39FDEAE72789797F667
+            64B5ED90106FB2A0527659971EF5AE48B5933E9AFCB7AC51A4DF90477D9658DB
+            FF00846D5ACAE746C3F0DCCAEA24FE76E25980EF09DEE4CBA2CE1965D3974FA6
+            DD804E836B0EF2271386797670AE391E11D760AAC4A97A76505C4E8A67AD66F6
+            DF99F48D7A55D9E9D8E53AE3B3AF45C16A707C753F2CEAF30735ACCD6EA3DE95
+            22B11EFA4B5795AFDAF6C7287EB0D800AE64CCE57BDD7BDF6656DD76768C895C
+            D7FE9C5B8999F508EB281710A9AD7168F798A18FCEB18BCE86BB72A699818CAC
+            0B32B645801F2B9264EF8B397BE17676B5D810F4EC371393A7729886DF232374
+            F2A52BB1688E463988999F47594569534E92EE7BBC27282AFC75D73469C4FF00
+            20B6EFF6AAAB07E200932D3E2AE05397D957558B5535285AAB5598F2F97DBE0D
+            5855DDFA363D965CCBB1666958E5D75BFB993ACAB8E0AABB4D429627F419F218
+            9FE1A4D54ACE66704DFBEFCA0BD5EE02FB754B2F44E5DB620B985E1ADB2934A9
+            2BB2A0246E6386796DE09935E4BE4769D9EE55024B4F269BB4C4FD783ACBDCDE
+            5FE1622364AF68CD5ECEA1ACF2CAD78682D99F8C6C23A4E4AD96163B0EE25E7D
+            07A8620B6A6A89DBA86C4EDBEDDFBCAC32F94F6163D9DE817DEB7534C7072235
+            68C964CD7F10DE2CCEF09CDBAC4EFEAB3A2B03CA77FC4CBEF42C1F07C6A68F83
+            A513EB0B225C29CB9AB12D5C8B9FB5B57BEA1D3B2D727B33E465ADA22B5F509A
+            C3D8889CCB111101111011110111101111011110111101111011110111101111
+            0111101111011110111101111011110111101111011110111101111011110111
+            1011110111101111011110111101111011110111101111011110111101111011
+            1101111011110111101111011110111101111011110111103FFFD9}
+          Stretched = False
+          HightQuality = False
+          Transparent = False
+          TransparentColor = clWhite
+        end
+        object Memo20: TfrxMemoView
+          AllowVectorExport = True
+          Top = 68.031540000000000000
+          Width = 740.787401570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object EmpresaNOME: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 196.535560000000000000
+          Width = 544.252320000000000000
+          Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Empresa."NOME"] CNPJ: [Empresa."CPF_CNPJ"]')
+          ParentFont = False
+        end
+        object EmpresaENDERECO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 196.535560000000000000
+          Top = 16.677180000000000000
+          Width = 544.252320000000000000
+          Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              '[Empresa."ENDERECO"],[Empresa."NUMERO"] [Empresa."BAIRRO"] [Empr' +
+              'esa."CIDADE"] [Empresa."UF"]')
+          ParentFont = False
+        end
+        object EmpresaTELEFONE: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 196.535560000000000000
+          Top = 32.015770000000000000
+          Width = 544.252320000000000000
+          Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              'Telefones :[Empresa."TELEFONE"]  [Empresa."CELULAR"]  [Empresa."' +
+              'TELEFONE"]  [Empresa."TELEFONE1"]  [Empresa."TELEFONE2"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end>
+        end
+        object EmpresaSITE: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 196.535560000000000000
+          Top = 47.133890000000000000
+          Width = 544.252320000000000000
+          Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Site [Empresa."SITE"] / Email [Empresa."EMAIL"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 18.897637800000000000
+        Top = 230.551330000000000000
+        Width = 744.567410000000000000
+        DataSet = frxDBDatasetPedidos
+        DataSetName = 'mtb_pedidos'
+        RowCount = 0
+        object cdsItensPedidoTABELA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 4.000000000000000000
+          Width = 128.504020000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRelPedidos.frxItensPedido
+          DataSetName = 'cdsItensPedido'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[mtb_pedidos."PEDIDO"]')
+          ParentFont = False
+        end
+        object cdsItensPedidoDESCRICAO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 134.078850000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          DataSet = frmRelPedidos.frxItensPedido
+          DataSetName = 'cdsItensPedido'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[mtb_pedidos."NOME"]')
+          ParentFont = False
+        end
+        object mtb_pedidosPEDIDO: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 335.921460000000000000
+          Width = 408.189240000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBDatasetPedidos
+          DataSetName = 'mtb_pedidos'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              '[mtb_pedidos."ENDERECO"],[mtb_pedidos."NUMERO"]-[mtb_pedidos."BA' +
+              'IRRO"]')
+          ParentFont = False
+        end
+      end
+      object Header1: TfrxHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 52.913410240000000000
+        Top = 154.960730000000000000
+        Width = 744.567410000000000000
+        object Memo22: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.118120000000000000
+          Top = 37.795300000000000000
+          Width = 105.826840000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Pedido')
+          ParentFont = False
+        end
+        object Memo23: TfrxMemoView
+          AllowVectorExport = True
+          Left = 136.063080000000000000
+          Top = 37.795300000000000000
+          Width = 56.692950000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Cliente')
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          AllowVectorExport = True
+          Left = 337.362400000000000000
+          Top = 37.574830000000000000
+          Width = 90.708720000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Endere'#231'o')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Left = 200.315090000000000000
+          Width = 298.582870000000000000
+          Height = 22.677180000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = [fsUnderline]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Agrupamento de Vigas')
+          ParentFont = False
+        end
+      end
+      object MasterData2: TfrxMasterData
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 18.897637800000000000
+        Top = 272.126160000000000000
+        Width = 744.567410000000000000
+        DataSet = frxDBDatasetResumo
+        DataSetName = 'qry_resumo'
+        RowCount = 0
+        object qry_resumoTRELICA_ALTURA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          DataField = 'TRELICA_ALTURA'
+          DataSet = frxDBDatasetResumo
+          DataSetName = 'qry_resumo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[qry_resumo."TRELICA_ALTURA"]')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 90.708720000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBDatasetResumo
+          DataSetName = 'qry_resumo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[qry_resumo."QTDE"]')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 166.299320000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBDatasetResumo
+          DataSetName = 'qry_resumo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[qry_resumo."COMPRIMENTO"]')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxDBDatasetResumo: TfrxDBDataset
+    UserName = 'qry_resumo'
+    CloseDataSource = False
+    DataSet = qry
+    BCDToCurrency = False
+    Left = 188
+    Top = 59
+  end
+  object frxDBDatasetPedidos: TfrxDBDataset
+    UserName = 'mtb_pedidos'
+    CloseDataSource = False
+    DataSet = mtb_pedidos
+    BCDToCurrency = False
+    Left = 68
+    Top = 223
+  end
+  object frxDBEmpresa: TfrxDBDataset
+    UserName = 'Empresa'
+    CloseDataSource = False
+    DataSet = qryEmpresa
+    BCDToCurrency = False
+    Left = 432
+    Top = 40
+  end
+  object qryEmpresa: TFDQuery
+    SQL.Strings = (
+      
+        'select P.*, E.*  from PESSOAS P, EMPRESA E where E.PESSOA_ID = P' +
+        '.ID')
+    Left = 432
+    Top = 8
+  end
+end

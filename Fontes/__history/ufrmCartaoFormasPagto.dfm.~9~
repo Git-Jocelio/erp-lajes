@@ -1,0 +1,157 @@
+inherited frmCartaoFormasPagto: TfrmCartaoFormasPagto
+  Caption = 'frmCartaoFormasPagto'
+  ClientWidth = 805
+  Position = poDesktopCenter
+  ExplicitWidth = 805
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 805
+    ExplicitWidth = 805
+  end
+  inherited ToolBar1: TToolBar
+    Width = 805
+    ExplicitWidth = 805
+  end
+  inherited StatusBar: TStatusBar
+    Width = 805
+    ExplicitWidth = 805
+  end
+  inherited PageControl1: TPageControl
+    Width = 805
+    ExplicitWidth = 805
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 797
+      inherited Panel5: TPanel
+        Width = 797
+        ExplicitWidth = 797
+        inherited DBGrid1: TDBGrid
+          Width = 757
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 41
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 325
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DEBITO'
+              Title.Alignment = taCenter
+              Title.Caption = 'D'#233'bito'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CREDITO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cr'#233'dito'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'QTDE_PARCELAS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Qtde Parcelas'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 92
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 51
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 757
+          ExplicitWidth = 757
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 805
+    ExplicitWidth = 805
+    inherited btn_fechar: TSpeedButton
+      Left = 735
+    end
+    inherited lbl_titulo: TLabel
+      Width = 644
+      Height = 56
+      Caption = 'CONTROLE DE FORMAS DE PAGAMENTO DE CART'#213'ES DE CR'#201'DITO'
+      ExplicitWidth = 644
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 805
+      ExplicitWidth = 805
+    end
+  end
+  inherited ds: TDataSource
+    Left = 568
+    Top = 40
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select               '
+      '  ID,                '
+      '  DESCRICAO,         '
+      '  DEBITO,            '
+      '  CREDITO,          '
+      '  QTDE_PARCELAS,     '
+      '  ATIVO            '
+      'from                 '
+      '  CARTAO_FORMAS_PAGTO')
+    Left = 568
+    Top = 72
+  end
+end

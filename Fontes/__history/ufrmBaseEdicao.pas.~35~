@@ -1,0 +1,72 @@
+//*************************************************************
+//* Unit BaseEdicao (base - ufrmPessoasE)
+//*  Desenvolvida em inicio : 15/12/2020
+//*                     fim : 15/12/2020
+//*  Por : Jocelio G. da Siva
+//*  Obrigado meu DEUS por tudo!
+//*************************************************************}
+
+unit ufrmBaseEdicao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls;
+
+type
+  TfrmBaseEdicao = class(TfrmBaseConexao)
+    pnTitulo: TPanel;
+    pnDados: TPanel;
+    pnRodape: TPanel;
+    btnOk: TBitBtn;
+    btnFechar: TBitBtn;
+    ds: TDataSource;
+    lbl_titulo: TLabel;
+    lbl_sub_titulo: TLabel;
+    procedure btnFecharClick(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    Ftitulo: string;
+
+
+  public
+    property titulo : string read Ftitulo write Ftitulo;
+
+  end;
+
+
+implementation
+
+
+{$R *.dfm}
+
+
+
+procedure TfrmBaseEdicao.btnFecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmBaseEdicao.FormCreate(Sender: TObject);
+begin
+  ds.DataSet := qry;
+  inherited;
+  // titulo := 'titulo do formulario'
+end;
+
+procedure TfrmBaseEdicao.FormShow(Sender: TObject);
+begin
+  inherited;
+  Caption := 'SysLajes - Sistema de Gerenciamento de Lajes';
+  lbl_titulo.Caption := titulo;
+end;
+
+end.

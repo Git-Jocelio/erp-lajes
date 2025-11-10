@@ -1,0 +1,237 @@
+unit ufrmChequesClientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmconn, ufrmChequesClientesE, uBiblioteca, uTipos;
+
+type
+  TfrmChequesClientes = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryNOME_CORRENTISTA: TStringField;
+    qryNOME_BANCO: TStringField;
+    qryNR_AGENCIA: TStringField;
+    qryNR_CONTA: TStringField;
+    qryNR_CHEQUE: TStringField;
+    qryVALOR: TFMTBCDField;
+    qryPRE_DATADO_PARA: TDateField;
+    qryREPASSADO: TStringField;
+    qryPESSOA_ID: TIntegerField;
+    qryHISTORICO: TStringField;
+    gbx_data_cheque: TGroupBox;
+    dtp_data_ini: TDateTimePicker;
+    dtp_data_fim: TDateTimePicker;
+    Label1: TLabel;
+    cb_data_cheque: TCheckBox;
+    gbx_valor: TGroupBox;
+    Label2: TLabel;
+    cb_valor: TCheckBox;
+    edt_valor_ini: TEdit;
+    edt_valor_fim: TEdit;
+    rg_situacao_cheque: TRadioGroup;
+    procedure FormCreate(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure rg_situacao_chequeClick(Sender: TObject);
+    procedure actLocalizarExecute(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+  private
+    procedure prc_sql;
+    procedure prc_pesquisar;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmChequesClientes: TfrmChequesClientes;
+  situacao_cheque : string; // pode ser S ou N
+implementation
+
+{$R *.dfm}
+
+procedure TfrmChequesClientes.actAlterarExecute(Sender: TObject);
+begin
+  try
+    if frmChequesClientesE = nil then
+      frmChequesClientesE := TfrmChequesClientesE.Create(application);
+
+    frmChequesClientesE.Operacao  := utipos.opAlterar;
+    frmChequesClientesE.pessoa_id := qry.FieldByName('PESSOA_ID').AsInteger;
+    frmChequesClientesE.Codigo    := qry.FieldByName('ID').AsInteger;
+    // envia dados do cheque
+    frmChequesClientesE.edt_nr_cheque.Text   :=  qry.FieldByName('NR_CHEQUE').AsString;
+    frmChequesClientesE.edt_valor.Text       :=  formatfloat('0.00', qry.FieldByName('VALOR').AsFloat);
+    frmChequesClientesE.dtp_data_cheque.Date :=  qry.FieldByName('PRE_DATADO_PARA').AsDateTime;
+    frmChequesClientesE.cb_repassado.Checked :=  uBiblioteca.SeSenao(qry.FieldByName('REPASSADO').AsString = 'S', TRUE, FALSE);
+    frmChequesClientesE.edt_histórico.Text   :=  qry.FieldByName('HISTORICO').AsString;
+
+    frmChequesClientesE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmChequesClientesE)
+  end;
+end;
+
+procedure TfrmChequesClientes.actIncluirExecute(Sender: TObject);
+begin
+  try
+    if frmChequesClientesE = nil then
+      frmChequesClientesE := TfrmChequesClientesE.Create(application);
+
+    frmChequesClientesE.Operacao := utipos.OpIncluir;
+    frmChequesClientesE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmChequesClientesE)
+  end;
+end;
+
+procedure TfrmChequesClientes.actLocalizarExecute(Sender: TObject);
+begin
+  inherited;
+   prc_pesquisar;
+end;
+
+procedure TfrmChequesClientes.DBGrid1TitleClick(Column: TColumn);
+begin
+  inherited;
+  btnLocalizar.Click;
+end;
+
+procedure TfrmChequesClientes.prc_pesquisar;
+var
+  condicao : string;
+  total : double;
+begin
+  inherited;
+  total := 0;
+  condicao := '';
+
+
+  if rg_situacao_cheque.ItemIndex <> 2 then
+    condicao := ' and cc.repassado = :repassado ';
+  if rg_situacao_cheque.ItemIndex = 2 then
+    condicao := ' and cc.repassado <> :repassado ';
+
+  if cb_data_cheque.Checked then
+  begin
+    condicao := condicao + ' and cc.pre_datado_para >= :data_ini and cc.pre_datado_para <= :data_fim ';
+  end;
+
+  if cb_valor.Checked then
+  begin
+    condicao := condicao + ' and cc.valor >= :valor_ini and cc.valor <= :valor_fim ';
+  end;
+
+  qry.SQL.Clear;
+  qry.SQL.Add( sSql + condicao);
+
+  // parametros
+
+
+  if cb_data_cheque.Checked then
+  begin
+    qry.ParamByName('data_ini').AsDate := dtp_data_ini.Date;
+    qry.ParamByName('data_fim').AsDate := dtp_data_fim.Date;
+  end;
+
+  if cb_valor.Checked then
+  begin
+    qry.ParamByName('valor_ini').AsFloat := strtofloat(edt_valor_ini.Text);
+    qry.ParamByName('valor_fim').AsFloat := strtofloat(edt_valor_fim.Text);
+  end;
+
+  qry.ParamByName('repassado').Asstring := situacao_cheque;
+
+  // abre pesquisa
+  qry.Open;
+
+  qry.First;
+  while not qry.Eof do
+  begin
+    total := total + qry.FieldByName('valor').AsFloat;
+    qry.Next;
+  end;
+  StatusBar.Panels[0].Text :=  'VALOR TOTAL DOS "' + inttostr(qry.RecordCount) + '" CHEQUES R$ ' + formatfloat('0.00', total);
+end;
+
+
+procedure TfrmChequesClientes.FormCreate(Sender: TObject);
+begin
+  inherited;
+  DBGrid1.Columns[0].Visible := false;
+  DBGrid1.Columns[1].Visible := false;
+  Tabela := 'CHEQUES_CLIENTES';
+  situacao_cheque := 'N';
+  prc_sql;
+end;
+
+procedure TfrmChequesClientes.prc_sql;
+begin
+  sSql :=
+          'SELECT' +
+          '  p1.id as pessoa_id, ' +
+          '  cc.id,' +
+          '  cc.cadastrado_em,' +
+          '  p1.NOME AS NOME_CORRENTISTA,' +
+          '  p2.NOME AS NOME_BANCO,' +
+          '  c.nr_agencia,' +
+          '  c.nr_conta,' +
+          '  cc.NR_CHEQUE,' +
+          '  cc.valor,' +
+          '  cc.pre_datado_para,' +
+          '  cc.historico,' +
+          '  cc.repassado ' +
+          'FROM' +
+          '  CHEQUES_CLIENTES cc,' +
+          '  CORRENTISTA_CONTAS c,' +
+          '  PESSOAS p1,' +
+          '  BANCOS b,' +
+          '  PESSOAS p2 ' +
+          'WHERE' +
+          '  cc.CORRENTISTA_CONTA_ID = c.ID AND' +
+          '  c.PESSOA_ID = p1.ID AND' +
+          '  c.BANCO_ID = b.pessoa_ID AND' +
+          '  b.PESSOA_ID = p2.ID ';
+
+  qry.sql.Clear;
+  qry.sql.Add(sSql);
+//  QRY.Open;
+
+
+end;
+
+
+procedure TfrmChequesClientes.rg_situacao_chequeClick(Sender: TObject);
+begin
+  inherited;
+  if rg_situacao_cheque.ItemIndex = 0 then
+  begin
+    situacao_cheque := 'N';
+  end else
+  if rg_situacao_cheque.ItemIndex = 1 then
+  begin
+    situacao_cheque := 'S';
+  end else
+  if rg_situacao_cheque.ItemIndex = 2 then
+  begin
+    situacao_cheque := '';
+  end;
+
+
+
+
+end;
+
+end.

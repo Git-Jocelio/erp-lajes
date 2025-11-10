@@ -1,0 +1,70 @@
+unit ufrmContratoVenda;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, udmConn;
+
+type
+  TfrmContratoVenda = class(TfrmBaseEdicao)
+    DBGrid1: TDBGrid;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    qryID: TIntegerField;
+    qryCONTEUDO_LINHA: TStringField;
+    BitBtn3: TBitBtn;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContratoVenda: TfrmContratoVenda;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContratoVenda.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  qry.Edit;
+end;
+
+procedure TfrmContratoVenda.BitBtn3Click(Sender: TObject);
+var
+  ultima_linha : integer;
+begin
+  inherited;
+  qry.Last;
+  ultima_linha := qryID.AsInteger +1;
+
+
+  qry.Append;
+  qryID.AsInteger := ultima_linha;
+end;
+
+procedure TfrmContratoVenda.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  qry.Post;
+
+end;
+
+procedure TfrmContratoVenda.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qry.Open;
+end;
+
+end.

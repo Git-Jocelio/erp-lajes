@@ -1,0 +1,44 @@
+inherited frmPixRecebidos: TfrmPixRecebidos
+  Caption = 'frmPixRecebidos'
+  Position = poDesktopCenter
+  TextHeight = 15
+  inherited PageControl1: TPageControl
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited pnl_resultado: TPanel
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    inherited lbl_titulo: TLabel
+      Width = 146
+      Height = 56
+      Caption = 'PIX RECEBIDOS'
+      ExplicitWidth = 146
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  p.id,'
+      '  p.data_pix,'
+      '  p.contas_bancarias_itens_id,'
+      '  c.banco_id,'
+      '  p1.nome as nome_banco,'
+      '  c.agencia,'
+      '  c.nr_conta,'
+      '  p.valor,'
+      '  p.obs'
+      'from'
+      '  pix_recebidos p,'
+      '  contas_bancarias_itens c,'
+      '  pessoas p1'
+      'where'
+      '  c.id =  p.contas_bancarias_itens_id and'
+      '  c.banco_id = p1.id')
+  end
+end

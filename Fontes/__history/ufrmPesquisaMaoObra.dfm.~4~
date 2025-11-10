@@ -1,0 +1,151 @@
+inherited frmPesquisaMaoObra: TfrmPesquisaMaoObra
+  Caption = 'frmPesquisaMaoObra'
+  ClientHeight = 306
+  ClientWidth = 626
+  ExplicitWidth = 638
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 626
+    Height = 69
+    ExplicitWidth = 556
+    ExplicitHeight = 69
+    inherited lbl_titulo: TLabel
+      Width = 626
+      Height = 37
+      ExplicitWidth = 556
+      ExplicitHeight = 43
+    end
+    inherited lbl_sub_titulo: TLabel
+      Top = 37
+      Width = 626
+      Height = 32
+      ExplicitTop = 38
+      ExplicitWidth = 556
+      ExplicitHeight = 32
+    end
+  end
+  inherited pnDados: TPanel
+    Top = 69
+    Width = 626
+    Height = 200
+    object dbg_mao_obra: TDBGrid
+      Left = 0
+      Top = 0
+      Width = 626
+      Height = 200
+      Align = alClient
+      DataSource = ds
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ParentFont = False
+      TabOrder = 0
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ID'
+          Title.Alignment = taCenter
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 42
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 390
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VALOR'
+          Title.Alignment = taCenter
+          Title.Caption = 'Valor'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 86
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'UNIDADE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Unidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end>
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 269
+    Width = 626
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select ID, DESCRICAO, VALOR, UNIDADE from MAO_OBRA')
+    Left = 192
+    Top = 104
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      Size = 100
+    end
+    object qryVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Origin = 'UNIDADE'
+      Size = 2
+    end
+  end
+  inherited ds: TDataSource
+    AutoEdit = False
+    OnDataChange = dsDataChange
+    Left = 160
+    Top = 105
+  end
+end

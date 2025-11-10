@@ -1,0 +1,29 @@
+unit ufrmCortes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmCortes = class(TForm)
+    pnl_fundo: TPanel;
+    PageControl1: TPageControl;
+    tbs_inicial: TTabSheet;
+    tbs_resultados: TTabSheet;
+    pnl_fundo_inicio: TPanel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCortes: TfrmCortes;
+
+implementation
+
+{$R *.dfm}
+
+end.

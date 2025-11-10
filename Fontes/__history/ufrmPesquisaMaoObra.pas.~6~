@@ -1,0 +1,98 @@
+unit ufrmPesquisaMaoObra;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmPesquisaMaoObra = class(TfrmBaseEdicao)
+    dbg_mao_obra: TDBGrid;
+    qryID: TIntegerField;
+    qryDESCRICAO: TStringField;
+    qryVALOR: TFMTBCDField;
+    qryUNIDADE: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    Fp_id: integer;
+    Fp_unidade: string;
+    Fp_valor: double;
+    Fp_descricao: string;
+    { Private declarations }
+    procedure prc_componentes;
+    function fnc_validar: Boolean;
+  public
+    property p_id: integer read Fp_id write Fp_id;
+    property p_descricao: string read Fp_descricao write Fp_descricao;
+    property p_valor: double read Fp_valor write Fp_valor;
+    property p_unidade: string read Fp_unidade write Fp_unidade;
+  end;
+
+var
+  frmPesquisaMaoObra : TfrmPesquisaMaoObra;
+
+implementation
+
+
+
+
+
+{$R *.dfm}
+
+{ TfrmPesquisaMaoObra }
+
+procedure TfrmPesquisaMaoObra.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar then
+  begin
+    p_id        := qry.fieldbyname('ID').AsInteger;
+    p_descricao := qry.fieldbyname('DESCRICAO').AsString;
+    p_valor     := qry.fieldbyname('VALOR').AsFloat;
+    p_unidade   := qry.fieldbyname('UNIDADE').AsString;
+    //ShowMessage(p_descricao);
+
+  end;
+
+  close;
+end;
+
+procedure TfrmPesquisaMaoObra.FormCreate(Sender: TObject);
+begin
+  inherited;
+  titulo := 'PESQUISA DE MÃO-DE-OBRA';
+
+end;
+
+procedure TfrmPesquisaMaoObra.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmPesquisaMaoObra.prc_componentes;
+begin
+  lbl_sub_titulo.Caption := 'selecione uma Mão-de-obra e click em selecionar';
+  qry.Open('select ID, DESCRICAO, VALOR, UNIDADE from MAO_OBRA');
+  btnOk.Caption := 'Selecionar';
+end;
+
+function TfrmPesquisaMaoObra.fnc_validar: Boolean;
+begin
+
+  result := false;
+  if qry.IsEmpty then
+    ShowMessage('Não há mão de obra cadastrada no sistema')
+  else
+    result := true;
+
+end;
+
+end.

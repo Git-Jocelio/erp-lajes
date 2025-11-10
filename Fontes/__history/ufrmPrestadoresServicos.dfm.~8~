@@ -1,0 +1,121 @@
+inherited frmPrestadoresServicos: TfrmPrestadoresServicos
+  ClientWidth = 1047
+  Position = poDesktopCenter
+  ExplicitWidth = 1047
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 1047
+    inherited edt_consulta: TEdit
+      Width = 591
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 1047
+  end
+  inherited StatusBar: TStatusBar
+    Width = 1047
+  end
+  inherited PageControl1: TPageControl
+    Width = 1047
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 1039
+      inherited Panel5: TPanel
+        Width = 1039
+        inherited DBGrid1: TDBGrid
+          Width = 999
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Width = 520
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CONTATO'
+              Width = 223
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CELULAR'
+              Width = 215
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 999
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 1047
+    inherited btn_fechar: TSpeedButton
+      Left = 977
+    end
+    inherited lbl_titulo: TLabel
+      Width = 268
+      Height = 56
+      Caption = 'PRESTADORES DE SERVI'#199'OS'
+      ExplicitWidth = 268
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 1047
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      ' select'
+      '   P.ID, P.NOME, P.CPF_CNPJ, S.CONTATO, S.CELULAR'
+      ' from'
+      '   PESSOAS P, PRESTADORES_SERVICOS S'
+      ' where'
+      '   P.ID = S.PESSOA_ID')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      Required = True
+      Size = 18
+    end
+    object qryCONTATO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CONTATO'
+      Origin = 'CONTATO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 60
+    end
+    object qryCELULAR: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CELULAR'
+      Origin = 'CELULAR'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+  end
+end

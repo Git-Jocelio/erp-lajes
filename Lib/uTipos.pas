@@ -1,0 +1,13 @@
+unit uTipos;
+
+interface
+
+type
+  TOperacao = (opNenhuma, OpIncluir, opAlterar, opExcluir);
+  TTypeLocalizar = (fsInteger, fsString);
+
+implementation
+
+end.
+
+

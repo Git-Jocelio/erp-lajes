@@ -1,0 +1,636 @@
+﻿inherited frmChequesClientesE: TfrmChequesClientesE
+  Left = 349
+  Top = 89
+  BorderStyle = bsNone
+  ClientHeight = 542
+  ClientWidth = 610
+  Position = poDesigned
+  ExplicitTop = -9
+  ExplicitWidth = 610
+  ExplicitHeight = 542
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 610
+    ExplicitWidth = 594
+    inherited lbl_titulo: TLabel
+      Width = 610
+      Height = 40
+      Caption = 'CADASTRO DE CHEQUE DE CLIENTE'
+      ExplicitWidth = 340
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 610
+      Caption = ''
+      ExplicitWidth = 4
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 610
+    Height = 448
+    ExplicitWidth = 594
+    ExplicitHeight = 409
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 0
+      Width = 610
+      Height = 448
+      ActivePage = tbs_pesquisa
+      Align = alClient
+      TabOrder = 0
+      ExplicitWidth = 594
+      ExplicitHeight = 409
+      object tbs_pesquisa: TTabSheet
+        Caption = ' Pesquisa '
+        OnShow = tbs_pesquisaShow
+        object pnl_pesquisa: TPanel
+          Left = 0
+          Top = 0
+          Width = 602
+          Height = 416
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 0
+          ExplicitWidth = 586
+          ExplicitHeight = 377
+          object Label3: TLabel
+            Left = 13
+            Top = 6
+            Width = 337
+            Height = 17
+            Caption = 'Informe um CPF ou CNPJ (digite pelo menos 4 caracteres)'
+          end
+          object Label18: TLabel
+            Left = 13
+            Top = 71
+            Width = 295
+            Height = 17
+            Caption = 'Contas bancarias cadastradas para esse CPF/CNPJ'
+          end
+          object edt_cpf_cnpj: TEdit
+            Left = 13
+            Top = 29
+            Width = 155
+            Height = 29
+            BiDiMode = bdLeftToRight
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clNavy
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            MaxLength = 14
+            NumbersOnly = True
+            ParentBiDiMode = False
+            ParentFont = False
+            TabOrder = 0
+            OnChange = edt_cpf_cnpjChange
+          end
+          object btn_novo_correntista: TBitBtn
+            Left = 13
+            Top = 320
+            Width = 196
+            Height = 25
+            Caption = 'Cadastrar novo correntista'
+            TabOrder = 1
+            OnClick = btn_novo_correntistaClick
+          end
+          object btn_alterar_dados: TBitBtn
+            Left = 213
+            Top = 320
+            Width = 196
+            Height = 25
+            Caption = 'Alterar dados correntista'
+            Enabled = False
+            TabOrder = 2
+            OnClick = btn_alterar_dadosClick
+          end
+          object btn_confirma: TBitBtn
+            Left = 13
+            Top = 220
+            Width = 161
+            Height = 25
+            Caption = 'Selecionar Conta'
+            Enabled = False
+            TabOrder = 3
+            OnClick = btn_confirmaClick
+          end
+          object dbg_contas: TDBGrid
+            Left = 13
+            Top = 94
+            Width = 580
+            Height = 120
+            DataSource = ds_contas
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+            TabOrder = 4
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -13
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Style = []
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'NOME_BANCO'
+                Title.Alignment = taCenter
+                Title.Caption = 'Banco'
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
+                Width = 269
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'NR_AGENCIA'
+                Title.Alignment = taCenter
+                Title.Caption = 'Ag'#234'ncia'
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
+                Width = 94
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'NR_CONTA'
+                Title.Alignment = taCenter
+                Title.Caption = 'N. Conta'
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
+                Width = 172
+                Visible = True
+              end>
+          end
+        end
+      end
+      object tbs_cadastro: TTabSheet
+        Caption = 'Cadastro do cheque'
+        ImageIndex = 1
+        OnShow = tbs_cadastroShow
+        object GroupBox1: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 602
+          Height = 181
+          Align = alTop
+          Caption = ' Dados o correntista '
+          TabOrder = 0
+          ExplicitWidth = 590
+          object Label1: TLabel
+            Left = 13
+            Top = 20
+            Width = 11
+            Height = 15
+            Caption = 'ID'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label2: TLabel
+            Left = 81
+            Top = 22
+            Width = 67
+            Height = 15
+            Caption = 'Cadastro em'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label5: TLabel
+            Left = 13
+            Top = 74
+            Width = 59
+            Height = 15
+            Caption = 'CPF / CNPJ'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label7: TLabel
+            Left = 192
+            Top = 74
+            Width = 35
+            Height = 15
+            Caption = 'RG / IE'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label8: TLabel
+            Left = 326
+            Top = 74
+            Width = 44
+            Height = 15
+            Caption = 'Telefone'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label9: TLabel
+            Left = 453
+            Top = 74
+            Width = 37
+            Height = 15
+            Caption = 'Celular'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label10: TLabel
+            Left = 13
+            Top = 122
+            Width = 33
+            Height = 15
+            Caption = 'Nome'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object pnl_id: TPanel
+            Left = 13
+            Top = 41
+            Width = 62
+            Height = 25
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object pnl_rg_ie: TPanel
+            Left = 192
+            Top = 89
+            Width = 121
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 3
+          end
+          object pnl_cpf_cnpj: TPanel
+            Left = 13
+            Top = 89
+            Width = 164
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+          end
+          object pnl_cadastrado_em: TPanel
+            Left = 81
+            Top = 41
+            Width = 96
+            Height = 25
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+          end
+          object pnl_telefone: TPanel
+            Left = 326
+            Top = 89
+            Width = 121
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 4
+          end
+          object pnl_celular: TPanel
+            Left = 453
+            Top = 89
+            Width = 119
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 5
+          end
+          object pnl_nome: TPanel
+            Left = 13
+            Top = 139
+            Width = 559
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 6
+          end
+        end
+        object GroupBox2: TGroupBox
+          Left = 0
+          Top = 181
+          Width = 602
+          Height = 235
+          Align = alClient
+          Caption = ' Dados do cheque '
+          TabOrder = 1
+          ExplicitWidth = 590
+          ExplicitHeight = 197
+          object Label4: TLabel
+            Left = 13
+            Top = 21
+            Width = 33
+            Height = 15
+            Caption = 'Banco'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label6: TLabel
+            Left = 180
+            Top = 19
+            Width = 43
+            Height = 15
+            Caption = 'Ag'#234'ncia'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label11: TLabel
+            Left = 248
+            Top = 19
+            Width = 48
+            Height = 15
+            Caption = 'Nr Conta'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label12: TLabel
+            Left = 360
+            Top = 19
+            Width = 63
+            Height = 17
+            Caption = 'Nr Cheque'
+          end
+          object Label13: TLabel
+            Left = 465
+            Top = 19
+            Width = 74
+            Height = 17
+            Caption = 'Datado para'
+          end
+          object Label14: TLabel
+            Left = 124
+            Top = 74
+            Width = 52
+            Height = 17
+            Caption = 'Hist'#243'rico'
+          end
+          object Label16: TLabel
+            Left = 13
+            Top = 77
+            Width = 30
+            Height = 17
+            Caption = 'Valor'
+          end
+          object Label15: TLabel
+            Left = 173
+            Top = 144
+            Width = 46
+            Height = 15
+            Caption = 'ID Conta'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            Visible = False
+          end
+          object pnl_nr_banco: TPanel
+            Left = 13
+            Top = 41
+            Width = 161
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object pnl_nr_agencia: TPanel
+            Left = 180
+            Top = 41
+            Width = 62
+            Height = 25
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+          end
+          object pnl_nr_conta: TPanel
+            Left = 248
+            Top = 41
+            Width = 105
+            Height = 25
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+          end
+          object edt_nr_cheque: TEdit
+            Left = 360
+            Top = 41
+            Width = 99
+            Height = 25
+            CharCase = ecUpperCase
+            MaxLength = 6
+            NumbersOnly = True
+            TabOrder = 3
+            OnExit = edt_nr_chequeExit
+          end
+          object dtp_data_cheque: TDateTimePicker
+            Left = 467
+            Top = 41
+            Width = 105
+            Height = 25
+            Date = 45806.000000000000000000
+            Time = 0.676293449076183600
+            TabOrder = 4
+          end
+          object edt_histórico: TEdit
+            Left = 124
+            Top = 97
+            Width = 448
+            Height = 25
+            CharCase = ecUpperCase
+            TabOrder = 6
+          end
+          object cb_repassado: TCheckBox
+            Left = 13
+            Top = 141
+            Width = 133
+            Height = 17
+            Caption = 'Cheque repassado'
+            TabOrder = 7
+          end
+          object edt_valor: TEdit
+            Left = 13
+            Top = 97
+            Width = 105
+            Height = 25
+            TabOrder = 5
+            OnExit = edt_valorExit
+            OnKeyPress = edt_valorKeyPress
+          end
+          object pnl_id_conta: TPanel
+            Left = 173
+            Top = 165
+            Width = 50
+            Height = 25
+            Alignment = taLeftJustify
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 8
+            Visible = False
+          end
+        end
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 505
+    Width = 610
+    Visible = False
+    ExplicitTop = 466
+    ExplicitWidth = 594
+    inherited pnl_botoes: TPanel
+      Width = 273
+      ExplicitWidth = 273
+      inherited btnOk: TBitBtn
+        Width = 177
+        Caption = 'SALVAR CHEQUE'
+        OnClick = btnOkClick
+        ExplicitWidth = 177
+      end
+      inherited btnFechar: TBitBtn
+        Left = 177
+        Width = 96
+        ExplicitLeft = 177
+        ExplicitWidth = 96
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 376
+    Top = 128
+  end
+  inherited ds: TDataSource
+    Left = 376
+    Top = 89
+  end
+  object qry_contas: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select'
+      '   p1.id as pessoa_id,'
+      '   cc.id,'
+      '   p2.nome as nome_banco,'
+      '   cc.nr_agencia,'
+      '   cc.nr_conta'
+      'from'
+      '  correntista_contas cc,'
+      '  pessoas p1,'
+      '  bancos b,'
+      '  pessoas p2'
+      'where'
+      '  p1.id = cc.pessoa_id and'
+      '/*  cc.banco_id = b.id and */'
+      '  cc.banco_id = b.pessoa_id and '
+      '  p2.id = b.pessoa_id and'
+      '  p1.cpf_cnpj like :cpf_cnpj')
+    Left = 424
+    Top = 129
+    ParamData = <
+      item
+        Name = 'CPF_CNPJ'
+        DataType = ftString
+        ParamType = ptInput
+        Size = 18
+      end>
+  end
+  object ds_contas: TDataSource
+    AutoEdit = False
+    DataSet = qry_contas
+    OnDataChange = ds_contasDataChange
+    Left = 424
+    Top = 89
+  end
+end

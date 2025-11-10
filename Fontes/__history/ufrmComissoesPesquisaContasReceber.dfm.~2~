@@ -1,0 +1,149 @@
+inherited frmComissoesPesquisaContasReceber: TfrmComissoesPesquisaContasReceber
+  Caption = 'frmComissoesPesquisaContasReceber'
+  ClientHeight = 439
+  ClientWidth = 671
+  ExplicitWidth = 677
+  ExplicitHeight = 468
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 671
+  end
+  inherited pnDados: TPanel
+    Width = 671
+    Height = 313
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 671
+      Height = 105
+      Align = alTop
+      TabOrder = 0
+      ExplicitTop = 8
+      ExplicitWidth = 564
+      object Label1: TLabel
+        Left = 5
+        Top = 6
+        Width = 68
+        Height = 17
+        Caption = 'Vendedor : '
+      end
+      object lbl_nome_vendedor: TLabel
+        Left = 79
+        Top = 6
+        Width = 117
+        Height = 17
+        Caption = 'lbl_nome_vendedor'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object gb_data_contabil: TGroupBox
+        Left = 5
+        Top = 38
+        Width = 276
+        Height = 60
+        Caption = '                                   '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Times New Roman'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        object Label7: TLabel
+          Left = 123
+          Top = 26
+          Width = 14
+          Height = 14
+          Caption = 'at'#233
+        end
+        object cb_data_contabil: TCheckBox
+          Left = 15
+          Top = 0
+          Width = 95
+          Height = 17
+          Caption = 'Data contabil'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+        end
+        object dtp_data_contabil_ini: TDateTimePicker
+          Left = 13
+          Top = 23
+          Width = 104
+          Height = 21
+          Date = 44602.000000000000000000
+          Time = 0.928669293978600800
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+        end
+        object dtp_data_contabil_fim: TDateTimePicker
+          Left = 155
+          Top = 23
+          Width = 104
+          Height = 21
+          Date = 44602.000000000000000000
+          Time = 0.928669293978600800
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+        end
+      end
+      object btnLocalizar: TBitBtn
+        Left = 301
+        Top = 41
+        Width = 112
+        Height = 27
+        Caption = 'Localizar'
+        TabOrder = 1
+        OnClick = btnLocalizarClick
+      end
+      object dbn_principal: TDBNavigator
+        Left = 301
+        Top = 68
+        Width = 112
+        Height = 25
+        DataSource = ds
+        VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+        TabOrder = 2
+      end
+    end
+    object dbg_contas_receber: TDBGrid
+      Left = 0
+      Top = 105
+      Width = 671
+      Height = 208
+      Align = alClient
+      TabOrder = 1
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 402
+    Width = 671
+    inherited btnOk: TBitBtn
+      OnClick = btnOkClick
+    end
+  end
+end

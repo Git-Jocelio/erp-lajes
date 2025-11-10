@@ -1,0 +1,530 @@
+inherited frmPedidosCustos: TfrmPedidosCustos
+  BorderStyle = bsNone
+  ClientHeight = 450
+  ClientWidth = 662
+  Position = poDesigned
+  OnShow = FormShow
+  ExplicitWidth = 662
+  ExplicitHeight = 450
+  TextHeight = 15
+  object pnl_comissao_totais: TPanel [0]
+    Left = 0
+    Top = 57
+    Width = 662
+    Height = 112
+    Align = alTop
+    BevelOuter = bvNone
+    Color = clMenu
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    ExplicitTop = 41
+    ExplicitWidth = 646
+    object Label32: TLabel
+      Left = 7
+      Top = 9
+      Width = 84
+      Height = 17
+      Caption = 'Data contabil :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_data_contabil: TLabel
+      Left = 111
+      Top = 8
+      Width = 66
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label65: TLabel
+      Left = 7
+      Top = 32
+      Width = 115
+      Height = 17
+      Caption = 'Valor da Venda : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_valor_venda: TLabel
+      Left = 154
+      Top = 33
+      Width = 25
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label66: TLabel
+      Left = 7
+      Top = 56
+      Width = 117
+      Height = 17
+      Caption = 'Custo pedido    : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_custo_pedido: TLabel
+      Left = 156
+      Top = 56
+      Width = 24
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label67: TLabel
+      Left = 216
+      Top = 8
+      Width = 78
+      Height = 17
+      Caption = 'taxa Adm (%)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_taxa_adm: TLabel
+      Left = 317
+      Top = 8
+      Width = 24
+      Height = 17
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label73: TLabel
+      Left = 388
+      Top = 33
+      Width = 142
+      Height = 17
+      Caption = 'Comiss'#227'o Adm        : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_comissao_adm: TLabel
+      Left = 561
+      Top = 32
+      Width = 24
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label74: TLabel
+      Left = 388
+      Top = 56
+      Width = 144
+      Height = 17
+      Caption = 'Margem                  : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_margem: TLabel
+      Left = 561
+      Top = 56
+      Width = 24
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label75: TLabel
+      Left = 388
+      Top = 8
+      Width = 140
+      Height = 17
+      Caption = 'Comiss'#227'o vendedor (%)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_margem_vendedor: TLabel
+      Left = 560
+      Top = 8
+      Width = 24
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label76: TLabel
+      Left = 387
+      Top = 78
+      Width = 143
+      Height = 17
+      Caption = 'Comiss'#227'o vendedor : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_comissao_vendedor: TLabel
+      Left = 561
+      Top = 78
+      Width = 25
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labelOutrasdespesas: TLabel
+      Left = 7
+      Top = 80
+      Width = 117
+      Height = 15
+      Caption = 'Outras Despesas   :  R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_outras_despesas: TLabel
+      Left = 156
+      Top = 78
+      Width = 24
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object pnl_topo: TPanel [1]
+    Left = 0
+    Top = 0
+    Width = 662
+    Height = 57
+    Align = alTop
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 1
+    ExplicitTop = -6
+    object btn_fechar: TSpeedButton
+      Left = 592
+      Top = 0
+      Width = 70
+      Height = 56
+      Cursor = crHandPoint
+      Hint = 'FECHAR FORMUL'#193'RIO'
+      Align = alRight
+      Flat = True
+      Glyph.Data = {
+        F6060000424DF606000000000000360000002800000018000000180000000100
+        180000000000C006000000000000000000000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFF2F2F2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFF6F6F6FFFFFFFFFFFFF8F8F88F8F8F5D5D5DABABABFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFDCDCDC717171696969D3D3D3FFFFFFECECEC6D6D6D6767675E5E5EA4A4
+        A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFD4D4D46E6E6E666666606060AFAFAFFFFFFFFFFFFFB9B9B9
+        5F5F5F6C6C6C626262969696FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFDDDDDD6363636969696262627D7D7DF4F4F4FF
+        FFFFFFFFFFFFFFFFBEBEBE5C5C5C6B6B6B5E5E5E979797FFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD1D1D16969696969696464647A7A
+        7AFDFDFDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0C06969696B6B6B6161618F
+        8F8FF8F8F8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC2C2C26666666A6A6A
+        6363638E8E8EFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBDBD
+        BD5858586B6B6B636363848484FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDADADA5E
+        5E5E6A6A6A5D5D5D808080F5F5F5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFE2E2E2636363696969606060797979F1F1F1FFFFFFFFFF
+        FFB3B3B35A5A5A6C6C6C616161929292FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCBCBCB676767686868656565
+        868686FDFDFDBCBCBC6565656C6C6C606060959595FDFDFDFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD7
+        D7D76E6E6E6767676868687272726868686B6B6B5B5B5BA4A4A4FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFE9E9E96D6D6D6C6C6C6C6C6C6D6D6D6A6A6AA1A1A1FF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9393936767676E6E6E6C6C
+        6C727272E9E9E9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA7A7A75E5E5E
+        6C6C6C6868686969696A6A6A646464F3F3F3FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFE97
+        97976161616B6B6B686868B4B4B48282826666666767676D6D6DDBDBDBFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFF9595956262626C6C6C595959B2B2B2FFFFFFE7E7E770707062626269
+        69696C6C6CEAEAEAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFF7F7F78484845D5D5D6A6A6A5E5E5ED8D8D8FFFFFFFFFFFFFFFF
+        FFFBFBFB8E8E8E6161616A6A6A515151D8D8D8FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFDFDFD9090906363636A6A6A656565BFBFBFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFBFBFB7B7B7B6060606A6A6A6B6B6BCFCFCFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7C7C7C636363696969686868D0
+        D0D0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF3F3F38F8F8F636363
+        696969666666C5C5C5FFFFFFFFFFFFFFFFFFFFFFFFF2F2F27F7F7F6161616969
+        69636363DADADAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFEFEFE9494945F5F5F6B6B6B5B5B5BC5C5C5FFFFFFFFFFFFF8F8F8888888
+        6363636868686D6D6DD4D4D4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8B8B8B6060606B6B6B646464CFCFCFFF
+        FFFFEDEDED6F6F6F5E5E5E6F6F6FDEDEDEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9999995F5F
+        5F5D5D5DB1B1B1FFFFFFFFFFFFCFCFCFA0A0A0E9E9E9FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFB9B9B9ABABABF4F4F4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = btn_fecharClick
+      ExplicitLeft = 1035
+      ExplicitHeight = 80
+    end
+    object lbl_titulo: TLabel
+      AlignWithMargins = True
+      Left = 15
+      Top = 0
+      Width = 195
+      Height = 56
+      Margins.Left = 15
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Caption = 'CUSTOS DO PEDIDO'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 8404992
+      Font.Height = -21
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+      Layout = tlCenter
+      ExplicitHeight = 30
+    end
+    object pnl_separa_topo: TPanel
+      Left = 0
+      Top = 56
+      Width = 662
+      Height = 1
+      Margins.Left = 10
+      Margins.Top = 0
+      Margins.Right = 10
+      Margins.Bottom = 0
+      Align = alBottom
+      BevelOuter = bvNone
+      Color = clNavy
+      ParentBackground = False
+      TabOrder = 0
+      ExplicitWidth = 642
+    end
+  end
+  object Panel5: TPanel [2]
+    Left = 0
+    Top = 169
+    Width = 662
+    Height = 281
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitLeft = -229
+    ExplicitTop = 0
+    ExplicitWidth = 891
+    ExplicitHeight = 188
+    object dbg_comissao_itens: TDBGrid
+      AlignWithMargins = True
+      Left = 20
+      Top = 41
+      Width = 622
+      Height = 230
+      Hint = 'DUPLO < CLICK > PARA VISUALIZAR REGISTRO'
+      Margins.Left = 20
+      Margins.Top = 0
+      Margins.Right = 20
+      Margins.Bottom = 10
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = dsLancamentos
+      DrawingStyle = gdsClassic
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Options = [dgTitles, dgRowSelect, dgTitleClick, dgTitleHotTrack]
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI Semibold'
+      TitleFont.Style = []
+      OnTitleClick = dbg_comissao_itensTitleClick
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'produto_id'
+          Title.Alignment = taCenter
+          Title.Caption = 'C'#243'digo'
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'qtde'
+          Title.Alignment = taCenter
+          Title.Caption = 'Quantidade'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'nome_fantasia'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 330
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'custo'
+          Title.Alignment = taCenter
+          Title.Caption = 'Custo'
+          Width = 100
+          Visible = True
+        end>
+    end
+    object pnl_resultado: TPanel
+      AlignWithMargins = True
+      Left = 20
+      Top = 0
+      Width = 622
+      Height = 41
+      Margins.Left = 20
+      Margins.Top = 0
+      Margins.Right = 20
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      Color = 8404992
+      ParentBackground = False
+      TabOrder = 1
+      ExplicitWidth = 851
+      object lbl_resultado: TLabel
+        AlignWithMargins = True
+        Left = 15
+        Top = 0
+        Width = 213
+        Height = 41
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Resultado da Consulta'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 15395562
+        Font.Height = -21
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        Layout = tlCenter
+        ExplicitHeight = 30
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 224
+    Top = 272
+    object qryproduto_id: TIntegerField
+      FieldName = 'produto_id'
+    end
+    object qrynome_fantasia: TStringField
+      FieldName = 'nome_fantasia'
+      Size = 120
+    end
+    object qryqtde: TFMTBCDField
+      FieldName = 'qtde'
+    end
+    object qrycusto: TBCDField
+      FieldName = 'custo'
+      currency = True
+    end
+  end
+  object dsLancamentos: TDataSource
+    AutoEdit = False
+    DataSet = qry
+    Left = 224
+    Top = 241
+  end
+end

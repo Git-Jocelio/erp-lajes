@@ -1,0 +1,39 @@
+unit udmPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TdmPrincipal = class(TDataModule)
+    qryProdutos: TFDQuery;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmPrincipal: TdmPrincipal;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+uses udmConn;
+
+{$R *.dfm}
+
+// as querys deste data module vou usar para manutencao de dados
+
+procedure TdmPrincipal.DataModuleCreate(Sender: TObject);
+begin
+  qryProdutos.Connection := dmConn.FDConnection;
+end;
+
+end.

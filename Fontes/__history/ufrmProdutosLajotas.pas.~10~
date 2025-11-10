@@ -1,0 +1,183 @@
+unit ufrmProdutosLajotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfrmProdutosLajotas = class(TfrmBaseGrade)
+    cbDescricao: TCheckBox;
+    edNome: TEdit;
+    rgSituacao: TRadioGroup;
+    procedure FormCreate(Sender: TObject);
+    procedure actLocalizarExecute(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    procedure ASql();
+    function ValidarPesquisa(): boolean;
+    procedure Pesquisar();
+  public
+  end;
+
+  procedure executa;
+
+implementation
+
+uses uBiblioteca, ufrmProdutosLajotasE;
+
+procedure executa;
+var
+  loForm : TfrmProdutosLajotas;
+begin
+  loForm :=TfrmProdutosLajotas.Create(Application);
+  try
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+
+end;
+
+{$R *.dfm}
+
+procedure TfrmProdutosLajotas.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmProdutosLajotasE.Alterar(qry.FieldByName('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmProdutosLajotas.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmProdutosLajotasE.Excluir(qry.FieldByName('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmProdutosLajotas.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmProdutosLajotasE.Incluir;
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmProdutosLajotas.actLocalizarExecute(Sender: TObject);
+begin
+  inherited;
+  if ValidarPesquisa() then
+    Pesquisar();
+
+  // mensagem para o usuario
+  StatusBar.Panels[0].Text := 'Encontrado(s) : ' + inttostr(qry.RecordCount) + ' registro(s)';
+end;
+
+procedure TfrmProdutosLajotas.ASql;
+begin
+  qry.Open('select * from ' + Self.Tabela + ' P, PRODUTOS_LAJOTAS L where P.ID = L.PRODUTO_ID and P.ID = -1');
+end;
+
+procedure TfrmProdutosLajotas.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  if not qry.IsEmpty then
+    btnAlterar.Click;
+
+end;
+
+procedure TfrmProdutosLajotas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  // property tabela no form BaseGrade
+  self.Tabela := 'PRODUTOS';
+  self.Titulo := 'Cadastro de Produtos [' + self.Tabela + ']' + ' Lajotas';
+  Caption := Titulo;
+  ASql();
+end;
+
+procedure TfrmProdutosLajotas.FormShow(Sender: TObject);
+begin
+  inherited;
+  btnLocalizar.Click;
+end;
+
+procedure TfrmProdutosLajotas.Pesquisar;
+var
+  situacao, Condicao : string;
+begin
+  {Situação da pessoa}
+
+
+  if rgSituacao.ItemIndex = 0 then
+    situacao := 'P.ATIVO =' + QuotedStr('S') + ' and ';
+  if rgSituacao.ItemIndex = 1 then
+    situacao := 'P.ATIVO =' + QuotedStr('N') + ' and ';
+  if rgSituacao.ItemIndex = 2 then
+    situacao := 'P.ATIVO <>' + QuotedStr('') + ' and ';
+
+  Condicao := '';
+
+
+  if cbDescricao.Checked then
+    if trim(edNome.Text) <> '' then
+    Condicao := Condicao + 'and P.DESCRICAO like :DESCRICAO ';
+
+
+  if Condicao <> '' then
+  begin
+    Condicao := copy(Condicao,4,length(Condicao)-4);
+
+    qry.SQL.Clear;
+    qry.SQL.Add('select P.* from ' + self.Tabela + ' P, PRODUTOS_LAJOTAS L where P.ID = L.PRODUTO_ID and ' + situacao + Condicao);
+    self.ssql := qry.SQL.Text;
+
+    {Carregar parametros}
+
+     if cbDescricao.Checked then
+      begin
+        qry.Params.ParamByName('DESCRICAO').AsString := '%' + edNome.Text + '%';
+      end;
+
+
+    //ShowMessage(qry.SQL.Text);
+    qry.Open;
+  end
+  else
+  begin
+    qry.SQL.Clear;
+    if rgSituacao.ItemIndex = 2 then // todos
+    begin
+      qry.SQL.Add('select P.* from '+ self.Tabela + ' P, PRODUTOS_LAJOTAS L where P.ID = L.PRODUTO_ID');
+      self.ssql := qry.SQL.Text;
+    end
+    else
+    begin
+      // retira o and final
+      situacao := copy(situacao,1,length(situacao)-4);
+      qry.SQL.Add('select P.* from '+ self.Tabela + ' P, PRODUTOS_LAJOTAS L where P.ID = L.PRODUTO_ID and ' + situacao);
+      self.ssql := qry.SQL.Text;
+  end;
+    //ShowMessage(qry.SQL.Text);
+    qry.Open;
+  end;
+
+
+end;
+
+function TfrmProdutosLajotas.ValidarPesquisa: boolean;
+begin
+  result := true;
+end;
+
+end.

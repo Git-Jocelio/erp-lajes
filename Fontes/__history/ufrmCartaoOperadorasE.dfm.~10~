@@ -1,0 +1,197 @@
+inherited frmCartaoOperadorasE: TfrmCartaoOperadorasE
+  Caption = 'frmCartaoOperadorasE'
+  ClientHeight = 447
+  ClientWidth = 517
+  ExplicitWidth = 529
+  ExplicitHeight = 485
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 517
+    Font.Height = -16
+    ExplicitWidth = 514
+    inherited lbl_titulo: TLabel
+      Width = 517
+      Height = 40
+      Font.Height = -16
+      ParentFont = False
+      ExplicitWidth = 103
+      ExplicitHeight = 21
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 517
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 517
+    Height = 353
+    ExplicitWidth = 514
+    ExplicitHeight = 268
+    object Label2: TLabel
+      Left = 5
+      Top = 11
+      Width = 12
+      Height = 17
+      Caption = 'ID'
+    end
+    object lbl_Id: TLabel
+      Left = 28
+      Top = 11
+      Width = 21
+      Height = 17
+      Caption = '000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 37
+      Width = 97
+      Height = 17
+      Caption = 'Cadastrado em :'
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 107
+      Top = 37
+      Width = 68
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 238
+      Top = 37
+      Width = 79
+      Height = 17
+      Caption = 'Alterado em :'
+    end
+    object lbl_alterado_em: TLabel
+      Left = 322
+      Top = 37
+      Width = 68
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 5
+      Top = 83
+      Width = 186
+      Height = 17
+      Caption = 'Nome da Operadora de Cart'#227'o'
+    end
+    object Label3: TLabel
+      Left = 328
+      Top = 83
+      Width = 160
+      Height = 17
+      Caption = 'meu N. de Estabelecimento'
+    end
+    object Label5: TLabel
+      Left = 5
+      Top = 208
+      Width = 210
+      Height = 17
+      Caption = 'Telefones de Contato da operadora'
+    end
+    object Label8: TLabel
+      Left = 5
+      Top = 262
+      Width = 228
+      Height = 17
+      Caption = 'minha Senha cadastrada na operadora'
+    end
+    object Label7: TLabel
+      Left = 5
+      Top = 147
+      Width = 220
+      Height = 17
+      Caption = 'meu e-mail cadastrado na operadora'
+    end
+    object cb_ativo: TCheckBox
+      Left = 453
+      Top = 37
+      Width = 54
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 0
+    end
+    object edt_nome_operadora: TEdit
+      Left = 5
+      Top = 106
+      Width = 317
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 40
+      TabOrder = 1
+    end
+    object edt_nr_estabelecimento: TEdit
+      Left = 328
+      Top = 106
+      Width = 179
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 40
+      TabOrder = 2
+    end
+    object edt_telefones: TEdit
+      Left = 5
+      Top = 231
+      Width = 502
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 40
+      TabOrder = 4
+    end
+    object edt_email: TEdit
+      Left = 5
+      Top = 170
+      Width = 502
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 40
+      TabOrder = 3
+    end
+    object edt_senha: TEdit
+      Left = 5
+      Top = 283
+      Width = 502
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 40
+      TabOrder = 5
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 410
+    Width = 517
+    ExplicitTop = 325
+    ExplicitWidth = 514
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 152
+    Top = 8
+  end
+  inherited ds: TDataSource
+    Left = 120
+    Top = 9
+  end
+end

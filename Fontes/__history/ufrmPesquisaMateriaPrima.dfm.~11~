@@ -1,0 +1,159 @@
+inherited frmPesquisaMateriaPrima: TfrmPesquisaMateriaPrima
+  Caption = 'Pesquisa Mat'#233'ria Prima'
+  ClientHeight = 387
+  ClientWidth = 508
+  ExplicitWidth = 520
+  ExplicitHeight = 425
+  TextHeight = 15
+  object Label1: TLabel [0]
+    Left = 8
+    Top = 287
+    Width = 108
+    Height = 15
+    Caption = 'Quantidade de Latas'
+  end
+  inherited Panel1: TPanel
+    Width = 508
+    Height = 73
+    ExplicitWidth = 504
+    ExplicitHeight = 73
+    inherited edLocalizar: TLabeledEdit
+      Left = 17
+      Top = 41
+      Width = 393
+      Height = 23
+      EditLabel.ExplicitLeft = 17
+      EditLabel.ExplicitTop = 21
+      EditLabel.ExplicitWidth = 105
+      ExplicitLeft = 17
+      ExplicitTop = 41
+      ExplicitWidth = 393
+      ExplicitHeight = 23
+    end
+    inherited btnFiltrar: TBitBtn
+      Left = 416
+      Top = 41
+      OnClick = btnFiltrarClick
+      ExplicitLeft = 416
+      ExplicitTop = 41
+    end
+    object CheckBox1: TCheckBox
+      Left = 161
+      Top = 18
+      Width = 144
+      Height = 17
+      Caption = 'Listar todas MPs'
+      TabOrder = 2
+      OnClick = CheckBox1Click
+    end
+  end
+  inherited db: TDBGrid
+    Top = 73
+    Width = 508
+    Height = 208
+    Align = alTop
+    DataSource = ds
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'ID'
+        Title.Alignment = taCenter
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 49
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Descri'#231#227'o'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 269
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Title.Alignment = taCenter
+        Title.Caption = 'UN'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 47
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_CUSTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Custo'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 73
+        Visible = True
+      end>
+  end
+  inherited pnl_rodape: TPanel
+    Top = 345
+    Width = 508
+    Height = 42
+    ExplicitLeft = 0
+    ExplicitTop = 344
+    ExplicitWidth = 504
+    ExplicitHeight = 42
+    inherited btnFechar: TBitBtn
+      Left = 230
+      Top = 11
+      ExplicitLeft = 230
+      ExplicitTop = 11
+    end
+    inherited btnConfirma: TBitBtn
+      Left = 143
+      Top = 9
+      OnClick = btnConfirmaClick
+      ExplicitLeft = 143
+      ExplicitTop = 9
+    end
+  end
+  object edQtde: TEdit [4]
+    Left = 17
+    Top = 308
+    Width = 89
+    Height = 23
+    TabOrder = 3
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select '
+      '  ID, DESCRICAO, UNIDADE, CUSTO_LIQUIDO, MATERIA_PRIMA, AGREGADO'
+      'from '
+      '  PRODUTOS '
+      'where '
+      '  DESCRICAO like :DESCRICAO and'
+      '  MATERIA_PRIMA = '#39'S'#39
+      '')
+    ParamData = <
+      item
+        Name = 'DESCRICAO'
+        DataType = ftString
+        ParamType = ptInput
+        Size = 100
+        Value = Null
+      end>
+  end
+end

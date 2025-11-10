@@ -1,0 +1,249 @@
+unit ufrmPesquisaAdicionais;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, DBClient;
+
+type
+
+  TfrmPesquisaAdicionais = class(TfrmBaseConexao)
+    pcPrincipal: TPageControl;
+    tsPesquisa: TTabSheet;
+    dbgVergalhoes: TDBGrid;
+    tsConfiguracao: TTabSheet;
+    gbDobras: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    edCorpo: TEdit;
+    edInicio_: TEdit;
+    edFinal: TEdit;
+    edComprimento: TEdit;
+    gbVergalhao: TGroupBox;
+    edCodigo: TEdit;
+    edDescricao: TEdit;
+    Label9: TLabel;
+    edQtde: TEdit;
+    btnConfirma: TBitBtn;
+    btnVoltar: TBitBtn;
+    btnCancelar: TBitBtn;
+    dsVergalhoes: TDataSource;
+    upFinal: TUpDown;
+    edFinal_: TEdit;
+    upInicio: TUpDown;
+    edInicio: TEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+    procedure dbgVergalhoesDblClick(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
+    procedure edQtdeEnter(Sender: TObject);
+    procedure edInicio_Change(Sender: TObject);
+    procedure edFinal_Change(Sender: TObject);
+  private
+    FIdProduto: integer;
+    Fdescricao: string;
+    FdobraInicio: double;
+    Fcorpo: double;
+    FdobraFim: double;
+    Fquantidade: integer;
+    Fconfirmado: boolean;
+    //***
+    function Validar: boolean;
+    function CalculaComprimento: double;
+  public
+    { propriedades do adicional }
+    property idProduto: integer read FIdProduto write FidProduto;
+    property descricao: string read Fdescricao write Fdescricao;
+    property dobraInicio: double read FdobraInicio write FdobraInicio;
+    property corpo: double read Fcorpo write Fcorpo;
+    property dobraFim: double read FdobraFim write FdobraFim;
+    property quantidade: integer read Fquantidade write Fquantidade;
+    //
+    property confirmado: boolean read Fconfirmado write Fconfirmado;
+
+  end;
+
+
+ var
+   frmPesquisaAdicionais :TfrmPesquisaAdicionais;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPesquisaAdicionais.btnConfirmaClick(Sender: TObject);
+begin
+  inherited;
+  if Validar then
+  begin
+    confirmado := true;
+
+    {adicionar negativo}
+    idProduto :=  strtoint(edCodigo.Text);
+    descricao :=  edDescricao.Text;
+    dobraInicio :=  StrToFloat(edInicio.Text);
+    corpo :=  StrToFloat(edCorpo.Text);
+    dobraFim :=  StrToFloat(edFinal.Text);
+    quantidade := strtoint(edQtde.Text);
+    //ShowMessage(inttostr(idProduto));
+
+    close;
+
+  end;
+end;
+
+procedure TfrmPesquisaAdicionais.btnVoltarClick(Sender: TObject);
+begin
+  inherited;
+  tsPesquisa.Visible :=true;
+  tsConfiguracao.Visible := false;
+
+
+end;
+
+procedure TfrmPesquisaAdicionais.dbgVergalhoesDblClick(Sender: TObject);
+begin
+  inherited;
+  if qry.IsEmpty then exit;
+
+
+  {produto selecionado}
+  tsPesquisa.Visible :=false;
+  tsConfiguracao.Visible := true;
+
+
+  edCodigo.Text := qry.FieldByName('PRODUTO_ID').AsString;
+  edDescricao.Text := qry.FieldByName('DESCRICAO').AsString;
+
+  edInicio.Text := '0';
+  //edCorpo.Text := '0';
+  edQtde.Text := '1';
+  edFinal.Text := '0';
+  edComprimento.Text := '0';
+
+end;
+
+procedure TfrmPesquisaAdicionais.edFinal_Change(Sender: TObject);
+begin
+  inherited;
+  edFinal.Text := formatfloat('0.00',strtofloat(edfinal_.text)/100);
+
+end;
+
+procedure TfrmPesquisaAdicionais.edInicio_Change(Sender: TObject);
+begin
+  inherited;
+  edInicio.Text := formatfloat('0.00',strtofloat(edInicio_.text)/100);
+
+end;
+
+procedure TfrmPesquisaAdicionais.edQtdeEnter(Sender: TObject);
+begin
+  inherited;
+  edComprimento.Text := FormatFloat('0.00', CalculaComprimento);
+end;
+
+function TfrmPesquisaAdicionais.CalculaComprimento: double;
+begin
+  result := StrToFloatDef(edCorpo.Text,0) + StrToFloatDef(edInicio.Text,0) +StrToFloatDef(edFinal.Text,0);
+
+end;
+
+procedure TfrmPesquisaAdicionais.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  qry.Close;
+
+end;
+
+procedure TfrmPesquisaAdicionais.FormCreate(Sender: TObject);
+begin
+  inherited;
+   confirmado := false;
+
+  qry.Connection := self.Conexao;
+  qry.Open('select A.*, P.DESCRICAO from PRODUTOS_ADICIONAL A, PRODUTOS P where A.PRODUTO_ID = P.ID order by DESCRICAO');
+end;
+
+procedure TfrmPesquisaAdicionais.FormShow(Sender: TObject);
+begin
+  inherited;
+  pcPrincipal.TabIndex := 0;
+  //btnConfirma.Enabled := false;
+  tsConfiguracao.TabVisible := false;
+end;
+
+function TfrmPesquisaAdicionais.Validar: boolean;
+begin
+  result := false;
+
+  if edCodigo.Text = '' then
+  begin
+    ShowMessage('selecione um vergalhão');
+    btnVoltar.Click;
+    exit;
+  end;
+
+  if strtofloatdef(edInicio.Text,0) < 0 then
+  begin
+    ShowMessage('informe um valor válido ou digite "0"');
+    edInicio.Text := '0';
+    edInicio.SetFocus;
+    exit;
+  end;
+
+
+  if ((strtofloatdef(edCorpo.Text,0) <= 0) or (strtofloatdef(edCorpo.Text,0) > 12)) then
+  begin
+    ShowMessage('informe um valor válido!');
+    edCorpo.SetFocus;
+    exit;
+  end;
+
+  if strtofloatdef(edCorpo.Text,0) > corpo+0.001 then // 0.001 = sujeira
+  begin
+    ShowMessage('corpo do ferro maior que a viga');
+    edCorpo.SetFocus;
+    exit;
+  end;
+
+  if strtofloatdef(edFinal.Text,0) < 0 then
+  begin
+    ShowMessage('informe um valor válido ou digite "0"');
+    edFinal.Text := '0';
+    edFinal.SetFocus;
+    exit;
+  end;
+
+  if CalculaComprimento > 12  then
+  begin
+    ShowMessage('valores inválidos');
+    edCorpo.SetFocus;
+    exit;
+  end;
+
+  if strtointdef(edQtde.Text,0) <= 0 then
+  begin
+    ShowMessage('informe uma Quantidade válida');
+    edQtde.SetFocus;
+    exit;
+  end;
+
+
+
+  result := true;
+
+end;
+
+end.

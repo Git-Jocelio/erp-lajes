@@ -1,0 +1,138 @@
+unit ufrmCortesCRUD;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TfrmCortesCRUD = class(TForm)
+    pnl_cabecalho: TPanel;
+    btn_fechar: TSpeedButton;
+    lbl_titulo: TLabel;
+    Image: TImage;
+    pnl_separa_topo: TPanel;
+    pnl_main: TPanel;
+    pnl_rodape: TPanel;
+    btn_incluir: TBitBtn;
+    Label1: TLabel;
+    Label2: TLabel;
+    edt_tamanho: TEdit;
+    edt_quantidade: TEdit;
+    rg_altura: TRadioGroup;
+    procedure rg_alturaClick(Sender: TObject);
+    procedure btn_fecharClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btn_incluirClick(Sender: TObject);
+    procedure edt_tamanhoExit(Sender: TObject);
+    procedure edt_tamanhoKeyPress(Sender: TObject; var Key: Char);
+  private
+    function fnc_validar: boolean;
+    { Private declarations }
+  public
+    altura_trelica: string;
+    tamanho : double;
+    quantidade : integer;
+    confirmado : boolean;
+  end;
+
+var
+  frmCortesCRUD: TfrmCortesCRUD;
+
+
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCortesCRUD.btn_fecharClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TfrmCortesCRUD.FormCreate(Sender: TObject);
+begin
+  rg_altura.ItemIndex := 0;
+  confirmado := false;
+end;
+
+procedure TfrmCortesCRUD.btn_incluirClick(Sender: TObject);
+begin
+  if fnc_validar then
+  begin
+    tamanho := strtofloat( edt_tamanho.Text );
+    quantidade := strtoint ( edt_quantidade.Text );
+    confirmado := true;
+    close;
+  end;
+end;
+
+procedure TfrmCortesCRUD.edt_tamanhoExit(Sender: TObject);
+begin
+  try
+    if StrToFloatDef(edt_tamanho.Text,0) > 0  then
+      edt_tamanho.Text := FormatFloat('0.00', strtofloat(edt_tamanho.Text));
+  except
+     ShowMessage('Informe um valor válido');
+  end;
+end;
+
+procedure TfrmCortesCRUD.edt_tamanhoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (key in [#1..#31,#48..#57,#44]) then key := #0;
+end;
+
+function tfrmcortescrud.fnc_validar: boolean;
+var
+  decimal : string;
+begin
+  result := false;
+
+  if ((StrToFloatDef(edt_tamanho.text,0) < 1) or
+      (StrToFloatDef(edt_tamanho.text,0) >12.00)) then
+  begin
+    ShowMessage('Informe um tamanho de corte válido, entre 1,00 e 12,00 mts');
+    edt_tamanho.SetFocus;
+    exit;
+  end;
+
+  // pega as duas casas dedimais
+  decimal := copy(edt_tamanho.Text, length(edt_tamanho.Text)-1, length(edt_tamanho.Text) );
+
+  if ((decimal<>'00') and (decimal<>'10') and (decimal<> '20')) then
+  begin
+    ShowMessage('Informe vigas de [ 10 em 10 ] ou em [ 20 em 20 ] centimetros!');
+    exit;
+  end;
+
+  if StrToFloatDef(edt_quantidade.text,0) <= 0  then
+  begin
+    ShowMessage('Informe uma quantidade válida');
+    edt_quantidade.SetFocus;
+    exit;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmCortesCRUD.rg_alturaClick(Sender: TObject);
+begin
+
+  if rg_altura.ItemIndex = 0 then
+    altura_trelica := 'H8';
+  if rg_altura.ItemIndex = 1 then
+    altura_trelica := 'H12';
+  if rg_altura.ItemIndex = 2 then
+    altura_trelica := 'H16';
+  if rg_altura.ItemIndex = 3 then
+    altura_trelica := 'H20';
+  if rg_altura.ItemIndex = 4 then
+    altura_trelica := 'H25';
+  if rg_altura.ItemIndex = 5 then
+    altura_trelica := 'H30';
+
+end;
+
+
+end.

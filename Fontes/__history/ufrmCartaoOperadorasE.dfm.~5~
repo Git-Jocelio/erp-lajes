@@ -1,0 +1,185 @@
+inherited frmCartaoOperadorasE: TfrmCartaoOperadorasE
+  Caption = 'frmCartaoOperadorasE'
+  ClientHeight = 363
+  ClientWidth = 518
+  ExplicitWidth = 530
+  ExplicitHeight = 401
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 518
+    Font.Height = -16
+    inherited lbl_titulo: TLabel
+      Width = 518
+      Font.Height = -16
+      ParentFont = False
+      ExplicitWidth = 103
+      ExplicitHeight = 21
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 518
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 518
+    Height = 269
+    ExplicitLeft = 16
+    ExplicitTop = 52
+    ExplicitWidth = 518
+    ExplicitHeight = 269
+    object Label2: TLabel
+      Left = 5
+      Top = 11
+      Width = 12
+      Height = 17
+      Caption = 'ID'
+    end
+    object lbl_Id: TLabel
+      Left = 28
+      Top = 11
+      Width = 21
+      Height = 17
+      Caption = '000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 37
+      Width = 97
+      Height = 17
+      Caption = 'Cadastrado em :'
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 107
+      Top = 37
+      Width = 68
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 238
+      Top = 37
+      Width = 79
+      Height = 17
+      Caption = 'Alterado em :'
+    end
+    object lbl_alterado_em: TLabel
+      Left = 322
+      Top = 37
+      Width = 68
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 5
+      Top = 83
+      Width = 186
+      Height = 17
+      Caption = 'Nome da Operadora de Cart'#227'o'
+    end
+    object Label3: TLabel
+      Left = 328
+      Top = 83
+      Width = 132
+      Height = 17
+      Caption = 'N. do Estabelecimento'
+    end
+    object Label5: TLabel
+      Left = 5
+      Top = 208
+      Width = 124
+      Height = 17
+      Caption = 'Telefones de Contato'
+    end
+    object Label8: TLabel
+      Left = 328
+      Top = 208
+      Width = 35
+      Height = 17
+      Caption = 'Senha'
+    end
+    object Label7: TLabel
+      Left = 5
+      Top = 147
+      Width = 36
+      Height = 17
+      Caption = 'e-mail'
+    end
+    object cb_conta: TCheckBox
+      Left = 453
+      Top = 37
+      Width = 54
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 0
+    end
+    object edt_nr_conta: TEdit
+      Left = 5
+      Top = 106
+      Width = 317
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 1
+    end
+    object Edit1: TEdit
+      Left = 328
+      Top = 106
+      Width = 179
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+    object Edit2: TEdit
+      Left = 5
+      Top = 231
+      Width = 317
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 3
+    end
+    object Edit3: TEdit
+      Left = 5
+      Top = 170
+      Width = 502
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 4
+    end
+    object Edit4: TEdit
+      Left = 328
+      Top = 231
+      Width = 179
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 5
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 326
+    Width = 518
+  end
+  inherited qry: TFDQuery
+    Left = 152
+    Top = 8
+  end
+  inherited ds: TDataSource
+    Left = 120
+    Top = 9
+  end
+end

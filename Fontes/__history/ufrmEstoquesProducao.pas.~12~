@@ -1,0 +1,270 @@
+unit ufrmEstoquesProducao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ExtCtrls, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfrmEstoquesProducao = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    pnl_topo: TPanel;
+    Label1: TLabel;
+    dtp_data: TDateTimePicker;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    Panel1: TPanel;
+    ds: TDataSource;
+    mtb_vigas: TFDMemTable;
+    mtb_vigasID: TIntegerField;
+    mtb_vigasNOME_FANTASIA: TStringField;
+    mtb_vigasUNIDADE: TStringField;
+    mtb_vigasESTOQUE_FISICO: TIntegerField;
+    mtb_vigasPEDIDO_ABERTO: TIntegerField;
+    mtb_vigasESTOQUE_DISPONIVEL: TIntegerField;
+    mtb_vigasPEDIDO_AGUARDANDO: TIntegerField;
+    mtb_vigasESTOQUE_LIQUIDO: TIntegerField;
+    mtb_vigasCOMPRIMENTO: TIntegerField;
+    mtb_vigasTRELICA_ALTURA: TIntegerField;
+    mtb_vigasFORMA_MEDIDA: TIntegerField;
+    qry_lista_itens_pedido: TFDQuery;
+    lb: TListBox;
+    qry_lista_itens_laje: TFDQuery;
+    DBGrid1: TDBGrid;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+  private
+    procedure prc_listar_vigas;
+    procedure prc_preencher_memtable;
+    procedure Adicionar(str: string);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEstoquesProducao: TfrmEstoquesProducao;
+
+implementation
+
+{$R *.dfm}
+
+uses unit_controle_estoques, unit_funcoes;
+
+procedure TfrmEstoquesProducao.Adicionar(str : string);
+begin
+  lb.Items.Add(str);
+end;
+
+
+
+// listar as vigas dentro da qry, como os estoques são calculados em tempo
+// de execução os mesmos serão calculados dentro de uma memtable depois
+// disso filtro as vigas negativas no memtable na propriedade filter
+
+procedure TfrmEstoquesProducao.BitBtn1Click(Sender: TObject);
+var
+ QtdPro, Produzir, TotMtLn : real;
+ titulo, linha, linha2 : string;
+begin
+  inherited;
+  //lista todas vigas com estoque disponivel NEGATIVO (NO MEMTABLE)
+  prc_listar_vigas;
+
+
+  titulo := 'Ped.   Cliente              Dt Entrega       Qtde';
+  linha  := '-------------------------------------------------';
+  linha2 := '=================================================';
+
+  TotMtLn := 0; // totaliza os metros lineares
+  lb.Clear;
+
+  Adicionar('=================================================');
+  lb.Items.Add('Qtde necessária para atender os pedidos  ');
+  lb.Items.Add('até : ' + FormatDateTime('dddd dd mmmm yyyy',dtp_data.Date));
+  Adicionar('=================================================');
+
+  mtb_vigas.DisableControls;
+  mtb_vigas.First;
+  while not mtb_vigas.Eof do
+  begin
+    QtdPro := 0;
+    Produzir := 0;
+
+    qry_lista_itens_pedido.Close;
+    qry_lista_itens_pedido.ParamByName('PRODUTO_ID').AsInteger := mtb_vigasID.AsInteger;
+    qry_lista_itens_pedido.ParamByName('DATA_ENTREGA').AsDate  := dtp_data.Date;
+    qry_lista_itens_pedido.Open;
+    //
+    qry_lista_itens_pedido.First;
+    while not qry_lista_itens_pedido.Eof do
+    begin
+      //so imprime a descricao uma vez
+      if QtdPro = 0 then
+      begin
+        Adicionar(mtb_vigasNOME_FANTASIA.AsString);
+        Adicionar(titulo);//titulo := 'Ped.   Cliente              Dt Entrega       Qtde';
+      end;
+
+      Adicionar(qry_lista_itens_pedido.FieldByName('PEDIDO_ID').AsString + '  ' +
+                fnc_formata_texto( qry_lista_itens_pedido.FieldByName('NOME').AsString, 60 ) + '  ' +
+                qry_lista_itens_pedido.FieldByName('DATA_ENTREGA').AsString + '  ' +
+                qry_lista_itens_pedido.FieldByName('QTDE').AsString
+                );
+      QtdPro := QtdPro + qry_lista_itens_pedido.FieldByName('QTDE').AsInteger;
+
+      qry_lista_itens_pedido.Next;
+    end;// while not qry_lista_itens_pedido.Eof do
+
+    // itens da laje
+    qry_lista_itens_laje.Close;
+    qry_lista_itens_laje.ParamByName('PRODUTO_ID').AsInteger := mtb_vigasID.AsInteger;
+    qry_lista_itens_laje.ParamByName('DATA_ENTREGA').AsDate := dtp_data.Date;
+    qry_lista_itens_laje.Open;
+    //
+    qry_lista_itens_laje.First;
+    while not qry_lista_itens_laje.Eof do
+    begin
+      //so imprime a descricao uma vez
+      if QtdPro = 0 then
+      begin
+        Adicionar(mtb_vigasNOME_FANTASIA.AsString);
+        Adicionar(titulo);//titulo := 'Ped.   Cliente              Dt Entrega       Qtde';
+      end;
+
+      Adicionar(qry_lista_itens_laje.FieldByName('PEDIDO_ID').AsString + '  ' +
+                fnc_formata_texto( qry_lista_itens_laje.FieldByName('NOME').AsString, 60 ) + '  ' +
+                qry_lista_itens_laje.FieldByName('DATA_ENTREGA').AsString + '  ' +
+                qry_lista_itens_laje.FieldByName('QTDE').AsString
+                );
+      QtdPro := QtdPro + qry_lista_itens_laje.FieldByName('QTDE').AsInteger;
+
+      qry_lista_itens_laje.Next;
+    end;//while not qry_lista_itens_laje.Eof do
+
+    {processamento das variaveis}
+    //ShowMessage(tbVgNeg.fieldbyname('Descricao').AsString + #13 + 'Estoque : ' + floattostr(Estoque) + #13 +'Aguardando : ' + floattostr(qtdAg) + #13 + 'Programado : ' + floattostr(qtdPro));
+    Produzir := mtb_vigas.fieldbyname('ESTOQUE_FISICO').AsInteger - QtdPro;
+
+    {inclui o result no listBox}
+    if Produzir < 0 then
+    begin
+//     lb.Items.Add( 'H-'+FormatFloat('00',tbVgNeg.fieldbyname('H_Laje').Asfloat*100) + '           ' + FormatFloat('0.00',tbVgNeg.fieldbyname('N_MedidaViga').Asfloat) + '              ' + FormatFloat('00',Produzir));
+     Adicionar(linha);
+     Adicionar('Total em aberto : ' + FloatToStr(QtdPro));
+     Adicionar('Estoque fisico  : ' + mtb_vigas.fieldbyname('ESTOQUE_FISICO').AsString);
+     Adicionar('Produzir        : ' + FormatFloat('0',QtdPro - mtb_vigas.fieldbyname('ESTOQUE_FISICO').AsInteger));
+     Adicionar('Metros lineares : ' + FormatFloat('0.00',( QtdPro - mtb_vigas.fieldbyname('ESTOQUE_FISICO').AsInteger) * mtb_vigas.fieldbyname('COMPRIMENTO').AsFloat/1000));
+
+     TotMtLn := TotMtLn + mtb_vigas.fieldbyname('COMPRIMENTO').Asfloat * Produzir;
+    end;
+    Adicionar(linha2);
+    Adicionar('');
+
+    mtb_vigas.Next;
+  end; //while mtb_vigas.Eof do
+  mtb_vigas.EnableControls;
+
+end;
+
+procedure TfrmEstoquesProducao.BitBtn2Click(Sender: TObject);
+begin
+  inherited;
+  CAPTION := fnc_formata_texto('CONSUMIDOR',60);
+end;
+
+procedure TfrmEstoquesProducao.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qry.Connection                    := conexao;
+  qry_lista_itens_pedido.Connection := conexao;
+  qry_lista_itens_laje.Connection   := conexao;
+
+  dtp_data.Date := date;
+end;
+
+procedure TfrmEstoquesProducao.prc_listar_vigas;
+begin
+  // buscar as vigas no banco de dados
+  qry.Connection := conexao;
+  qry.SQL.Clear;
+
+  qry.SQL.Add('select                             ');
+  qry.SQL.Add(' P.ID,                             ');
+  qry.SQL.Add(' P.NOME_FANTASIA,                  ');
+  qry.SQL.Add(' P.UNIDADE,                        ');
+  qry.SQL.Add(' P.ESTOQUE_FISICO,                 ');
+  qry.SQL.Add(' P.PEDIDO_ABERTO,                  ');
+  qry.SQL.Add(' P.ESTOQUE_DISPONIVEL,             ');
+  qry.SQL.Add(' P.PEDIDO_AGUARDANDO,              ');
+  qry.SQL.Add(' P.ESTOQUE_LIQUIDO,                ');
+  qry.SQL.Add(' V.FORMA_MEDIDA,                   ');
+  qry.SQL.Add(' V.TRELICA_ALTURA,                 ');
+  qry.SQL.Add(' V.COMPRIMENTO                     ');
+  qry.SQL.Add('from                               ');
+  qry.SQL.Add(' PRODUTOS P,                       ');
+  qry.SQL.Add(' PRODUTOS_VIGAS V                  ');
+  qry.SQL.Add('where                              ');
+  qry.SQL.Add(' P.ID = V.PRODUTO_ID and           ');
+  qry.SQL.Add(' P.VIGA =:VIGA                     ');
+
+  qry.ParamByName('VIGA').AsString   := 'S';
+  qry.Open;
+
+  prc_preencher_memtable;
+
+end;
+
+procedure TfrmEstoquesProducao.prc_preencher_memtable;
+var
+  estoque_fisico, pedido_aberto, pedido_aguardando: double;
+begin
+  // pega o conteudo da qry e joga na memtable
+  qry.DisableControls;
+  mtb_vigas.DisableControls;
+
+  mtb_vigas.Close;
+  mtb_vigas.Open;
+  qry.First;
+  while not qry.eof do
+  begin
+    estoque_fisico    := unit_controle_estoques.fnc_buscar_estoque_fisico(qry.FieldByName('ID').AsInteger);
+    pedido_aberto     := unit_controle_estoques.fnc_buscar_pedido_aberto(qry.FieldByName('ID').AsInteger);
+    pedido_aguardando := unit_controle_estoques.fnc_buscar_pedido_aguardando(qry.FieldByName('ID').AsInteger);;
+    mtb_vigas.Insert;
+
+    mtb_vigasID.AsInteger               := qry.FieldByName('ID').AsInteger;
+    mtb_vigasNOME_FANTASIA.AsString     := qry.FieldByName('NOME_FANTASIA').AsString;
+    mtb_vigasUNIDADE.AsString           := qry.FieldByName('UNIDADE').AsString;
+    mtb_vigasFORMA_MEDIDA.AsInteger     := qry.FieldByName('FORMA_MEDIDA').AsInteger;
+    mtb_vigasTRELICA_ALTURA.AsInteger   := qry.FieldByName('TRELICA_ALTURA').AsInteger;
+    mtb_vigasCOMPRIMENTO.AsInteger      := qry.FieldByName('COMPRIMENTO').AsInteger;
+    mtb_vigasESTOQUE_FISICO.AsFloat     := estoque_fisico;
+    mtb_vigasPEDIDO_ABERTO.AsFloat      := pedido_aberto;
+    mtb_vigasESTOQUE_DISPONIVEL.AsFloat := estoque_fisico - pedido_aberto;
+    mtb_vigasPEDIDO_AGUARDANDO.AsFloat  := pedido_aguardando;
+    mtb_vigasESTOQUE_LIQUIDO.AsFloat    := estoque_fisico - pedido_aberto - pedido_aguardando;
+
+    mtb_vigas.post;
+    qry.Next;
+  end;
+
+  qry.EnableControls;
+  qry.Close;
+  mtb_vigas.EnableControls;
+
+  // filtrar a memtable, mostrar somente estoques disponiveis menor que zero
+  // e ordena atraves da propriedade indexfieldname
+  mtb_vigas.Filter := ' ESTOQUE_DISPONIVEL < 0 ';
+  mtb_vigas.Filtered := TRUE;
+
+end;
+
+end.

@@ -1,0 +1,162 @@
+unit UImpressao;
+
+interface
+  uses printers,Sysutils,{DBTables,}Dialogs,Graphics;
+
+  function Lin(rrPcet : integer): integer;
+  function Col(rrPcet : integer): integer;
+  procedure Imprime(riCol, riLin :integer; srConteudo: string);
+  procedure NovoDocumento(srTitulo : string);
+  procedure EncerraDocumento;
+  procedure AbortaDocumento;
+  procedure ativa;
+  Procedure NovaPagina;
+  Procedure Neg;
+  Procedure Ita;
+  Procedure Sub;
+  Procedure nNeg;
+  Procedure nIta;
+  Procedure nSub;
+  procedure TamFonte(tam : integer);
+  procedure ImprimeMemo(Memo: string;iMargemEsquerda,iContCaracter:integer);
+  procedure TipoFonte( str : string);
+var
+  Impressora : TPrinter;
+  igLinPX : integer;
+implementation
+
+procedure ImprimeMemo(Memo: string;iMargemEsquerda,iContCaracter:integer);
+var
+  idxP, idxS, idxB: integer;
+begin
+  idxP :=1;
+  idxS :=1;
+  IdxB :=1;
+  While idxP < length(Memo) do
+  begin
+    {IMPRESSÃO}
+    if Copy(Memo,idxP,1) = #13 then
+      begin
+        {aqui imprimirá os pedaços do fim do parágrafo, ou menores que uma linha}
+        Imprime(iMargemEsquerda,1,Copy(Memo,IdxS, idxP - idxS));
+        IdxS := IdxP+2;
+        idxP := idxP+1;
+      end
+     else
+      begin
+        {Pois aqui imprimirá os pedaços maiores que uma linha}
+        if Copy(Memo,IdxP,1) = ' ' then
+          IdxB := IdxP;
+
+        if idxP - idxS > iContCaracter then
+        begin
+          Imprime(iMargemEsquerda,1,Copy(Memo,IdxS, idxB - idxS));
+          IdxS := IdxB+1;
+        end
+      end;
+
+    idxP := idxP +1;
+  end;
+  {imprimo o restinho de fora...}
+  if IdxS < Length(Memo) then
+    Imprime(iMargemEsquerda,1,Copy(Memo,IdxS, Length(Memo) - idxS +1));
+end;
+
+procedure ativa;
+begin
+  Impressora := Printer;
+end;
+
+function Lin(rrPcet : integer): integer;
+begin
+  igLinPX := igLinPX + rrPcet * abs(Impressora.Canvas.Font.Height);
+
+  if (igLinPX + rrPcet*Impressora.Canvas.Font.Height)> Impressora.PageHeight then NovaPagina;
+
+  result := igLinPX;
+end;
+
+Procedure NovaPagina;
+begin
+  Impressora.NewPage;
+  igLinPX := 0;
+end;
+
+procedure TamFonte(tam : integer);
+begin
+  Impressora.Canvas.Font.Size := tam;
+end;
+
+  procedure TipoFonte( str : string);
+begin
+  Impressora.Canvas.Font.Name := str;
+end;
+
+function Col(rrPcet : integer): integer;
+begin
+  {0 ... 100%}
+  result := rrPcet * Impressora.PageWidth div 100;
+end;
+
+procedure Imprime(riCol, riLin :integer; srConteudo: string);
+begin
+  Impressora.Canvas.TextOut(col(riCol),Lin(riLin),srConteudo);
+end;
+
+procedure Neg;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style + [fsBold];
+end;
+
+procedure Ita;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style + [fsItalic];
+end;
+
+procedure Sub;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style + [fsUnderline];
+end;
+
+procedure nNeg;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style - [fsbold];
+end;
+
+procedure nIta;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style - [fsItalic];
+end;
+
+procedure nSub;
+begin
+  Impressora.Canvas.Font.Style := Impressora.Canvas.Font.Style - [fsUnderline];
+end;
+
+procedure NovoDocumento(srTitulo : string);
+begin
+
+  Impressora.Title := 'Lajes Aricanga -> ' + srTitulo;
+  Impressora.PrinterIndex := -1;
+  Impressora.Orientation  := poPortrait;
+
+  Impressora.Canvas.Font.Style := ([]);
+  Impressora.Canvas.Font.Size := 10;
+  Impressora.Canvas.Font.Name := 'Times New Roman';
+
+  igLinPX := 0;
+
+  Impressora.BeginDoc;
+end;
+
+procedure EncerraDocumento;
+begin
+  Impressora.EndDoc;
+end;
+
+procedure AbortaDocumento;
+begin
+  Impressora.abort;
+end;
+
+end.

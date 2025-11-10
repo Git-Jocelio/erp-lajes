@@ -1,0 +1,58 @@
+inherited frmPesquisaFormaPagamento: TfrmPesquisaFormaPagamento
+  Caption = 'frmPesquisaFormaPagamento'
+  ClientHeight = 167
+  ClientWidth = 448
+  ExplicitWidth = 460
+  ExplicitHeight = 205
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 448
+    ExplicitWidth = 552
+    inherited lbl_titulo: TLabel
+      Width = 448
+      Height = 40
+      Alignment = taCenter
+      ExplicitWidth = 448
+      ExplicitHeight = 41
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 448
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 448
+    Height = 73
+    ExplicitWidth = 552
+    ExplicitHeight = 211
+    object cbx_forma_pagamento: TDBLookupComboBox
+      Left = 0
+      Top = 24
+      Width = 444
+      Height = 25
+      KeyField = 'ID'
+      ListField = 'DESCRICAO'
+      ListSource = ds
+      TabOrder = 0
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 130
+    Width = 448
+    ExplicitTop = 268
+    ExplicitWidth = 552
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 352
+    Top = 40
+  end
+  inherited ds: TDataSource
+    AutoEdit = False
+    Left = 352
+    Top = 9
+  end
+end

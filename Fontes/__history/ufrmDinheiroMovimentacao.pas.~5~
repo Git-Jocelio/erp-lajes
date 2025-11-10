@@ -1,0 +1,93 @@
+unit ufrmDinheiroMovimentacao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn, ufrmDinheiroEntradaE, ufrmDinheiroSaidaE, uBiblioteca,
+  uTipos;
+
+type
+  TfrmDinheiroMovimentacao = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryHISTORICO: TStringField;
+    qryENTRADA: TFMTBCDField;
+    qrySAIDA: TFMTBCDField;
+    qrySALDO: TFMTBCDField;
+    procedure FormShow(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure prc_componentes;
+  end;
+
+var
+  frmDinheiroMovimentacao: TfrmDinheiroMovimentacao;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmDinheiroMovimentacao }
+
+procedure TfrmDinheiroMovimentacao.actAlterarExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroSaidaE = nil then
+      frmDinheiroSaidaE := TfrmDinheiroSaidaE.Create(application);
+
+    frmDinheiroSaidaE.Operacao := utipos.OpIncluir;
+    frmDinheiroSaidaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroSaidaE)
+  end;
+end;
+
+procedure TfrmDinheiroMovimentacao.actIncluirExecute(Sender: TObject);
+begin
+  try
+    if frmDinheiroEntradaE = nil then
+      frmDinheiroEntradaE := TfrmDinheiroEntradaE.Create(application);
+
+    frmDinheiroEntradaE.Operacao := utipos.opExcluir;
+    frmDinheiroEntradaE.Codigo   := qry.FieldByName('ID').AsInteger;
+    frmDinheiroEntradaE.ShowModal;
+
+  finally
+    ubiblioteca.AtualizaQuery(qry);
+    FreeAndNil(frmDinheiroEntradaE)
+  end;
+
+end;
+
+procedure TfrmDinheiroMovimentacao.FormActivate(Sender: TObject);
+begin
+  inherited;
+  GroupBoxPesquisa.Height := 0;
+end;
+
+procedure TfrmDinheiroMovimentacao.FormShow(Sender: TObject);
+begin
+  prc_componentes;
+end;
+
+procedure TfrmDinheiroMovimentacao.prc_componentes;
+begin
+  qry.Open;
+  btnExcluir.Visible   := false;
+  btnPesquisar.Visible := false;
+end;
+
+end.

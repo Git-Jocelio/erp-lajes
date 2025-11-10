@@ -1,0 +1,512 @@
+inherited frmUsuariosE: TfrmUsuariosE
+  Caption = 'frmUsuariosE'
+  ClientHeight = 484
+  ClientWidth = 599
+  Color = clWhite
+  ExplicitWidth = 605
+  ExplicitHeight = 513
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 599
+    ExplicitWidth = 599
+  end
+  inherited pnDados: TPanel
+    Width = 599
+    Height = 304
+    Align = alTop
+    ExplicitWidth = 599
+    ExplicitHeight = 304
+    object Label1: TLabel
+      Left = 8
+      Top = 6
+      Width = 12
+      Height = 17
+      Caption = 'ID'
+      FocusControl = DBEdit1
+    end
+    object Label2: TLabel
+      Left = 104
+      Top = 8
+      Width = 53
+      Height = 17
+      Caption = 'Cadastro'
+      FocusControl = DBEdit2
+    end
+    object Label3: TLabel
+      Left = 216
+      Top = 8
+      Width = 55
+      Height = 17
+      Caption = 'Altera'#231#227'o'
+      FocusControl = DBEdit3
+    end
+    object Label6: TLabel
+      Left = 8
+      Top = 55
+      Width = 63
+      Height = 17
+      Caption = 'CPF / CNPJ'
+      FocusControl = DBEdit6
+    end
+    object Label7: TLabel
+      Left = 189
+      Top = 56
+      Width = 40
+      Height = 17
+      Caption = 'RG / IE'
+      FocusControl = DBEdit7
+    end
+    object Label8: TLabel
+      Left = 342
+      Top = 56
+      Width = 49
+      Height = 17
+      Caption = 'Telefone'
+      FocusControl = DBEdit8
+    end
+    object Label9: TLabel
+      Left = 464
+      Top = 56
+      Width = 40
+      Height = 17
+      Caption = 'Celular'
+      FocusControl = DBEdit9
+    end
+    object Label10: TLabel
+      Left = 8
+      Top = 112
+      Width = 36
+      Height = 17
+      Caption = 'Nome'
+      FocusControl = DBEdit10
+    end
+    object Label11: TLabel
+      Left = 8
+      Top = 155
+      Width = 55
+      Height = 17
+      Caption = 'Endere'#231'o'
+      FocusControl = DBEdit11
+    end
+    object Label12: TLabel
+      Left = 513
+      Top = 156
+      Width = 48
+      Height = 17
+      Caption = 'N'#250'mero'
+      FocusControl = DBEdit12
+    end
+    object Label13: TLabel
+      Left = 8
+      Top = 208
+      Width = 35
+      Height = 17
+      Caption = 'Bairro'
+      FocusControl = DBEdit13
+    end
+    object Label14: TLabel
+      Left = 183
+      Top = 205
+      Width = 41
+      Height = 17
+      Caption = 'Cidade'
+      FocusControl = DBEdit14
+    end
+    object Label15: TLabel
+      Left = 441
+      Top = 205
+      Width = 15
+      Height = 17
+      Caption = 'UF'
+      FocusControl = DBEdit15
+    end
+    object Label16: TLabel
+      Left = 482
+      Top = 206
+      Width = 22
+      Height = 17
+      Caption = 'CEP'
+      FocusControl = DBEdit16
+    end
+    object Label17: TLabel
+      Left = 8
+      Top = 256
+      Width = 31
+      Height = 17
+      Caption = 'email'
+      FocusControl = DBEdit17
+    end
+    object btnBuscaPessoa: TBitBtn
+      Left = 132
+      Top = 71
+      Width = 27
+      Height = 27
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FF314B62
+        AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+        106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+        00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+        9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+        E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+        FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+        B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+        FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+        DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+        B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+        BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+        D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+        6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+      TabOrder = 0
+      OnClick = btnBuscaPessoaClick
+    end
+    object btnIncluirPessoa: TBitBtn
+      Left = 160
+      Top = 71
+      Width = 27
+      Height = 27
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FFFF00FF
+        A46769A46769A46769A46769A46769A46769A46769A46769A46769A46769A467
+        69A46769A46769FF00FFFF00FFFF00FFB79184FEE9C7F4DAB5F3D5AAF2D0A0EF
+        CB96EFC68BEDC182EBC17FEBC180EBC180F2C782A46769FF00FFFF00FFFF00FF
+        B79187FCEACEF3DABCF2D5B1F0D0A7EECB9EEDC793EDC28BE9BD81E9BD7FE9BD
+        7FEFC481A46769FF00FFFF00FFFF00FFB7938AFEEFDAF6E0C6F2DABCF2D5B2EF
+        D0A9EECB9EEDC796EBC28CE9BD82E9BD7FEFC481A46769FF00FFFF00FFFF00FF
+        BA978FFFF4E5F7E5CFF4E0C5F3DABBF2D5B1F0D0A6EECB9EEDC795EBC28AEABF
+        81EFC480A46769FF00FFFF00FFFF00FFC09E95FFFBF0F8EADCF6E3CFF4E0C6F2
+        D9BCF2D5B1F0D0A9EDCB9EEDC695EBC28AEFC583A46769FF00FFFF00FFFF00FF
+        C6A49AFFFFFCFAF0E6F8EADAF7E5CFF4E0C5F2DABAF2D5B1F0D0A7EECB9DEBC7
+        93F2C98CA46769FF00FFFF00FFFF00FFCBA99EFFFFFFFEF7F2FAEFE6F8EAD9F7
+        E3CFF6E0C5F2DABBF2D4B1F0D0A7EECC9EF3CE97A46769FF00FFFF00FFFF00FF
+        CFAC9FFFFFFFFFFEFCFCF6F0FAEFE6F7EADAF6E3CFF4E0C5F3D9BBF3D4B0F0D0
+        A6F6D3A0A46769FF00FFFF00FFFF00FFD4B0A1FFFFFFFFFFFFFFFEFCFEF7F0FA
+        EFE5F8EAD9F7E5CEF6DEC4F3D9B8F4D8B1EBCFA4A46769FF00FFFF00FFFF00FF
+        D9B5A1FFFFFFFFFFFFFFFFFFFFFEFCFCF7F0FAEFE5F8E9D9F8E7D1FBEACEDECE
+        B4B6AA93A46769FF00FFFF00FFFF00FFDDB7A4FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FEFCFCF6EFFCF3E6EDD8C9B68A7BA17B6F9C7667A46769FF00FFFF00FFFF00FF
+        E2BCA5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFFFEF7DAC1BAAD735BE19E
+        55E68F31B56D4DFF00FFFF00FFFF00FFE6BFA7FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFDCC7C5B88265F8B55CBF7A5CFF00FFFF00FFFF00FFFF00FF
+        E4BCA4FBF4F0FBF4EFFAF3EFFAF3EFF8F2EFF7F2EFF7F2EFD8C2C0B77F62C183
+        6CFF00FFFF00FFFF00FFFF00FFFF00FFE8C4ADEBCBB7EBCBB7EACBB7EACAB6EA
+        CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
+      TabOrder = 1
+      OnClick = btnIncluirPessoaClick
+    end
+    object DBEdit1: TDBEdit
+      Left = 8
+      Top = 24
+      Width = 89
+      Height = 25
+      Color = 16378595
+      DataField = 'ID'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object DBEdit2: TDBEdit
+      Left = 104
+      Top = 24
+      Width = 108
+      Height = 25
+      Color = 16378595
+      DataField = 'DATA_CAD'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 3
+    end
+    object DBEdit3: TDBEdit
+      Left = 216
+      Top = 24
+      Width = 97
+      Height = 25
+      Color = 16378595
+      DataField = 'DATA_ALT'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object DBEdit6: TDBEdit
+      Left = 8
+      Top = 72
+      Width = 122
+      Height = 25
+      Color = 16378595
+      DataField = 'CPF_CNPJ'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 5
+    end
+    object DBEdit7: TDBEdit
+      Left = 189
+      Top = 72
+      Width = 149
+      Height = 25
+      Color = 16378595
+      DataField = 'RG_IE'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 6
+    end
+    object DBEdit8: TDBEdit
+      Left = 342
+      Top = 72
+      Width = 116
+      Height = 25
+      Color = 16378595
+      DataField = 'TELEFONE'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 7
+    end
+    object DBEdit9: TDBEdit
+      Left = 462
+      Top = 72
+      Width = 129
+      Height = 25
+      Color = 16378595
+      DataField = 'CELULAR'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 8
+    end
+    object DBEdit10: TDBEdit
+      Left = 8
+      Top = 128
+      Width = 583
+      Height = 25
+      Color = 16378595
+      DataField = 'NOME'
+      DataSource = dsPessoas
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 9
+    end
+    object DBEdit11: TDBEdit
+      Left = 8
+      Top = 174
+      Width = 502
+      Height = 25
+      Color = 16378595
+      DataField = 'ENDERECO'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 10
+    end
+    object DBEdit12: TDBEdit
+      Left = 513
+      Top = 174
+      Width = 78
+      Height = 25
+      Color = clGradientInactiveCaption
+      DataField = 'NUMERO'
+      DataSource = ds
+      ReadOnly = True
+      TabOrder = 11
+    end
+    object DBEdit13: TDBEdit
+      Left = 8
+      Top = 224
+      Width = 172
+      Height = 25
+      Color = 16378595
+      DataField = 'BAIRRO'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 12
+    end
+    object DBEdit14: TDBEdit
+      Left = 183
+      Top = 224
+      Width = 252
+      Height = 25
+      Color = 16378595
+      DataField = 'CIDADE'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 13
+    end
+    object DBEdit15: TDBEdit
+      Left = 441
+      Top = 224
+      Width = 38
+      Height = 25
+      Color = 16378595
+      DataField = 'UF'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 14
+    end
+    object DBEdit16: TDBEdit
+      Left = 482
+      Top = 224
+      Width = 109
+      Height = 25
+      Color = 16378595
+      DataField = 'CEP'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 15
+    end
+    object DBEdit17: TDBEdit
+      Left = 8
+      Top = 273
+      Width = 585
+      Height = 25
+      Color = 16378595
+      DataField = 'EMAIL'
+      DataSource = dsPessoas
+      ReadOnly = True
+      TabOrder = 16
+    end
+    object DBCheckBox1: TDBCheckBox
+      Left = 329
+      Top = 32
+      Width = 48
+      Height = 17
+      Caption = 'Ativo'
+      DataField = 'ATIVO'
+      DataSource = dsPessoas
+      TabOrder = 17
+      ValueChecked = 'S'
+      ValueUnchecked = 'N'
+    end
+    object rgPessoa: TDBRadioGroup
+      Left = 394
+      Top = 4
+      Width = 197
+      Height = 47
+      Caption = ' Pessoa '
+      Columns = 2
+      DataField = 'FIS_JUR'
+      DataSource = dsPessoas
+      Items.Strings = (
+        'Fisica'
+        'Juridica')
+      ReadOnly = True
+      TabOrder = 18
+      Values.Strings = (
+        'F'
+        'J')
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 429
+    Width = 599
+    ExplicitTop = 429
+    ExplicitWidth = 599
+    inherited btnOk: TBitBtn
+      Left = 189
+      OnClick = btnOkClick
+      ExplicitLeft = 189
+    end
+  end
+  object gbx_usuario: TGroupBox [3]
+    Left = 0
+    Top = 393
+    Width = 599
+    Height = 36
+    Align = alClient
+    Caption = 'Informe '
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    object Label4: TLabel
+      Left = 14
+      Top = 29
+      Width = 55
+      Height = 17
+      Caption = 'LOGIN (*)'
+      FocusControl = DBEdit8
+    end
+    object Label5: TLabel
+      Left = 207
+      Top = 29
+      Width = 58
+      Height = 17
+      Caption = 'SENHA (*)'
+      FocusControl = DBEdit8
+    end
+    object Label18: TLabel
+      Left = 364
+      Top = 29
+      Width = 90
+      Height = 17
+      Caption = 'Cadastrado em'
+      FocusControl = DBEdit8
+    end
+    object edt_login: TEdit
+      Left = 14
+      Top = 48
+      Width = 187
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 0
+    end
+    object edt_senha: TEdit
+      Left = 207
+      Top = 48
+      Width = 150
+      Height = 25
+      TabOrder = 1
+    end
+    object edt_cadastrado_em: TEdit
+      Left = 364
+      Top = 48
+      Width = 94
+      Height = 25
+      Color = 16378595
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object cb_ativo: TCheckBox
+      Left = 472
+      Top = 48
+      Width = 97
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 3
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 272
+    Top = 352
+  end
+  inherited ds: TDataSource
+    Left = 304
+    Top = 353
+  end
+  object qryPessoas: TFDQuery
+    Left = 248
+    Top = 153
+  end
+  object dsPessoas: TDataSource
+    AutoEdit = False
+    DataSet = qryPessoas
+    Left = 280
+    Top = 153
+  end
+end

@@ -1,0 +1,128 @@
+unit ufrmBancos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca, ufrmBancosE,
+  udmConn;
+
+type
+  TfrmBancos = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryDATA_CAD: TDateField;
+    qryDATA_ALT: TDateField;
+    qryCOD_BANCO: TStringField;
+    qryNOME: TStringField;
+    qryATIVO: TStringField;
+
+    procedure FormCreate(Sender: TObject);
+
+    procedure btnLocalizarClick(Sender: TObject);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+  private
+    procedure prc_sql;
+    function  fnc_validar_pesquisa: boolean;
+    procedure prc_pesquisar;
+
+  public
+    { Public declarations }
+  end;
+
+procedure prc_executa;
+
+implementation
+
+procedure prc_executa;
+var
+  loForm :  TfrmBancos;
+begin
+  try
+    loForm :=  TfrmBancos.Create(Application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loform);
+  end;
+end;
+
+{$R *.dfm}
+
+{ TfrmBancos }
+
+procedure TfrmBancos.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmBancosE.prc_alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmBancos.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmBancosE.prc_excluir(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmBancos.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmBancosE.prc_incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmBancos.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar_pesquisa then
+    prc_pesquisar;
+end;
+
+function TfrmBancos.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+  result := true;
+end;
+
+procedure TfrmBancos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'BANCOS';
+  Titulo := 'BANCOS' + '[' + Tabela + ']';
+  Caption := Titulo;
+  prc_sql;
+
+  btnLocalizar.Click;
+end;
+
+procedure TfrmBancos.prc_pesquisar;
+begin
+  //
+end;
+
+procedure TfrmBancos.prc_sql;
+begin
+  qry.Close;
+  qry.SQL.Clear;
+  qry.SQL.Add('select ');
+  qry.SQL.Add('  p.id, p.data_cad, p.data_alt, b.cod_banco, p.nome, p.ativo ');
+  qry.SQL.Add('from   ');
+  qry.SQL.Add('  pessoas p, bancos b ');
+  qry.SQL.Add('where   ');
+  qry.SQL.Add('  p.id = b.pessoa_id  ');
+
+  sSql := qry.SQL.Text;
+  qry.open;
+end;
+
+end.

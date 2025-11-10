@@ -1,0 +1,159 @@
+inherited frmTransportadoras: TfrmTransportadoras
+  Caption = 'frmTransportadoras'
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited GroupBoxPesquisa: TGroupBox
+    object rgSituacao: TRadioGroup
+      Left = 448
+      Top = 6
+      Width = 97
+      Height = 79
+      Caption = ' Situa'#231#227'o '
+      ItemIndex = 0
+      Items.Strings = (
+        'Ativos'
+        'Inativos'
+        'Todos')
+      TabOrder = 1
+    end
+    object cbCpfCnpj: TCheckBox
+      Left = 24
+      Top = 32
+      Width = 97
+      Height = 17
+      Caption = 'CPF / CNPJ'
+      TabOrder = 2
+    end
+    object edCpfCnpj: TEdit
+      Left = 24
+      Top = 55
+      Width = 121
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 3
+    end
+    object cbNome: TCheckBox
+      Left = 151
+      Top = 32
+      Width = 97
+      Height = 17
+      Caption = 'Nome'
+      TabOrder = 4
+    end
+    object edNome: TEdit
+      Left = 151
+      Top = 55
+      Width = 243
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 5
+    end
+  end
+  inherited DBGrid1: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IDTRANSP'
+        Title.Alignment = taCenter
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 37
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CPF_CNPJ'
+        Title.Alignment = taCenter
+        Title.Caption = 'CPF / CNPJ'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 157
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Alignment = taCenter
+        Title.Caption = 'Nome'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 328
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TELEFONE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Telefone'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 119
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CELULAR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Celular'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 125
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ATIVO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Ativo'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Visible = True
+      end>
+  end
+  inherited ds: TDataSource
+    Left = 56
+    Top = 208
+  end
+  inherited qry: TFDQuery
+    Left = 88
+    Top = 256
+  end
+  inherited ImageList1: TImageList
+    Left = 768
+    Top = 65528
+  end
+  inherited ActionList1: TActionList
+    Left = 768
+    Top = 72
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+    inherited actLocalizar: TAction
+      OnExecute = actLocalizarExecute
+    end
+  end
+end

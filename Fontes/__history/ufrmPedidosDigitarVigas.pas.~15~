@@ -1,0 +1,135 @@
+unit ufrmPedidosDigitarVigas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TfrmPedidosDigitarVigas = class(TForm)
+    pnl_topo: TPanel;
+    lbl_titulo: TLabel;
+    lbl_sub_titulo: TLabel;
+    edt_tamanho: TEdit;
+    lbl_Tamanho: TLabel;
+    Label1: TLabel;
+    edt_quantidade: TEdit;
+    Label2: TLabel;
+    edt_4_2: TEdit;
+    Label3: TLabel;
+    edt_5_0: TEdit;
+    Label4: TLabel;
+    edt_6_3: TEdit;
+    Label5: TLabel;
+    edt_8_0: TEdit;
+    Label6: TLabel;
+    edt_10_0: TEdit;
+    Label7: TLabel;
+    edt_12_5: TEdit;
+    Label8: TLabel;
+    Label9: TLabel;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    edt_dobra_ini: TComboBox;
+    edt_dobra_fim: TComboBox;
+    edt_posicao: TComboBox;
+    Label10: TLabel;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure edt_tamanhoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure btn_simClick(Sender: TObject);
+  private
+    Fquantidade: integer;
+    Ftamanho: double;
+    Ff_12_5: integer;
+    Ff_6_3: integer;
+    Ff_4_2: integer;
+    Ff_5_0: integer;
+    Ff_8_0: integer;
+    Ff_10_0: integer;
+    Ff_dobra_ini: double;
+    Ff_dobra_fim: double;
+    Ff_posicao: string;
+    { Private declarations }
+  public
+
+    property tamanho: double read Ftamanho write Ftamanho;
+    property quantidade: integer read Fquantidade write Fquantidade;
+    property f_4_2: integer read Ff_4_2 write Ff_4_2;
+    property f_5_0: integer read Ff_5_0 write Ff_5_0;
+    property f_6_3: integer read Ff_6_3 write Ff_6_3;
+    property f_8_0: integer read Ff_8_0 write Ff_8_0;
+    property f_10_0: integer read Ff_10_0 write Ff_10_0;
+    property f_12_5: integer read Ff_12_5 write Ff_12_5;
+    property f_dobra_ini: double read Ff_dobra_ini write Ff_dobra_ini;
+    property f_dobra_fim: double read Ff_dobra_fim write Ff_dobra_fim;
+    property f_posicao: string read Ff_posicao write Ff_posicao;
+
+
+    function fnc_validar: boolean;
+    procedure prc_salvar;
+  end;
+
+var
+  frmPedidosDigitarVigas: TfrmPedidosDigitarVigas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPedidosDigitarVigas.btn_simClick(Sender: TObject);
+begin
+  prc_salvar;
+end;
+
+procedure TfrmPedidosDigitarVigas.edt_tamanhoKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then Perform(Wm_NextDlgCtl,0,0);
+end;
+
+function TfrmPedidosDigitarVigas.fnc_validar: boolean;
+begin
+  result := true;
+end;
+
+procedure TfrmPedidosDigitarVigas.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+
+
+  If Key = #27 Then
+   Close;
+
+end;
+
+procedure TfrmPedidosDigitarVigas.prc_salvar;
+begin
+  if fnc_validar then
+  begin
+    tamanho    := strtofloatdef(edt_tamanho.Text,0);
+    quantidade := strtointdef(edt_quantidade.Text,0);
+
+    f_4_2      := strtointdef(edt_4_2.Text,0);
+    f_5_0      := strtointdef(edt_5_0.Text,0);
+    f_6_3      := strtointdef(edt_6_3.Text,0);
+    f_8_0      := strtointdef(edt_8_0.Text,0);
+    f_10_0     := strtointdef(edt_10_0.Text,0);
+    f_12_5     := strtointdef(edt_12_5.Text,0);
+    f_dobra_ini:= strtofloatdef(edt_dobra_ini.Text,0);
+    f_dobra_fim:= strtofloatdef(edt_dobra_fim.Text,0);
+    f_posicao  := edt_posicao.Text;
+    close;
+  end
+  else
+  begin
+    ShowMessage('não foi possivel salvar os itens da laje, ' + sLineBreak +
+    'confira os dados e tente novamente');
+    exit;
+  end;
+end;
+
+end.

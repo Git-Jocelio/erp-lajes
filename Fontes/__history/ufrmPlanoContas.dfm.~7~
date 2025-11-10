@@ -1,0 +1,196 @@
+inherited frmPlanoContas: TfrmPlanoContas
+  Caption = 'frmPlanoContas'
+  ClientWidth = 1030
+  ExplicitWidth = 1042
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 1030
+    ExplicitWidth = 1026
+  end
+  inherited ToolBar1: TToolBar
+    Width = 1030
+    ExplicitWidth = 1026
+    inherited dbn_principal: TDBNavigator
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      DataSource = ds
+      Hints.Strings = ()
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Width = 1030
+    ExplicitWidth = 1026
+  end
+  inherited PageControl1: TPageControl
+    Width = 1030
+    ExplicitWidth = 1026
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 1022
+      inherited Panel5: TPanel
+        Width = 1022
+        ExplicitWidth = 1018
+        inherited DBGrid1: TDBGrid
+          Width = 1022
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 38
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'NR_CONTA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Conta'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Tipo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 46
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 409
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CUSTO_FIXO'
+              Title.Alignment = taCenter
+              Title.Caption = 'C. Fixo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 52
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CUSTO_VARIAVEL'
+              Title.Alignment = taCenter
+              Title.Caption = 'C. Vari'#225'vel'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 86
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VAI_PARA_DRE'
+              Title.Alignment = taCenter
+              Title.Caption = 'DRE'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 60
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VAI_PARA_FLUXO_CAIXA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Fluxo Caixa'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 80
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VAI_PARA_BALANCO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Balan'#231'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 60
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 60
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited ds: TDataSource
+    Top = 216
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    Top = 216
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

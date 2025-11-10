@@ -1,0 +1,34 @@
+inherited frmRecibosAlterarValorConta: TfrmRecibosAlterarValorConta
+  Caption = 'frmRecibosAlterarValorConta'
+  ClientHeight = 304
+  ClientWidth = 340
+  ExplicitWidth = 352
+  ExplicitHeight = 342
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 340
+    inherited lbl_titulo: TLabel
+      Width = 340
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 340
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 340
+    Height = 210
+  end
+  inherited pnRodape: TPanel
+    Top = 267
+    Width = 340
+  end
+  inherited qry: TFDQuery
+    Left = 192
+    Top = 104
+  end
+  inherited ds: TDataSource
+    Left = 160
+    Top = 105
+  end
+end

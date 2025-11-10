@@ -1,0 +1,532 @@
+//*************************************************************//
+//                                                             //
+// data: 02/01/2021                                            //
+// manutencao de clientes                                      //
+// autor : jocelio g da silva                                  //
+//                                                             //
+//*************************************************************//
+unit ufrmClientesE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.Mask, Vcl.DBCtrls, ufrmVendedoresE;
+
+type
+  TfrmClientesE = class(TfrmBaseEdicao)
+    qryClientes: TFDQuery;
+    btnBuscaPessoa: TBitBtn;
+    btnIncluirPessoa: TBitBtn;
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    Label6: TLabel;
+    DBEdit6: TDBEdit;
+    Label7: TLabel;
+    DBEdit7: TDBEdit;
+    Label8: TLabel;
+    DBEdit8: TDBEdit;
+    Label9: TLabel;
+    DBEdit9: TDBEdit;
+    Label10: TLabel;
+    DBEdit10: TDBEdit;
+    Label11: TLabel;
+    DBEdit11: TDBEdit;
+    Label12: TLabel;
+    DBEdit12: TDBEdit;
+    Label13: TLabel;
+    DBEdit13: TDBEdit;
+    Label14: TLabel;
+    DBEdit14: TDBEdit;
+    Label15: TLabel;
+    DBEdit15: TDBEdit;
+    Label16: TLabel;
+    DBEdit16: TDBEdit;
+    Label17: TLabel;
+    DBEdit17: TDBEdit;
+    DBCheckBox1: TDBCheckBox;
+    rgPessoa: TDBRadioGroup;
+    pnCliente: TPanel;
+    dsClientes: TDataSource;
+    Label18: TLabel;
+    Label19: TLabel;
+    DBEdit19: TDBEdit;
+    Label20: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    qryVendedores: TFDQuery;
+    dsVendedores: TDataSource;
+    cbxVendedor: TDBLookupComboBox;
+    Label4: TLabel;
+    cbxFormaPagto: TDBLookupComboBox;
+    qryFormaPagto: TFDQuery;
+    dsFormaPagto: TDataSource;
+    btn_incluir_vendedor: TBitBtn;
+    edt_limite_credito: TEdit;
+    edt_creditos: TEdit;
+    edt_pedidos_receber: TEdit;
+    edt_outros_debitos: TEdit;
+    edt_obs: TEdit;
+    cb_mostra_tela_pagto: TCheckBox;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btnOkClick(Sender: TObject);
+    procedure btnIncluirPessoaClick(Sender: TObject);
+    procedure btnBuscaPessoaClick(Sender: TObject);
+    procedure btn_incluir_vendedorClick(Sender: TObject);
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fp_cpf_cnpj: string;
+
+    function Valida(): Boolean;
+    procedure Salvar();
+    procedure prc_incluir_alterar(operacao: TOperacao);
+
+  protected
+
+    procedure Componentes();
+    procedure Inicializar();
+    procedure LerDados();
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property p_cpf_cnpj :string read Fp_cpf_cnpj write Fp_cpf_cnpj;
+
+
+  end;
+
+  function Incluir :string;
+  procedure Alterar(ACodigo :integer);
+  procedure Excluir(ACodigo :integer);
+
+implementation
+
+uses uBiblioteca, ufrmPessoasE, udmConn, ufrmPesquisaPessoa, unit_funcoes;
+
+
+
+function Incluir :string;
+var
+  loForm : TfrmClientesE;
+begin
+  loForm := TfrmClientesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+    result := loform.p_cpf_cnpj;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Alterar(ACodigo :integer);
+var
+  loForm : TfrmClientesE;
+begin
+  loForm := TfrmClientesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo :integer);
+var
+  loForm : TfrmClientesE;
+begin
+  loForm := TfrmClientesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmClientesE.btnBuscaPessoaClick(Sender: TObject);
+begin
+  inherited;
+  if frmPesquisaPessoa = nil  then
+  frmPesquisaPessoa := TfrmPesquisaPessoa.Create(Application);
+  try
+    frmPesquisaPessoa.ShowModal;
+
+    //ShowMessage(inttostr(frmPesquisaPessoa.Codigo));
+    if frmPesquisaPessoa.Confirmado then
+    begin
+      uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(frmPesquisaPessoa.Codigo));
+    end
+    else
+      qry.Close;
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+
+  end;
+
+end;
+
+procedure TfrmClientesE.btnIncluirPessoaClick(Sender: TObject);
+var
+  pessoa: integer;
+begin
+  inherited;
+  pessoa := ufrmPessoasE.incluir;
+//  ShowMessage(inttostr(pessoa));
+
+  uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(pessoa));
+
+  cbxVendedor.SetFocus;
+
+end;
+
+procedure TfrmClientesE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  Salvar();
+end;
+
+procedure TfrmClientesE.btn_incluir_vendedorClick(Sender: TObject);
+begin
+  inherited;
+  ufrmVendedoresE.incluir;
+  qryVendedores.close;
+  qryVendedores.Open;
+
+end;
+
+procedure TfrmClientesE.Componentes;
+begin
+  //qry.Connection := self.Conexao;
+  qry.SQL.Add('select * from PESSOAS where ID =:ID');
+
+  qryClientes.Connection := self.Conexao;
+
+  qryVendedores.Connection := self.Conexao;
+  qryVendedores.Open('select * from VENDEDORES V, PESSOAS P where V.PESSOA_ID = P.ID order by P.NOME');
+
+  qryFormaPagto.Connection := self.Conexao;
+  qryFormaPagto.Open('select * from FORMAS_PAGTO');
+
+end;
+
+procedure TfrmClientesE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CLIENTES';
+
+end;
+
+procedure TfrmClientesE.FormShow(Sender: TObject);
+begin
+  inherited;
+  Componentes;
+  Inicializar;
+
+end;
+
+procedure TfrmClientesE.Inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       pnDados.Enabled    := true;
+                       pnTitulo.Caption := 'CADASTRO DE CLIENTES';
+                       lbl_sub_titulo.Caption := 'Incluir Novo';
+                       btnOk     .Caption := 'Incluir';
+
+                       edt_limite_credito.Text  := '0,00';
+                       edt_creditos.Text        := '0,00';
+                       edt_pedidos_receber.Text := '0,00';
+                       edt_outros_debitos.Text  := '0,00';
+                       cb_mostra_tela_pagto.Checked := false;
+
+                       //btnBuscaPessoa.SetFocus;
+                       btnIncluirPessoa.SetFocus;
+                       qry.Close;
+                     end;
+  uTipos.opAlterar: begin
+                      self.LerDados;
+                       pnTitulo.Caption := 'CADASTRO DE CLIENTES';
+                       lbl_sub_titulo.Caption := 'Alterar';
+                      btnOk.Caption      := 'Alterar';
+                      //
+                      btnOk.SetFocus;
+                    end;
+  uTipos.opExcluir: begin
+                      self.LerDados;
+                       pnTitulo.Caption := 'CADASTRO DE CLIENTES';
+                       lbl_sub_titulo.Caption := 'Excluir';
+                      pnDados.Enabled    := false;
+                      btnOk.Caption      := 'Excluir';
+                      btnFechar.SetFocus;
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      //pnCliente.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+
+end;
+
+procedure TfrmClientesE.LerDados;
+begin
+
+  //qry.SQL.Add('select * from PESSOAS where ID =:ID');
+  uBiblioteca.FilterCds(qry, uTipos.fsInteger, inttostr(self.Codigo));
+
+  qryClientes.SQL.Clear;
+  qryClientes.SQL.Add('select * from ' + self.Tabela + ' where PESSOA_ID =:PESSOA_ID');
+  uBiblioteca.FilterCds(qryClientes, uTipos.fsInteger, inttostr(self.Codigo));
+
+  edt_limite_credito.Text := formatfloat('0.00', qryClientes.FieldByName('LIMITE_CREDITO').AsFloat);
+  cbxVendedor.KeyValue    := qryClientes.FieldByName('VENDEDOR_ID').AsInteger;
+  cbxFormaPagto.KeyValue  := qryClientes.FieldByName('COND_PAGTO').AsInteger;
+  edt_creditos.Text       := formatfloat('0.00', qryClientes.FieldByName('CREDITOS').AsFloat);
+  edt_pedidos_receber.Text:= formatfloat('0.00', qryClientes.FieldByName('PEDIDOS_RECEBER').AsFloat);
+  edt_outros_debitos.Text := formatfloat('0.00', qryClientes.FieldByName('OUTROS_DEBITOS').AsFloat);
+  edt_obs.Text            := qryClientes.FieldByName('PEDIDO_OBS').AsString;
+  cb_mostra_tela_pagto.Checked := SeSenao( qryClientes.FieldByName('MOSTRA_TELA_PAGTO').AsString = 'S',true, false);
+
+  pnDados.Enabled := false;
+
+end;
+
+procedure TfrmClientesE.Salvar;
+begin
+
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not Valida() then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        prc_incluir_alterar(OpIncluir);
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      except
+        Self.Conexao.Rollback;
+        CriarMensagem('AVISO','Não foi possível salvar o registro');
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not Valida then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      try
+        prc_incluir_alterar(opAlterar);
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      except
+        Self.Conexao.Rollback;
+        CriarMensagem('AVISO','Não foi possível alterar o registro');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        try
+          prc_incluir_alterar(opExcluir);
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+            ModalResult := mrOk;
+          except
+            Self.Conexao.Rollback;
+            CriarMensagem('AVISO','Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+  end;// case
+
+
+end;
+
+function TfrmClientesE.Valida: Boolean;
+var
+  loQuery: TFDQuery;
+begin
+  result := false;
+
+
+  if qry.IsEmpty then
+  begin
+    CriarMensagem('AVISO','Selecione ou cadastre uma pessoa');
+    btnBuscaPessoa.SetFocus;
+    exit;
+  end;
+
+  {verifica duplicidade}
+  if self.Operacao = uTipos.OpIncluir then
+  begin
+    try
+      try
+        loQuery := TFDQuery.Create(self);
+        loQuery.Connection := Self.Conexao;
+        loQuery.SQL.Add('select PESSOA_ID from CLIENTES where PESSOA_ID =:PESSOA_ID');
+        loQuery.Params[0].AsInteger := qry.fieldbyname('ID').AsInteger;
+        loQuery.Open;
+        if not loQuery.IsEmpty then
+        begin
+          CriarMensagem('AVISO','Cliente já está cadastrado no sistema');
+          exit;
+        end;
+      finally
+        FreeAndNil(loQuery);
+      end;
+    except
+      on E : Exception do
+      Raise Exception.Create(E.Message + Self.Name +'.Valida : ' + self.Caption );
+    end;
+  end;
+
+  if not (cbxVendedor.KeyValue > 0)  then
+  begin
+    CriarMensagem('AVISO','Informe um representante');
+    cbxVendedor.SetFocus;
+    exit;
+  end;
+
+  if cbxFormaPagto.Text = '' then
+  begin
+    CriarMensagem('AVISO','Informe as condições de pagamento');
+    cbxFormaPagto.SetFocus;
+    exit;
+  end;
+
+  p_cpf_cnpj := qry.FieldByName('CPF_CNPJ').AsString;
+
+  //***
+  CriarMensagem('AVISO','Cliente validado com sucesso!');
+
+  result := true;
+
+end;
+
+procedure TfrmClientesE.prc_incluir_alterar(operacao: TOperacao);
+begin
+  qryClientes.sql.clear;
+
+  if operacao = opExcluir then
+  begin
+    qryClientes.SQL.Add('select * from pedidos where cliente_id =:cliente_id');
+    qryClientes.ParamByName('cliente_id').AsInteger := Codigo;
+    qryClientes.Open;
+
+    if qryClientes.IsEmpty then
+    begin
+      qryClientes.SQL.Add('delete from CLIENTES where pessoa_id =:pessoa_id');
+      qryClientes.ParamByName('pessoa_id').AsInteger := Codigo;
+      qryClientes.ExecSQL;
+    end
+    else
+    begin
+      CriarMensagem('AVISO','Não é possivel EXCLUIR um cliente com pedido(s) colocado(s) ');
+    end;
+
+    exit;
+  end;
+
+
+  if operacao = OpIncluir then
+  begin
+    qryClientes.SQL.Add('insert into clientes ');
+    qryClientes.SQL.Add('(');
+    qryClientes.SQL.Add('  ID, ');
+    qryClientes.SQL.Add('  PESSOA_ID, ');
+    qryClientes.SQL.Add('  LIMITE_CREDITO, ');
+    qryClientes.SQL.Add('  VENDEDOR_ID, ');
+    qryClientes.SQL.Add('  COND_PAGTO, ');
+    qryClientes.SQL.Add('  PEDIDO_OBS, ');
+    qryClientes.SQL.Add('  MOSTRA_TELA_PAGTO, ');
+    qryClientes.SQL.Add('  CREDITOS, ');
+    qryClientes.SQL.Add('  PEDIDOS_RECEBER, ');
+    qryClientes.SQL.Add('  OUTROS_DEBITOS  ');
+    qryClientes.SQL.Add(') ');
+    qryClientes.SQL.Add('VALUES ');
+    qryClientes.SQL.Add('(');
+    qryClientes.SQL.Add('  :ID, ');
+    qryClientes.SQL.Add('  :PESSOA_ID, ');
+    qryClientes.SQL.Add('  :LIMITE_CREDITO, ');
+    qryClientes.SQL.Add('  :VENDEDOR_ID, ');
+    qryClientes.SQL.Add('  :COND_PAGTO, ');
+    qryClientes.SQL.Add('  :PEDIDO_OBS, ');
+    qryClientes.SQL.Add('  :MOSTRA_TELA_PAGTO, ');
+    qryClientes.SQL.Add('  :CREDITOS, ');
+    qryClientes.SQL.Add('  :PEDIDOS_RECEBER, ');
+    qryClientes.SQL.Add('  :OUTROS_DEBITOS ');
+    qryClientes.SQL.Add(') ');
+
+    Codigo := uBiblioteca.AutoIncremento(conexao, 'CLIENTES');
+    qryClientes.ParamByName('ID').AsInteger           := Codigo;
+    qryClientes.ParamByName('PESSOA_ID').AsInteger    := qry.FieldByName('ID').AsInteger;
+
+  end
+  else
+  begin
+    qryClientes.SQL.Add('UPDATE                                   ');
+    qryClientes.SQL.Add('  CLIENTES                               ');
+    qryClientes.SQL.Add('SET                                      ');
+    qryClientes.SQL.Add('  LIMITE_CREDITO    = :LIMITE_CREDITO,   ');
+    qryClientes.SQL.Add('  VENDEDOR_ID       = :VENDEDOR_ID,      ');
+    qryClientes.SQL.Add('  COND_PAGTO        = :COND_PAGTO,       ');
+    qryClientes.SQL.Add('  PEDIDO_OBS        = :PEDIDO_OBS,       ');
+    qryClientes.SQL.Add('  CREDITOS          = :CREDITOS,         ');
+    qryClientes.SQL.Add('  PEDIDOS_RECEBER   = :PEDIDOS_RECEBER,  ');
+    qryClientes.SQL.Add('  OUTROS_DEBITOS    = :OUTROS_DEBITOS,   ');
+    qryClientes.SQL.Add('  MOSTRA_TELA_PAGTO = :MOSTRA_TELA_PAGTO ');
+    qryClientes.SQL.Add('WHERE                                    ');
+    qryClientes.SQL.Add('  PESSOA_ID = :PESSOA_ID                 ');
+    qryClientes.ParamByName('PESSOA_ID').AsInteger := Codigo;
+
+  end;
+
+  qryClientes.ParamByName('LIMITE_CREDITO').AsFloat := strtofloat(edt_limite_credito.Text);
+  qryClientes.ParamByName('VENDEDOR_ID').AsInteger  := qryVendedores.fieldbyname('id').asinteger;
+  qryClientes.ParamByName('COND_PAGTO').AsInteger   := qryFormaPagto.fieldbyname('id').asinteger;;
+  qryClientes.ParamByName('PEDIDO_OBS').AsString    := edt_obs.Text;
+  qryClientes.ParamByName('CREDITOS').AsFloat       := StrToFloat(edt_creditos.Text);
+  qryClientes.ParamByName('PEDIDOS_RECEBER').Asfloat:= StrToFloat(edt_pedidos_receber.Text);
+  qryClientes.ParamByName('OUTROS_DEBITOS').Asfloat := StrToFloat(edt_outros_debitos.Text);
+  qryClientes.ParamByName('MOSTRA_TELA_PAGTO').AsString := SeSenao(cb_mostra_tela_pagto.Checked , 'S', 'N');
+
+  qryClientes.ExecSQL;
+
+end;
+
+
+end.

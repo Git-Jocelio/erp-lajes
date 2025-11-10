@@ -1,0 +1,208 @@
+inherited frmCartaoTaxas: TfrmCartaoTaxas
+  Caption = 'frmCartaoTaxas'
+  ClientWidth = 867
+  Position = poDesktopCenter
+  ExplicitWidth = 867
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 867
+    ExplicitWidth = 896
+    inherited btnLocalizar: TBitBtn
+      OnClick = btnLocalizarClick
+    end
+    inherited edt_consulta: TEdit
+      Width = 414
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 867
+    ExplicitWidth = 896
+  end
+  inherited StatusBar: TStatusBar
+    Width = 867
+    ExplicitWidth = 896
+  end
+  inherited PageControl1: TPageControl
+    Width = 867
+    ExplicitWidth = 896
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 859
+      inherited Panel5: TPanel
+        Width = 859
+        ExplicitWidth = 888
+        inherited DBGrid1: TDBGrid
+          Width = 819
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 57
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 114
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ALTERADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Alterado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 97
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DESCRICAO_OPERADORA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Operadora'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 230
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DESCRICAO_BANDEIRA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Bandeira'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 215
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 75
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 819
+          ExplicitWidth = 848
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 867
+    ExplicitWidth = 896
+    inherited btn_fechar: TSpeedButton
+      Left = 797
+    end
+    inherited lbl_titulo: TLabel
+      Width = 449
+      Height = 56
+      Caption = 'CONTROLE DE TAXAS DE CART'#195'O DE CR'#201'DITO'
+      ExplicitWidth = 449
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 867
+      ExplicitWidth = 896
+    end
+  end
+  inherited ds: TDataSource
+    Left = 528
+  end
+  inherited qry: TFDQuery
+    Active = True
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select                                '
+      '  t.id,                               '
+      '  t.cadastrado_em,                    '
+      '  t.alterado_em,                      '
+      '  o.descricao as descricao_operadora, '
+      '  b.descricao as descricao_bandeira,  '
+      '  t.ativo                             '
+      'from                                  '
+      '  cartao_taxas t,                     '
+      '  cartao_operadoras o,                '
+      '  cartao_bandeiras b                  '
+      ' /* pessoas p */                        '
+      'where                                 '
+      ' /* p.id = b.pessoa_id and  */          '
+      '  t.cartao_operadoras_id = o.id and   '
+      '  t.cartao_bandeiras_id = b.id        ')
+    Left = 528
+    Top = 40
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryCADASTRADO_EM: TDateField
+      FieldName = 'CADASTRADO_EM'
+      Origin = 'CADASTRADO_EM'
+    end
+    object qryALTERADO_EM: TDateField
+      FieldName = 'ALTERADO_EM'
+      Origin = 'ALTERADO_EM'
+    end
+    object qryDESCRICAO_OPERADORA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DESCRICAO_OPERADORA'
+      Origin = 'DESCRICAO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 60
+    end
+    object qryDESCRICAO_BANDEIRA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DESCRICAO_BANDEIRA'
+      Origin = 'DESCRICAO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 60
+    end
+    object qryATIVO: TStringField
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      Size = 1
+    end
+  end
+end

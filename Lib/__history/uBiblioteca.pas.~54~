@@ -1,0 +1,499 @@
+unit uBiblioteca;
+
+interface
+
+uses
+  FireDac.Comp.Client, Vcl.DBGrids, uTipos, System.SysUtils, Vcl.Forms, Data.DB,
+  Vcl.Dialogs, System.Types, Vcl.Grids, Vcl.Graphics, System.Classes,
+  Vcl.StdCtrls;
+
+procedure prc_zebrar_dbGrid(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+
+procedure OrdenaGrid(qry: TFDQuery; Grid: TDBGrid; Coluna: TColumn;
+  sSql: string);
+function ValidarCgc(num: string): boolean;
+function ValidarCpf(num: string): boolean;
+procedure AtualizaTabela(loConexao: TFDConnection; sTabela: string;
+  NovoId: integer);
+function SeSenao(AFlag: boolean; AVerdadeiro, AFalso: Variant): Variant;
+
+procedure FilterCds(aCds: TFDQuery; aType: uTipos.TTypeLocalizar;
+  aBusca: string);
+function CriaQuery(conexao: TFDConnection; sSql: String; cache: boolean)
+  : TFDQuery;
+function AutoIncremento(loConexao: TFDConnection; sTabela: string): integer;
+procedure AtualizaQuery(qry: TFDQuery);
+
+function fnc_criar_mensagem( tituloJanela, tituloMGS, MSG, icone, tipo: string ): boolean;
+function fnc_criptografia( senha, chave: string ): string;
+
+procedure prc_somente_numeros(Sender: TObject;
+  var Key: Char);
+
+procedure prc_formata_dinheiro(sender: TObject);
+type
+
+  TSistema = Record
+  private
+  public
+    function versaoAtual: integer;
+    function versaoBAnco: integer;
+
+end;
+
+
+  var
+   Sistema : TSistema;
+
+implementation
+
+uses udmConn, ufrmMensagens;
+
+
+procedure prc_somente_numeros(Sender: TObject;
+  var Key: Char);
+begin
+  {por na onKeypress do edit}
+  if not (key in [#1..#31,#48..#57,#44]) then key := #0;
+
+end;
+
+procedure prc_formata_dinheiro(sender: TObject);
+begin
+  if (sender as TEdit).Text <> '' then
+    (sender as TEdit).Text := FormatFloat('0.00', strtofloat((sender as TEdit).Text) );
+end;
+
+function fnc_criptografia( senha, chave: string ): string;
+var
+ x,y: integer;
+ nova_senha: string;
+begin
+ nova_senha := '';
+ for x := 1 to length( chave ) do
+ begin
+
+   for y := 1 to length( senha ) do
+   begin
+     nova_senha := nova_senha + chr( (ord(chave[x] ) xor ord(senha[y]) ));
+   end;
+
+   senha  := nova_senha;
+
+ end;
+  Result := senha ;
+end;
+
+
+function fnc_criar_mensagem( tituloJanela, tituloMGS, MSG, icone, tipo: string ): boolean;
+begin
+  result := false;
+  frmMensagens               := TfrmMensagens.Create(nil);
+  frmMensagens.sTituloJanela := tituloJanela;
+  frmMensagens.sTituloMSG    := tituloMGS;
+  frmMensagens.sMSG          := MSG;
+  frmMensagens.sCaminhoIcone := icone;
+  frmMensagens.stipo         := tipo;
+
+  frmMensagens.ShowModal;
+  Result := frmMensagens.bRespostaMSG;
+
+end;
+
+function CriaQuery(conexao: TFDConnection; sSql: String; cache: boolean)
+  : TFDQuery;
+var
+  qry: TFDQuery;
+begin
+  qry := TFDQuery.Create(application);
+  qry.Connection := conexao;
+  qry.CachedUpdates := cache;
+  qry.SQL.Add(sSql);
+  result := qry;
+end;
+
+procedure OrdenaGrid(qry: TFDQuery; Grid: TDBGrid; Coluna: TColumn;
+  sSql: string);
+var
+  i: integer;
+begin
+
+  { ordena a grid após clicar na coluna }
+
+  { acrescenta o clausula order by na sql da qry }
+  qry.Close;
+  qry.SQL.Text := sSql + ' order by ' + Coluna.FieldName;
+  qry.Open;
+
+
+  // qry.SQL.Text := sqlOringinal;
+
+  { deixa todas a colunas com as cores doform }
+  for i := 0 to Grid.Columns.Count - 1 do
+    Grid.Columns[i].Title.Color := Grid.Color;
+
+  { pinta a coluna clicada }
+  // Coluna.Title.Color := clGreen;
+
+end;
+
+procedure AtualizaQuery(qry: TFDQuery);
+begin
+  // abre e fecha query
+  qry.Close;
+  qry.Open;
+end;
+
+procedure FilterCds(aCds: TFDQuery; aType: uTipos.TTypeLocalizar;
+  aBusca: string);
+begin
+  { : Filtra ou Busca os dados }
+  aCds.Close;
+  case aType of
+    { : filtrar dados }
+    fsInteger:
+      aCds.Params[0].AsInteger := StrToInt(aBusca);
+    { : buscar dados }
+    fsString:
+      aCds.Params[0].AsString := UpperCase('%' + aBusca + '%');
+  end;
+  aCds.Open;
+end;
+
+function ValidarCgc(num: string): boolean;
+var
+  n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12: integer;
+  d1, d2: integer;
+  digitado, calculado: string;
+begin
+  n1 := StrToInt(num[1]);
+  n2 := StrToInt(num[2]);
+  n3 := StrToInt(num[3]);
+  n4 := StrToInt(num[4]); // Retira cada numero do Edit, e joda p/ variavel
+  n5 := StrToInt(num[5]);
+  n6 := StrToInt(num[6]);
+  n7 := StrToInt(num[7]);
+  n8 := StrToInt(num[8]);
+  n9 := StrToInt(num[9]);
+  n10 := StrToInt(num[10]);
+  n11 := StrToInt(num[11]);
+  n12 := StrToInt(num[12]);
+  d1 := n12 * 2 + n11 * 3 + n10 * 4 + n9 * 5 + n8 * 6 + n7 * 7 + n6 * 8 + n5 * 9
+    + n4 * 2 + n3 * 3 + n2 * 4 + n1 * 5;
+  d1 := 11 - (d1 mod 11);
+  if d1 >= 10 then
+    d1 := 0;
+  d2 := d1 * 2 + n12 * 3 + n11 * 4 + n10 * 5 + n9 * 6 + n8 * 7 + n7 * 8 + n6 * 9
+    + n5 * 2 + n4 * 3 + n3 * 4 + n2 * 5 + n1 * 6;
+  d2 := 11 - (d2 mod 11);
+  if d2 >= 10 then
+    d2 := 0;
+  calculado := inttostr(d1) + inttostr(d2);
+  digitado := num[13] + num[14];
+  if calculado = digitado then
+    result := true
+  else
+    result := false;
+end;
+
+function ValidarCpf(num: string): boolean;
+var
+  n1, n2, n3, n4, n5, n6, n7, n8, n9: integer;
+  d1, d2: integer;
+  digitado, calculado: string;
+begin
+  n1 := StrToInt(num[1]);
+  n2 := StrToInt(num[2]);
+  n3 := StrToInt(num[3]);
+  n4 := StrToInt(num[4]);
+  n5 := StrToInt(num[5]);
+  n6 := StrToInt(num[6]);
+  n7 := StrToInt(num[7]);
+  n8 := StrToInt(num[8]);
+  n9 := StrToInt(num[9]);
+
+  d1 := n9 * 2 + n8 * 3 + n7 * 4 + n6 * 5 + n5 * 6 + n4 * 7 + n3 * 8 + n2 * 9
+    + n1 * 10;
+  d1 := 11 - (d1 mod 11);
+
+  if d1 >= 10 then
+    d1 := 0;
+
+  d2 := d1 * 2 + n9 * 3 + n8 * 4 + n7 * 5 + n6 * 6 + n5 * 7 + n4 * 8 + n3 * 9 +
+    n2 * 10 + n1 * 11;
+  d2 := 11 - (d2 mod 11);
+
+  if d2 >= 10 then
+    d2 := 0;
+
+  calculado := inttostr(d1) + inttostr(d2);
+  digitado := num[10] + num[11];
+
+  if calculado = digitado then
+    result := true
+  else
+    result := false;
+
+end;
+
+procedure AtualizaTabela(loConexao: TFDConnection; sTabela: string;
+  NovoId: integer);
+var
+  loQuery: TFDQuery;
+begin
+  //ShowMessage('código novo pra tabela :' + sTabela);
+  try
+    try
+      loQuery := TFDQuery.Create(application);
+      loQuery.Connection := loConexao;
+
+      loQuery.SQL.Add('UPDATE TABELAS SET ID_ATUAL = :ID_ATUAL WHERE NOME_TABELA = :NOME_TABELA');
+
+      loQuery.Params.ParamByName('NOME_TABELA').AsString  := sTabela;
+      loQuery.params.ParamByName('ID_ATUAL').AsInteger    := NovoId;
+
+      loQuery.ExecSQL;
+    finally
+      FreeAndNil(loQuery);
+    end;
+
+  except
+    ShowMessage('Erro na procedure AtualizaTabela: "erro ao tentar atualizar a tabela: "TABELA" ');
+  end;
+end;
+(*
+{ Gera novo id para tabelas que não são auto incremento }
+function AutoIncremento(loConexao: TFDConnection; sTabela: string): integer;
+var
+  loQuery: TFDQuery;
+  MaxId: integer;
+begin
+  try
+    loQuery := TFDQuery.Create(application);
+    try
+      with loQuery, loQuery.SQL do
+      begin
+        Connection := loConexao;
+        sql.Clear;
+        Add('SELECT NOME_TABELA, ID_ATUAL AS CODIGO FROM TABELAS WHERE NOME_TABELA = :NOME_TABELA');
+
+        params.ParamByName('NOME_TABELA').AsString := sTabela;
+        Open;
+
+        if not IsEmpty then
+        begin
+          { Recupera o id atual e acrescenta 1 }
+          result := loQuery.FieldByName('CODIGO').AsInteger + 1;
+          Close;
+
+          { Atualiza o novo id }
+          AtualizaTabela(loConexao, sTabela, result);
+        end
+        else
+        begin
+          { Se não existir cria o nome da tabela e seta 1 para o id inicial }
+          SQL.Clear;
+          // pegar proximo Id
+          Add('select max(ID) as ID from TABELAS');
+          Open;
+          MaxId := loQuery.FieldByName('ID').AsInteger;
+          // ShowMessage('MAX ID'  + loQuery.FieldByName('ID').AsString);
+          close;
+
+          SQL.Clear;
+          Add('INSERT INTO TABELAS (ID, NOME_TABELA, ID_ATUAL) VALUES (:ID, :NOME_TABELA, :ID_ATUAL)');
+
+          params.ParamByName('ID').AsInteger         := MaxId + 1;
+          params.ParamByName('NOME_TABELA').AsString := sTabela;
+          params.ParamByName('ID_ATUAL').AsInteger   := 1;
+          //Prepare;
+          ExecSQL;
+
+          result := 1;
+        end;
+        Close;
+      end;
+    finally
+      FreeAndNil(loQuery);
+    end;
+  except
+    on E: Exception do
+      Raise Exception.Create(E.Message + ' uBiblioteca.AutoIncremento');
+  end;
+end;
+*)
+function AutoIncremento(loConexao: TFDConnection; sTabela: string): integer;
+var
+  loQry: TFDQuery;
+  id : integer;
+begin
+  try
+    loQry:= TFDQuery.Create(application);
+    loqry.Connection := loConexao;
+    try
+      loqry.SQL.Clear;
+      loqry.SQL.Add('select NOME_TABELA, ID_ATUAL as CODIGO from TABELAS where NOME_TABELA = :NOME_TABELA');
+      loqry.Params.ParamByName('NOME_TABELA').AsString := sTabela;
+      loQry.Open;
+
+      {já tem a Tabela cadastrada!}
+      if loQry.RecordCount = 1 then
+      begin
+        { Pega o id atual e acrescenta 1 }
+        id := loQry.FieldByName('CODIGO').AsInteger + 1;
+
+        { Atualiza o novo id }
+        AtualizaTabela(loConexao, sTabela, id);
+        result := id;
+
+      end;
+
+      {não tem a tabela ainda cadastrada}
+      if loQry.IsEmpty then
+      begin
+        { Se não existir, cria o nome da tabela e seta 1 para o id inicial }
+        loqry.SQL.Clear;
+        // pegar proximo Id
+        loqry.SQL.Add('select max(ID) as ID from TABELAS');
+        loqry.Open;
+        Id := loQry.FieldByName('ID').AsInteger;
+
+        loQry.SQL.Clear;
+        loQry.sql.Add('insert into TABELAS (ID, NOME_TABELA, ID_ATUAL) values (:ID, :NOME_TABELA, :ID_ATUAL)');
+
+        loQry.params.ParamByName('ID').AsInteger         := id + 1;
+        loQry.params.ParamByName('NOME_TABELA').AsString := sTabela;
+        loQry.params.ParamByName('ID_ATUAL').AsInteger   := 1;
+        loQry.ExecSQL;
+
+        result := 1;
+
+      end;
+    except
+    on E: Exception do
+      Raise Exception.Create(E.Message + ' uBiblioteca.AutoIncremento');
+
+    end;
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+end;
+
+
+
+
+function SeSenao(AFlag: boolean; AVerdadeiro, AFalso: Variant): Variant;
+begin
+  if AFlag then
+    result := AVerdadeiro
+  else
+    result := AFalso;
+end;
+
+{ TSistema }
+
+function TSistema.versaoAtual: integer;
+var
+  q1: TFDQuery;
+begin
+  try
+
+    q1 := TFDQuery.Create(nil);
+    q1.Connection := dmConn.FDConnection;
+    try
+
+    with q1 do
+    begin
+      Open('SELECT VERSAO FROM VERSAO_APP WHERE 1=1;');
+      Result:= FieldByName('VERSAO').AsInteger;
+      close;
+    end;
+
+
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Ocorreu um erro ao tentar buscar a versão do sistema:' + sLineBreak +
+        e.Message
+        );
+      end;
+    end;
+  finally
+    FreeAndNil(q1);
+  end;
+
+end;
+
+function TSistema.versaoBanco: integer;
+var
+  q1: TFDQuery;
+begin
+  try
+
+    q1 := TFDQuery.Create(nil);
+    q1.Connection := dmConn.FDConnection;
+    try
+
+    with q1 do
+    begin
+      Open('SELECT VERSAO FROM VERSAO_BANCO WHERE 1=1;');
+      Result:= FieldByName('VERSAO_BANCO').AsInteger;
+      close;
+    end;
+
+
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Ocorreu um erro ao tentar buscar a versão do sistema:' + sLineBreak +
+        e.Message
+        );
+      end;
+    end;
+  finally
+    FreeAndNil(q1);
+  end;
+
+end;
+
+
+
+procedure prc_zebrar_dbGrid(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  // declarar  um type TCustomDBGridCracker = class(TCustomDBGrid);
+
+  {:para fazer a chamada basta colocar a linha abaixo no evento DrawColumnCell dos DbGrids -
+  prc_zebrar_dbGrid( sender as TdbGrid, rect,  TDBGrid(Sender).DataSource.DataSet.RecNo, column, state );
+  }
+
+
+  if not (gdSelected in State) then
+  begin
+    if Odd((Sender as TDBGrid).DataSource.DataSet.RecNo) then
+    begin
+      (Sender as TDBGrid).Canvas.Brush.Color:= clWhite;
+    end
+    else
+    begin
+      (Sender as TDBGrid).Canvas.Brush.Color:= $00F1F2F3; // leve cinza
+    end;
+    // Aplicando prto para a cor da fonte
+    (Sender as TDBGrid).Canvas.Font.Color:= clBlack;
+    //(Sender as TDBGrid).Canvas.Font.Style:= [fsBold];
+    //(Sender as TDBGrid).Columns[0].Alignment:= taCenter;
+
+
+    (Sender as TDBGrid).Canvas.FillRect(Rect);
+    (Sender as TDBGrid).Canvas.TextOut(Rect.Left + 2, Rect.Top,
+    Column.Field.DisplayText);
+
+
+  end;
+
+
+end;
+
+end.

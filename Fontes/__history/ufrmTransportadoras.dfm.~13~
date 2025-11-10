@@ -1,0 +1,175 @@
+inherited frmTransportadoras: TfrmTransportadoras
+  Caption = 'frmTransportadoras'
+  Position = poDesigned
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    inherited btnLocalizar: TBitBtn
+      Top = 48
+      ExplicitTop = 48
+    end
+  end
+  inherited PageControl1: TPageControl
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited DBGrid1: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 37
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 328
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CPF_CNPJ'
+              Title.Alignment = taCenter
+              Title.Caption = 'CPF / CNPJ'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 157
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TELEFONE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Telefone'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 119
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CELULAR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Celular'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 125
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end>
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    inherited lbl_titulo: TLabel
+      Width = 342
+      Caption = 'CONSULTA DE TRANSPORTADORAS'
+      ExplicitWidth = 342
+    end
+  end
+  inherited ds: TDataSource
+    Top = 24
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      '  T.ID, P.CPF_CNPJ, P.NOME, P.TELEFONE, P.CELULAR, P.ATIVO  '
+      'from TRANSPORTADORAS T, PESSOAS P where P.ID = T.PESSOA_ID ')
+    Left = 664
+    Top = 24
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryNOME: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryCPF_CNPJ: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 18
+    end
+    object qryTELEFONE: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'TELEFONE'
+      Origin = 'TELEFONE'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 13
+    end
+    object qryCELULAR: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CELULAR'
+      Origin = 'CELULAR'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 14
+    end
+    object qryATIVO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 1
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 720
+    Top = 24
+  end
+  inherited ActionList1: TActionList
+    Left = 752
+    Top = 24
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

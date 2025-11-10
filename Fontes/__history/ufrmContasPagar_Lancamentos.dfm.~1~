@@ -1,0 +1,23 @@
+inherited frmContasPagar_Lancamentos: TfrmContasPagar_Lancamentos
+  Caption = 'lan'#231'amentos contas a pagar'
+  ExplicitWidth = 576
+  ExplicitHeight = 346
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    ExplicitWidth = 560
+  end
+  inherited pnDados: TPanel
+    ExplicitWidth = 560
+    ExplicitHeight = 213
+  end
+  inherited pnRodape: TPanel
+    ExplicitTop = 270
+    ExplicitWidth = 560
+    inherited pnl_botoes: TPanel
+      inherited btnFechar: TBitBtn
+        ExplicitLeft = 108
+        ExplicitTop = 0
+      end
+    end
+  end
+end

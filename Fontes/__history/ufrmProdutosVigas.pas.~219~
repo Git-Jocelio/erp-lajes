@@ -1,0 +1,1782 @@
+// fim 11/03/21
+
+
+unit ufrmProdutosVigas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,
+  Datasnap.DBClient, ufrmPesquisaMaoObra, uTipos, udmPesquisa, unit_principal, udmConn;
+
+type
+  TfrmProdutosVigas = class(TfrmBaseConexao)
+    PageControlVigas: TPageControl;
+    StatusBar1: TStatusBar;
+    tbComposicao: TTabSheet;
+    tbTrelica: TTabSheet;
+    tbResultado: TTabSheet;
+    Label1: TLabel;
+    dbgComposicao: TDBGrid;
+    btnAdicionar: TBitBtn;
+    btnExcluir: TBitBtn;
+    tbConfiguracoes: TTabSheet;
+    rgRecipiente: TRadioGroup;
+    GroupBox1: TGroupBox;
+    gbVolume: TGroupBox;
+    LabelResultado: TLabel;
+    btnConfigProximo: TBitBtn;
+    Label3: TLabel;
+    btnComposicaoProximo: TBitBtn;
+    btnCalcularVolume: TBitBtn;
+    edLataLargura: TLabeledEdit;
+    edLataComprimento: TLabeledEdit;
+    gbTrelica: TGroupBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    edQtdeTrelica: TLabeledEdit;
+    Label6: TLabel;
+    Label8: TLabel;
+    btnTrelicaProximo: TBitBtn;
+    gbDescricao: TGroupBox;
+    GroupBox6: TGroupBox;
+    btnResultadoAnterior: TBitBtn;
+    btnTrelicaAnterior: TBitBtn;
+    btnComposicaoAnterior: TBitBtn;
+    btnEnviar: TBitBtn;
+    Label9: TLabel;
+    Label10: TLabel;
+    LabelDescricaoViga: TLabel;
+    edLataProfundidade: TEdit;
+    Label2: TLabel;
+    rgForma: TRadioGroup;
+    gbConcreto: TGroupBox;
+    edMetrosLineares: TEdit;
+    dsMP: TDataSource;
+    qryPesquisa: TFDQuery;
+    BitBtn1: TBitBtn;
+    Bevel1: TBevel;
+    edTrelicaCodigo: TDBText;
+    qryTrelicas: TFDQuery;
+    dsTrelicas: TDataSource;
+    cbxTrelica: TDBLookupComboBox;
+    Bevel2: TBevel;
+    edUnidade: TDBText;
+    Bevel3: TBevel;
+    edCusto: TDBText;
+    edComprimento: TEdit;
+    edTrelicaKgs: TDBText;
+    Bevel4: TBevel;
+    Label12: TLabel;
+    qryTrelicasID: TIntegerField;
+    qryTrelicasDESCRICAO: TStringField;
+    qryTrelicasUNIDADE: TStringField;
+    qryTrelicasKGS_METRO: TCurrencyField;
+    qryConfig: TFDQuery;
+    qryConfigItens: TFDQuery;
+    GroupBox2: TGroupBox;
+    LabelCodigoInterno: TLabel;
+    Label13: TLabel;
+    btnAlterar: TBitBtn;
+    qryAux: TFDQuery;
+    qryAux2: TFDQuery;
+    Label11: TLabel;
+    Bevel5: TBevel;
+    edAltura: TDBText;
+    qryTrelicasALTURA: TIntegerField;
+    qryAux3: TFDQuery;
+    Label14: TLabel;
+    edMedia: TEdit;
+    qryFiltraMp: TFDQuery;
+    qryAtualizaMp: TFDQuery;
+    qryVigas: TFDQuery;
+    cdsMp: TFDMemTable;
+    cdsMpPRODUTO_ID: TIntegerField;
+    cdsMpDESCRICAO: TStringField;
+    cdsMpUN: TStringField;
+    cdsMpCUSTO: TFloatField;
+    cdsMpQUANTIDADE: TFloatField;
+    qryTrelicasCUSTO_LIQUIDO: TCurrencyField;
+    qrySistema: TFDQuery;
+    tbs_mao_obra: TTabSheet;
+    btn_mao_obra_anterior: TBitBtn;
+    btn_mao_obra_proximo: TBitBtn;
+    GroupBox3: TGroupBox;
+    pnl_botoes: TPanel;
+    btn_mao_obra_incluir: TSpeedButton;
+    btn_mao_obra_alterar: TSpeedButton;
+    btn_mao_obra_excluir: TSpeedButton;
+    dbg_mao_obra: TDBGrid;
+    mtb_mao_obra: TFDMemTable;
+    ds_mao_obra: TDataSource;
+    mtb_mao_obraTRACO_ID: TIntegerField;
+    mtb_mao_obraMO_ID: TIntegerField;
+    mtb_mao_obraDESCRICAO: TStringField;
+    mtb_mao_obraUNIDADE: TStringField;
+    mtb_mao_obraVALOR: TFloatField;
+    mtb_mo_deletados: TFDMemTable;
+    mtb_mo_deletadosID: TIntegerField;
+    mtb_mao_obraID: TIntegerField;
+    lbl_mensagem: TLabel;
+    lbl_mensagem2: TLabel;
+    pnl_cabecalho: TPanel;
+    btn_fechar: TSpeedButton;
+    lbl_titulo: TLabel;
+    pnl_separa_topo: TPanel;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure rgRecipienteClick(Sender: TObject);
+    procedure btnCalcularVolumeClick(Sender: TObject);
+    procedure btnConfigProximoClick(Sender: TObject);
+    procedure btnAdicionarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure btnComposicaoProximoClick(Sender: TObject);
+    procedure btnComposicaoAnteriorClick(Sender: TObject);
+    procedure btnTrelicaAnteriorClick(Sender: TObject);
+    procedure tbTrelicaShow(Sender: TObject);
+    procedure btnTrelicaProximoClick(Sender: TObject);
+    procedure btnResultadoAnteriorClick(Sender: TObject);
+    procedure tbResultadoShow(Sender: TObject);
+    procedure btnEnviarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btn_mao_obra_anteriorClick(Sender: TObject);
+    procedure btn_mao_obra_proximoClick(Sender: TObject);
+    procedure btn_mao_obra_incluirClick(Sender: TObject);
+    procedure btn_mao_obra_excluirClick(Sender: TObject);
+    procedure ds_mao_obraDataChange(Sender: TObject; Field: TField);
+    procedure btn_mao_obra_alterarClick(Sender: TObject);
+    procedure dsTrelicasDataChange(Sender: TObject; Field: TField);
+    procedure rgFormaClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btn_fecharClick(Sender: TObject);
+
+  private
+    FVolume: double;
+    FCodigoInterno: string;
+    FCimentoQtdeMetro: double;
+    FTracoID: integer;
+    Fp_altura_trelica: integer;
+    Fp_largura_forma: integer;
+    Fp_percentual_vendedor: double;
+    Fp_percentual_venda_final: double;
+    //FCimentoQtde: double;
+    function ValidarVolume: boolean;
+    function ValidarComposicaoConcreto: boolean;
+    function ValidarTrelica: boolean;
+    procedure LerDados;
+
+    procedure limpaConfiguracoes;
+    function Duplicidade(produto_id: integer): boolean;
+
+    procedure CalcularVolume;
+    procedure InserirMP(id: integer; descricao, un: string; custo: double; qtde: double);
+    function SalvarConfiguracoes: boolean;
+    procedure VigaDescricao;
+    procedure VigaCodigo;
+    procedure CadastrarVigas(viga: integer);
+    function CalcularCustoViga(CodViga: integer): double;
+    procedure AlterarCustoViga(CodViga: integer);
+    procedure AtualizarTracoConcreto(cod: integer; qtde: double);
+    procedure AtualizarQtdeMp(id: integer; novaQtde: double);
+   // procedure GravarCusto(forma : string);
+    procedure AtualizarTraco(tr: string);
+    procedure deleteCompViga(codViga: integer);
+    procedure insertNovoTraco(codViga, tamanhoViga: integer);
+    procedure prc_composicao_mao_obra(produto_id, comprimento, eixo: integer);
+    procedure prc_deletar_composicao_mo(produto_id: integer);
+    function fnc_custo_mao_obra(produto_id: integer): double;
+    procedure prc_atualiza_preco_laje(altura_trelica, largura_forma: integer);
+  public
+    property Volume: double read FVolume write FVolume;
+    property CodigoInterno: string read FCodigoInterno write FCodigoInterno;
+    property CimentoQtdeMetro: double read FCimentoQtdeMetro write FCimentoQtdeMetro;
+    //property CimentoQtde: double read FCimentoQtde write FCimentoQtde;
+
+    {id da tabela PRODUTOS_VIGAS_CONFIG}
+    property TracoId: integer read FTracoID write FTracoId;
+    property p_altura_trelica: integer read Fp_altura_trelica write Fp_altura_trelica;
+    property p_largura_forma: integer read Fp_largura_forma write Fp_largura_forma;
+
+    property p_percentual_vendedor: double read Fp_percentual_vendedor write Fp_percentual_vendedor;
+    property p_percentual_venda_final: double read Fp_percentual_venda_final write Fp_percentual_venda_final;
+
+    procedure GravarCusto( forma: integer );
+
+  end;
+
+var
+  frmProdutosVigas: TfrmProdutosVigas;
+(*
+  // outros custos de laje;
+  perc_vendedor,
+  perc_balcao,
+  custo_producao_h8,
+  custo_producao_h12,
+  custo_producao_h16,
+  custo_producao_h20,
+  custo_producao_h25,
+  custo_producao_h30,
+  custo_painel_h8,
+  custo_painel_h12,
+  custo_painel_h16,
+  custo_painel_h20,
+  custo_painel_h25,
+  custo_painel_h30,
+  custo_frete_h8,
+  custo_frete_h12,
+  custo_frete_h16,
+  custo_frete_h20,
+  custo_frete_h25,
+  custo_frete_h30,
+  custo_adm
+    : double;
+*)
+implementation
+
+{$R *.dfm}
+
+uses ufrmPesquisaMateriaPrima, uBiblioteca;
+
+function TfrmProdutosVigas.ValidarComposicaoConcreto: boolean;
+begin
+  result := false;
+ {
+  if cdsMp.RecordCount < 3 then
+  begin
+    ShowMessage('Reveja os itens de compõe o concreto... ');
+    btnAdicionar.SetFocus;
+    exit;
+  end;
+
+  if rgForma.ItemIndex = -1 then
+  begin
+    ShowMessage('informe o tipo de forma ');
+    rgForma.SetFocus;
+    exit;
+  end;
+
+  if strtofloatdef(edMetrosLineares.text,0) <= 0 then
+  begin
+    ShowMessage('informe um valor válido ');
+    edMetrosLineares.SetFocus;
+    exit;
+  end;
+}
+  result := true;
+
+end;
+
+function TfrmProdutosVigas.ValidarVolume:boolean;
+begin
+  result := false;
+
+  if rgRecipiente.ItemIndex = -1 then
+  begin
+    ShowMessage('Informe o tipo de lata');
+    rgRecipiente.SetFocus;
+    exit
+  end;
+
+  if rgRecipiente.ItemIndex = 0 then
+  begin
+    if strtointdef(edLataProfundidade.text,0) = 0 then
+    begin
+      ShowMessage('Informe a profundidade');
+      edLataProfundidade.SetFocus;
+      exit
+    end;
+    if strtointdef(edLataLargura.text,0) = 0 then
+    begin
+      ShowMessage('Informe o diametro');
+      edLataLargura.SetFocus;
+      exit
+    end;
+
+  end;
+
+  if rgRecipiente.ItemIndex = 1 then
+  begin
+    if strtointdef(edLataProfundidade.text,0) = 0 then
+    begin
+      ShowMessage('Informe a profundidade');
+      edLataProfundidade.SetFocus;
+      exit
+    end;
+    if strtointdef(edLataLargura.text,0) = 0 then
+    begin
+      ShowMessage('Informe a largura');
+      edLataLargura.SetFocus;
+      exit
+    end;
+
+    if strtointdef(edLataComprimento.text,0) = 0 then
+    begin
+      ShowMessage('Informe o comprimento');
+      edLataComprimento.SetFocus;
+      exit
+    end;
+
+  end;
+
+  btnConfigProximo.Enabled := true;
+  result := true;
+
+end;
+
+procedure TfrmProdutosVigas.btnComposicaoAnteriorClick(Sender: TObject);
+begin
+  inherited;
+  tbConfiguracoes.TabVisible := true;
+  tbComposicao.TabVisible    := false;
+  tbTrelica.TabVisible       := false;
+  tbResultado.TabVisible     := false;
+
+end;
+
+procedure TfrmProdutosVigas.btnComposicaoProximoClick(Sender: TObject);
+begin
+  inherited;
+
+  if ValidarComposicaoConcreto then
+  begin
+    tbConfiguracoes.TabVisible := false;
+    tbComposicao.TabVisible    := false;
+    tbTrelica.TabVisible       := true;
+    tbResultado.TabVisible     := false;
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btnConfigProximoClick(Sender: TObject);
+begin
+  inherited;
+  // proxima aba
+  tbConfiguracoes.TabVisible := false;
+  tbComposicao.TabVisible    := true;
+  tbTrelica.TabVisible       := false;
+  tbResultado.TabVisible     := false;
+end;
+
+procedure TfrmProdutosVigas.btnEnviarClick(Sender: TObject);
+var
+  viga: integer;
+ // forma : string;
+begin
+  inherited;
+  // salva as configurações do concreto
+  if SalvarConfiguracoes then
+  begin
+    // verificar se a viga calculada ja foi cadastrada (duplicidade)
+ShowMessage('cod interno : ' + CodigoInterno);
+     qryAux.SQL.Clear;
+     qryAux.SQL.Text := 'select * from PRODUTOS_VIGAS where CODIGO_INTERNO like :CODIGO';
+     qryAux.Params[0].AsString := '%' + CodigoInterno + '%';
+     qryAux.Open();
+
+     if qryAux.RecordCount > 0 then
+     // ja cadastrado
+     begin
+       ShowMessage('Vigas com estas configurações ja foram cadastradas');
+       // se quiser alterar somente a composicao
+       btnAlterar.Enabled           := true;
+       btnEnviar.Enabled            := False;
+       btnResultadoAnterior.Enabled := False;
+     end
+     else
+     // criar vigas no banco de 5 em 5 centimetros ate 12 metros
+     begin
+       //não cadastrado
+       btnAlterar.Enabled := false;
+
+       viga := 50;
+       while viga <= 12000 do
+       begin
+        CadastrarVigas(viga);
+        viga := viga + 50;
+       end;
+
+       ShowMessage('Vigas cadastradas com sucesso ...');
+
+       btnResultadoAnterior.Enabled := false;
+
+       GravarCusto( p_largura_forma );
+
+     end;
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.GravarCusto( forma: integer );
+var
+  loQry : TFDQuery;
+begin
+
+  try
+    // ShowMessage('FORMA ' + INTTOSTR(forma)) ;
+    loQry := TFDQuery.Create(APPLICATION);
+    loqry.Connection := Conexao;
+    //  ShowMessage('aqui ! ');
+    // gravar custo
+    loqry.SQL.Clear;
+    //qryAux.SQL.Text := 'select * from PRODUTOS_VIGAS where FORMA_MEDIDA =' + uBiblioteca.SeSenao(rgForma.ItemIndex = 0,'130','250' );
+    loqry.SQL.add('select * from PRODUTOS_VIGAS where FORMA_MEDIDA =:FORMA_MEDIDA '); //+ inttostr( forma );
+    loqry.ParamByName('FORMA_MEDIDA').AsInteger := forma;
+    loqry.Open();
+
+    loqry.First;
+    while not loqry.Eof do
+    begin
+      AlterarCustoViga(loqry.FieldByName('PRODUTO_ID').AsInteger);
+      //
+      loqry.Next;
+    end;
+    ShowMessage('CUSTO DAS VIGAS CALCULADOS COM SUCESSO !!!');
+//    ShowMessage('aqui ! ');
+    {atualiza custo e preços de venda a laje conforme a altura selecionada}
+    prc_atualiza_preco_laje(p_altura_trelica, p_largura_forma);
+
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+
+end;
+
+function TfrmProdutosVigas.fnc_custo_mao_obra(produto_id: integer): double;
+var
+  loQry: TFDQuery;
+  eixo,
+  tamanho_viga, valor_mt, custo : double;
+begin
+  //ShowMessage('fnc_custo_mao_obra');
+  custo := 0;
+  try
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := conexao;
+    loQry.SQL.Add('select MO.* from PRODUTOS_VIGA_COMP_MO MO where MO.PRODUTO_ID =:PRODUTO_ID');
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loQry.Open;
+    loQry.First;
+    if not loQry.IsEmpty then
+    begin
+      while not loQry.eof do
+      begin
+        valor_mt     := loQry.FieldByName('VALOR').AsFloat;
+        tamanho_viga := loQry.FieldByName('COMPRIMENTO').Asinteger / 1000; // converte milimetro para metro
+        eixo         := loQry.FieldByName('EIXO').AsFloat;
+        {metro quadrado da viga considerando a lajota, não acho justo}
+        //eixo         := ubiblioteca.SeSenao(eixo = 130, 0.42, 0.25);// se for forma de h8 eixo 0,42, senao 0,25 mt
+        {metro quadrado considerando somente a area da viga, como o painel}
+        eixo         := ubiblioteca.SeSenao(eixo = 130, 0.13, 0.25);// se for forma de h8 eixo 0,42, senao 0,25 mt
+        custo        :=  custo + (tamanho_viga * eixo * valor_mt);
+        (*
+        ShowMessage('valor ' + FLOATTOSTR(valor_mt) + sLineBreak +
+                     'tamanho ' + FLOATTOSTR(tamanho_viga) + sLineBreak +
+                     'eixo ' + FLOATTOSTR(eixo)
+                      ) ;
+        *)
+        loQry.Next;
+      end;
+    end;
+    //
+
+    result := custo;
+   // ShowMessage('result ' + floattostr(Result)) ;
+  finally
+    FreeAndNil(loQry);
+  end;
+
+end;
+
+
+procedure TfrmProdutosVigas.AlterarCustoViga(CodViga: integer);
+var
+  custo_mp: double; // custo materia prima (areia, pedra, cimento e treliça)
+  custo_mo: double; // custo mao de obra
+begin
+  // calcula o custo mp
+  custo_mp := CalcularCustoViga(CodViga);
+  // calcular custo mão de obra
+  custo_mo := fnc_custo_mao_obra(CodViga);
+
+  // localiza o produto para gravar o custo
+  ubiblioteca.FilterCds(dmpesquisa.qryBuscaProduto, utipos.fsInteger, inttostr(CodViga));
+  //Edita e grava
+ // try
+    {busca valores configuralçoes da tabela CONFIGURACAO_SISTEMA}
+    p_percentual_vendedor   := (100 - qrySistema.FieldByName('CUSTOS_PERC_VENDEDOR').AsFloat ) / 100;
+    p_percentual_venda_final:= (100 - qrySistema.FieldByName('CUSTOS_PERC_BALCAO').AsFloat   ) / 100;
+
+    dmpesquisa.qryBuscaProduto.Edit;
+    dmpesquisa.qryBuscaProduto.FieldByName('PRECO_CUSTO').AsFloat    := custo_mp;
+    dmpesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat  := custo_mp + custo_mo;
+    dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDEDOR').AsFloat := (custo_mp + custo_mo) / p_percentual_vendedor;
+    dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDA').AsFloat    := (custo_mp + custo_mo) / p_percentual_venda_final;
+    dmpesquisa.qryBuscaProduto.Post;
+ // finally
+    dmPesquisa.qryBuscaProduto.ApplyUpdates;
+  //  self.Conexao.Commit;
+//  end;
+end;
+
+
+
+function TfrmProdutosVigas.CalcularCustoViga(CodViga: integer): double;
+var
+  quantidade,custoMp, custoFinal, vr_trelica_linear : double;
+  loqry :  TFDQuery;
+begin
+  result := 0;
+  // busca a composicao da viga, geralmente areia, pedra, cimento e trelica. 4 itens
+  uBiblioteca.FilterCds(dmPesquisa.qryBuscaComposicaoProduto, fsInteger, inttostr(CodViga));
+  dmPesquisa.qryBuscaComposicaoProduto.First;
+  while not dmPesquisa.qryBuscaComposicaoProduto.Eof do
+  begin
+    // quantidade de uma das mp's da composicao
+    quantidade := dmPesquisa.qryBuscaComposicaoProduto.FieldByName('QUANTIDADE').AsFloat;
+
+    // busca o preco de custo da mp
+    uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, fsInteger, inttostr(dmpesquisa.qryBuscaComposicaoProduto.FieldByName('MP_ID').AsInteger));
+
+    {se a mp for treliça buscar o preço do metro linear}
+    if dmPesquisa.qryBuscaProduto.fieldbyname('TRELICA').asstring = 'S' then
+    begin
+      try
+        loqry := TFDQuery.Create(self);
+        loqry.Connection := conexao;
+        loqry.SQL.ADD('select P.*, T.* from PRODUTOS P, PRODUTOS_TRELICA T where P.ID = T.PRODUTO_ID and P.ID = :PRODUTO_ID ');
+        loqry.Params.ParamByName('PRODUTO_ID').AsInteger := dmpesquisa.qryBuscaComposicaoProduto.FieldByName('MP_ID').AsInteger;
+        loqry.Open;
+        {calcula o valor do metro linear}
+        vr_trelica_linear := loqry.FieldByName('CUSTO_LIQUIDO').AsFloat / loqry.FieldByName('COMPRIMENTO').AsFloat;
+        custoMp := vr_trelica_linear;
+       // ShowMessage('custo tr linear ' + floattostr(custoMp));
+      finally
+        freeandnil(loqry);
+      end;
+    end
+    else
+    begin
+      {alterado para pegar o custo_liquido ou seja, ja com as perdas calculadas}
+      custoMp := dmPesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat;
+    end;
+
+    custoFinal := custoFinal + (custoMp * quantidade);
+
+    // proximo item da composicao
+    dmPesquisa.qryBuscaComposicaoProduto.next;
+  end;
+  //***
+  Result := custoFinal;
+
+
+end;
+
+procedure TfrmProdutosVigas.CadastrarVigas(viga: integer);
+var
+ codigoProduto : integer;
+ loQry: TFDQuery;
+begin
+  // cadastrar primeiro como produto
+  qryAux.SQL.Clear;
+  qryAux.SQL.Text := 'select * from PRODUTOS where ID = -1 ';
+  qryAux.Open();
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  TRY
+    qryAux.Insert;
+    codigoProduto := uBiblioteca.AutoIncremento(self.Conexao,'PRODUTOS');
+    qryAux.FieldByName('ID'             ).AsInteger  := codigoProduto;
+    qryAux.FieldByName('ATIVO'          ).AsString   := 'S';
+    qryAux.FieldByName('DATA_CAD'       ).AsDateTime := Date;;
+    qryAux.FieldByName('DATA_ALT'       ).AsDateTime := Date;
+    qryAux.FieldByName('DEPARTAMENTO_ID').AsInteger  := 1;
+    qryAux.FieldByName('DESCRICAO').AsString         := LabelDescricaoViga.Caption + ' x ' + formatfloat('0.00',(viga/1000)) + ' MT(s)';
+
+    {nome fantasia mais formal}
+    // forma 130 mm
+    if rgForma.ItemIndex = 0 then
+      qryAux.FieldByName('NOME_FANTASIA').AsString :=
+       'VIGA H-' + formatfloat('00',qryTrelicas.FieldByName('ALTURA').AsInteger/10)+ ' x ' + formatfloat('0.00',(viga/1000)) + ' Mt(s)';
+    // forma 250 mm
+    if rgForma.ItemIndex = 1 then
+      qryAux.FieldByName('NOME_FANTASIA').AsString :=
+       'VIGA PAINEL H-' + formatfloat('00',qryTrelicas.FieldByName('ALTURA').AsInteger/10)+ ' x ' + formatfloat('0.00',(viga/1000)) + ' Mt(s)';
+    // forma trelifacil
+    if rgForma.ItemIndex = 2 then
+      qryAux.FieldByName('NOME_FANTASIA').AsString :=
+       'VIGA TRELIFACIL H-' + formatfloat('00',qryTrelicas.FieldByName('ALTURA').AsInteger/10)+ ' x ' + formatfloat('0.00',(viga/1000)) + ' Mt(s)';
+
+    qryAux.FieldByName('UNIDADE'           ).AsString := 'PC';
+    qryAux.FieldByName('PRECO_CUSTO'       ).AsFloat  := 0;  // calcular custo
+    qryAux.FieldByName('PERCA'             ).AsFloat  := 0;
+    qryAux.FieldByName('CUSTO_LIQUIDO'     ).AsFloat  := 0;
+    qryAux.FieldByName('PRECO_VENDEDOR'    ).AsFloat  := 0;
+    qryAux.FieldByName('PRECO_VENDA'       ).AsFloat  := 0;
+    qryAux.FieldByName('ESTOQUE_CONTROLADO').AsString := 'S';
+    qryAux.FieldByName('TEMPO_REPOSICAO'   ).AsInteger:= 3;
+    qryAux.FieldByName('QTDE_MIN'          ).AsFloat  := 0;
+    qryAux.FieldByName('QTDE_MAX'          ).AsFloat  := 0;
+    qryAux.FieldByName('PONTO_PEDIDO'      ).AsFloat  := 0;
+    qryAux.FieldByName('ESTOQUE_FISICO'    ).AsFloat  := 0;
+    qryAux.FieldByName('PEDIDO_ABERTO'     ).AsFloat  := 0;
+    qryAux.FieldByName('ESTOQUE_DISPONIVEL').AsFloat  := 0;
+    qryAux.FieldByName('PEDIDO_AGUARDANDO' ).AsFloat  := 0;
+    qryAux.FieldByName('ESTOQUE_LIQUIDO'   ).AsFloat  := 0;
+    qryAux.FieldByName('CLASS_FIS'         ).AsString := '';
+    qryAux.FieldByName('SIT_TRIB'          ).AsString := '';
+    qryAux.FieldByName('TX_IPI'            ).AsFloat  := 0;
+    qryAux.FieldByName('PESO'              ).AsFloat  := 0;
+    qryAux.FieldByName('TX_ICMS'           ).AsFloat  := 0;
+    // identificação do produto
+    qryAux.FieldByName('REVENDA'           ).AsString := 'N';
+    qryAux.FieldByName('MATERIA_PRIMA'     ).AsString := 'N';
+    qryAux.FieldByName('AGREGADO'          ).AsString := 'N';
+    qryAux.FieldByName('LAJE'              ).AsString := 'N';
+    qryAux.FieldByName('VIGA'              ).AsString := 'S'; // viga
+    qryAux.FieldByName('LAJOTA'            ).AsString := 'N';
+    qryAux.FieldByName('ISOPOR'            ).AsString := 'N';
+    qryAux.FieldByName('CONCRETO'          ).AsString := 'N';
+    qryAux.FieldByName('BOMBA'             ).AsString := 'N';
+    qryAux.FieldByName('VERGALHAO'         ).AsString := 'N';
+    qryAux.FieldByName('TRELICA'           ).AsString := 'N';
+    qryAux.FieldByName('NEGATIVO_DE_LAJE'  ).AsString := 'N';
+    qryAux.FieldByName('REFORCO_DE_VIGA'   ).AsString := 'N';
+
+
+    //**
+    qryAux.Post;
+
+    // cadastrar detalhes da viga
+    qryAux2.SQL.Clear;
+    qryAux2.SQL.Text := 'select * from PRODUTOS_VIGAS where ID = -1 ';
+    qryAux2.Open();
+    //
+    qryAux2.Insert;
+    qryAux2.FieldByName('ID'            ).AsInteger := uBiblioteca.AutoIncremento(self.Conexao,'PRODUTOS_VIGAS');
+    qryAux2.FieldByName('PRODUTO_ID'    ).AsInteger := codigoProduto;
+    qryAux2.FieldByName('FORMA_MEDIDA'  ).AsInteger := uBiblioteca.SeSenao(rgForma.ItemIndex = 0, 130,250);
+    qryAux2.FieldByName('TRELICA_ALTURA').AsInteger := strtoint(edAltura.Caption);
+    qryAux2.FieldByName('COMPRIMENTO'   ).AsInteger := viga; // passado pela procedure
+    qryAux2.FieldByName('CODIGO_INTERNO').AsString  := CodigoInterno + inttostr(viga);// acrescento o comprimento da viga do codigo
+    qryAux2.Post;
+
+    // cadastrar a composicao da viga
+
+    qryAux3.SQL.Clear;
+    qryAux3.SQL.Text := 'select * from PRODUTOS_VIGAS_COMPOSICAO where ID = -1 ';
+    qryAux3.Open();
+
+    // salva a trelica
+    qryAux3.Insert;
+    qryAux3.FieldByName('ID'        ).AsInteger := uBiblioteca.AutoIncremento(self.Conexao,'PRODUTOS_VIGAS_COMPOSICAO');
+    qryAux3.FieldByName('PRODUTO_ID').AsInteger := codigoProduto;
+    qryAux3.FieldByName('MP_ID'     ).AsInteger := qryTrelicas.FieldByName('ID').AsInteger;
+    {quantidade de treliças por kilo}
+    //qryAux3.FieldByName('QUANTIDADE').AsFloat   := strtoint(edQtdeTrelica.Text) * qryTrelicas.FieldByName('KGS_METRO').AsFloat * (viga/1000);
+    {quantidade de treliças po metro linear}
+    qryAux3.FieldByName('QUANTIDADE').AsFloat   := strtoint(edQtdeTrelica.Text)  * (viga/1000);
+    qryAux3.FieldByName('TRACO_ID'  ).AsInteger := TracoId;// property carregada na hora que grava o traco do concreto
+    qryAux3.Post;
+
+    {se não for trelifacil, salva traco de concreto}
+    if rgForma.ItemIndex <> 2 then
+    begin
+      // salva areia, pedra e cimento
+      cdsMp.First;
+      while not cdsMp.eof do
+      begin
+        qryAux3.Insert;
+        qryAux3.FieldByName('ID').AsInteger         := uBiblioteca.AutoIncremento(self.Conexao,'PRODUTOS_VIGAS_COMPOSICAO');
+        qryAux3.FieldByName('PRODUTO_ID').AsInteger := codigoProduto;
+        qryAux3.FieldByName('MP_ID').AsInteger      := cdsMp.fieldbyname('PRODUTO_ID').AsInteger;
+        // ver se a mp é cimento e salvar a quantidade por metro linear
+        uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, utipos.fsInteger, cdsMp.fieldbyname('PRODUTO_ID').AsString);
+        if ((dmPesquisa.qryBuscaProduto.FieldByName('AGREGADO').AsString = 'N') and
+            (dmPesquisa.qryBuscaProduto.FieldByName('MATERIA_PRIMA').AsString = 'S')) then
+          qryAux3.FieldByName('QUANTIDADE').AsFloat := CimentoQtdeMetro  * (viga/1000)
+        else
+        qryAux3.FieldByName('QUANTIDADE').AsFloat   := ((cdsMp.fieldbyname('QUANTIDADE').AsFloat)/ strtofloatdef(edMetrosLineares.Text,0))  * (viga/1000);
+
+        qryAux3.FieldByName('TRACO_ID').AsInteger   := TracoId;// property carregada na hora que grava o traco do concreto
+        qryAux3.Post;
+        cdsMp.Next
+      end;
+    end;
+
+    if Self.Conexao.InTransaction then
+    begin
+      qryAux.ApplyUpdates;
+      qryAux2.ApplyUpdates;
+      qryAux3.ApplyUpdates;
+      Self.Conexao.Commit;
+    end;
+
+  except
+    ShowMessage('erro ao salvar as vigas');
+    Self.Conexao.Rollback;
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btnExcluirClick(Sender: TObject);
+begin
+  inherited;
+  if not cdsMp.IsEmpty then cdsMp.Delete;
+end;
+
+procedure TfrmProdutosVigas.btnResultadoAnteriorClick(Sender: TObject);
+begin
+  inherited;
+  tbConfiguracoes.TabVisible := false;
+  tbComposicao.TabVisible    := false;
+  tbTrelica.TabVisible       := false;
+  tbs_mao_obra.TabVisible    := true;
+  tbResultado.TabVisible     := false;
+
+end;
+
+procedure TfrmProdutosVigas.btnTrelicaAnteriorClick(Sender: TObject);
+begin
+  inherited;
+  tbConfiguracoes.TabVisible := false;
+  tbComposicao.TabVisible    := true;
+  tbTrelica.TabVisible       := false;
+  tbResultado.TabVisible     := false;
+
+end;
+
+procedure TfrmProdutosVigas.btnTrelicaProximoClick(Sender: TObject);
+begin
+  inherited;
+
+  if ValidarTrelica then
+  begin
+    tbConfiguracoes.TabVisible := false;
+    tbComposicao.TabVisible    := false;
+    tbTrelica.TabVisible       := false;
+    tbs_mao_obra.TabVisible    := true;
+    tbResultado.TabVisible     := false;
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btn_fecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmProdutosVigas.btn_mao_obra_alterarClick(Sender: TObject);
+var
+  id: integer;
+begin
+  inherited;
+  try
+    if frmPesquisaMaoObra = nil then
+      frmPesquisaMaoObra  := TfrmPesquisaMaoObra.Create(application);
+
+    {posicionar no registro selecionado}
+    id := mtb_mao_obra.FieldByName('MO_ID').AsInteger;
+    frmPesquisaMaoObra.qry.first;
+    frmPesquisaMaoObra.qry.Locate('ID', id ,[]);
+
+    frmPesquisaMaoObra.ShowModal;
+
+
+    // ver duplicidade
+    mtb_mao_obra.First;
+    if not mtb_mao_obra.Locate('MO_ID', frmPesquisaMaoObra.p_id, []) then
+    begin
+      mtb_mao_obra.Locate('MO_ID', id, []);
+      mtb_mao_obra.Edit;
+      //mtb_mao_obra.FieldByName('ID').AsInteger       := -1;
+      mtb_mao_obra.FieldByName('MO_ID').AsInteger    := frmPesquisaMaoObra.p_id;
+      mtb_mao_obra.FieldByName('DESCRICAO').AsString := frmPesquisaMaoObra.p_descricao;
+      mtb_mao_obra.FieldByName('VALOR').AsFloat      := frmPesquisaMaoObra.p_valor;
+      mtb_mao_obra.FieldByName('UNIDADE').AsString   := frmPesquisaMaoObra.p_unidade;
+      mtb_mao_obra.post;
+    end
+    else
+    begin
+      ShowMessage('Mão-de-Obra já selecionada')
+    end;
+
+  finally
+    FreeAndNil(frmPesquisaMaoObra);
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btn_mao_obra_anteriorClick(Sender: TObject);
+begin
+  inherited;
+  tbConfiguracoes.TabVisible := false;
+  tbComposicao.TabVisible    := false;
+  tbTrelica.TabVisible       := true;
+  tbs_mao_obra.TabVisible    := false;
+  tbResultado.TabVisible     := false;
+
+end;
+
+procedure TfrmProdutosVigas.btn_mao_obra_excluirClick(Sender: TObject);
+begin
+  inherited;
+  if mtb_mao_obra.FieldByName('ID').AsInteger > 0 then
+  begin
+    // marcar para deletar no banco
+    mtb_mo_deletados.Insert;
+    mtb_mo_deletadosID.AsInteger := mtb_mao_obraID.AsInteger;
+    //ShowMessage(mtb_mao_obraID.AsString) ;
+    mtb_mo_deletados.post;
+  end;
+  mtb_mao_obra.Delete;
+end;
+
+procedure TfrmProdutosVigas.btn_mao_obra_proximoClick(Sender: TObject);
+begin
+  inherited;
+    tbConfiguracoes.TabVisible := false;
+    tbComposicao.TabVisible    := false;
+    tbTrelica.TabVisible       := false;
+    tbs_mao_obra.TabVisible    := false;
+    tbResultado.TabVisible     := true;
+
+end;
+
+function TfrmProdutosVigas.ValidarTrelica: boolean;
+begin
+  result := false;
+
+  if cbxTrelica.Text = '' then
+  begin
+    ShowMessage('Selecione uma treliça');
+    cbxTrelica.SetFocus;
+    exit;
+  end;
+
+  if rgForma.ItemIndex = 1 then
+  begin
+    if ((strtointdef(edQtdeTrelica.Text,0) = 0) or (strtointdef(edQtdeTrelica.Text,0) > 2)) then
+    begin
+      ShowMessage('Informe um valor valido... entre 1 e 2');
+      edQtdeTrelica.SetFocus;
+      exit;
+    end;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmProdutosVigas.CalcularVolume;
+var
+ {LD(largura ou diametro), p(profundidade), v(volume) e c(comprimento)}
+ ld,p,c : double;
+begin
+
+  ld := StrToFloat(edLataLargura.text)/100;
+  p := StrToFloat(edLataProfundidade.text)/100;
+
+  if rgRecipiente.ItemIndex = 1 then  // Lata Quadrada
+  begin
+    // Volume da Lata Quadrada
+    c := StrToFloat(edLataComprimento.text)/100;
+    Volume := ld * c * p;
+  end
+  else
+    // Volume da Lata Redonda
+    Volume := 3.1415 * (ld/2) * (ld/2) * p; // pi * raio ao quadrado
+
+  LabelResultado.Caption := FormatFloat('0.00000',Volume);
+
+  edLataLargura.Enabled      := false;
+  edLataComprimento.Enabled  := false;
+  edLataProfundidade.Enabled := false;
+
+end;
+
+procedure TfrmProdutosVigas.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  limpaConfiguracoes;
+end;
+
+procedure TfrmProdutosVigas.btnAdicionarClick(Sender: TObject);
+var
+  loCodigo: integer;
+  loDescricao, loUn: string;
+  loCusto: double;
+  loQuantidade : double;
+begin
+  inherited;
+  if StrToFloatDef(edMetrosLineares.Text,0) = 0 then
+  begin
+    ShowMessage('Informe primeiro quantos metros lineares rende um traço...');
+    edMetrosLineares.SetFocus;
+    exit;
+
+  end;
+
+  if frmPesquisaMateriaPrima = nil then
+    frmPesquisaMateriaPrima := TfrmPesquisaMateriaPrima.Create(Application);
+  try
+    frmPesquisaMateriaPrima.ShowModal;
+    // inserir da cdsMP
+    if frmPesquisaMateriaPrima.Codigo > 0 then
+    begin
+      // dados do produto selecionado
+      loCodigo     := frmPesquisaMateriaPrima.Codigo;
+      loDescricao  := frmPesquisaMateriaPrima.Descricao;
+      loUn         := frmPesquisaMateriaPrima.Unidade;
+      loCusto      := frmPesquisaMateriaPrima.Custo;
+      loQuantidade := frmPesquisaMateriaPrima.Quantidade;
+
+      // verificar duplicidade
+      if Duplicidade(loCodigo) then
+      begin
+        ShowMessage('Mp ja selecionada');
+        exit;
+      end;
+      // verifica se é agregado... se sim calcula o volume das lata
+      uBiblioteca.FilterCds( dmPesquisa.qryBuscaProduto, uTipos.fsInteger, inttostr(loCodigo));
+      if dmPesquisa.qryBuscaProduto.FieldByName('AGREGADO').AsString = 'S' then
+      begin
+        {ShowMessage('loQuantidade :' + floattostr(loQuantidade) + #13 +
+        'volume :' + floattostr(volume) + #13 +
+        edMetrosLineares.Text );}
+
+        //loQuantidade := (loQuantidade * Volume)/strtofloatdef(edMetrosLineares.Text,0);
+        // Guardar a quantidade usada no traço... depois na composição guardar por metro linear
+        loQuantidade := loQuantidade * Volume;
+      end;
+
+
+      // verifica se é cimento e calcula a quantidade por metro linear
+      uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, uTipos.fsInteger, inttostr(loCodigo));
+      if ((dmPesquisa.qryBuscaProduto.FieldByName('AGREGADO').AsString = 'N') and
+          (dmPesquisa.qryBuscaProduto.FieldByName('MATERIA_PRIMA').AsString = 'S')) then
+      begin
+
+        CimentoQtdeMetro :=  frmPesquisaMateriaPrima.Quantidade / strtofloatdef(edMetrosLineares.Text,0);
+        edMedia.Text := floattostr(CimentoQtdeMetro);
+        {
+        ShowMessage('quantidade trazida ' + floattostr(frmPesquisaMateriaPrima.Quantidade) + #13 +
+          'mt lineares ' + edMetrosLineares.Text + #13 +
+          'qtde por metro ' + floattostr(CimentoQtdeMetro) );
+        }
+      end;
+
+      //ShowMessage(FormatFloat('0.000',CimentoQtdeMetro));
+
+      InserirMP(loCodigo, loDescricao, loUn, loCusto, loQuantidade);
+    end;
+
+  finally
+    freeandnil(frmPesquisaMateriaPrima);
+  end;
+end;
+
+
+function TfrmProdutosVigas.Duplicidade(produto_id: integer):boolean;
+begin
+  cdsMp.First;
+  result := cdsMp.Locate('PRODUTO_ID',produto_id,[]);
+end;
+
+procedure TfrmProdutosVigas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+
+  form_principal.prc_controla_menu(true);
+  FreeAndNil(frmProdutosVigas);
+
+end;
+
+procedure TfrmProdutosVigas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  qryPesquisa.Connection    := Conexao;
+  qryTrelicas.Connection    := Conexao;
+  qryConfig.Connection      := Conexao;
+  qryConfigItens.Connection := Conexao;
+  qryAux.Connection         := Conexao;
+  qryAux2.Connection        := Conexao;
+  qryAux3.Connection        := Conexao;
+  qryFiltraMp.Connection    := Conexao;
+  qryAtualizaMp.Connection  := Conexao;
+  qryVigas.Connection       := Conexao;
+  qrySistema.Connection     := Conexao;
+
+end;
+
+procedure TfrmProdutosVigas.FormShow(Sender: TObject);
+begin
+  inherited;
+  qrySistema.Open('select * from CONFIGURACOES_SISTEMA');
+
+  tbComposicao.TabVisible := false;
+  tbTrelica.tabVisible    := false;
+  tbResultado.tabVisible  := false;
+  tbs_mao_obra.TabVisible := false;
+  mtb_mao_obra.Open;
+  mtb_mo_deletados.Open;
+  //
+  qryTrelicas.Open('select P.ID, P.DESCRICAO, P.UNIDADE, P.CUSTO_LIQUIDO, T.ALTURA, T.KGS_METRO from  PRODUTOS P, PRODUTOS_TRELICA T where T.PRODUTO_ID = P.ID order by P.DESCRICAO');
+  LerDados;
+end;
+
+procedure TfrmProdutosVigas.InserirMP(id:integer; descricao:string; un: string; custo: double; qtde: double);
+begin
+  cdsMp.Insert;
+  cdsMp.FieldByName('PRODUTO_ID').AsInteger := id;
+  cdsMp.FieldByName('DESCRICAO').AsString   := descricao;
+  cdsMp.FieldByName('UN').AsString          := un;
+  cdsMp.FieldByName('CUSTO').AsFloat        := custo;
+  cdsMp.FieldByName('QUANTIDADE').AsFloat   := qtde;
+  cdsMp.Post;
+end;
+
+procedure TfrmProdutosVigas.LerDados;
+var
+  desc, un: string;
+  custo: double;
+  loQry : TFDQuery;
+begin
+   qryConfig.Open('select * from PRODUTOS_VIGA_CONFIG');
+   qryConfig.last;
+   TracoId := qryConfig.fieldbyname('ID').AsInteger;
+   rgRecipiente.ItemIndex  := qryConfig.fieldbyname('LATA_TIPO').AsInteger;
+   edLataProfundidade.Text := qryConfig.fieldbyname('LATA_PROFUNDIDADE').AsString;
+   edLataLargura.Text      := qryConfig.fieldbyname('LATA_LARGURA').AsString;
+   edLataComprimento.Text  := qryConfig.fieldbyname('LATA_COMPRIMENTO').AsString;
+   //
+   rgForma.ItemIndex     := qryConfig.fieldbyname('FORMA_MEDIDA').AsInteger;
+   p_largura_forma       := ubiblioteca.SeSenao( rgForma.ItemIndex = 0, 130, 250 );
+   edMetrosLineares.Text := qryConfig.fieldbyname('CONCRETO_RENDIMENTO').AsString;
+   CimentoQtdeMetro      := qryConfig.fieldbyname('CIMENTO_MEDIA_METRO').AsFloat;
+   edMedia.Text          := FloatToStr(CimentoQtdeMetro);
+
+
+   // preencher grid (areia, pedra e cimento)
+   qryAux2.SQL.Clear;
+   qryAux2.SQL.Text := 'select * from PRODUTOS_VIGA_CONFIG_CONCR where PRODUTOS_VIGA_CONFIG_ID = :ID';
+   qryAux2.Params[0].AsInteger := qryConfig.FieldByName('ID').AsInteger;
+   qryAux2.Open;
+   //ShowMessage(INTTOSTR(qryAux2.RecordCount));
+   //
+   qryAux2.First;
+   while not qryAux2.Eof do
+   begin
+     // produto , descricao unidade e custo
+     qryAux.SQL.Clear;
+     qryAux.SQL.Text := 'select * from PRODUTOS where ID = :ID';
+     qryAux.Params[0].AsInteger := qryAux2.FieldByName('PRODUTO_ID').AsInteger;
+     qryAux.Open();
+     desc  := qryAux.FieldByName('DESCRICAO').AsString;
+     un    := qryAux.FieldByName('UNIDADE').AsString;
+     custo := qryAux.FieldByName('PRECO_CUSTO').AsFloat;
+
+     //inserir
+     InserirMP(
+              qryAux2.FieldByName('PRODUTO_ID').AsInteger,
+              desc,
+              un,
+              custo,
+              qryAux2.FieldByName('PRODUTO_QTDE').AsFloat
+              );
+     //***
+     qryAux2.Next;
+   end;
+
+   //
+   cbxTrelica.KeyValue := qryConfig.fieldbyname('TRELICA_ID').AsInteger;
+   edQtdeTrelica.Text  := qryConfig.fieldbyname('TRELICA_QTDE').AsSTRING;
+
+   {ler mao de obra }
+   try
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := conexao;
+    loQry.SQL.Add('select mo.ID as MO_ID, MO.DESCRICAO, MO.UNIDADE, MO.VALOR, cf.id from produtos_viga_config_mao_obra cf, mao_obra mo ');
+    loQry.SQL.Add('where  cf.mao_obra_id = mo.id and ');
+    loQry.SQL.Add('cf.produtos_viga_config_id = :id ');
+    loqry.ParamByName('id').AsInteger := TracoId;
+    loQry.Open;
+
+    loQry.First;
+    while not loQry.Eof do
+    begin
+      mtb_mao_obra.Insert;
+
+      mtb_mao_obra.fieldbyname('ID').AsInteger       :=  loQry.FieldByName('ID').AsInteger;
+      mtb_mao_obra.fieldbyname('TRACO_ID').AsInteger :=  TracoId;
+      mtb_mao_obra.fieldbyname('MO_ID').AsInteger    :=  loQry.FieldByName('MO_ID').AsInteger;
+      mtb_mao_obra.fieldbyname('DESCRICAO').AsString :=  loQry.FieldByName('DESCRICAO').AsString;
+      mtb_mao_obra.fieldbyname('UNIDADE').AsString   :=  loQry.FieldByName('UNIDADE').AsString;
+      mtb_mao_obra.fieldbyname('VALOR').AsFloat      :=  loQry.FieldByName('VALOR').AsFloat;
+
+      mtb_mao_obra.post;
+      loQry.Next;
+    end;
+    finally
+     freeandnil(loQry);
+   end;
+
+end;
+
+procedure TfrmProdutosVigas.limpaConfiguracoes;
+begin
+  edLataLargura.Text       := '';
+  edLataComprimento.Text   := '';
+  edLataProfundidade.Text  := '';
+  LabelResultado.Caption   := '0,0000';
+  btnConfigProximo.Enabled := false;
+
+  edLataLargura.Enabled      := true;
+  edLataComprimento.Enabled  := true;
+  edLataProfundidade.Enabled := true;
+
+end;
+
+procedure TfrmProdutosVigas.btnCalcularVolumeClick(Sender: TObject);
+begin
+  if ValidarVolume then
+    CalcularVolume;
+end;
+
+procedure TfrmProdutosVigas.rgFormaClick(Sender: TObject);
+begin
+  inherited;
+  //p_largura_forma := ubiblioteca.SeSenao(rgForma.ItemIndex = 0, 130,250);
+  {forma padrão}
+  if rgForma.ItemIndex = 0 then p_largura_forma := 130 else
+  {forma painel}
+  if rgForma.ItemIndex = 1 then p_largura_forma := 250 else
+  {forma trelifacil}
+  if rgForma.ItemIndex = 2 then p_largura_forma := 120;
+
+end;
+
+procedure TfrmProdutosVigas.rgRecipienteClick(Sender: TObject);
+begin
+  inherited;
+  limpaConfiguracoes;
+
+  if rgRecipiente.ItemIndex = 0 then
+  begin
+    edLataComprimento.Text          := '';
+    edLataComprimento.Visible       := false;
+    edLataLargura.EditLabel.Caption := 'Diametro';
+  end;
+  if rgRecipiente.ItemIndex = 1 then
+  begin
+    edLataComprimento.Text          := '';
+    edLataComprimento.Visible       := true;
+    edLataLargura.EditLabel.Caption := 'Largura';
+  end;
+
+
+end;
+
+procedure TfrmProdutosVigas.tbResultadoShow(Sender: TObject);
+
+begin
+  inherited;
+
+  VigaDescricao;
+  VigaCodigo;
+
+end;
+
+procedure TfrmProdutosVigas.VigaDescricao;
+var
+  largForma: string;
+begin
+  //********************************************************************
+  // Formar descrição da viga
+  //
+  // Padrão VG + Largura da forma em milimetro + descrição da treliça  +
+  // qtde de treliças por viga caso seja painel
+  //comprimento da treliça
+  //********************************************************************
+
+  if rgForma.ItemIndex = 0 then
+    largForma := '130'
+  else
+  if rgForma.ItemIndex = 1 then
+    largForma := 'PAINEL ' + edQtdeTrelica.Text
+  else
+  if rgForma.ItemIndex = 2 then
+    largForma := 'TRELIFACIL ';
+
+  { Descriçao da viga }
+  LabelDescricaoViga.Caption := 'VG ' + largForma + ' ' + cbxTrelica.Text;
+end;
+
+procedure TfrmProdutosVigas.VigaCodigo;
+var
+  largForma: string;
+begin
+  //********************************************************************
+  // Formar codigo interno da viga
+  //
+  // Padrão VG + Largura da forma em milimetro + código da treliça  +
+  // qtde de treliças por viga caso seja painel
+  // comprimento da treliça
+  //********************************************************************
+
+  {forma padrão}
+  if rgForma.ItemIndex = 0 then largForma := '130' else
+  {forma painel}
+  if rgForma.ItemIndex = 1 then largForma := '250' + edQtdeTrelica.Text else
+  {forma trelifacil}
+  if rgForma.ItemIndex = 2 then largForma := '120' + edQtdeTrelica.Text;
+
+  {Descriçao da viga}
+  CodigoInterno := 'VG' + largForma + edTrelicaCodigo.Caption;
+  LabelCodigoInterno.Caption := CodigoInterno;
+
+end;
+
+
+procedure TfrmProdutosVigas.tbTrelicaShow(Sender: TObject);
+begin
+  inherited;
+  if rgForma.ItemIndex = 0 then
+  begin
+    edQtdeTrelica.Text := '1';
+    edQtdeTrelica.ReadOnly := true;
+  end
+  else
+  begin
+    edQtdeTrelica.Text := '';
+    edQtdeTrelica.ReadOnly := false;
+  end
+
+end;
+
+function TfrmProdutosVigas.SalvarConfiguracoes: boolean;
+var
+  loQry: TFDQuery;
+  id: integer;
+begin
+  result := false;
+
+  {atualiza o tipo de forma}
+  rgFormaClick(self);
+
+  qryConfig.Open('select * from PRODUTOS_VIGA_CONFIG');
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  // Novo ID
+  try
+    //
+    qryConfig.Insert;
+    //id := uBiblioteca.AutoIncremento(self.Conexao, 'PRODUTOS_VIGA_CONFIG');
+    TracoId := uBiblioteca.AutoIncremento(self.Conexao, 'PRODUTOS_VIGA_CONFIG');
+    qryConfig.FieldByName('ID').AsInteger                := Tracoid;
+    qryConfig.FieldByName('LATA_TIPO').AsInteger         := rgRecipiente.ItemIndex;
+    qryConfig.FieldByName('LATA_PROFUNDIDADE').AsInteger := strtoint(edLataProfundidade.Text);
+    qryConfig.FieldByName('LATA_LARGURA').AsInteger      := strtoint(edLataLargura.Text);
+    qryConfig.FieldByName('LATA_COMPRIMENTO').AsInteger  := strtoint(edLataComprimento.Text);
+    qryConfig.FieldByName('FORMA_MEDIDA').AsInteger      := rgForma.ItemIndex;
+    qryConfig.FieldByName('TRELICA_ID').AsInteger        := strtoint(edTrelicaCodigo.Caption);
+    qryConfig.FieldByName('TRELICA_QTDE').AsInteger      := strtoint(edQtdeTrelica.Text);
+    qryConfig.FieldByName('CONCRETO_RENDIMENTO').AsFloat := ubiblioteca.SeSenao(rgForma.ItemIndex <> 2, StrToFloat(edMetrosLineares.Text), -1);
+    qryConfig.FieldByName('CIMENTO_MEDIA_METRO').AsFloat := ubiblioteca.SeSenao(rgForma.ItemIndex <> 2, CimentoQtdeMetro, -1);
+    qryConfig.FieldByName('CADASTRADO_EM').AsDateTime    := date;
+    qryConfig.Post;
+
+    {trelifacil não usa concreto}
+    if ubiblioteca.SeSenao(rgForma.ItemIndex <> 2 then
+    begin
+      // itens do traço de concreto
+      qryConfigItens.Open('select * from PRODUTOS_VIGA_CONFIG_CONCR');
+
+      cdsMp.First;
+      while not cdsMp.eof do
+      begin
+        qryConfigItens.Insert;
+        qryConfigItens.FieldByName('ID').AsInteger         := uBiblioteca.AutoIncremento(
+                                                              self.Conexao, 'PRODUTOS_VIGA_CONFIG_CONCR');
+        qryConfigItens.FieldByName('PRODUTOS_VIGA_CONFIG_ID').AsInteger := Tracoid;
+        qryConfigItens.FieldByName('PRODUTO_ID').AsInteger := cdsMp.FieldByName('PRODUTO_ID').AsInteger;
+        qryConfigItens.FieldByName('PRODUTO_QTDE').AsFloat := cdsMp.FieldByName('QUANTIDADE').AsFloat;
+        qryConfigItens.Post;
+        //
+        cdsMp.Next;
+      end;
+
+      // salva mão de obra se houver. o usuário poderá formar os custos sem a mao de obra tambem
+      if not mtb_mao_obra.IsEmpty then
+      begin
+        try
+          loQry := TFDQuery.Create(self);
+          loQry.Connection := conexao;
+          loQry.SQL.Add('insert into PRODUTOS_VIGA_CONFIG_MAO_OBRA ( ID, PRODUTOS_VIGA_CONFIG_ID, MAO_OBRA_ID, VALOR, CADASTRADO_EM ) values ( :ID, :PRODUTOS_VIGA_CONFIG_ID, :MAO_OBRA_ID, :VALOR, :CADASTRADO_EM )' );
+
+          mtb_mao_obra.First;
+          while not mtb_mao_obra.Eof do
+          begin
+            id := uBiblioteca.AutoIncremento(conexao, 'PRODUTOS_VIGA_CONFIG_MAO_OBRA');
+            loQry.ParamByName('ID').AsInteger := id;
+            loQry.ParamByName('PRODUTOS_VIGA_CONFIG_ID').AsInteger := TracoId;
+            loQry.ParamByName('MAO_OBRA_ID').AsInteger             := mtb_mao_obra.FieldByName('MO_ID').AsInteger;
+            loQry.ParamByName('VALOR').AsFloat                     := mtb_mao_obra.FieldByName('VALOR').AsFloat;
+            loQry.ParamByName('CADASTRADO_EM').AsDate              := Date;
+
+            (*
+            ShowMessage('id' + inttostr(id) + sLineBreak +
+                        'config_id ' + inttostr(TracoId) + sLineBreak +
+                        'mo ' + inttostr(mtb_mao_obra.FieldByName('MO_ID').AsInteger) + sLineBreak +
+                        'valor ' + floattostr(mtb_mao_obra.FieldByName('VALOR').AsFloat) + sLineBreak +
+                        'date ' + datetostr(date));
+            *)
+
+            loQry.ExecSQL;
+
+            mtb_mao_obra.Next;
+          end;
+
+          {excluir registro selecionados pelo usuário}
+          if not mtb_mo_deletados.IsEmpty then
+          begin
+            loQry.SQL.Clear;
+            loQry.SQL.Add('delete from PRODUTOS_VIGA_CONFIG_MAO_OBRA where ID =:ID');
+            mtb_mo_deletados.First;
+            while not mtb_mo_deletados.eof do
+            begin
+              mtb_mo_deletados.First;
+              loQry.ParamByName('ID').AsInteger := mtb_mo_deletadosID.AsInteger;
+              loQry.ExecSQL;
+              mtb_mo_deletados.Delete;
+            end;
+          end;
+
+
+        finally
+          freeandnil(loQry);
+        end; //try finally
+      end; // mao de obra
+
+
+
+      //result := qryConfig.RowsAffected > 0;
+
+      if Self.Conexao.InTransaction then
+      begin
+        qryConfig.ApplyUpdates;
+        qryConfigItens.ApplyUpdates;
+        Self.Conexao.Commit
+      end;
+
+      ShowMessage('Configurações salvas com sucesso!');
+
+      Result := True;
+    end;// trelifacil
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message +  slinebreak +' Erro na :' + 'function TfrmProdutosVigas.SalvarConfiguracoes' );
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btn_mao_obra_incluirClick(Sender: TObject);
+begin
+
+  inherited;
+  try
+    if frmPesquisaMaoObra = nil then
+      frmPesquisaMaoObra  := TfrmPesquisaMaoObra.Create(application);
+    frmPesquisaMaoObra.ShowModal;
+    // ver duplicidade
+    mtb_mao_obra.First;
+    if not mtb_mao_obra.Locate('MO_ID', frmPesquisaMaoObra.p_id, []) then
+    begin
+
+      mtb_mao_obra.Insert;
+      mtb_mao_obra.FieldByName('ID').AsInteger       := -1;
+      mtb_mao_obra.FieldByName('TRACO_ID').AsInteger := TracoId;
+      mtb_mao_obra.FieldByName('MO_ID').AsInteger    := frmPesquisaMaoObra.p_id;
+      mtb_mao_obra.FieldByName('DESCRICAO').AsString := frmPesquisaMaoObra.p_descricao;
+      mtb_mao_obra.FieldByName('VALOR').AsFloat      := frmPesquisaMaoObra.p_valor;
+      mtb_mao_obra.FieldByName('UNIDADE').AsString   := frmPesquisaMaoObra.p_unidade;
+      mtb_mao_obra.post;
+    end
+    else
+    begin
+      ShowMessage('Mão-de-Obra já selecionada')
+    end;
+  finally
+    FreeAndNil(frmPesquisaMaoObra);
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.btnAlterarClick(Sender: TObject);
+begin
+  inherited;
+  if cdsMp.IsEmpty then
+  begin
+    ShowMessage('Informe os itens do traço');
+    exit;
+  end;
+
+  try
+    //ShowMessage(CodigoInterno);
+    AtualizarTraco(CodigoInterno);
+
+    {grava/atualiza o custo das vigas conforme a altura selecionada}
+    GravarCusto( p_largura_forma );
+    conexao.Commit;
+
+    ShowMessage('Traço e custos alterados com sucesso!');
+    close;
+  except
+    ShowMessage('erro ao salvar os dados');
+    conexao.Rollback;
+  end;
+end;
+
+procedure TfrmProdutosVigas.prc_atualiza_preco_laje(altura_trelica, largura_forma: integer);
+var
+  loQry, loQryVigas: TFDQuery;
+  custo_viga_mt :double;
+  custo_lajota :double;
+  custo_eps :double;
+  custo_laje, custo_mao_obra : double;
+begin
+  try
+    {buscar a valor da viga tamanho = 1,00}
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := conexao;
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  v.PRODUTO_ID, v.comprimento, p.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_vigas v ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = v.produto_id and ');
+    loQry.SQL.Add('   v.comprimento = 1000 and v.trelica_altura =:ALTURA and v.forma_medida = :FORMA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+    loQry.ParamByName('forma').AsInteger  := largura_forma;
+//ShowMessage('viga ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+    custo_viga_mt := loQry.FieldByName('preco_custo').AsFloat;
+
+    {busca valor da lajota}
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  L.PRODUTO_ID, P.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_lajotas L ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = L.produto_id and ');
+    loQry.SQL.Add('   L.altura =:ALTURA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+//ShowMessage('lajota ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+    custo_lajota := loQry.FieldByName('preco_custo').AsFloat;
+
+    {busca valor do eps}
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  E.PRODUTO_ID, P.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_EPS E ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = E.produto_id and ');
+    loQry.SQL.Add('   E.altura =:ALTURA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+//ShowMessage('eps ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+
+    custo_eps := loQry.FieldByName('preco_custo').AsFloat;
+    {custo mao-de-obra, vou somar o que esta no dataset mao de obra}
+    custo_mao_obra := 0;
+    mtb_mao_obra.First;
+    while not mtb_mao_obra.Eof do
+    begin
+      custo_mao_obra := custo_mao_obra + mtb_mao_obra.FieldByName('VALOR').AsFloat;
+      mtb_mao_obra.next;
+    end;
+ (*
+ ShowMessage('qtde registros ' + inttostr(mtb_mao_obra.RecordCount)
+ + sLineBreak + 'vr mao de obra ' + floattostr(custo_mao_obra)
+ + sLineBreak + 'mt viga ' + floattostr(custo_viga_mt)
+ + sLineBreak + 'vr lajota ' + floattostr(custo_lajota)
+ + sLineBreak + 'vr eps ' + floattostr(custo_eps));
+*)    {buscar as lajes com a mesma forma e mesma altura}
+    loQry.SQL.Clear;
+    loqry.SQL.Add('select ');
+    loqry.SQL.Add('  L.PRODUTO_ID, L.lajota, L.isopor, L.mista, L.FORMA ');
+    loqry.SQL.Add('from ');
+    loqry.SQL.Add('  produtos p, produtos_lajes L ');
+    loqry.SQL.Add('where  ');
+    loqry.SQL.Add('   P.id = L.produto_id and ');
+    loqry.SQL.Add('   L.altura =:ALTURA and L.forma = :FORMA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+    loQry.ParamByName('forma').AsInteger  := largura_forma;
+//ShowMessage('lajes ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+
+    loqry.First;
+    while not loQry.eof do
+    begin
+      {FORMA O VALOR DO METRO QUADRADO}
+      custo_laje := 0;
+      {tipo de forma}
+      {130 mm}
+      if loQry.FieldByName('FORMA').AsInteger = 130 then
+      begin
+        {custo m² com lajota}
+        if loQry.FieldByName('LAJOTA').AsString = 'S' then
+        begin
+          custo_laje := ( custo_viga_mt * 2.40 ) + ( custo_lajota * 12 );
+        end;
+        {custo m² com isopor}
+        if loQry.FieldByName('ISOPOR').AsString = 'S' then
+        begin
+          custo_laje := ( custo_viga_mt * 2.40 ) + ( custo_eps * 2.4 );
+        end;
+      end;
+
+      {painel}
+      if loQry.FieldByName('FORMA').AsInteger = 250 then
+      begin
+        custo_laje := ( custo_viga_mt * 4 );
+      end;
+      (*
+      ShowMessage('laje ' + inttostr(loQry.FieldByName('PRODUTO_ID').AsInteger) + sLineBreak +
+                  'preco_custo ' + floattostr(custo_laje) + sLineBreak +
+                  'custo liquido ' + floattostr(custo_laje + custo_mao_obra) + sLineBreak +
+                  'preco vendedor ' + floattostr((custo_laje + custo_mao_obra) / p_percentual_vendedor) + sLineBreak +
+                  'preco_venda ' + floattostr((custo_laje + custo_mao_obra) / p_percentual_venda_final));
+      *)
+      {ALTERAR PREÇO DE CUSTO NA TABELA DE PRODUTOS}
+      uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, fsInteger, inttostr(loQry.FieldByName('PRODUTO_ID').AsInteger));
+      dmpesquisa.qryBuscaProduto.Edit;
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_CUSTO').AsFloat    := custo_laje;  // viga + lajota ou isopor
+      dmpesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat  := ( custo_laje + custo_mao_obra );
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDEDOR').AsFloat := (custo_laje + custo_mao_obra) / p_percentual_vendedor;
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDA').AsFloat    := (custo_laje + custo_mao_obra) / p_percentual_venda_final;
+      dmpesquisa.qryBuscaProduto.Post;
+      dmpesquisa.qryBuscaProduto.ApplyUpdates;
+
+
+      loQry.Next;
+    end;
+  finally
+    freeandnil(loQry);
+  end;
+end;
+
+procedure TfrmProdutosVigas.AtualizarTraco(tr: string);
+{atualiza o traço de concreto de vigas ja cadastradas no sistema, atualiza somente
+o traço do concreto a(s) treliça pernecem as mesmas, apesar de inclui-las novamente
+mas sera sempre a mesma que foi escolhida na viga}
+begin
+   // filtras todas as vigas que usam a treliça passada como parametro
+   // vigas da mesma altura
+   FilterCds(qryvigas, utipos.fsString, tr);
+   //select * from PRODUTOS_VIGAS where CODIGO_INTERNO like :CODIGO_INTERNO
+   // percorrer toda a tabela filtrada
+   while not qryVigas.eof do
+   begin
+     try
+       // deletar a composicao da viga da vez
+       deleteCompViga(qryVigas.FieldByName('PRODUTO_ID').AsInteger );
+
+       // inserir nova composicao
+       insertNovoTraco(qryVigas.FieldByName('PRODUTO_ID').AsInteger, qryVigas.FieldByName('COMPRIMENTO').AsInteger);
+
+       // deletar a composição mo das trelicas da altura atual, (altura do p_altura_trelica)
+       prc_deletar_composicao_mo( qryVigas.FieldByName('PRODUTO_ID').AsInteger );
+
+       // inserir composição da mao de obra
+       mtb_mao_obra.First;
+       while not mtb_mao_obra.Eof do
+       begin
+         prc_composicao_mao_obra(qryVigas.FieldByName('PRODUTO_ID').AsInteger, qryVigas.FieldByName('COMPRIMENTO').AsInteger, p_largura_forma);
+         mtb_mao_obra.Next;
+       end;
+
+       qryVigas.Next;
+     finally
+       qryAux.ApplyUpdates();
+       qryAux2.ApplyUpdates();
+      // self.Conexao.Commit;
+     end;
+   end;
+   // recalcular custos
+
+end;
+
+procedure TfrmProdutosVigas.deleteCompViga(codViga: integer);
+begin
+  qryAux.SQL.Clear;
+  qryAux.SQL.Add('select * from PRODUTOS_VIGAS_COMPOSICAO where PRODUTO_ID = :PRODUTO_ID');
+  qryAux.Params[0].AsInteger := codViga;
+  qryaux.Open();
+
+  //ShowMessage(inttostr(qryaux.RecordCount));
+  if qryaux.RecordCount > 0 then
+  begin
+    qryAux.First;
+    while not qryAux.eof do qryAux.Delete;
+  end;
+ // ShowMessage('passou');
+end;
+
+
+procedure TfrmProdutosVigas.dsTrelicasDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  p_altura_trelica := qryTrelicasALTURA.AsInteger;
+end;
+
+procedure TfrmProdutosVigas.ds_mao_obraDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_mao_obra_alterar.Enabled := not mtb_mao_obra.IsEmpty;
+  btn_mao_obra_excluir.Enabled := not mtb_mao_obra.IsEmpty;
+end;
+
+procedure TfrmProdutosVigas.insertNovoTraco(codViga: integer; tamanhoViga: integer);
+begin
+  // insere a composição da viga passada como parametro(produto_id, tamanho)
+ // ShowMessage('to aqui');
+//  try
+  qryAux2.SQL.Clear;
+  //qryAux.SQL.Add('insert into PRODUTOS_VIGAS_COMPOSICAO (ID, PRODUTO_ID, MP_ID, TRACO_ID, QUANTIDADE) values (:ID, :PRODUTO_ID, :MP_ID, :TRACO_ID, :QUANTIDADE)' );
+  qryAux2.Open('select * from PRODUTOS_VIGAS_COMPOSICAO where ID = -1');
+
+  // inserir treliça
+  qryAux2.Insert;
+  qryAux2.FieldByName('ID').AsInteger         := uBiblioteca.AutoIncremento(self.Conexao, 'PRODUTOS_VIGAS_COMPOSICAO');
+  qryAux2.FieldByName('PRODUTO_ID').AsInteger := codViga;
+  qryAux2.FieldByName('MP_ID').AsInteger      := strtoint(edTrelicaCodigo.Caption);
+  qryAux2.FieldByName('TRACO_ID').AsInteger   := TracoId;
+  {quantidade de treliça por kilo}
+  //qryAux2.FieldByName('QUANTIDADE').AsFloat := strtoint(edQtdeTrelica.Text) * qryTrelicas.FieldByName('KGS_METRO').AsFloat * (tamanhoViga/1000);
+  {quantidade de treliça por metro linear}
+  qryAux2.FieldByName('QUANTIDADE').AsFloat   := strtoint(edQtdeTrelica.Text) * (tamanhoViga/1000);
+  qryAux2.Post;
+
+
+  // inserir as novos agregados
+  cdsMp.First;
+  while not cdsMp.Eof do
+  begin
+    qryAux2.Insert;
+    qryAux2.FieldByName('ID').AsInteger         := uBiblioteca.AutoIncremento(self.Conexao, 'PRODUTOS_VIGAS_COMPOSICAO');
+    qryAux2.FieldByName('PRODUTO_ID').AsInteger := codViga;
+    qryAux2.FieldByName('MP_ID').AsInteger      := cdsMp.FieldByName('PRODUTO_ID').AsInteger;
+    qryAux2.FieldByName('TRACO_ID').AsInteger   := TracoId;
+    qryAux2.FieldByName('QUANTIDADE').AsFloat   := (cdsMpQUANTIDADE.AsFloat / strtofloat(edMetrosLineares.Text)) * (tamanhoViga/1000);
+    //
+    qryAux2.post;
+
+    cdsMp.Next;
+  end;
+
+  //finally
+  //  qryAux.ApplyUpdates;
+  //  self.Conexao.Commit;
+  //end;
+
+end;
+
+procedure TfrmProdutosVigas.prc_composicao_mao_obra(produto_id, comprimento, eixo: integer);
+var
+  loQry: TFDQuery;
+  ID : integer;
+begin
+  try
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := Conexao;
+
+    loQry.SQL.Add('insert into PRODUTOS_VIGA_COMP_MO ');
+    loQry.SQL.Add('  (ID, PRODUTO_ID, MAO_OBRA_ID, PROD_VIGA_CONFIG_ID, VALOR, COMPRIMENTO, EIXO) ');
+    loQry.SQL.Add('values ');
+    loQry.SQL.Add('  (:ID, :PRODUTO_ID, :MAO_OBRA_ID, :PROD_VIGA_CONFIG_ID, :VALOR, :COMPRIMENTO, :EIXO) ');
+    ID := ubiblioteca.AutoIncremento(conexao, 'PRODUTOS_VIGA_COMP_MO');
+    loQry.ParamByName('ID').AsInteger                  := ID;
+    loQry.ParamByName('PRODUTO_ID').AsInteger          := produto_id;
+    loQry.ParamByName('MAO_OBRA_ID').AsInteger         := mtb_mao_obra.FieldByName('MO_ID').AsInteger;
+    loQry.ParamByName('PROD_VIGA_CONFIG_ID').AsInteger := mtb_mao_obra.FieldByName('TRACO_ID').AsInteger;
+    loQry.ParamByName('VALOR').AsFloat                 := mtb_mao_obra.FieldByName('VALOR').AsFloat;;
+    loQry.ParamByName('COMPRIMENTO').AsInteger         := comprimento;
+    loQry.ParamByName('EIXO').AsInteger                := eixo;
+    loQry.ExecSQL;
+  finally
+    freeandnil(loQry);
+  end;
+end;
+
+procedure TfrmProdutosVigas.prc_deletar_composicao_mo(produto_id: integer);
+var
+  loQry: TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := Conexao;
+    loQry.SQL.Add('delete from PRODUTOS_VIGA_COMP_MO where PRODUTO_ID = :PRODUTO_ID');
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loQry.ExecSQL;
+  finally
+    freeandnil(loQry);
+  end;
+end;
+
+procedure TfrmProdutosVigas.AtualizarTracoConcreto(cod: integer; qtde: double);
+{cod = codigo da mp na tabela de composição, qtde = quantidade do traço que
+deve ser dividida pela metros lineares}
+var
+  novaQtde : double;
+begin
+
+  {esta qry filtra todas as vigas que usam uma determinada mp.
+  serão filtradas todas as vigas que usam areia, depois pedra e depois cimento,
+  ou seja tudo que estiver na grid de traço}
+
+  ubiblioteca.FilterCds(qryFiltraMp, uTipos.fsInteger, inttostr(cod));
+  with qryFiltraMp do
+  begin
+    first;
+    while not eof do
+    begin
+      novaQtde := ((qryFiltraMp.FieldByName('COMPRIMENTO').asinteger)/1000) * (qtde/ strtofloat(edMetrosLineares.Text));
+      AtualizarQtdeMp(qryFiltraMp.fieldbyname('ID_COMP').asinteger, novaQtde);
+      next;
+    end;
+  end;
+
+end;
+
+procedure TfrmProdutosVigas.AtualizarQtdeMp(id: integer; novaQtde: double );
+begin
+   uBiblioteca.FilterCds(qryAtualizaMp, utipos.fsInteger, inttostr(id));
+   try
+     qryAtualizaMp.Edit;
+     qryAtualizaMp.FieldByName('QUANTIDADE').AsFloat := novaQtde;
+     qryAtualizaMp.FieldByName('TRACO_ID').AsFloat := TracoId;
+     qryAtualizaMp.Post;
+  finally
+     qryAtualizaMp.ApplyUpdates;
+     self.Conexao.Commit;
+  end;
+
+
+end;
+
+end.

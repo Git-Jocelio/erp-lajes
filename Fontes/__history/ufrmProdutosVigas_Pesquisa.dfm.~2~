@@ -1,0 +1,161 @@
+inherited frmProdutosVigas_Pesquisa: TfrmProdutosVigas_Pesquisa
+  Caption = 'frmProdutosVigas_Pesquisa'
+  ClientHeight = 441
+  ClientWidth = 984
+  ExplicitWidth = 1000
+  ExplicitHeight = 500
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 984
+  end
+  inherited DBGrid1: TDBGrid
+    Width = 984
+    Height = 274
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'ID'
+        Title.Alignment = taCenter
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME_FANTASIA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Descri'#231#227'o'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 371
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Unidade'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 83
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_CUSTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Pre'#231'o de Custo'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 131
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDEDOR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Pre'#231'o Vendedor'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 141
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Pre'#231'o de Venda'
+        Title.Font.Charset = ANSI_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Times New Roman'
+        Title.Font.Style = [fsBold]
+        Width = 140
+        Visible = True
+      end>
+  end
+  inherited ToolBar1: TToolBar
+    Width = 984
+  end
+  inherited StatusBar: TStatusBar
+    Top = 422
+    Width = 984
+  end
+  inherited ds: TDataSource
+    Top = 208
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.Conn
+    SQL.Strings = (
+      'select '
+      ' P.ID,'
+      ' P.NOME_FANTASIA,'
+      ' P.UNIDADE,'
+      ' P.PRECO_CUSTO,'
+      ' P.PRECO_VENDEDOR,'
+      ' P.PRECO_VENDA'
+      ''
+      'from '
+      ' PRODUTOS P,'
+      ' PRODUTOS_VIGAS V'
+      'where'
+      ' P.ID = V.PRODUTO_ID and'
+      ' V.TRELICA_ALTURA = 120')
+    Left = 104
+    Top = 216
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryNOME_FANTASIA: TStringField
+      FieldName = 'NOME_FANTASIA'
+      Origin = 'NOME_FANTASIA'
+      Size = 100
+    end
+    object qryUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Origin = 'UNIDADE'
+      Required = True
+      Size = 2
+    end
+    object qryPRECO_CUSTO: TCurrencyField
+      FieldName = 'PRECO_CUSTO'
+      Origin = 'PRECO_CUSTO'
+      DisplayFormat = '0.00'
+      currency = False
+    end
+    object qryPRECO_VENDEDOR: TCurrencyField
+      FieldName = 'PRECO_VENDEDOR'
+      Origin = 'PRECO_VENDEDOR'
+      DisplayFormat = '0.00'
+      currency = False
+    end
+    object qryPRECO_VENDA: TCurrencyField
+      FieldName = 'PRECO_VENDA'
+      Origin = 'PRECO_VENDA'
+      DisplayFormat = '0.00'
+      currency = False
+    end
+  end
+end

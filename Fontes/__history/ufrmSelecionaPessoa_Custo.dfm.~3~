@@ -1,0 +1,128 @@
+inherited frmSelecionaPessoa_Custo: TfrmSelecionaPessoa_Custo
+  Caption = 'frmSelecionaPessoa_Custo'
+  ClientHeight = 544
+  ExplicitTop = -18
+  ExplicitWidth = 564
+  ExplicitHeight = 582
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    inherited lbl_titulo: TLabel
+      Width = 552
+      Height = 40
+      Caption = 'RELACIONAMENTO PESSOA E CONTA'
+      ExplicitWidth = 357
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 552
+    end
+  end
+  inherited pnDados: TPanel
+    Height = 450
+    ExplicitTop = 52
+    ExplicitWidth = 586
+    ExplicitHeight = 268
+    object Label1: TLabel
+      Left = 8
+      Top = 25
+      Width = 130
+      Height = 17
+      Caption = 'Selecione uma pessoa'
+    end
+    object Label2: TLabel
+      Left = 8
+      Top = 89
+      Width = 120
+      Height = 17
+      Caption = 'Selecione uma conta'
+    end
+    object cbx_pessoa: TDBLookupComboBox
+      Left = 8
+      Top = 48
+      Width = 537
+      Height = 25
+      TabOrder = 0
+    end
+    object cbx_conta: TDBLookupComboBox
+      Left = 8
+      Top = 112
+      Width = 537
+      Height = 25
+      TabOrder = 1
+    end
+    object rg_opcoes: TRadioGroup
+      Left = 8
+      Top = 143
+      Width = 537
+      Height = 98
+      Caption = ' Selecione uma op'#231#227'o '
+      Items.Strings = (
+        'Cr'#233'dito para pagamento de concreto'
+        'Pagamento de pedido'
+        'Outros')
+      TabOrder = 2
+    end
+    object gbx_pessoa: TGroupBox
+      Left = 8
+      Top = 247
+      Width = 537
+      Height = 137
+      Caption = ' Dados da Pessoa '
+      TabOrder = 3
+      object Label3: TLabel
+        Left = 14
+        Top = 21
+        Width = 98
+        Height = 17
+        Caption = 'Nome e telefone'
+      end
+      object Label4: TLabel
+        Left = 14
+        Top = 78
+        Width = 114
+        Height = 17
+        Caption = 'Endere'#231'o completo'
+      end
+      object edt_nome_telefone: TEdit
+        Left = 14
+        Top = 40
+        Width = 499
+        Height = 25
+        TabOrder = 0
+      end
+      object edt_endereco: TEdit
+        Left = 14
+        Top = 96
+        Width = 499
+        Height = 25
+        TabOrder = 1
+      end
+    end
+    object gbx_historico: TGroupBox
+      Left = 8
+      Top = 385
+      Width = 537
+      Height = 65
+      Anchors = [akLeft, akBottom]
+      Caption = ' Hist'#243'rico '
+      TabOrder = 4
+      object edt_historico: TEdit
+        Left = 14
+        Top = 26
+        Width = 499
+        Height = 25
+        TabOrder = 0
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 507
+  end
+  inherited qry: TFDQuery
+    Left = 48
+    Top = 24
+  end
+  inherited ds: TDataSource
+    Left = 24
+    Top = 25
+  end
+end

@@ -1,0 +1,890 @@
+//***************************************************************************//
+// Cadastro de Contas a Pagar manutenção
+// base frmPlanoContasE
+// desenvolvida por Jocelio G Silva
+// inicio : 15/11/2023 Deus seja louvado.
+// fim :
+//***************************************************************************//
+
+unit ufrmContasPagarE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Classe.Conexao, uTipos, Vcl.DBCtrls, ufrmPesquisaPessoa,
+  uBiblioteca, Vcl.ComCtrls, ufrmPessoasE, Vcl.Grids, Vcl.DBGrids,
+  ufrmContasPagar_Lancamentos, udmConn;
+
+type
+  TfrmContasPagarE = class(TfrmBaseEdicao)
+    pnDevedor: TGroupBox;
+    Label6: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    lbl_pessoa: TDBText;
+    lbl_telefone: TDBText;
+    lbl_celular: TDBText;
+    Label24: TLabel;
+    lbl_endereco: TDBText;
+    lbl_bairro: TDBText;
+    Label25: TLabel;
+    lbl_cpf: TDBText;
+    btn_localizar_pessoa: TBitBtn;
+    btn_cadastrar_pessoa: TBitBtn;
+    dsPessoas: TDataSource;
+    qryPessoas: TFDQuery;
+    lbl_numero: TDBText;
+    pnConta: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    lbl_tabela_origem: TLabel;
+    edt_id: TEdit;
+    edt_cadastrado_em: TEdit;
+    edt_alterado_em: TEdit;
+    edt_historico: TEdit;
+    edt_nr_parcela: TEdit;
+    edt_qtde_parcelas: TEdit;
+    edt_valor: TEdit;
+    edt_desconto: TEdit;
+    edt_multa: TEdit;
+    edt_juros: TEdit;
+    edt_acrescimo: TEdit;
+    edt_total_parcela: TEdit;
+    dtp_vencimento: TDateTimePicker;
+    edt_tabela_origem: TEdit;
+    cbx_plano_contas: TDBLookupComboBox;
+    Label5: TLabel;
+    Label11: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    edt_nr_documento: TEdit;
+    gb_visualizar: TGroupBox;
+    cb_dre: TCheckBox;
+    cb_fluxo_caixa: TCheckBox;
+    cb_balanco: TCheckBox;
+    gb_Totais: TGroupBox;
+    Label22: TLabel;
+    edt_ultimo_pagamento: TEdit;
+    Label26: TLabel;
+    edt_valor_pago: TEdit;
+    Label27: TLabel;
+    edt_saldo_aberto: TEdit;
+    pgc_historico: TPageControl;
+    tbs_historico_pagamento: TTabSheet;
+    tbs_historico_cobranca: TTabSheet;
+    mm_historico_cobranca: TMemo;
+    ds_plano_contas: TDataSource;
+    qry_plano_contas: TFDQuery;
+    lbl_tabela_id: TLabel;
+    edt_tabela_id: TEdit;
+    tbs_acrescimos: TTabSheet;
+    dbg_lancamentos: TDBGrid;
+    btn_incluir_lancamento: TBitBtn;
+    btn_excluir_lancamento: TBitBtn;
+    ds_lancamentos: TDataSource;
+    mt_lacamentos: TFDMemTable;
+    mt_lacamentosID: TIntegerField;
+    mt_lacamentosCONTAS_PAGAR_ID: TIntegerField;
+    mt_lacamentosCADASTRADO_EM: TDateField;
+    mt_lacamentosHISTORICO: TStringField;
+    mt_lacamentosVALOR: TFloatField;
+    mt_lacamentosDEBITO_CREDITO: TStringField;
+    mt_lancamentos_deletados: TFDMemTable;
+    mt_lancamentos_deletadosID: TIntegerField;
+    dbg_baixas: TDBGrid;
+    ds_contas_pagar_baixa: TDataSource;
+    qry_contas_pagar_baixa: TFDQuery;
+    qry_contas_pagar_baixaID: TIntegerField;
+    qry_contas_pagar_baixaCADASTRADO_EM: TDateField;
+    qry_contas_pagar_baixaCONTAS_PAGAR_ID: TIntegerField;
+    qry_contas_pagar_baixaHISTORICO: TStringField;
+    qry_contas_pagar_baixaVALOR: TFMTBCDField;
+    qry_contas_pagar_baixaFORMA_PAGTO: TIntegerField;
+    qry_contas_pagar_baixaUSUARIO_ID: TIntegerField;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btn_localizar_pessoaClick(Sender: TObject);
+    procedure btn_cadastrar_pessoaClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+    procedure edt_valorExit(Sender: TObject);
+    procedure btn_incluir_lancamentoClick(Sender: TObject);
+    procedure btn_excluir_lancamentoClick(Sender: TObject);
+    procedure ds_lancamentosDataChange(Sender: TObject; Field: TField);
+
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fnew_lancamento: integer;
+    procedure prc_salvar;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_calcula_parcela;
+    procedure prc_somar_debito_credito;
+    procedure prc_incluir_alterar_lancamento(operacao_lancamento: TOperacao;
+                   {id_lancamento,} conta_pagar_id: integer; historico: string;
+                   valor: double; deb_cred: string );
+
+  protected
+    function fnc_validar : Boolean;
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+    property new_lancamento   :integer read Fnew_lancamento write Fnew_lancamento;
+
+  end;
+
+  procedure prc_incluir;
+  procedure prc_alterar(ACodigo :integer);
+  procedure prc_excluir(ACodigo :integer);
+
+implementation
+
+procedure prc_incluir;
+var
+  loForm : TfrmContasPagarE;
+begin
+  loForm := TfrmContasPagarE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_alterar(ACodigo :integer);
+var
+  loForm : TfrmContasPagarE;
+begin
+  loForm := TfrmContasPagarE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_excluir(ACodigo :integer);
+var
+  loForm : TfrmContasPagarE;
+begin
+  loForm := TfrmContasPagarE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmContasPagarE.btn_incluir_lancamentoClick(Sender: TObject);
+begin
+  inherited;
+  new_lancamento := new_lancamento -1;
+  if frmContasPagar_lancamentos = nil then
+  begin
+    frmContasPagar_Lancamentos := TfrmContasPagar_Lancamentos.Create(self);
+    frmcontasPagar_lancamentos.Codigo := self.Codigo; // id da conta
+    frmcontasPagar_lancamentos.Operacao := opincluir;
+  end;
+  try
+    frmContasPagar_Lancamentos.ShowModal;
+
+    if frmContasPagar_Lancamentos.lancamento_confirmado then
+    begin
+      mt_lacamentos.Insert;
+      mt_lacamentosID.AsInteger             := new_lancamento;
+      mt_lacamentosCONTAS_PAGAR_ID.AsInteger:= frmContasPagar_Lancamentos.Codigo;
+      mt_lacamentosCADASTRADO_EM.AsDateTime := frmContasPagar_Lancamentos.data_contabil;
+      mt_lacamentosHISTORICO.AsString       := frmContasPagar_Lancamentos.historico;
+      mt_lacamentosVALOR.AsFloat            := frmContasPagar_Lancamentos.valor;
+      mt_lacamentosDEBITO_CREDITO.AsString  := frmContasPagar_Lancamentos.debito_credito;
+      mt_lacamentos.post;
+
+      prc_somar_debito_credito;
+      prc_calcula_parcela;
+     end;
+
+  finally
+    FreeAndNil(frmContasPagar_Lancamentos);
+  end;
+
+end;
+
+procedure TfrmContasPagarE.prc_somar_debito_credito;
+var
+  debito, credito: double;
+begin
+  debito:= 0; credito:= 0;
+  mt_lacamentos.First;
+  while not mt_lacamentos.Eof do
+  begin
+    if mt_lacamentosDEBITO_CREDITO.AsString = 'D' then
+     debito := debito + mt_lacamentosVALOR.AsFloat
+    else
+     credito := credito + mt_lacamentosVALOR.AsFloat ;
+
+    mt_lacamentos.Next;
+  end;
+
+  edt_acrescimo.Text := FormatFloat('0.00', credito);
+  edt_desconto.Text  := FormatFloat('0.00', debito);
+  
+end;
+
+procedure TfrmContasPagarE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmContasPagarE.btn_cadastrar_pessoaClick(Sender: TObject);
+begin
+  inherited;
+  ufrmPessoasE.Incluir;
+end;
+
+procedure TfrmContasPagarE.btn_excluir_lancamentoClick(Sender: TObject);
+begin
+  inherited;
+  if not mt_lacamentos.IsEmpty then
+  begin
+    if mt_lacamentosID.AsInteger > 0 then
+    begin
+      // guardar o ido do lancamento
+      mt_lancamentos_deletados.Insert;
+      mt_lancamentos_deletadosID.AsInteger := mt_lacamentosID.AsInteger;
+      mt_lancamentos_deletados.Post;
+    end;
+    mt_lacamentos.Delete;
+    prc_somar_debito_credito;
+    prc_calcula_parcela;
+  end;
+end;
+
+procedure TfrmContasPagarE.btn_localizar_pessoaClick(Sender: TObject);
+begin
+  inherited;
+
+  if frmPesquisaPessoa = nil then frmPesquisaPessoa := TfrmPesquisaPessoa.Create(self);
+  try
+    frmPesquisaPessoa.ShowModal;
+    if frmPesquisaPessoa.confirmado then
+      //ubiblioteca.FilterCds(qryPessoas,fsInteger, frmPesquisaPessoa.ds.DataSet.Fields[0].Value);
+      ubiblioteca.FilterCds(qryPessoas,fsInteger, inttostr(frmPesquisaPessoa.Codigo) );
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+  end;
+
+end;
+
+procedure TfrmContasPagarE.ds_lancamentosDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_excluir_lancamento.Enabled := not mt_lacamentos.IsEmpty;
+end;
+
+procedure TfrmContasPagarE.edt_valorExit(Sender: TObject);
+begin
+  inherited;
+  prc_calcula_parcela;
+end;
+
+function TfrmContasPagarE.fnc_validar: Boolean;
+begin
+  result := false;
+
+  if qryPessoas.IsEmpty then
+  begin
+    ShowMessage('Informe uma PESSOA');
+    btn_localizar_pessoa.Click;
+    exit;
+  end;
+
+  if cbx_plano_contas.Text = '' then
+  begin
+    ShowMessage('Selecione uma CONTA');
+    cbx_plano_contas.SetFocus;
+    exit;
+  end;
+
+  if edt_historico.Text = '' then
+  begin
+    ShowMessage('Descreva a CONTA');
+    edt_historico.SetFocus;
+    exit;
+  end;
+
+  if edt_nr_documento.Text = '' then
+  begin
+    ShowMessage('informe o NÚMERO DO DOCUMENTO');
+    edt_nr_documento.SetFocus;
+    exit;
+  end;
+
+  if edt_nr_parcela.Text = '' then
+  begin
+    ShowMessage('informe o NÚMERO DA PARCELA');
+    edt_nr_parcela.SetFocus;
+    exit;
+  end;
+
+  if edt_qtde_parcelas.Text = '' then
+  begin
+    ShowMessage('informe a QUANTIDADE DE PARCELAS');
+    edt_qtde_parcelas.SetFocus;
+    exit;
+  end;
+
+  if StrToFloatDef(edt_valor.Text,0) <= 0 then
+  begin
+    ShowMessage('informe um VALOR VÁLIDO');
+    edt_valor.SetFocus;
+    exit;
+  end;
+
+  if StrToFloatDef(edt_acrescimo.Text,0) < 0 then
+  begin
+    ShowMessage('VALOR DO ACRESCIMO NÃO É VÁLIDO');
+    edt_acrescimo.SetFocus;
+    exit;
+  end;
+
+  if StrToFloatDef(edt_desconto.Text,0) < 0 then
+  begin
+    ShowMessage('VALOR DO DESCONTO NÃO É VÁLIDO');
+    edt_desconto.SetFocus;
+    exit;
+  end;
+
+  if StrToFloatDef(edt_multa.Text,0) < 0 then
+  begin
+    ShowMessage('VALOR DA MULTA NÃO É VÁLIDO');
+    edt_multa.SetFocus;
+    exit;
+  end;
+
+  if StrToFloatDef(edt_juros.Text,0) < 0 then
+  begin
+    ShowMessage('VALOR DO JUROS NÃO É VÁLIDO');
+    edt_juros.SetFocus;
+    exit;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmContasPagarE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  self.Tabela := 'CONTAS_PAGAR';
+  new_lancamento := 0;
+end;
+
+procedure TfrmContasPagarE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmContasPagarE.prc_componentes;
+begin
+  {qry principal}
+  qry.Connection := SELF.Conexao;
+  qry.SQL.Clear;
+  qry.SQL.Add('select * from CONTAS_PAGAR where ID =:ID');
+
+  {Configuração qryPessoas}
+  qryPessoas.Connection := Conexao;
+  qryPessoas.sql.Clear;
+  qryPessoas.SQL.Add('select * from PESSOAS where ID = :ID');
+
+  {qry plano de contas}
+  qry_plano_contas.Connection := SELF.Conexao;
+  qry_plano_contas.SQL.Clear;
+  qry_plano_contas.SQL.Add('select * from PLANO_CONTAS where TIPO = ' + QuotedStr('A') + ' order by DESCRICAO ');
+  qry_plano_contas.Open;
+
+
+
+  {ocultar edits/labes que não é de utilidade pro usuario}
+  edt_tabela_origem.Visible := false;
+  edt_tabela_id.Visible     := false;
+  lbl_tabela_origem.Visible := false;
+  lbl_tabela_id.Visible     := false;
+
+  dbg_lancamentos.Columns[0].Visible := false;
+  dbg_lancamentos.Columns[1].Visible := false;
+
+  dbg_baixas.Columns[0].Visible := false; // id
+  dbg_baixas.Columns[1].Visible := false; // contas_pagar_id
+  dbg_baixas.Columns[5].Visible := false; // forma_pagto
+  dbg_baixas.Columns[6].Visible := false; // usuario_id
+
+
+end;
+
+procedure TfrmContasPagarE.prc_inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       pnTitulo.Caption := 'CONTAS A PAGAR';
+                       lbl_sub_titulo.Caption := 'Inclui um nova conta a pagar';
+                       pnDados.Enabled := true;
+
+                       edt_id.Text := '-1';
+                       edt_cadastrado_em.Text := DateToStr(Date);
+                       edt_tabela_origem.Text := self.Tabela;
+                       dtp_vencimento.Date := date;
+                       btnOk     .Caption := 'Incluir';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      pnTitulo.Caption := 'CONTAS A PAGAR';
+                      lbl_sub_titulo.Caption := 'Alterar uma conta a pagar';
+                      btnOk.Caption    := 'Alterar';
+                      //
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      pnTitulo.Caption    := 'CONTAS A PAGAR';
+                      pnDados.Enabled     := false;
+                      lbl_sub_titulo.Caption := 'Exclui uma conta a pagar';
+                      btnOk.Caption       := 'Excluir';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+
+end;
+
+
+procedure TfrmContasPagarE.prc_ler_dados;
+var
+  loQuery : TFDQuery;
+begin
+  loQuery := TFDQuery.Create(Self);
+  try
+    with loQuery, loQuery.Sql do
+    begin
+      Connection := self.Conexao;
+      Add('SELECT * FROM ' + Self.Tabela + ' WHERE ID =:ID');
+      uBiblioteca.FilterCds(loQuery,uTipos.fsInteger,IntToStr(Self.Codigo));
+      Open;
+    end;
+    {Painel Cliente}
+    uBiblioteca.FilterCds(qryPessoas,fsInteger,loQuery.fieldbyname('PESSOA_ID').AsString);
+    // Panel Dados da Conta
+    edt_id.Text            := loQuery.fieldbyname('ID'      ).AsString;
+    edt_cadastrado_em.Text := loQuery.fieldbyname('CADASTRADO_EM').AsString;
+    edt_alterado_em.Text   := loQuery.fieldbyname('ALTERADO_EM').AsString;
+    edt_tabela_origem.Text := loQuery.fieldbyname('TABELA_ORIGEM').AsString;
+    edt_tabela_id.Text     := loQuery.fieldbyname('TABELA_ID').AsString;
+    cb_dre.Checked         := loQuery.FieldByName('VAI_PARA_DRE').AsString = 'S';
+    cb_fluxo_caixa.Checked := loQuery.FieldByName('VAI_PARA_FLUXO_CAIXA').AsString = 'S';
+    cb_balanco.Checked     := loQuery.FieldByName('VAI_PARA_BALANCO').AsString = 'S';
+
+    cbx_plano_contas.KeyValue := loQuery.FieldByName('PLANO_CONTAS_ID').AsInteger;
+
+    if edt_tabela_origem.Text = 'PEDIDOS' then
+    begin
+     btn_localizar_pessoa.Enabled := false;
+     btn_cadastrar_pessoa.Enabled := false;
+    end;
+    edt_nr_documento.Text := loQuery.fieldbyname('TABELA_ID'   ).AsString;
+    edt_nr_parcela.Text   := loQuery.fieldbyname('NR_PARCELA'  ).AsString;
+    edt_qtde_parcelas.Text:= loQuery.fieldbyname('QTDE_PARCELA').AsString;
+    dtp_vencimento.Date   := loQuery.fieldbyname('DATA_VENC').AsDateTime;
+    edt_historico.Text    := loQuery.fieldbyname('DESCRICAO'        ).AsString;
+    edt_valor.Text        := FormatFloat('0.00',loQuery.fieldbyname('VALOR_PARCELA').AsFloat);
+    edt_desconto.Text     := FormatFloat('0.00',loQuery.fieldbyname('DESCONTO').AsFloat);
+    edt_multa.Text        := FormatFloat('0.00',loQuery.fieldbyname('MULTA').AsFloat);
+    edt_juros.Text        := FormatFloat('0.00',loQuery.fieldbyname('JUROS').AsFloat);
+    edt_acrescimo.Text    := FormatFloat('0.00',loQuery.fieldbyname('ACRESCIMO').AsFloat);
+    edt_total_parcela.Text:= FormatFloat('0.00',loQuery.fieldbyname('TOTAL_PARCELA').AsFloat);
+    // Panel Pagamento
+    edt_ultimo_pagamento.Text := loQuery.fieldbyname('DATA_PAGAMENTO').AsString;
+    edt_valor_pago.Text       := FormatFloat('0.00',loQuery.fieldbyname('VALOR_PAGO').AsFloat);
+    if StrToFloatDef(edt_valor_pago.Text,0) > 0 then
+    begin
+      pgc_historico.ActivePage := tbs_historico_pagamento;
+    end;
+    edt_saldo_aberto  .Text:= FormatFloat('0.00',loQuery.fieldbyname('SALDO_ABERTO').AsFloat);
+    // Panel Histórico
+    mm_historico_cobranca.Lines.Add(loQuery.fieldbyname('HISTORICO_COBRANCA').AsString);
+
+    // ler lancamento se houver
+    loQuery.SQL.Clear;
+    loQuery.SQL.Add('select * from CONTAS_PAGAR_LANCAMENTOS where CONTAS_PAGAR_ID =:CONTAS_PAGAR_ID') ;
+    uBiblioteca.FilterCds(loQuery,uTipos.fsInteger,IntToStr(Self.Codigo));
+    loQuery.Open;
+    if NOT loQuery.IsEmpty then
+    begin
+      loQuery.First;
+      while not loQuery.Eof do
+      begin
+        mt_lacamentos.Insert;
+        mt_lacamentosID.AsInteger              := loQuery.FieldByName('ID').AsInteger;
+        mt_lacamentosCONTAS_PAGAR_ID.AsInteger := loQuery.FieldByName('CONTAS_PAGAR_ID').AsInteger;
+        mt_lacamentosCADASTRADO_EM.AsDateTime  := loQuery.FieldByName('CADASTRADO_EM').AsDateTime;
+        mt_lacamentosHISTORICO.AsString        := loQuery.FieldByName('HISTORICO').AsString;
+        mt_lacamentosVALOR.AsFloat             := loQuery.FieldByName('VALOR').AsFloat;
+        mt_lacamentosDEBITO_CREDITO.AsString   := loQuery.FieldByName('DEBITO_CREDITO').AsString;
+        mt_lacamentos.post;
+
+        prc_somar_debito_credito;
+        prc_calcula_parcela;
+        loquery.Next;
+      end;
+    end;
+
+    {qry contas a pagar baixa}
+    qry_contas_pagar_baixa.Connection := SELF.Conexao;
+    qry_contas_pagar_baixa.SQL.Clear;
+    qry_contas_pagar_baixa.SQL.Add('select * from CONTAS_PAGAR_BAIXA where CONTAS_PAGAR_ID =:CONTAS_PAGAR_ID') ;
+    qry_contas_pagar_baixa.Params.ParamByName('CONTAS_PAGAR_ID').AsInteger := Codigo;
+    qry_contas_pagar_baixa.Open;
+
+  finally
+    FreeAndNil(loQuery);
+  end;
+end;
+
+procedure TfrmContasPagarE.prc_salvar;
+begin
+
+  if not fnc_validar then Exit;
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  //***
+  try
+    if Operacao  = opExcluir then
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      //
+      else
+      exit;
+    end;
+
+
+    prc_incluir_alterar(Operacao);
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    conexao.Rollback;
+    ShowMessage('Não foi possível salvar o registro');
+  end;
+
+end;
+
+procedure TfrmContasPagarE.prc_incluir_alterar_lancamento(operacao_lancamento: TOperacao;
+                   {id_lancamento,} conta_pagar_id: integer; historico: string;
+                   valor: double; deb_cred: string );
+var
+ loQry: TFDQuery;
+ new_IdLancamento: integer;
+begin
+  try
+    loQry := TFDQuery.Create(self);
+    loQry.Connection := Conexao;
+
+    if operacao_lancamento = opExcluir then
+    begin
+      loQry.SQL.Add('delete from CONTAS_PAGAR_LANCAMENTOS where ID =:ID' );
+      loQry.Params.ParamByName('ID').AsInteger := conta_pagar_id;
+      loQry.ExecSQL;
+    end;
+
+    if operacao_lancamento = OpIncluir then
+    begin
+      loQry.SQL.Clear;
+      loQry.SQL.Add('insert into CONTAS_PAGAR_LANCAMENTOS' );
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  ID,               ');
+      loQry.SQL.Add('  CADASTRADO_EM,    ');
+      loQry.SQL.Add('  CONTAS_PAGAR_ID,  ');
+      loQry.SQL.Add('  HISTORICO,        ');
+      loQry.SQL.Add('  VALOR,            ');
+      loQry.SQL.Add('  DEBITO_CREDITO    ');
+      loQry.SQL.Add(')                   ');
+      loQry.SQL.Add('VALUES              ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  :ID,              ');
+      loQry.SQL.Add('  :CADASTRADO_EM,   ');
+      loQry.SQL.Add('  :CONTAS_PAGAR_ID, ');
+      loQry.SQL.Add('  :HISTORICO,       ');
+      loQry.SQL.Add('  :VALOR,           ');
+      loQry.SQL.Add('  :DEBITO_CREDITO   ');
+      loQry.SQL.Add(')                   ');
+
+      new_lancamento:= uBiblioteca.AutoIncremento(conexao, 'CONTAS_PAGAR_LANCAMENTOS');
+      loQry.ParamByName('ID').AsInteger             := new_lancamento;
+      loQry.ParamByName('CADASTRADO_EM').AsDate     := Date;
+      loQry.ParamByName('CONTAS_PAGAR_ID').AsInteger:= conta_pagar_id;
+    end;
+
+    if operacao_lancamento <> opExcluir then
+    begin
+      loQry.ParamByName('HISTORICO').AsString  := historico;
+      loQry.ParamByName('VALOR').AsFloat       := valor;
+      loQry.ParamByName('DEBITO_CREDITO').AsString   := deb_cred;
+      //ShowMessage(loQry.SQL.Text) ;
+      loQry.ExecSQL;
+    end;
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+procedure TfrmContasPagarE.prc_incluir_alterar(operacao: TOperacao);
+var
+  operacao_lancamento: Toperacao;
+begin
+  try
+
+  //ShowMessage('prc_incluir_alterar');
+  // deletar incluir ou alterar uma conta a pagar
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+  end;
+
+
+
+  if operacao = OpIncluir then
+  begin
+    qry.SQL.Add('insert into ' + self.Tabela );
+    qry.SQL.Add('(                       ');
+    qry.SQL.Add('  ID,                   ');
+    qry.SQL.Add('  CADASTRADO_EM,        ');
+    qry.SQL.Add('  PLANO_CONTAS_ID,      ');
+    qry.SQL.Add('  PESSOA_ID,            ');
+    qry.SQL.Add('  NR_DOCUMENTO,         ');
+    qry.SQL.Add('  DESCRICAO,            ');
+    qry.SQL.Add('  TABELA_ORIGEM,        ');
+    qry.SQL.Add('  TABELA_ID,            ');
+    qry.SQL.Add('  NR_PARCELA,           ');
+    qry.SQL.Add('  QTDE_PARCELA,         ');
+    qry.SQL.Add('  VALOR_PARCELA,        ');
+    qry.SQL.Add('  ACRESCIMO,            ');
+    qry.SQL.Add('  DESCONTO,             ');
+    qry.SQL.Add('  MULTA,                ');
+    qry.SQL.Add('  JUROS,                ');
+    qry.SQL.Add('  TOTAL_PARCELA,        ');
+    qry.SQL.Add('  DATA_VENC,            ');
+    qry.SQL.Add('  VALOR_PAGO,           ');
+    //qry.SQL.Add('  DATA_PAGAMENTO,     ');
+    qry.SQL.Add('  SALDO_ABERTO,         ');
+    qry.SQL.Add('  PAGO,                 ');
+    qry.SQL.Add('  VAI_PARA_DRE,         ');
+    qry.SQL.Add('  VAI_PARA_FLUXO_CAIXA, ');
+    qry.SQL.Add('  VAI_PARA_BALANCO,     ');
+    qry.SQL.Add('  ATIVO,                ');
+    qry.SQL.Add('  HISTORICO_PAGAMENTO,  ');
+    qry.SQL.Add('  HISTORICO_COBRANCA    ');
+    qry.SQL.Add(')                       ');
+    qry.SQL.Add('VALUES                  ');
+    qry.SQL.Add('(                       ');
+    qry.SQL.Add('  :ID,                  ');
+    qry.SQL.Add('  :CADASTRADO_EM,       ');
+    qry.SQL.Add('  :PLANO_CONTAS_ID,     ');
+    qry.SQL.Add('  :PESSOA_ID,           ');
+    qry.SQL.Add('  :NR_DOCUMENTO,        ');
+    qry.SQL.Add('  :DESCRICAO,           ');
+    qry.SQL.Add('  :TABELA_ORIGEM,       ');
+    qry.SQL.Add('  :TABELA_ID,           ');
+    qry.SQL.Add('  :NR_PARCELA,          ');
+    qry.SQL.Add('  :QTDE_PARCELA,        ');
+    qry.SQL.Add('  :VALOR_PARCELA,       ');
+    qry.SQL.Add('  :ACRESCIMO,           ');
+    qry.SQL.Add('  :DESCONTO,            ');
+    qry.SQL.Add('  :MULTA,               ');
+    qry.SQL.Add('  :JUROS,               ');
+    qry.SQL.Add('  :TOTAL_PARCELA,       ');
+    qry.SQL.Add('  :DATA_VENC,           ');
+    qry.SQL.Add('  :VALOR_PAGO,          ');
+    //qry.SQL.Add('  :DATA_PAGAMENTO,    ');
+    qry.SQL.Add('  :SALDO_ABERTO,        ');
+    qry.SQL.Add('  :PAGO,                ');
+    qry.SQL.Add('  :VAI_PARA_DRE,        ');
+    qry.SQL.Add('  :VAI_PARA_FLUXO_CAIXA,');
+    qry.SQL.Add('  :VAI_PARA_BALANCO,    ');
+    qry.SQL.Add('  :ATIVO,               ');
+    qry.SQL.Add('  :HISTORICO_PAGAMENTO, ');
+    qry.SQL.Add('  :HISTORICO_COBRANCA   ');
+    qry.SQL.Add(')                       ');
+
+    Codigo := uBiblioteca.AutoIncremento(conexao, self.Tabela);
+    qry.ParamByName('ID').AsInteger           := Codigo;
+    qry.ParamByName('CADASTRADO_EM').AsDate   := Date;
+    qry.ParamByName('TABELA_ORIGEM').AsString := self.Tabela;
+    qry.ParamByName('TABELA_ID').AsInteger    := codigo;
+    qry.ParamByName('SALDO_ABERTO').AsFloat   := strtofloat(edt_total_parcela.Text) - strtofloat(edt_valor_pago.Text);
+    qry.ParamByName('PAGO').AsString          := uBiblioteca.SeSenao( strtofloat(edt_saldo_aberto.Text) <= 0.01 , 'S','N');
+  end
+  else
+  begin
+    qry.SQL.Add('UPDATE                                         ');
+    qry.SQL.Add( Tabela );
+    qry.SQL.Add(' SET                                           ');
+    qry.SQL.Add('  ALTERADO_EM = :ALTERADO_EM,                  ');
+    qry.SQL.Add('  PLANO_CONTAS_ID = :PLANO_CONTAS_ID,          ');
+    qry.SQL.Add('  PESSOA_ID = :PESSOA_ID,                      ');
+    qry.SQL.Add('  NR_DOCUMENTO = :NR_DOCUMENTO,                ');
+    qry.SQL.Add('  DESCRICAO = :DESCRICAO,                      ');
+    qry.SQL.Add('  NR_PARCELA = :NR_PARCELA,                    ');
+    qry.SQL.Add('  QTDE_PARCELA = :QTDE_PARCELA,                ');
+    qry.SQL.Add('  VALOR_PARCELA = :VALOR_PARCELA,              ');
+    qry.SQL.Add('  ACRESCIMO = :ACRESCIMO,                      ');
+    qry.SQL.Add('  DESCONTO = :DESCONTO,                        ');
+    qry.SQL.Add('  MULTA = :MULTA,                              ');
+    qry.SQL.Add('  JUROS = :JUROS,                              ');
+    qry.SQL.Add('  TOTAL_PARCELA = :TOTAL_PARCELA,              ');
+    qry.SQL.Add('  DATA_VENC = :DATA_VENC,                      ');
+    qry.SQL.Add('  VALOR_PAGO= :VALOR_PAGO,                     ');
+    qry.SQL.Add('  SALDO_ABERTO = :SALDO_ABERTO,                ');
+    qry.SQL.Add('  VAI_PARA_DRE         = :VAI_PARA_DRE,        ');
+    qry.SQL.Add('  VAI_PARA_FLUXO_CAIXA = :VAI_PARA_FLUXO_CAIXA,');
+    qry.SQL.Add('  VAI_PARA_BALANCO     = :VAI_PARA_BALANCO,    ');
+    qry.SQL.Add('  ATIVO = :ATIVO,                              ');
+    qry.SQL.Add('  HISTORICO_PAGAMENTO = :HISTORICO_PAGAMENTO,  ');
+    qry.SQL.Add('  HISTORICO_COBRANCA  = :HISTORICO_COBRANCA    ');
+    qry.SQL.Add('WHERE                                          ');
+    qry.SQL.Add('  ID = :ID                                     ');
+    //
+    qry.ParamByName('ID').AsInteger       := Codigo;
+    qry.ParamByName('ALTERADO_EM').AsDate := Date;
+
+  end;
+
+  //ShowMessage(QRY.SQL.Text);
+
+  qry.ParamByName('PLANO_CONTAS_ID').AsInteger := cbx_plano_contas.KeyValue;
+  qry.ParamByName('PESSOA_ID').AsInteger       := qryPessoas.FieldByName('ID').AsInteger;
+  qry.ParamByName('NR_DOCUMENTO').AsString     := edt_nr_documento.Text;
+  qry.ParamByName('DESCRICAO').AsString        := edt_historico.Text;
+  qry.ParamByName('NR_PARCELA').AsInteger      := strtoint( edt_nr_parcela.Text );
+  qry.ParamByName('QTDE_PARCELA').AsInteger    := strtoint( edt_qtde_parcelas.Text );
+  qry.ParamByName('VALOR_PARCELA').AsFloat     := StrToFloat( edt_valor.Text );
+  qry.ParamByName('ACRESCIMO').AsFloat         := StrToFloat( edt_acrescimo.Text );
+  qry.ParamByName('DESCONTO').AsFloat          := StrToFloat( edt_desconto.Text );
+  qry.ParamByName('MULTA').AsFloat             := StrToFloat( edt_multa.Text );
+  qry.ParamByName('JUROS').AsFloat             := StrToFloat( edt_juros.Text );
+  qry.ParamByName('TOTAL_PARCELA').AsFloat     := StrToFloat( edt_total_parcela.Text );
+  qry.ParamByName('DATA_VENC').AsDate          := dtp_vencimento.Date;
+  qry.ParamByName('VALOR_PAGO').AsFloat        := StrToFloat( edt_valor_pago.Text );
+  qry.ParamByName('SALDO_ABERTO').AsFloat      := strtofloatdef(edt_total_parcela.Text,0) - strtofloatdef(edt_valor_pago.Text,0);
+  qry.ParamByName('VAI_PARA_DRE').AsString     := ubiblioteca.SeSenao(cb_dre.Checked, 'S','N');
+  qry.ParamByName('VAI_PARA_FLUXO_CAIXA').AsString := ubiblioteca.SeSenao(cb_fluxo_caixa.Checked, 'S','N');
+  qry.ParamByName('VAI_PARA_BALANCO').AsString := ubiblioteca.SeSenao(cb_balanco.Checked, 'S','N');
+  qry.ParamByName('ATIVO').AsString := 'S';// ?
+  qry.ParamByName('HISTORICO_COBRANCA').AsString := mm_historico_cobranca.Lines.Text;
+  qry.ExecSQL;
+
+
+  // incluir os lancamentos numa conta a pagar (tabela contas_pagar_lancamentos)
+  if not mt_lacamentos.IsEmpty then
+  begin
+    mt_lacamentos.First;
+    while not mt_lacamentos.Eof do
+    begin
+      // mandar pra tabela
+      if mt_lacamentosID.AsInteger < 0 then
+      begin
+        operacao_lancamento := OpIncluir;// else operacao_lancamento := opAlterar;
+
+        prc_incluir_alterar_lancamento(operacao_lancamento,
+                                     codigo,// id da conta a pagar
+                                     mt_lacamentosHISTORICO.AsString,
+                                     mt_lacamentosVALOR.AsFloat,
+                                     mt_lacamentosDEBITO_CREDITO.AsString );
+      end;
+      mt_lacamentos.Next;
+    end;
+  end;
+
+  // deletar lancamentos feito pelo usuario se houver
+  if not mt_lancamentos_deletados.IsEmpty then
+  begin
+   operacao_lancamento := opExcluir;
+   // mt_lancamentos_deletados.First;
+    while not mt_lancamentos_deletados.Eof do
+    begin
+     mt_lancamentos_deletados.First;
+      prc_incluir_alterar_lancamento(operacao_lancamento, mt_lancamentos_deletadosID.AsInteger, '', 0, '' ) ;
+
+      mt_lancamentos_deletados.delete;
+    end;
+  end;
+
+
+  except
+    ShowMessage('Erro ao salvar! TfrmContasPagarE.prc_incluir_alterar')
+  end;
+end;
+
+procedure TfrmContasPagarE.prc_calcula_parcela;
+begin
+  edt_total_parcela.Text := FormatFloat('0.00',
+                            strtofloat( edt_valor.Text )+
+                            strtofloat( edt_acrescimo.Text ) +
+                            strtofloat( edt_multa.Text ) +
+                            strtofloat( edt_juros.Text ) -
+                            strtofloat( edt_desconto.Text )
+                                      );
+  edt_saldo_aberto.Text := FormatFloat('0.00',
+                          strtofloat( edt_total_parcela.Text )-
+                          strtofloat( edt_valor_pago.Text));
+
+end;
+
+end.

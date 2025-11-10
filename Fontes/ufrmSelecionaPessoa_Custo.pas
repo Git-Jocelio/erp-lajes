@@ -1,0 +1,211 @@
+unit ufrmSelecionaPessoa_Custo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.DBCtrls, unit_funcoes;
+
+type
+  TfrmSelecionaPessoa_Custo = class(TfrmBaseEdicao)
+    rg_opcoes: TRadioGroup;
+    gbx_pessoa: TGroupBox;
+    Label3: TLabel;
+    edt_nome_telefone: TEdit;
+    Label4: TLabel;
+    edt_endereco: TEdit;
+    gbx_historico: TGroupBox;
+    edt_historico: TEdit;
+    gbx_pessoa_conta: TGroupBox;
+    Label1: TLabel;
+    cbx_pessoa: TDBLookupComboBox;
+    Label2: TLabel;
+    cbx_conta: TDBLookupComboBox;
+    qry_contas: TFDQuery;
+    ds_contas: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure rg_opcoesClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    Fcusto_id: integer;
+    Fpessoa_id: integer;
+    Fopcao: integer;
+    Fpessoa_nome: string;
+    Fpessoa_endereco: string;
+    Fpessoa_historico: string;
+    function fnc_validar: boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure prc_componentes;
+
+    property opcao : integer read Fopcao write Fopcao;
+    property custo_id : integer read Fcusto_id write Fcusto_id;
+    property pessoa_id : integer read Fpessoa_id write Fpessoa_id;
+    property pessoa_nome : string read Fpessoa_nome write Fpessoa_nome;
+    property pessoa_endereco : string read Fpessoa_endereco write Fpessoa_endereco;
+    property pessoa_historico : string read Fpessoa_historico write Fpessoa_historico;
+
+
+  end;
+
+var
+  frmSelecionaPessoa_Custo : TfrmSelecionaPessoa_Custo;
+
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfrmSelecionaPessoa_Custo.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar then
+  begin
+    opcao            := rg_opcoes.ItemIndex;
+    custo_id         := cbx_conta.KeyValue;
+    pessoa_id        := cbx_pessoa.KeyValue;
+    pessoa_nome      := edt_nome_telefone.Text;
+    pessoa_endereco  := edt_endereco.Text;
+    pessoa_historico := edt_historico.Text;
+    close;
+  end;
+
+end;
+
+procedure TfrmSelecionaPessoa_Custo.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  titulo := 'RELACIONAMENTO PESSOA E CONTA';
+  lbl_sub_titulo.Caption := 'Informe todos os dados requeridos e confirme.';
+end;
+
+procedure TfrmSelecionaPessoa_Custo.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmSelecionaPessoa_Custo.prc_componentes;
+begin
+  qry.Connection := conexao;
+  qry.Open;
+
+  qry_contas.Connection := conexao;
+  qry_contas.Open;
+
+end;
+
+procedure TfrmSelecionaPessoa_Custo.rg_opcoesClick(Sender: TObject);
+begin
+  inherited;
+
+  edt_nome_telefone.Clear;
+  edt_endereco.Clear;
+  edt_historico.Clear;
+
+  if rg_opcoes.ItemIndex = 0 then //saldo para compra de concreto
+  begin
+    Height := 548;
+    gbx_historico.Caption := ' Informe o volume do produto ';
+  end else
+  if rg_opcoes.ItemIndex = 1 then //pagamento de pedido
+  begin
+    Height := 424;
+    gbx_historico.Caption := ' Informe o número do pedido ';
+  end else
+  if rg_opcoes.ItemIndex = 2 then //outros
+  begin
+    Height := 424;
+    gbx_historico.Caption := ' Histórico ';
+  end;
+
+end;
+
+function TfrmSelecionaPessoa_Custo.fnc_validar: boolean;
+begin
+  result := false ;
+
+  if cbx_pessoa.Text = '' then
+  begin
+    criarmensagem('ERRO','SELECIONE UMA PESSOA.');
+    cbx_pessoa.SetFocus;
+    exit;
+  end;
+
+  if cbx_conta.Text = '' then
+  begin
+    criarmensagem('ERRO','SELECIONE UMA CONTA.');
+    cbx_conta.SetFocus;
+    exit;
+  end;
+
+  if rg_opcoes.ItemIndex = -1 then
+  begin
+    criarmensagem('ERRO','SELECIONE UMA OPÇÃO.');
+    rg_opcoes.SetFocus;
+    exit;
+  end;
+
+  if rg_opcoes.ItemIndex = 0 then // saldo para compra de concreto
+  begin
+    if edt_nome_telefone.Text = '' then
+    begin
+      criarmensagem('ERRO','INFORME O NOME DO CLIENTE E TELEFONE(S).');
+      edt_nome_telefone.SetFocus;
+      exit;
+    end;
+
+    if edt_endereco.Text = '' then
+    begin
+      criarmensagem('ERRO','INFORME O ENDEREÇO COMPLETO DA OBRA.');
+      edt_endereco.SetFocus;
+      exit;
+    end;
+
+    if edt_historico.Text = '' then
+    begin
+      criarmensagem('ERRO','INFORME O VOLUME DO CONCRETO. EX.: 3M CONCRETO E BOMBA');
+      edt_historico.SetFocus;
+      exit;
+    end;
+
+    //self.Custo := '[CONCRETO] ' + edCliente.Text + ' ' + edEndereco.Text + ' ' + edHistorico.Text;
+  end;
+
+  if rg_opcoes.ItemIndex = 1 then // Pagamento de pedido
+  begin
+    if edt_historico.Text = '' then
+    begin
+      criarmensagem('ERRO','INFORME O NÚMERO DO PEDIDO.');
+      edt_historico.SetFocus;
+      exit;
+    end;
+  end;
+
+  if rg_opcoes.ItemIndex = 2 then // Outros
+  begin
+
+    if edt_historico.Text = '' then
+    begin
+      criarmensagem('ERRO','DESCREVA O PAGAMENTO.  ');
+      edt_historico.SetFocus;
+      exit;
+    end;
+  end;
+
+  result := true ;
+
+end;
+
+
+
+
+end.

@@ -1,0 +1,77 @@
+inherited frmContasBancariasItens: TfrmContasBancariasItens
+  Caption = 'frmContasBancariasItens'
+  ClientHeight = 206
+  ClientWidth = 412
+  ExplicitWidth = 424
+  ExplicitHeight = 244
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 412
+    inherited lbl_titulo: TLabel
+      Width = 412
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 412
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 412
+    Height = 112
+    object Label1: TLabel
+      Left = 15
+      Top = 29
+      Width = 46
+      Height = 17
+      Caption = 'Ag'#234'ncia'
+    end
+    object Label2: TLabel
+      Left = 118
+      Top = 29
+      Width = 68
+      Height = 17
+      Caption = 'N. da conta'
+    end
+    object edt_agencia: TEdit
+      Left = 15
+      Top = 52
+      Width = 97
+      Height = 25
+      TabOrder = 0
+    end
+    object edt_nr_conta: TEdit
+      Left = 118
+      Top = 52
+      Width = 219
+      Height = 25
+      TabOrder = 1
+    end
+    object cb_ativo: TCheckBox
+      Left = 354
+      Top = 56
+      Width = 54
+      Height = 17
+      Caption = 'Ativo'
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 169
+    Width = 412
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 264
+    Top = 80
+  end
+  inherited ds: TDataSource
+    Left = 264
+    Top = 49
+  end
+end

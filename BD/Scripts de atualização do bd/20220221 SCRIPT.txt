@@ -1,0 +1,159 @@
+NOVOS CAMPOS BANCO DE DADOS
+
+21/02/2022
+ALTER TABLE EMPRESA
+ADD IMG_LOGO VARCHAR(255)
+
+
+/******************************************************************************/
+
+
+CREATE TABLE USUARIOS (
+    ID             INTEGER NOT NULL,
+    PESSOA_ID      INTEGER NOT NULL,
+    LOGIN          VARCHAR(30),
+    SENHA          VARCHAR(30),
+    CADASTRADO_EM  DATE
+);
+
+
+
+
+ALTER TABLE USUARIOS ADD CONSTRAINT PK_USUARIOS PRIMARY KEY (ID);
+
+
+ALTER TABLE USUARIOS ADD CONSTRAINT FK_USUARIOS_1 FOREIGN KEY (PESSOA_ID) REFERENCES PESSOAS (ID);
+
+
+/******************************************************************************/
+
+CREATE TABLE CONTAS_RECEBER_BAIXA (
+    ID             INTEGER NOT NULL,
+    CADASTRADO_EM  DATE NOT NULL,
+    RECIBO_ID      INTEGER NOT NULL,
+    HISTORICO      VARCHAR(500),
+    VALOR          DECIMAL(9,2),
+    USUARIO_ID     INTEGER NOT NULL,
+    PESSOA_ID      INTEGER NOT NULL
+);
+
+
+
+
+
+ALTER TABLE CONTAS_RECEBER_BAIXA ADD CONSTRAINT PK_CONTAS_RECEBER_BAIXA PRIMARY KEY (ID);
+
+ALTER TABLE CONTAS_RECEBER_BAIXA ADD CONSTRAINT FK_CONTAS_RECEBER_BAIXA_1 FOREIGN KEY (PESSOA_ID) REFERENCES PESSOAS (ID);
+
+ALTER TABLE CONTAS_RECEBER_BAIXA ADD CONSTRAINT FK_CONTAS_RECEBER_BAIXA_2 FOREIGN KEY (USUARIO_ID) REFERENCES PESSOAS (ID);
+
+
+/******************************************************************************/
+
+
+CREATE TABLE CONTAS_RECEBER_BAIXA_ITENS (
+    ID                       INTEGER NOT NULL,
+    CONTAS_RECEBER_BAIXA_ID  INTEGER NOT NULL,
+    CONTAS_RECEBER_ID        INTEGER NOT NULL,
+    CONTAS_RECEBER_VALOR     DECIMAL(9,2),
+    VALOR_PAGO               DECIMAL(9,2)
+);
+
+
+ALTER TABLE CONTAS_RECEBER_BAIXA_ITENS ADD CONSTRAINT PK_CONTAS_RECEBER_BAIXA_ITENS PRIMARY KEY (ID);
+
+
+
+ALTER TABLE CONTAS_RECEBER_BAIXA_ITENS ADD CONSTRAINT FK_CONTAS_RECEBER_BAIXA_ITENS_1 FOREIGN KEY (CONTAS_RECEBER_BAIXA_ID) REFERENCES CONTAS_RECEBER_BAIXA (ID) ON DELETE CASCADE;
+
+ALTER TABLE CONTAS_RECEBER_BAIXA_ITENS ADD CONSTRAINT FK_CONTAS_RECEBER_BAIXA_ITENS_2 FOREIGN KEY (CONTAS_RECEBER_ID) REFERENCES CONTAS_RECEBER (ID);
+
+
+/******************************************************************************/
+
+
+ALTER TABLE USUARIOS
+ADD ATIVO VARCHAR(1)
+DEFAULT 'S' 
+
+/******************************************************************************/
+
+
+
+CREATE TABLE COMISSAO (
+    ID                INTEGER NOT NULL,
+    CADASTRADO_EM     DATE,
+    ALTERADO_EM       DATE,
+    DATA_CONTABIL     DATE,
+    PEDIDO_ID         INTEGER,
+    VENDEDOR_ID       INTEGER,
+    USUARIO_ID        INTEGER,
+    TOTAL_VENDA       DECIMAL(9,2) DEFAULT 0,
+    TOTAL_CUSTO       DECIMAL(9,2) DEFAULT 0,
+    COMISSAO_ADM      DECIMAL(9,2) DEFAULT 0,
+    COMISSAO_BRUTA    DECIMAL(9,2) DEFAULT 0,
+    COMISSAO_LIQUIDA  DECIMAL(9,2) DEFAULT 0,
+    VALOR_PAGO        DECIMAL(9,2) DEFAULT 0,
+    DATA_PAGTO        DATE,
+    STATUS            VARCHAR(1) DEFAULT 'A',
+    HISTORICO         VARCHAR(100)
+);
+
+
+
+
+/******************************************************************************/
+/***                              Primary keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO ADD CONSTRAINT PK_COMISSAO PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/***                              Foreign keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO ADD CONSTRAINT FK_COMISSAO_PED FOREIGN KEY (PEDIDO_ID) REFERENCES PEDIDOS (ID);
+ALTER TABLE COMISSAO ADD CONSTRAINT FK_COMISSAO_PESSOA FOREIGN KEY (VENDEDOR_ID) REFERENCES PESSOAS (ID);
+ALTER TABLE COMISSAO ADD CONSTRAINT FK_COMISSAO_USUARIO FOREIGN KEY (USUARIO_ID) REFERENCES PESSOAS (ID);
+
+
+
+CREATE TABLE COMISSAO_ITEM (
+    ID           INTEGER NOT NULL,
+    PEDIDO_ID    INTEGER NOT NULL,
+    PRODUTO_ID   INTEGER NOT NULL,
+    QUANTIDADE   DECIMAL(9,2) DEFAULT 0 NOT NULL,
+    CUSTO_VEND   DECIMAL(9,2) DEFAULT 0,
+    CUSTO_FORN   DECIMAL(9,2) DEFAULT 0,
+    PRECO_VENDA  DECIMAL(9,2) DEFAULT 0,
+    OPERACAO     VARCHAR(1) DEFAULT 'D'
+);
+
+
+
+
+/******************************************************************************/
+/***                              Primary keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO_ITEM ADD CONSTRAINT PK_COMISSAO_ITEM PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/***                              Foreign keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE COMISSAO_ITEM ADD CONSTRAINT FK_COMISSAO_ITEM_PED FOREIGN KEY (PEDIDO_ID) REFERENCES PEDIDOS (ID);
+ALTER TABLE COMISSAO_ITEM ADD CONSTRAINT FK_COMISSAO_ITEM_PROD FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTOS (ID);
+
+
+/******************************************************************************/
+/***                               Privileges                               ***/
+/******************************************************************************/
+
+02/03/2022
+
+ALTER TABLE PEDIDOS_ITENS
+ADD PRECO_FORNECEDOR DECIMAL(9,2)
+DEFAULT 0 

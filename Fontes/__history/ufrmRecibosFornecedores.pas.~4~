@@ -1,0 +1,73 @@
+unit ufrmRecibosFornecedores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn;
+
+type
+  TfrmRecibosFornecedores = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryCADASTRADO_EM: TDateField;
+    qryVALOR: TFMTBCDField;
+    qryPESSOA_ID: TIntegerField;
+    qryUSUARIO_ID: TIntegerField;
+    qryOBSERVACAO: TStringField;
+    qryNOME: TStringField;
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRecibosFornecedores: TfrmRecibosFornecedores;
+
+implementation
+
+{$R *.dfm}
+
+uses ufrmRecibosFornecedoresE, uTipos;
+
+procedure TfrmRecibosFornecedores.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  try
+    if frmRecibosFornecedoresE = nil then
+      frmRecibosFornecedoresE := TfrmRecibosFornecedoresE.Create(application);
+
+    frmRecibosFornecedoresE.p_operacao := utipos.opAlterar;
+    frmRecibosFornecedoresE.codigo     := qry.FieldByName('ID').AsInteger;
+    frmRecibosFornecedoresE.ShowModal;
+
+  finally
+    freeandnil(frmRecibosFornecedoresE);
+  end;
+end;
+
+procedure TfrmRecibosFornecedores.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  try
+    if frmRecibosFornecedoresE = nil then
+      frmRecibosFornecedoresE := TfrmRecibosFornecedoresE.Create(application);
+
+    frmRecibosFornecedoresE.p_operacao := utipos.OpIncluir;
+    frmRecibosFornecedoresE.codigo     := -1;
+    frmRecibosFornecedoresE.ShowModal;
+
+  finally
+    freeandnil(frmRecibosFornecedoresE);
+  end;
+end;
+
+end.

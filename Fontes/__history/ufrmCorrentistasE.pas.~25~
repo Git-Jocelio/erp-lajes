@@ -1,0 +1,594 @@
+unit ufrmCorrentistasE;
+// 28/05/2025
+// cadastro de correntistas de bancos
+// desenvolvido por Jocélio Gomes da Silva
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, uTipos,
+  uBiblioteca, ufrmPesquisaPessoa, ufrmPessoasE, unit_funcoes,
+  ufrmCorrentistasContas;
+
+type
+  TfrmCorrentistasE = class(TfrmBaseEdicao)
+    pnl_contas: TPanel;
+    pnl_botoes_produtos: TPanel;
+    btn_incluir: TSpeedButton;
+    btn_excluir: TSpeedButton;
+    btn_alterar: TSpeedButton;
+    DBGrid1: TDBGrid;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    btn_busca_pessoa: TBitBtn;
+    btnIncluirPessoa: TBitBtn;
+    pnl_id: TPanel;
+    pnl_rg_ie: TPanel;
+    pnl_alterado_em: TPanel;
+    pnl_cpf_cnpj: TPanel;
+    pnl_cadastrado_em: TPanel;
+    pnl_telefone: TPanel;
+    pnl_celular: TPanel;
+    pnl_nome: TPanel;
+    pnl_endereco: TPanel;
+    pnl_numero: TPanel;
+    pnl_bairro: TPanel;
+    pnl_cidade: TPanel;
+    pnl_uf: TPanel;
+    pnl_cep: TPanel;
+    pnl_email: TPanel;
+    cb_ativo: TCheckBox;
+    rg_pessoa: TRadioGroup;
+    mt_itens: TFDMemTable;
+    ds_itens: TDataSource;
+    mt_itensID: TIntegerField;
+    mt_itensCOD_BANCO: TStringField;
+    mt_itensNOME_BANCO: TStringField;
+    mt_itensNR_AGENCIA: TStringField;
+    mt_itensNR_CONTA: TStringField;
+    mt_itens_deletados: TFDMemTable;
+    mt_itens_deletadosID: TIntegerField;
+    mt_itensBANCO_ID: TIntegerField;
+    procedure btn_busca_pessoaClick(Sender: TObject);
+    procedure btnIncluirPessoaClick(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btn_incluirClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+    procedure ds_itensDataChange(Sender: TObject; Field: TField);
+    procedure btn_excluirClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+
+  private
+    { Private declarations }
+
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fp_id: integer;
+
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    procedure prc_busca_pessoa(pessoa_id: integer);
+    procedure prc_salvar;
+    function prc_validar: boolean;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_incluir_alterar_na_grid(operacao: TOperacao);
+    procedure prc_incluir_alterar_itens;
+  public
+    { Public declarations }
+
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+
+    {controla o id dos itens}
+    property p_id   :integer read Fp_id write Fp_id;
+
+  end;
+
+var
+  frmCorrentistasE: TfrmCorrentistasE;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCorrentistasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CORRENTISTAS';
+  p_id := 0;
+
+end;
+
+
+
+
+procedure TfrmCorrentistasE.prc_salvar;
+begin
+  if not prc_validar then Exit;
+
+  if not Conexao.InTransaction then Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Conexao.InTransaction then Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    on E : Exception do
+       begin
+         unit_funcoes.CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O REGISTRO.' + slinebreak + slinebreak + E.Message);
+         if Conexao.InTransaction then
+           Conexao.Rollback;;
+         Raise;
+       end;
+  end;
+
+end;
+
+function TfrmCorrentistasE.prc_validar: boolean;
+begin
+  result := false;
+
+  if StrToIntDef(pnl_id.Caption,0) <= 0 then
+  begin
+    criarmensagem('AVISO','INFORME UMA PESSOA.');
+    btn_busca_pessoa.Click;
+    exit;
+  end;
+
+  if mt_itens.IsEmpty then
+  begin
+    criarmensagem('AVISO','CADASTRE A(S) CONTA(S) DA PESSOA.');
+    btn_incluir.Click;
+    exit;
+  end;
+
+  result := true;
+end;
+
+procedure TfrmCorrentistasE.prc_incluir_alterar(operacao: TOperacao);
+begin
+
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+
+  end;
+
+  if operacao = OpIncluir then
+  begin
+    qry.sql.clear;
+    qry.SQL.Add('insert into ' + Tabela      );
+    qry.SQL.Add('(                          ');
+    qry.SQL.Add('  PESSOA_ID                ');
+    qry.SQL.Add(')                          ');
+    qry.SQL.Add('VALUES                     ');
+    qry.SQL.Add('(                          ');
+    qry.SQL.Add('  :PESSOA_ID               ');
+    qry.SQL.Add(')                          ');
+    qry.SQL.Add('returning ID               ');
+
+  end
+  else
+  begin
+    qry.sql.clear;
+    qry.SQL.Add('UPDATE                      ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                         ');
+    qry.SQL.Add('  PESSOA_ID  = :PESSOA_ID   ');
+    qry.SQL.Add('WHERE                       ');
+    qry.SQL.Add('  ID = :ID                  ');
+    //
+    qry.ParamByName('ID').AsInteger := Codigo;
+
+  end;
+  //ShowMessage(QRY.SQL.Text);
+
+  qry.ParamByName('pessoa_id').AsInteger := strtoint(pnl_id.Caption);
+
+  if operacao = opincluir then
+  begin
+    QRY.Open;
+    codigo := qry.FieldByName('ID').AsInteger;
+  end
+  else
+    qry.ExecSQL;
+
+  {salvar/alterar contas}
+  prc_incluir_alterar_itens;
+
+end;
+
+
+procedure TfrmCorrentistasE.prc_incluir_alterar_itens;
+var
+  loQry: TFDQuery;
+begin
+
+  loQry:= TFDQuery.Create(self);
+  loqry.Connection := conexao;
+
+  {excluir itens da memoria "mt_itens_deletados"}
+  mt_itens_deletados.First;
+  while not mt_itens_deletados.Eof do
+  begin
+    {excluir}
+    loqry.SQL.Clear;
+    loQry.SQL.Add('delete from correntista_contas where id =:id ') ;
+    loQry.Params.ParamByName('id').AsInteger := mt_itens_deletadosID.AsInteger;
+    loqry.ExecSQL;
+
+    mt_itens_deletados.Next;
+  end;
+
+  mt_itens.First;
+  while not mt_itens.Eof do
+  begin
+
+    if mt_itensID.AsInteger < 0 then
+    begin
+      {inserir}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('insert into correntista_contas                    ') ;
+      loQry.SQL.Add(' ( pessoa_id, banco_id, nr_agencia, nr_conta )    ') ;
+      loQry.SQL.Add(' values                                           ') ;
+      loQry.SQL.Add(' ( :pessoa_id, :banco_id, :nr_agencia, :nr_conta )') ;
+    end
+    else
+    begin
+      {alterar}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('update                    ');
+      loQry.SQL.Add('  correntista_contas      ');
+      loQry.SQL.Add('set                       ');
+      loQry.SQL.Add('  pessoa_id =:pessoa_id, banco_id =:banco_id, nr_agencia =:nr_agencia, nr_conta =:nr_conta ');
+      loQry.SQL.Add('where                     ');
+      loQry.SQL.Add(' id =:id                  ');
+      loQry.Params.ParamByName('id').AsInteger := mt_itensID.AsInteger;
+    end;
+(*
+    ShowMessage(loqry.SQL.Text);
+    ShowMessage(
+                inttostr(Codigo) + sLineBreak +
+                mt_itensFORMA_PAGTO_ID.AsString + sLineBreak +
+                mt_itensQTDE_PARCELAS.AsString + sLineBreak +
+                mt_itensPRIMEIRO_VENCIMENTO.AsString + sLineBreak +
+                mt_itensINTERVALO_DEMAIS_PARC.AsString + sLineBreak +
+                mt_itensTAXA.AsString );
+*)
+
+
+    {parametros}
+    loQry.Params.ParamByName('pessoa_id').AsInteger := codigo;
+    loQry.Params.ParamByName('banco_id').AsInteger  := mt_itensBANCO_ID.AsInteger;
+    loQry.Params.ParamByName('nr_agencia').AsString := mt_itensNR_AGENCIA.AsString;
+    loQry.Params.ParamByName('nr_conta').AsString   := mt_itensNR_CONTA.AsString;
+    loqry.ExecSQL;
+
+    mt_itens.Next;
+  end;
+
+  FreeAndNil(loqry) ;
+
+end;
+
+
+
+
+procedure TfrmCorrentistasE.btnIncluirPessoaClick(Sender: TObject);
+var
+  pessoa: integer;
+begin
+  inherited;
+  pessoa := ufrmPessoasE.incluir;
+  //ShowMessage(inttostr(pessoa));
+  prc_busca_pessoa(pessoa);
+
+end;
+
+procedure TfrmCorrentistasE.btn_busca_pessoaClick(Sender: TObject);
+begin
+  try
+    if frmPesquisaPessoa = nil  then
+    frmPesquisaPessoa := TfrmPesquisaPessoa.Create(Application);
+    frmPesquisaPessoa.ShowModal;
+
+    if frmPesquisaPessoa.Confirmado then
+    begin
+      prc_busca_pessoa(frmPesquisaPessoa.Codigo);
+    end
+    else
+      ShowMessage('Pessoa não encontrada')
+  finally
+    FreeAndNil(frmPesquisaPessoa);
+  end;
+end;
+
+procedure TfrmCorrentistasE.btn_excluirClick(Sender: TObject);
+begin
+    prc_incluir_alterar_na_grid(opExcluir);
+end;
+
+procedure TfrmCorrentistasE.btnOkClick(Sender: TObject);
+begin
+   prc_salvar;
+end;
+
+procedure TfrmCorrentistasE.btn_alterarClick(Sender: TObject);
+begin
+  try
+    if frmCorrentistasContas = nil then
+      frmCorrentistasContas := TfrmCorrentistasContas.Create(self) ;
+
+    frmCorrentistasContas.p_operacao := opAlterar;
+    (*
+    {verfificar duplicidade}
+    mt_itens.First;
+    if mt_itens.Locate('cod_banco;nr_agencia;nr_conta', vararrayof([frmCorrentistasContas.p_banco,frmCorrentistasContas.p_agencia, frmCorrentistasContas.p_nrconta]), []) then
+    begin
+      criarmensagem('AVISO','DUPLICIDADE! CONTA JÁ INCLUSA.');
+      exit;
+    end;
+   *)
+
+    {carregar componentes}
+    frmCorrentistasContas.cbx_bancos.KeyValue := mt_itens.FieldByName('COD_BANCO').AsString;
+    frmCorrentistasContas.edt_agencia.text    := mt_itens.FieldByName('NR_AGENCIA').AsString;
+    frmCorrentistasContas.edt_nr_conta.Text   := mt_itens.FieldByName('NR_CONTA').AsString;
+
+    frmCorrentistasContas.ShowModal;
+
+    if frmCorrentistasContas.p_confirmado then
+      prc_incluir_alterar_na_grid( opAlterar );
+
+
+  finally
+    freeandnil( frmCorrentistasContas );
+  end;
+end;
+
+procedure TfrmCorrentistasE.btn_incluirClick(Sender: TObject);
+begin
+  try
+    if frmCorrentistasContas = nil then
+      frmCorrentistasContas := TfrmCorrentistasContas.Create(application);
+
+      frmCorrentistasContas.p_operacao := OpIncluir;
+    frmCorrentistasContas.ShowModal;
+
+    {verfificar duplicidade}
+    mt_itens.First;
+    if mt_itens.Locate('cod_banco;nr_agencia;nr_conta', vararrayof([frmCorrentistasContas.p_banco,frmCorrentistasContas.p_agencia, frmCorrentistasContas.p_nrconta]), []) then
+    begin
+      criarmensagem('AVISO','DUPLICIDADE! CONTA JÁ INCLUSA.');
+      exit;
+    end;
+
+
+    if frmCorrentistasContas.p_confirmado then
+      prc_incluir_alterar_na_grid( OpIncluir );
+
+
+
+  finally
+    FreeAndNil(frmCorrentistasContas)
+  end;
+end;
+
+procedure TfrmCorrentistasE.ds_itensDataChange(Sender: TObject; Field: TField);
+begin
+
+  btn_alterar.Enabled := not mt_itens.IsEmpty;
+  btn_excluir.Enabled := not mt_itens.IsEmpty;
+
+end;
+
+procedure TfrmCorrentistasE.prc_incluir_alterar_na_grid(operacao: TOperacao);
+begin
+
+  {inclui o id da taxa na memoria para deletar da confirmação }
+  if operacao = opExcluir then
+  begin
+ShowMessage('excluir');
+    if mt_itensID.AsInteger > 0 then
+    begin
+      mt_itens_deletados.Insert;
+      mt_itens_deletadosID.AsInteger := mt_itensID.AsInteger;
+      mt_itens_deletados.Post;
+    end;
+    // deleta na grid
+    mt_itens.Delete;
+    exit;
+  end;
+
+
+  if operacao = OpIncluir then
+  begin
+    p_id := p_id -1;
+
+    mt_itens.Insert;
+    mt_itens.FieldByName('ID').AsInteger        := p_id;
+    mt_itens.FieldByName('BANCO_ID').AsInteger  := frmCorrentistasContas.p_banco_id;
+    mt_itens.FieldByName('COD_BANCO').AsString  := frmCorrentistasContas.p_banco;
+    mt_itens.FieldByName('NOME_BANCO').AsString := frmCorrentistasContas.p_nome_banco;
+    mt_itens.FieldByName('NR_AGENCIA').AsString := frmCorrentistasContas.p_agencia;
+    mt_itens.FieldByName('NR_CONTA').AsString   := frmCorrentistasContas.p_nrconta;
+    mt_itens.Post;
+
+  end
+  else
+  begin
+    mt_itens.Edit;
+    //mt_itensID.AsInteger      := p_id;
+    mt_itens.FieldByName('BANCO_ID').AsInteger  := frmCorrentistasContas.p_banco_id;
+    mt_itens.FieldByName('COD_BANCO').AsString  := frmCorrentistasContas.p_banco;
+    mt_itens.FieldByName('NOME_BANCO').AsString := frmCorrentistasContas.p_nome_banco;
+    mt_itens.FieldByName('NR_AGENCIA').AsString := frmCorrentistasContas.p_agencia;
+    mt_itens.FieldByName('NR_CONTA').AsString   := frmCorrentistasContas.p_nrconta;
+    mt_itens.Post;
+
+  end;
+
+
+end;
+
+
+
+procedure TfrmCorrentistasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmCorrentistasE.prc_componentes;
+begin
+  DBGrid1.Columns[0].Visible := false;
+  DBGrid1.Columns[1].Visible := false;
+end;
+
+
+procedure TfrmCorrentistasE.prc_inicializar;
+begin
+  pnTitulo.Caption := 'CADASTRO DE CORRENTISTAS';
+
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       lbl_sub_titulo.Caption    := 'INCLUSÃO';
+                       pnl_Id.Caption            := '-1';
+                       pnl_cadastrado_em.Caption := datetostr(date);
+                       btnOk.Caption             := 'SALVAR';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption    := 'ALTERAÇÃO';
+                      btnOk.Caption             := 'SALVAR ALTERAÇÕES';
+                      pnl_alterado_em.Caption   := datetostr(date);
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled        := false;
+                      btnOk.Caption          := 'EXCLUIR CORRENTISTA';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmCorrentistasE.prc_ler_dados;
+var
+  loQry : TFDQuery;
+begin
+  {carrega a pessoa}
+  prc_busca_pessoa(codigo);
+  {carrega as contas}
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loqry.SQL.Clear;
+    //loQry.sql.Add('select c.id, c.banco_id, b.pessoa_id, b.cod_BANCO, c.nr_agencia, c.nr_conta from correntista_contas c, bancos b where c.pessoa_id =:pessoa_id and c.banco_id = b.id');
+    loQry.sql.Add('select c.id, c.banco_id, p.nome, b.cod_BANCO, c.nr_agencia, c.nr_conta from correntista_contas c, bancos b, pessoas p where c.pessoa_id =:pessoa_id and c.banco_id = b.id and p.id = b.pessoa_id');
+    loQry.params.ParamByName('pessoa_id').AsInteger := codigo;
+    loQry.Open;
+    loQry.First;
+    while not loqry.eof do
+    begin
+
+      mt_itens.Insert;
+      mt_itensID.AsInteger        := loqry.FieldByName('id').AsInteger;
+      mt_itensBANCO_ID.AsInteger  := loqry.FieldByName('banco_id').AsInteger;
+      mt_itensCOD_BANCO.AsString  := loqry.FieldByName('cod_banco').AsString;
+      mt_itensNOME_BANCO.AsString := loqry.FieldByName('nome').AsString;
+      mt_itensNR_AGENCIA.AsString := loqry.FieldByName('nr_agencia').AsString;
+      mt_itensNR_CONTA.AsString   := loqry.FieldByName('nr_conta').AsString;
+      mt_itens.Post;
+
+      loqry.Next;
+    end;
+  finally
+    freeandnil(loQry);
+  end;
+end;
+
+procedure TfrmCorrentistasE.prc_busca_pessoa(pessoa_id: integer);
+var
+ loQry: TFDQuery;
+begin
+
+  try
+    loQry := TFDQuery.Create(Self);
+    loQry.Connection := Conexao;
+    loqry.SQL.Clear;
+    {carrega a pessoa}
+    loQry.sql.Add('select * from pessoas where id =:id');
+    loQry.ParamByName('id').AsInteger := pessoa_id;
+    loQry.Open;
+    pnl_Id.Caption            := loQry.FieldByName('id').AsString;
+    pnl_cadastrado_em.Caption := loQry.FieldByName('data_cad').AsString;
+    pnl_alterado_em.Caption   := loQry.FieldByName('data_alt').AsString;
+    cb_ativo.Checked          := uBiblioteca.SeSenao(loQry.FieldByName('ativo').AsString ='S', true, false);
+    rg_pessoa.ItemIndex       := uBiblioteca.SeSenao(loQry.FieldByName('FIS_JUR').AsString ='F', 0, 1);
+    pnl_cpf_cnpj.Caption      := loQry.FieldByName('cpf_cnpj').AsString;
+    pnl_rg_ie.Caption         := loQry.FieldByName('rg_ie').AsString;
+    pnl_telefone.Caption      := loQry.FieldByName('telefone').AsString;
+    pnl_celular.Caption       := loQry.FieldByName('celular').AsString;
+    pnl_nome.Caption          := loQry.FieldByName('nome').AsString;
+    pnl_endereco.Caption      := loQry.FieldByName('endereco').AsString;
+    pnl_numero.Caption        := loQry.FieldByName('numero').AsString;
+    pnl_bairro.Caption        := loQry.FieldByName('bairro').AsString;
+    pnl_cidade.Caption        := loQry.FieldByName('cidade').AsString;
+    pnl_uf.Caption            := loQry.FieldByName('uf').AsString;
+    pnl_cep.Caption           := loQry.FieldByName('cep').AsString;
+    pnl_email.Caption         := loQry.FieldByName('email').AsString;
+    loqry.Close;
+  finally
+    freeandnil(loqry);
+  end;
+end;
+
+
+
+
+end.

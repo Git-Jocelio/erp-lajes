@@ -1,0 +1,24 @@
+inherited frmPixRecebidos: TfrmPixRecebidos
+  Caption = 'frmPixRecebidos'
+  Position = poDesktopCenter
+  TextHeight = 15
+  inherited PageControl1: TPageControl
+    inherited TabSheet1: TTabSheet
+      inherited Panel5: TPanel
+        inherited pnl_resultado: TPanel
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    inherited lbl_titulo: TLabel
+      Width = 146
+      Height = 56
+      Caption = 'PIX RECEBIDOS'
+      ExplicitWidth = 146
+    end
+  end
+end

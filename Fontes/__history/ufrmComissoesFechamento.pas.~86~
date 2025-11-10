@@ -1,0 +1,1077 @@
+unit ufrmComissoesFechamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, ufrmComissoesPesquisa,
+  ufrmComissoesPesquisaContasReceber, uBiblioteca, uTipos,
+  ufrmComissaoFechamento_Alt_Valor, Vcl.Menus;
+
+
+type
+  TfrmComissaoFechamentoE = class(TfrmBaseEdicao)
+    gb_debitos: TGroupBox;
+    pnl_botoes_inferior: TPanel;
+    btn_selecionar_debitos: TSpeedButton;
+    btn_excluir_debitos: TSpeedButton;
+    pnl_totais: TPanel;
+    gb_comissoes: TGroupBox;
+    pnl_vendedor: TPanel;
+    Label2: TLabel;
+    cbx_vendedor: TDBLookupComboBox;
+    pnl_botoes_superior: TPanel;
+    btn_selecionar_comissoes: TSpeedButton;
+    btn_excluir_comissoes: TSpeedButton;
+    dsVendedor: TDataSource;
+    qry_vendedor: TFDQuery;
+    Label3: TLabel;
+    dbg_comissoes: TDBGrid;
+    ds_comissoes: TDataSource;
+    Label4: TLabel;
+    Label5: TLabel;
+    lbl_registros_comissoes: TLabel;
+    lbl_total_comissoes: TLabel;
+    ds_contas_receber: TDataSource;
+    Label6: TLabel;
+    Label7: TLabel;
+    lbl_registros_contas_receber: TLabel;
+    lbl_total_contas_receber: TLabel;
+    dbg_contas_receber: TDBGrid;
+    mtb_contas_receber: TFDMemTable;
+    mtb_contas_receberID: TIntegerField;
+    mtb_contas_receberDATA_CONTABIL: TDateField;
+    mtb_contas_receberPARCELA_NR: TIntegerField;
+    mtb_contas_receberPARCELA_QTDE: TIntegerField;
+    mtb_contas_receberVALOR: TFloatField;
+    mtb_contas_receberDESCONTO: TFloatField;
+    mtb_contas_receberMULTA: TFloatField;
+    mtb_contas_receberJUROS: TFloatField;
+    mtb_contas_receberARREDONDAMENTO: TFloatField;
+    mtb_contas_receberTOTAL: TFloatField;
+    mtb_contas_receberTOTAL_DEBITOS: TAggregateField;
+    mtb_comissoes: TFDMemTable;
+    mtb_comissoesID: TIntegerField;
+    mtb_comissoesDATA_CONTABIL: TDateField;
+    mtb_comissoesPEDIDO_ID: TIntegerField;
+    mtb_comissoesTOTAL_VENDA: TFloatField;
+    mtb_comissoesTOTAL_CUSTO: TFloatField;
+    mtb_comissoesOUTRAS_DESPESAS: TFloatField;
+    mtb_comissoesCOMISSAO_ADM: TFloatField;
+    mtb_comissoesCOMISSAO_BRUTA: TFloatField;
+    mtb_comissoesCOMISSAO_LIQUIDA: TFloatField;
+    mtb_comissoesHISTORICO: TStringField;
+    mtb_comissoesTOTAL_COMISSOES: TAggregateField;
+    mm_obs: TMemo;
+    Label8: TLabel;
+    Label9: TLabel;
+    cbx_mes: TComboBox;
+    edt_ano: TEdit;
+    Label12: TLabel;
+    lbl_saldo_liquido: TLabel;
+    Label14: TLabel;
+    lbl_total_vendas: TLabel;
+    Label16: TLabel;
+    lbl_custo_pedidos: TLabel;
+    Label18: TLabel;
+    lbl_total_outras_despesas: TLabel;
+    Label20: TLabel;
+    lbl_total_adm: TLabel;
+    Label10: TLabel;
+    mtb_comissoesTOTAL_VENDAS: TAggregateField;
+    mtb_comissoesCUSTO_PEDIDOS: TAggregateField;
+    mtb_comissoesTOTAL_DESPESAS: TAggregateField;
+    mtb_comissoesTOTAL_ADM: TAggregateField;
+    Label11: TLabel;
+    Label13: TLabel;
+    Label1: TLabel;
+    lbl_ID: TLabel;
+    Label15: TLabel;
+    lbl_cadastrado_em: TLabel;
+    mtb_comissoesNOME: TStringField;
+    mtb_comissoesBAIRRO: TStringField;
+    mtb_contas_receberDESCRICAO: TStringField;
+    Splitter1: TSplitter;
+    mtb_comissoesNOSSO_NUMERO: TStringField;
+    mtb_comissoesVALOR_PAGO: TFloatField;
+    PopupMenu: TPopupMenu;
+    Alterarvalorpago1: TMenuItem;
+
+    procedure btn_selecionar_comissoesClick(Sender: TObject);
+    procedure btn_selecionar_debitosClick(Sender: TObject);
+    procedure btn_excluir_comissoesClick(Sender: TObject);
+    procedure btn_excluir_debitosClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+
+    procedure ds_comissoesDataChange(Sender: TObject; Field: TField);
+    procedure ds_contas_receberDataChange(Sender: TObject; Field: TField);
+
+    procedure cbx_vendedorExit(Sender: TObject);
+    procedure cbx_vendedorCloseUp(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Alterarvalorpago1Click(Sender: TObject);
+  private
+    Fp_codigo: integer;
+    Fp_total_vendas: double;
+    Fp_saldo_liquido: double;
+    Fp_total_debitos: double;
+    Fp_total_comissoes: double;
+    Fp_vendedor: integer;
+    Fp_custo_pedidos: double;
+    Fp_outras_despesas: double;
+    Fp_comissao_adm: double;
+    Fp_tabela: string;
+    Fp_operacao: TOperacao;
+
+   procedure prc_incluir_conta(id : integer;
+             data_contabil : TDate; pedido_id: integer;
+             nosso_numero, nome_cliente, bairro: string; total_venda,
+             total_custo, outras_despesas, comissao_adm, comissao_bruta,
+             comissao_liquida: double; historico: string);
+
+   procedure prc_incluir_conta_receber(id: integer; data_contabil: TDate;
+             parcela_nr, parcela_qtde: integer; valor, desconto, multa, juros,
+             arredondamento, total: double; descricao: string);
+
+   procedure prc_salvar;
+   procedure prc_baixar_comissao(comissao_id: integer;
+             valor_debito,valor_pago: double);
+   procedure prc_baixar_conta_receber(conta_id: integer; valor_debito,
+             valor_pago: double);
+
+  protected
+    procedure prc_componentes;
+    procedure prc_inicializar;
+
+    procedure prc_totais;
+    procedure prc_ler_dados;
+    function  fnc_validar: boolean;
+    function  fnc_incluir: boolean;
+
+
+  public
+
+    property p_operacao : utipos.TOperacao read Fp_operacao write Fp_operacao;
+    property p_codigo   : integer read Fp_codigo write Fp_codigo;
+    property p_tabela   : string read Fp_tabela write Fp_tabela;
+    property p_vendedor : integer read Fp_vendedor write Fp_vendedor;
+    property p_total_vendas    : double read Fp_total_vendas write Fp_total_vendas;
+    property p_custo_pedidos   : double read Fp_custo_pedidos write Fp_custo_pedidos;
+    property p_outras_despesas : double read Fp_outras_despesas write Fp_outras_despesas;
+    property p_comissao_adm    : double read Fp_comissao_adm write Fp_comissao_adm;
+    property p_total_comissoes : double read Fp_total_comissoes write Fp_total_comissoes;
+    property p_total_debitos   : double read Fp_total_debitos write Fp_total_debitos;
+    property p_saldo_liquido   : double read Fp_saldo_liquido write Fp_saldo_liquido;
+  end;
+
+  procedure prc_incluir;
+  procedure prc_alterar( Acodigo :integer );
+
+implementation
+
+procedure prc_incluir;
+var
+  loForm : TfrmComissaoFechamentoE;
+begin
+  try
+    loForm := TfrmComissaoFechamentoE.Create(Application);
+    loForm.p_operacao := uTipos.OpIncluir;
+    loform.p_codigo := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_alterar( Acodigo :integer );
+var
+  loForm : TfrmComissaoFechamentoE;
+begin
+  try
+    loForm := TfrmComissaoFechamentoE.Create(Application);
+    loForm.p_operacao := uTipos.opAlterar;
+    loform.p_codigo := Acodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmComissaoFechamentoE.Alterarvalorpago1Click(Sender: TObject);
+begin
+  inherited;
+  {chama o form de alteração}
+(*
+  ufrmComissaoFechamento_Alt_Valor.prc_alterar
+    (
+     mtb_comissoesID.AsInteger,
+     mtb_comissoesDATA_CONTABIL.AsDateTime,
+     mtb_comissoesNOSSO_NUMERO.AsString,
+     mtb_comissoesNOME.AsString,
+     mtb_comissoesBAIRRO.AsString,
+     mtb_comissoesTOTAL_VENDA.AsFloat,
+     mtb_comissoesCOMISSAO_LIQUIDA.AsFloat,
+     mtb_comissoesCOMISSAO_LIQUIDA.AsFloat,
+     mtb_comissoesHISTORICO.AsString
+    );
+*)
+  if frmComissaoFechamento_Alt_Valor = nil then
+  try
+    frmComissaoFechamento_Alt_Valor := TfrmComissaoFechamento_Alt_Valor.Create(Application);
+    frmComissaoFechamento_Alt_Valor.Operacao         := uTipos.opAlterar;
+    frmComissaoFechamento_Alt_Valor.p_ID             := mtb_comissoesID.AsInteger;
+    frmComissaoFechamento_Alt_Valor.p_data           := mtb_comissoesDATA_CONTABIL.AsDateTime;
+    frmComissaoFechamento_Alt_Valor.p_nosso_numero   := mtb_comissoesNOSSO_NUMERO.AsString;
+    frmComissaoFechamento_Alt_Valor.p_nm_cliente     := mtb_comissoesNOME.AsString;
+    frmComissaoFechamento_Alt_Valor.p_nm_bairro      := mtb_comissoesBAIRRO.AsString;
+    frmComissaoFechamento_Alt_Valor.p_valor_venda    := mtb_comissoesTOTAL_VENDA.AsFloat;
+    frmComissaoFechamento_Alt_Valor.p_valor_comissao := mtb_comissoesCOMISSAO_LIQUIDA.AsFloat;
+    frmComissaoFechamento_Alt_Valor.p_valor_pago     := mtb_comissoesVALOR_PAGO.AsFloat;
+    frmComissaoFechamento_Alt_Valor.p_historico      := mtb_comissoesHISTORICO.AsString;
+
+    frmComissaoFechamento_Alt_Valor.ShowModal;
+
+    if frmComissaoFechamento_Alt_Valor.p_alterado then
+    begin
+      {Alterar na grid}
+      mtb_comissoes.Edit;
+      mtb_comissoesVALOR_PAGO.AsFloat := frmComissaoFechamento_Alt_Valor.p_valor_pago;
+      mtb_comissoesHISTORICO.AsString := frmComissaoFechamento_Alt_Valor.p_historico;
+      mtb_comissoes.post;
+    end
+    else
+    begin
+      ShowMessage('nada foi alterado');
+    end
+
+  finally
+    FreeAndNil(frmComissaoFechamento_Alt_Valor);
+  end;
+
+end;
+
+procedure TfrmComissaoFechamentoE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  if fnc_validar then
+    prc_salvar;
+
+end;
+
+procedure TfrmComissaoFechamentoE.prc_salvar;
+begin
+
+  case Self.p_operacao of
+
+    uTipos.opIncluir :
+    begin
+      if not Self.Conexao.InTransaction then
+        Self.Conexao.StartTransaction;
+    //***
+
+      if fnc_incluir then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        lbl_ID.Caption := IntToStr(p_codigo);
+        showmessage('Fechamento realizado com sucesso');
+        close;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível fazer o fechamento da comissão ');
+      end;
+
+    end;
+
+  end;
+end;
+
+function TfrmComissaoFechamentoE.fnc_incluir : boolean;
+var
+  qry : TFDQuery;
+begin
+  // Incluir
+  {cabeça}
+  try
+    qry := TFDQuery.Create(Self);
+    try
+      with qry, qry.Sql do
+      begin
+        Connection := Conexao;
+        Add('INSERT INTO            ');
+        Add('   FECHAMENTO_COMISSAO ');
+        Add('  (ID,                 ');
+        Add('   CADASTRADO_EM,      ');
+        Add('   MES,                ');
+        Add('   ANO,                ');
+        Add('   PESSOA_ID,          ');
+        Add('   TOTAL_VENDA,        ');
+        Add('   TOTAL_COMISSAO,     ');
+        Add('   TOTAL_DEBITOS,      ');
+        Add('   SALDO_LIQUIDO,      ');
+        Add('   OBS)                ');
+        Add('VALUES                 ');
+        Add('  (:ID,                ');
+        Add('   :CADASTRADO_EM,     ');
+        Add('   :MES,               ');
+        Add('   :ANO,               ');
+        Add('   :PESSOA_ID,         ');
+        Add('   :TOTAL_VENDA,       ');
+        Add('   :TOTAL_COMISSAO,    ');
+        Add('   :TOTAL_DEBITOS,     ');
+        Add('   :SALDO_LIQUIDO,     ');
+        Add('   :OBS)               ');
+
+
+        p_codigo := uBiblioteca.AutoIncremento(conexao, p_tabela);
+
+        ParamByName('ID').AsInteger            := p_codigo;
+        ParamByName('CADASTRADO_EM').AsDate    := date;
+        ParamByName('MES').AsString            := cbx_mes.Text;
+        ParamByName('ANO').AsInteger           := StrToInt( edt_ano.Text );
+        ParamByName('PESSOA_ID').AsInteger     := p_vendedor;
+        ParamByName('TOTAL_VENDA').AsFloat     := p_total_vendas;
+        ParamByName('TOTAL_COMISSAO').AsFloat  := p_total_comissoes;
+        ParamByName('TOTAL_DEBITOS').AsFloat   := p_total_debitos;
+        ParamByName('SALDO_LIQUIDO').AsFloat   := p_saldo_liquido;
+        ParamByName('OBS').AsString             := mm_obs.Lines.Text;
+        ExecSQL;
+        //***
+        Result := ( qry.RowsAffected > 0 );
+
+        {sql para lista de comissões}
+        SQL.Clear;
+        Add('INSERT INTO                ');
+        Add('   FECHAMENTO_COMISSOES    ');
+        Add('  (ID,                     ');
+        Add('   FECHAMENTO_COMISSAO_ID, ');
+        Add('   COMISSAO_ID,            ');
+        Add('   VALOR_COMISSAO,         ');
+        Add('   VALOR_PAGO)             ');
+        Add('VALUES                     ');
+        Add('  (:ID,                    ');
+        Add('   :FECHAMENTO_COMISSAO_ID,');
+        Add('   :COMISSAO_ID,           ');
+        Add('   :VALOR_COMISSAO,        ');
+        Add('   :VALOR_PAGO)            ');
+
+        {inserir lista de comissoes}
+        mtb_comissoes.First;
+        while not mtb_comissoes.Eof do
+        begin
+
+          ParamByName('ID').AsInteger := uBiblioteca.AutoIncremento(conexao, 'FECHAMENTO_COMISSOES');
+          ParamByName('FECHAMENTO_COMISSAO_ID').AsInteger := p_codigo;
+          ParamByName('COMISSAO_ID').AsInteger := mtb_comissoes.FieldByName('ID').AsInteger;
+          ParamByName('VALOR_COMISSAO').AsFloat := mtb_comissoes.FieldByName('COMISSAO_LIQUIDA').AsFloat;
+          ParamByName('VALOR_PAGO').AsFloat := mtb_comissoes.FieldByName('COMISSAO_LIQUIDA').AsFloat;
+
+          prc_baixar_comissao( mtb_comissoes.FieldByName('ID').AsInteger,
+                               mtb_comissoes.FieldByName('COMISSAO_LIQUIDA').AsFloat,
+                               mtb_comissoes.FieldByName('COMISSAO_LIQUIDA').AsFloat
+                              );
+
+
+
+          mtb_comissoes.Next;
+
+          ExecSQL;
+
+        end;
+
+        {sql para lista de debitos}
+        SQL.Clear;
+        Add('INSERT INTO                ');
+        Add('   FECHAMENTO_DEBITOS      ');
+        Add('  (ID,                     ');
+        Add('   FECHAMENTO_COMISSAO_ID, ');
+        Add('   CONTAS_RECEBER_ID,      ');
+        Add('   VALOR_DEBITO,           ');
+        Add('   VALOR_PAGO)             ');
+        Add('VALUES                     ');
+        Add('  (:ID,                    ');
+        Add('   :FECHAMENTO_COMISSAO_ID,');
+        Add('   :CONTAS_RECEBER_ID,     ');
+        Add('   :VALOR_DEBITO,          ');
+        Add('   :VALOR_PAGO)            ');
+
+        {inserir lista de contas receber}
+        mtb_contas_receber.First;
+        while not mtb_contas_receber.Eof do
+        begin
+
+          ParamByName('ID').AsInteger := uBiblioteca.AutoIncremento(conexao, 'FECHAMENTO_DEBITOS');
+          ParamByName('FECHAMENTO_COMISSAO_ID').AsInteger := p_codigo;
+          ParamByName('CONTAS_RECEBER_ID').AsInteger := mtb_contas_receber.FieldByName('ID').AsInteger;
+          ParamByName('VALOR_DEBITO').AsFloat := mtb_contas_receber.FieldByName('TOTAL').AsFloat;
+          ParamByName('VALOR_PAGO').AsFloat := mtb_contas_receber.FieldByName('TOTAL').AsFloat;;
+
+          prc_baixar_conta_receber( mtb_contas_receber.FieldByName('ID').AsInteger,
+                                    mtb_contas_receber.FieldByName('TOTAL').AsFloat,
+                                    mtb_contas_receber.FieldByName('TOTAL').AsFloat
+                                   );
+
+          mtb_contas_receber.Next;
+
+          ExecSQL;
+
+        end;
+
+      end;
+
+
+
+    finally
+      FreeAndNil(qry);
+    end;
+  except
+    on E : Exception do
+    begin
+      Conexao.Rollback;
+      Raise Exception.Create(E.Message + ' : ufrmComissoesDespesaE.prc_salvar.fnc_incluir');
+    end;
+  end;
+end;
+
+procedure TfrmComissaoFechamentoE.btn_excluir_comissoesClick(Sender: TObject);
+begin
+  inherited;
+  if not mtb_comissoes.IsEmpty then
+  begin
+    mtb_comissoes.Delete;
+
+    prc_totais;
+
+  end;
+end;
+
+procedure TfrmComissaoFechamentoE.btn_excluir_debitosClick(Sender: TObject);
+begin
+  inherited;
+  if not mtb_contas_receber.IsEmpty then
+  begin
+     mtb_contas_receber.Delete;
+
+     prc_totais;
+
+  end;
+end;
+
+procedure TfrmComissaoFechamentoE.btn_selecionar_comissoesClick(
+  Sender: TObject);
+
+var
+  i : integer;
+begin
+  inherited;
+
+  if cbx_vendedor.Text = '' then
+  begin
+    ShowMessage('selecione um VENDEDOR !');
+    cbx_vendedor.SetFocus;
+    exit;
+  end;
+
+  try
+    if frmComissoesPesquisa = nil then
+      frmComissoesPesquisa := TfrmComissoesPesquisa.Create(Application);
+
+    frmComissoesPesquisa.p_vendedor_id := cbx_vendedor.KeyValue;
+    frmComissoesPesquisa.ShowModal;
+
+    {preenche a grid com as contas selecionadas}
+    if frmComissoesPesquisa.p_confirmado = true then
+    begin
+
+      {limpa o memtable}
+      mtb_comissoes.First;
+      while not mtb_comissoes.eof do mtb_comissoes.Delete;
+
+
+      for i:= 0 to frmComissoesPesquisa.dbg_comissoes.SelectedRows.Count -1 do
+      begin
+
+        frmComissoesPesquisa.qry.GotoBookmark(frmComissoesPesquisa.dbg_comissoes.SelectedRows.Items[i]);
+        prc_incluir_conta(
+                 frmComissoesPesquisa.qry.fieldbyname('ID').AsInteger,
+                 frmComissoesPesquisa.qry.fieldbyname('DATA_CONTABIL').AsDateTime,
+                 frmComissoesPesquisa.qry.fieldbyname('PEDIDO_ID').AsInteger,
+                 frmComissoesPesquisa.qry.fieldbyname('NOSSO_NUMERO').AsString,
+                 frmComissoesPesquisa.qry.fieldbyname('NOME').AsString,
+                 frmComissoesPesquisa.qry.fieldbyname('BAIRRO').AsString,
+                 frmComissoesPesquisa.qry.fieldbyname('TOTAL_VENDA').AsFloat,
+                 frmComissoesPesquisa.qry.fieldbyname('TOTAL_CUSTO').AsFloat,
+                 frmComissoesPesquisa.qry.fieldbyname('OUTRAS_DESPESAS').AsFloat,
+                 frmComissoesPesquisa.qry.fieldbyname('COMISSAO_ADM').AsFloat,
+                 frmComissoesPesquisa.qry.fieldbyname('COMISSAO_BRUTA').AsFloat,
+                 frmComissoesPesquisa.qry.fieldbyname('COMISSAO_LIQUIDA').AsFloat,
+                 frmComissoesPesquisa.qry.FieldByName('HISTORICO').AsString
+                 );
+
+      end;
+
+      prc_totais;
+
+    end;
+
+  finally
+
+    FreeAndNil( frmComissoesPesquisa );
+
+  end;
+end;
+
+procedure TfrmComissaoFechamentoE.prc_totais;
+begin
+
+  {Atualiza property e labels}
+  p_total_vendas    := StrToFloat( VarToStrDef(mtb_comissoes.FieldByName('TOTAL_VENDAS').Value,'0') );
+  p_custo_pedidos   := StrToFloat( VarToStrDef(mtb_comissoes.FieldByName('CUSTO_PEDIDOS').Value,'0') );
+  p_outras_despesas := StrToFloat( VarToStrDef(mtb_comissoes.FieldByName('TOTAL_DESPESAS').Value,'0') );
+  p_comissao_adm    := StrToFloat( VarToStrDef(mtb_comissoes.FieldByName('TOTAL_ADM').Value,'0') );
+  p_total_comissoes := StrToFloat( VarToStrDef(mtb_comissoes.FieldByName('TOTAL_COMISSOES').Value,'0') );
+
+  lbl_registros_comissoes.Caption   := inttostr(mtb_comissoes.RecordCount);
+  lbl_total_vendas.Caption          := FormatFloat('0.00', p_total_vendas);
+  lbl_custo_pedidos.Caption         := FormatFloat('0.00', p_custo_pedidos);
+  lbl_total_outras_despesas.Caption := FormatFloat('0.00', p_outras_despesas);
+  lbl_total_adm.Caption             := FormatFloat('0.00', p_comissao_adm);
+  lbl_total_comissoes.Caption       := FormatFloat('0.00', p_total_comissoes);
+
+  { debitos do vendedor }
+  lbl_registros_contas_receber.Caption := inttostr(mtb_contas_receber.RecordCount);
+  p_total_debitos := StrToFloat( VarToStrDef(mtb_contas_receber.FieldByName('TOTAL_DEBITOS').Value,'0') );
+  lbl_total_contas_receber.Caption     := FormatFloat('0.00', p_total_debitos);
+
+  { saldo liquido }
+  p_saldo_liquido := ( p_total_comissoes - p_total_debitos );
+  lbl_saldo_liquido.Caption := FormatFloat('0.00', p_saldo_liquido );
+
+end;
+
+procedure TfrmComissaoFechamentoE.btn_selecionar_debitosClick(Sender: TObject);
+var
+  i : integer;
+begin
+  inherited;
+
+  if cbx_vendedor.Text = '' then
+  begin
+    ShowMessage('selecione um VENDEDOR !');
+    cbx_vendedor.SetFocus;
+    exit;
+  end;
+
+  try
+    if frmComissoesPesquisaContasReceber = nil then
+      frmComissoesPesquisaContasReceber := TfrmComissoesPesquisaContasReceber.Create(Application);
+
+    frmComissoesPesquisaContasReceber.p_vendedor_id := cbx_vendedor.KeyValue;
+    frmComissoesPesquisaContasReceber.ShowModal;
+
+    {preenche a grid com as contas selecionadas}
+    if frmComissoesPesquisaContasReceber.p_confirmado = true then
+    begin
+
+      {limpa o memtable}
+      mtb_contas_receber.First;
+      while not mtb_contas_receber.eof do mtb_contas_receber.Delete;
+
+
+      for i:= 0 to frmComissoesPesquisaContasReceber.dbg_contas_receber.SelectedRows.Count -1 do
+      begin
+
+        frmComissoesPesquisaContasReceber.qry.GotoBookmark(frmComissoesPesquisaContasReceber.dbg_contas_receber.SelectedRows.Items[i]);
+        prc_incluir_conta_receber(
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('ID').AsInteger,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('DATA_CONTABIL').AsDateTime,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('PARCELA_NR').AsInteger,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('PARCELA_QTDE').AsInteger,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('VALOR').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('DESCONTO').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('MULTA').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.fieldbyname('JUROS').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.FieldByName('ARREDONDAMENTO').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.FieldByName('TOTAL').AsFloat,
+                 frmComissoesPesquisaContasReceber.qry.FieldByName('DESCRICAO').AsString
+                 );
+
+      end;
+
+      prc_totais;
+
+    end;
+
+  finally
+
+    FreeAndNil( frmComissoesPesquisaContasReceber );
+
+  end;
+end;
+
+procedure TfrmComissaoFechamentoE.cbx_vendedorCloseUp(Sender: TObject);
+begin
+  inherited;
+  mtb_comissoes.close;
+  mtb_comissoes.open;
+
+  mtb_contas_receber.close;
+  mtb_contas_receber.open;
+
+  prc_totais;
+end;
+
+procedure TfrmComissaoFechamentoE.cbx_vendedorExit(Sender: TObject);
+begin
+  inherited;
+  p_vendedor := cbx_vendedor.KeyValue;
+end;
+
+procedure TfrmComissaoFechamentoE.ds_comissoesDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_excluir_comissoes.Enabled := not mtb_comissoes.IsEmpty;
+  btnOk.Enabled := not mtb_comissoes.IsEmpty;
+
+end;
+
+procedure TfrmComissaoFechamentoE.ds_contas_receberDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_excluir_debitos.Enabled := not mtb_contas_receber.IsEmpty;
+
+end;
+
+procedure TfrmComissaoFechamentoE.prc_incluir_conta(id : integer;
+                         data_contabil : TDate; pedido_id: integer;
+                         nosso_numero, nome_cliente, bairro: string; total_venda,
+                         total_custo, outras_despesas, comissao_adm, comissao_bruta,
+                         comissao_liquida: double; historico: string);
+begin
+
+  {Inserir na grid}
+  mtb_comissoes.Append;
+  mtb_comissoes.FieldByName('ID').AsInteger             := Id;
+  mtb_comissoes.FieldByName('DATA_CONTABIL').AsDateTime := data_contabil;
+  mtb_comissoes.FieldByName('PEDIDO_ID').AsInteger      := pedido_id;
+  mtb_comissoes.FieldByName('NOSSO_NUMERO').AsString    := nosso_numero;
+  mtb_comissoes.FieldByName('NOME').AsString            := nome_cliente;
+  mtb_comissoes.FieldByName('BAIRRO').AsString          := bairro;
+  mtb_comissoes.FieldByName('TOTAL_VENDA').AsFloat      := total_venda;
+  mtb_comissoes.FieldByName('TOTAL_CUSTO').AsFloat      := total_custo;
+  mtb_comissoes.FieldByName('OUTRAS_DESPESAS').AsFloat  := outras_despesas;
+  mtb_comissoes.FieldByName('COMISSAO_ADM').AsFloat     := comissao_adm;
+  mtb_comissoes.FieldByName('COMISSAO_BRUTA').AsFloat   := comissao_bruta;
+  mtb_comissoes.FieldByName('COMISSAO_LIQUIDA').AsFloat := comissao_liquida;
+  mtb_comissoes.FieldByName('VALOR_PAGO').AsFloat       := comissao_liquida;
+  mtb_comissoes.FieldByName('HISTORICO').AsString       := historico;
+  mtb_comissoes.Post;
+
+end;
+
+procedure TfrmComissaoFechamentoE.prc_incluir_conta_receber(id: integer; data_contabil: TDate;
+  parcela_nr, parcela_qtde: integer; valor, desconto, multa, juros, arredondamento,
+  total: double;  descricao: string);
+begin
+
+  {Inserir na grid}
+  mtb_contas_receber.Append;
+  mtb_contas_receber.FieldByName('ID').AsInteger             := Id;
+  mtb_contas_receber.FieldByName('DATA_CONTABIL').AsDateTime := data_contabil;
+  mtb_contas_receber.FieldByName('PARCELA_NR').AsInteger     := parcela_nr;
+  mtb_contas_receber.FieldByName('PARCELA_QTDE').AsInteger   := parcela_qtde;
+  mtb_contas_receber.FieldByName('VALOR').AsFloat            := valor;
+  mtb_contas_receber.FieldByName('DESCONTO').AsFloat         := desconto;
+  mtb_contas_receber.FieldByName('MULTA').AsFloat            := multa;
+  mtb_contas_receber.FieldByName('JUROS').AsFloat            := juros;
+  mtb_contas_receber.FieldByName('ARREDONDAMENTO').AsFloat   := arredondamento;
+  mtb_contas_receber.FieldByName('TOTAL').AsFloat            := total;
+  mtb_contas_receber.FieldByName('DESCRICAO').AsString       := descricao;
+  mtb_contas_receber.Post;
+
+end;
+
+function TfrmComissaoFechamentoE.fnc_validar: boolean;
+begin
+
+  result := false;
+
+  if cbx_mes.Text = '' then
+  begin
+    ShowMessage('Informe um MÊS');
+    cbx_mes.SetFocus;
+    exit;
+  end;
+
+  if StrToIntDef( edt_ano.Text, 0 ) or  StrToIntDef( edt_ano.Text, 0 ) < 2022  then
+  begin
+    ShowMessage('Informe um ANO válido');
+    edt_ano.SetFocus;
+    exit;
+  end;
+
+
+  if mtb_contas_receber.IsEmpty then
+  begin
+    if Application.MessageBox('Deseja selecionar débitos deste vendedor?', 'Lembrete', MB_YESNO) = mrYes then
+    begin
+      btn_selecionar_debitos.Click;
+      exit;
+    end;
+
+  end;
+
+
+
+  result := true;
+
+end;
+
+procedure TfrmComissaoFechamentoE.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  p_tabela := 'FECHAMENTO_COMISSAO';
+  p_total_vendas    := 0;
+  p_custo_pedidos   := 0;
+  p_outras_despesas := 0;
+  p_comissao_adm    := 0;
+  p_total_comissoes := 0;
+  p_total_debitos   := 0;
+  p_saldo_liquido   := 0;
+
+
+
+  titulo := 'Fechamento de comissões';
+end;
+
+procedure TfrmComissaoFechamentoE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+end;
+
+procedure TfrmComissaoFechamentoE.prc_inicializar;
+begin
+
+
+
+  inherited;
+  case self.p_operacao of
+    uTipos.opIncluir: begin
+                        pnTitulo.Caption := titulo +' [Inclusão]';
+                        btnOk.Caption  := 'Confirma';
+                        lbl_id.Caption := '"Novo"';
+                        lbl_cadastrado_em.Caption  := DateToStr(date);
+                       //
+                     end;
+    uTipos.opAlterar: begin
+                        prc_ler_dados;
+                        pnTitulo.Caption := titulo +' [Somente leitura]';
+
+                        btn_selecionar_comissoes.Enabled := false;
+                        btn_excluir_comissoes.Enabled := false;
+
+                        btn_selecionar_debitos.Enabled := false;
+                        btn_excluir_debitos.Enabled := false;
+
+                        btnOk.Enabled := false;
+                      //
+                      end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+
+
+end;
+
+procedure TfrmComissaoFechamentoE.prc_ler_dados;
+var
+ lo_qry, lo_qry_pesq : TFDQuery;
+begin
+
+  {cabeça do documento}
+  lo_qry := TFDQuery.Create(application);
+  lo_qry.Connection := Conexao;
+  lo_qry.SQL.Add('select * from FECHAMENTO_COMISSAO where ID =:ID');
+  lo_qry.ParamByName('ID').AsInteger := p_codigo;
+  lo_qry.Open;
+
+  lbl_ID.Caption            := IntToStr(p_codigo);
+  lbl_cadastrado_em.Caption := lo_qry.FieldByName('CADASTRADO_EM').AsString;
+  cbx_mes.Text              := lo_qry.FieldByName('MES').Value;
+  edt_ano.Text              := lo_qry.FieldByName('ANO').AsString;
+  cbx_vendedor.KeyValue     := lo_qry.FieldByName('PESSOA_ID').Value;
+  mm_obs.Lines.Text         := lo_qry.FieldByName('OBS').AsString;
+  {fim cabeça do documento}
+
+
+  {qry para buscar uma comissao}
+  lo_qry_pesq := TFDQuery.Create(application);
+  lo_qry_pesq.Connection := Conexao;
+  //
+  lo_qry_pesq.SQL.Add('select ');
+  lo_qry_pesq.SQL.Add('  C.id, ');
+  lo_qry_pesq.SQL.Add('  C.data_contabil, ');
+  lo_qry_pesq.SQL.Add('  C.pedido_id, ');
+  lo_qry_pesq.SQL.Add('  cli.nome, ');
+  lo_qry_pesq.SQL.Add('  cli.bairro, ');
+  lo_qry_pesq.SQL.Add('  C.vendedor_id, ');
+  lo_qry_pesq.SQL.Add('  C.total_venda, ');
+  lo_qry_pesq.SQL.Add('  C.total_custo, ');
+  lo_qry_pesq.SQL.Add('  C.outras_despesas, ');
+  lo_qry_pesq.SQL.Add('  C.comissao_BRUTA, ');
+  lo_qry_pesq.SQL.Add('  C.comissao_adm, ');
+  lo_qry_pesq.SQL.Add('  C.comissao_liquida, ');
+  lo_qry_pesq.SQL.Add('  C.status, ');
+  lo_qry_pesq.SQL.Add('  C.historico ');
+  lo_qry_pesq.SQL.Add('from ');
+  lo_qry_pesq.SQL.Add('  comissao C, ');
+  lo_qry_pesq.SQL.Add('  pedidos P, ');
+  lo_qry_pesq.SQL.Add('  pessoas cli ');
+  lo_qry_pesq.SQL.Add('where ');
+  lo_qry_pesq.SQL.Add('  c.pedido_id = P.ID and ');
+  lo_qry_pesq.SQL.Add('  cli.id = p.cliente_id and ');
+  lo_qry_pesq.SQL.Add('  c.id = :ID ');
+
+  {lista de comissoes}
+  lo_qry.SQL.Clear;
+  lo_qry.SQL.Add('select * from FECHAMENTO_COMISSOES where FECHAMENTO_COMISSAO_ID =:ID');
+  lo_qry.ParamByName('ID').AsInteger := p_codigo;
+  lo_qry.Open;
+  lo_qry.First;
+  while not lo_qry.Eof do
+  begin
+    lo_qry_pesq.Close;
+    lo_qry_pesq.ParamByName('ID').AsInteger := lo_qry.fieldbyname('COMISSAO_ID').AsInteger;
+    lo_qry_pesq.Open;
+
+    prc_incluir_conta(
+             lo_qry.fieldbyname('COMISSAO_ID').AsInteger,
+             lo_qry_pesq.fieldbyname('DATA_CONTABIL').AsDateTime,
+             lo_qry_pesq.fieldbyname('PEDIDO_ID').AsInteger,
+             lo_qry_pesq.fieldbyname('NOSSO_NUMERO').AsString,
+             lo_qry_pesq.fieldbyname('NOME').AsString,
+             lo_qry_pesq.fieldbyname('BAIRRO').AsString,
+             lo_qry_pesq.fieldbyname('TOTAL_VENDA').AsFloat,
+             lo_qry_pesq.fieldbyname('TOTAL_CUSTO').AsFloat,
+             lo_qry_pesq.fieldbyname('OUTRAS_DESPESAS').AsFloat,
+             lo_qry_pesq.fieldbyname('COMISSAO_ADM').AsFloat,
+             lo_qry_pesq.fieldbyname('COMISSAO_BRUTA').AsFloat,
+             lo_qry_pesq.fieldbyname('COMISSAO_LIQUIDA').AsFloat,
+             lo_qry_pesq.FieldByName('HISTORICO').AsString
+             );
+
+    lo_qry.Next;
+
+  end;
+  {fim lista de comissoes}
+
+  {busca conta a receber}
+  lo_qry_pesq.SQL.Clear;
+  lo_qry_pesq.SQL.Add('select * from CONTAS_RECEBER where ID =:ID');
+
+  {lista de debitos vendedor}
+  lo_qry.SQL.Clear;
+  lo_qry.SQL.Add('select * from FECHAMENTO_DEBITOS where FECHAMENTO_COMISSAO_ID =:ID');
+  lo_qry.ParamByName('ID').AsInteger := p_codigo;
+  lo_qry.Open;
+  lo_qry.First;
+  while not lo_qry.Eof do
+  begin
+    lo_qry_pesq.Close;
+    lo_qry_pesq.ParamByName('ID').AsInteger := lo_qry.fieldbyname('CONTAS_RECEBER_ID').AsInteger;
+    lo_qry_pesq.Open;
+
+    prc_incluir_conta_receber(
+             lo_qry_pesq.fieldbyname('ID').AsInteger,
+             lo_qry_pesq.fieldbyname('DATA_CONTABIL').AsDateTime,
+             lo_qry_pesq.fieldbyname('PARCELA_NR').AsInteger,
+             lo_qry_pesq.fieldbyname('PARCELA_QTDE').AsInteger,
+             lo_qry_pesq.fieldbyname('VALOR').AsFloat,
+             lo_qry_pesq.fieldbyname('DESCONTO').AsFloat,
+             lo_qry_pesq.fieldbyname('MULTA').AsFloat,
+             lo_qry_pesq.fieldbyname('JUROS').AsFloat,
+             lo_qry_pesq.FieldByName('ARREDONDAMENTO').AsFloat,
+             lo_qry_pesq.FieldByName('TOTAL').AsFloat,
+             lo_qry_pesq.FieldByName('DESCRICAO').AsString
+             );
+
+    lo_qry.Next;
+
+  end;
+
+
+
+  prc_totais;
+
+  {libera qry da memoria}
+  FreeAndNil( lo_qry );
+  FreeAndNil( lo_qry_pesq );
+end;
+
+procedure TfrmComissaoFechamentoE.prc_baixar_comissao(comissao_id: integer;
+  valor_debito,valor_pago: double);
+var
+  qry : TFDQuery;
+begin
+  try
+    qry := TFDQuery.Create(Self);
+    try
+      with qry, qry.Sql do
+      begin
+        connection := Conexao;
+        Add('UPDATE            ');
+        Add('  COMISSAO        ');
+        Add('SET               ');
+        Add('  VALOR_PAGO = :VALOR_PAGO, ');
+        Add('  DATA_PAGTO = :DATA_PAGTO, ');
+        Add('  STATUS = :STATUS ');
+        Add('WHERE              ');
+        Add('  ID = :ID         ');
+
+        ParamByName('ID').AsInteger       := comissao_id;
+        ParamByName('VALOR_PAGO').AsFloat := valor_pago;
+        ParamByName('DATA_PAGTO').AsDate  := Date;
+        ParamByName('STATUS').AsString    := uBiblioteca.SeSenao(valor_pago >= valor_debito , 'P','A');
+
+        ExecSQL;
+
+      end; // with
+
+
+    finally
+      FreeAndNil(qry);
+    end; // try/finnaly
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.prc_baixar_comissao');
+  end; //try/exception
+end;
+
+procedure TfrmComissaoFechamentoE.prc_baixar_conta_receber(conta_id: integer;
+  valor_debito, valor_pago: double);
+var
+  qry : TFDQuery;
+  fechamento_id : integer;
+begin
+  try
+    {baixa a conta a receber}
+    qry := TFDQuery.Create(Self);
+    try
+      with qry, qry.Sql do
+      begin
+        connection := Conexao;
+        Add('UPDATE            ');
+        Add('  CONTAS_RECEBER  ');
+        Add('SET               ');
+        Add('  VALOR_PAGO   = :VALOR_PAGO,  ');
+        Add('  SALDO_ABERTO = :SALDO_ABERTO,');
+        Add('  DATA_PAGTO   = :DATA_PAGTO,  ');
+        Add('  PAGO         = :PAGO         ');
+        Add('WHERE              ');
+        Add('  ID = :ID         ');
+
+        ParamByName('ID').AsInteger         := conta_id;
+        ParamByName('VALOR_PAGO').AsFloat   := valor_pago;
+        ParamByName('SALDO_ABERTO').AsFloat := valor_pago - valor_debito;
+        ParamByName('DATA_PAGTO').AsDate    := Date;
+        ParamByName('PAGO').AsString        := uBiblioteca.SeSenao(valor_pago >= valor_debito , 'S','N');
+
+        ExecSQL;
+
+
+        qry.SQL.Clear;
+        {Inclui no conta_receber_baixa o número do recibo}
+
+        Add('INSERT INTO             ');
+        Add('   CONTAS_RECEBER_BAIXA ');
+        Add('  (ID,                  ');
+        Add('   CADASTRADO_EM,       ');
+        Add('   PESSOA_ID,           ');
+        Add('   USUARIO_ID,          ');
+        Add('   CONTAS_RECEBER_ID,   ');
+        Add('   RECIBO_ID,           ');
+        Add('   HISTORICO,           ');
+        Add('   VALOR)               ');
+        Add('VALUES                  ');
+        Add('  (:ID,                 ');
+        Add('   :CADASTRADO_EM,      ');
+        Add('   :PESSOA_ID,          ');
+        Add('   :USUARIO_ID,         ');
+        Add('   :CONTAS_RECEBER_ID,  ');
+        Add('   :RECIBO_ID,          ');
+        Add('   :HISTORICO,          ');
+        Add('   :VALOR)              ');
+
+        fechamento_id := uBiblioteca.AutoIncremento(Conexao, 'CONTAS_RECEBER_BAIXA');
+        ParamByName('ID').AsInteger               := fechamento_id;
+        ParamByName('CADASTRADO_EM').AsDate       := Date;
+        ParamByName('PESSOA_ID').AsInteger        := p_vendedor;
+        ParamByName('USUARIO_ID').AsInteger       := 3;
+        ParamByName('CONTAS_RECEBER_ID').AsInteger:= conta_id;
+        ParamByName('RECIBO_ID').AsInteger        := p_codigo;
+        ParamByName('HISTORICO').AsString         := 'Fechamento de comissão N. ' + inttostr(p_codigo);
+        ParamByName('VALOR').AsFloat              := valor_pago;
+
+        ExecSQL;
+
+      end; // with
+
+
+    finally
+      FreeAndNil(qry);
+    end; // try/finnaly
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.prc_baixar_conta_receber');
+  end; //try/exception
+end;
+
+
+procedure TfrmComissaoFechamentoE.prc_componentes;
+begin
+  dbg_comissoes.Columns[0].Visible := false; // id
+  dbg_contas_receber.Columns[0].Visible := false; // id
+
+
+  lbl_sub_titulo.Caption := 'Baixar e emitir um recibo das comissões pagas em um periodo';
+
+  qry_vendedor.Connection := self.Conexao;
+  qry_vendedor.Close;
+  qry_vendedor.SQL.Clear;
+  qry_vendedor.SQL.Add( 'select ');
+  qry_vendedor.SQL.Add('  P.ID, V.PESSOA_ID, P.NOME ');
+  qry_vendedor.SQL.Add(' from ');
+  qry_vendedor.SQL.Add('  PESSOAS P, VENDEDORES V ');
+  qry_vendedor.SQL.Add(' where ');
+  qry_vendedor.SQL.Add('  P.ID = V.PESSOA_ID ');
+  qry_vendedor.SQL.Add(' order by P.NOME');
+  qry_vendedor.Open;
+
+
+  btn_excluir_comissoes.Enabled := false;
+  btn_excluir_debitos.Enabled := false;
+
+  btnOk.Enabled := false;
+  cbx_mes.SetFocus;;
+
+end;
+
+end.

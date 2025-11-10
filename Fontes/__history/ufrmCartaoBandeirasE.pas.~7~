@@ -1,0 +1,312 @@
+unit ufrmCartaoBandeirasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, uBiblioteca, unit_funcoes;
+
+type
+  TfrmCartaoBandeirasE = class(TfrmBaseEdicao)
+    Label2: TLabel;
+    lbl_Id: TLabel;
+    Label6: TLabel;
+    edt_descricao: TEdit;
+    cb_ativo: TCheckBox;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+
+    procedure prc_salvar;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+
+
+  protected
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    function prc_validar: boolean;
+
+
+  public
+
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+
+  end;
+
+  procedure prc_incluir;
+  procedure prc_alterar(ACodigo :integer);
+  procedure prc_excluir(ACodigo :integer);
+
+implementation
+
+procedure prc_incluir;
+var
+  loForm : TfrmCartaoBandeirasE;
+begin
+  loForm := TfrmCartaoBandeirasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_alterar(ACodigo :integer);
+var
+  loForm : TfrmCartaoBandeirasE;
+begin
+  loForm := TfrmCartaoBandeirasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_excluir(ACodigo :integer);
+var
+  loForm : TfrmCartaoBandeirasE;
+begin
+  loForm := TfrmCartaoBandeirasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmCartaoBandeirasE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmCartaoBandeirasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_BANDEIRAS';
+
+end;
+
+procedure TfrmCartaoBandeirasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmCartaoBandeirasE.prc_componentes;
+begin
+  {qry de principal}
+  qry.Connection := Conexao;
+
+end;
+
+procedure TfrmCartaoBandeirasE.prc_incluir_alterar(operacao: TOperacao);
+begin
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+  end;
+
+
+  if operacao = OpIncluir then
+  begin
+    qry.SQL.Add('insert into ' + self.Tabela );
+    qry.SQL.Add('(');
+    //qry.SQL.Add('  ID, ');
+    qry.SQL.Add('  DESCRICAO, ');
+    qry.SQL.Add('  ATIVO      ');
+    qry.SQL.Add(')            ');
+    qry.SQL.Add('VALUES       ');
+    qry.SQL.Add('(            ');
+    qry.SQL.Add(' :DESCRICAO, ');
+    qry.SQL.Add(' :ATIVO      ');
+    qry.SQL.Add(')            ');
+
+  end
+  else
+  begin
+    qry.SQL.Add('UPDATE                    ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                       ');
+    qry.SQL.Add('  DESCRICAO = :DESCRICAO, ');
+    qry.SQL.Add('  ATIVO = :ATIVO          ');
+    qry.SQL.Add('WHERE                     ');
+    qry.SQL.Add('  ID = :ID                ');
+    //
+    qry.ParamByName('ID').AsInteger := Codigo;
+
+  end;
+  //ShowMessage(QRY.SQL.Text);
+
+  qry.ParamByName('DESCRICAO').AsString := edt_descricao.Text;
+  qry.ParamByName('ATIVO').AsString     := ubiblioteca.SeSenao(cb_ativo.Checked  , 'S','N');
+
+  qry.ExecSQL;
+
+end;
+
+procedure TfrmCartaoBandeirasE.prc_inicializar;
+begin
+
+  pnTitulo.Caption := 'CADASTRO DE BANDEIRAS DE CARTÃO DE CRÉDITO';
+
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       lbl_sub_titulo.Caption := 'INCLUSÃO';
+                       pnDados.Enabled := true;
+
+                       lbl_Id.Caption := '-1';
+                       btnOk.Caption := 'Incluir';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'ALTERAÇÃO';
+                      btnOk.Caption    := 'Alterar';
+                      //
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled     := false;
+                      btnOk.Caption       := 'Excluir';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmCartaoBandeirasE.prc_ler_dados;
+var
+ loQry: TFDQuery;
+begin
+
+  try
+
+    loQry := TFDQuery.Create(Self);
+    try
+      with loQry, loQry.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('SELECT * FROM ' + Self.Tabela + ' WHERE ID =:ID');
+        ParamByName('ID').AsInteger := Codigo;
+        Open;
+      end;
+      if not loQry.IsEmpty then
+      begin
+        //Carrega dados
+        lbl_Id.Caption     := loQry.FieldByName('ID').AsString;
+        cb_ativo.Checked   := loQry.FieldByName('ATIVO').AsString = 'S';
+        edt_descricao.Text := loQry.FieldByName('DESCRICAO').AsString;
+
+      end
+      else
+      begin
+        ShowMessage('conta NÃO encontrada!');
+
+      end;
+    finally
+      FreeAndNil(loQry);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name + '.prc_ler_dados');
+  end;
+end;
+
+
+procedure TfrmCartaoBandeirasE.prc_salvar;
+begin
+  if not prc_validar then Exit;
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    on E : Exception do
+       begin
+         unit_funcoes.CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O REGISTRO.' + slinebreak + slinebreak + E.Message);
+         if Conexao.InTransaction then
+           Conexao.Rollback;;
+         Raise;
+       end;
+  end;
+
+end;
+
+function TfrmCartaoBandeirasE.prc_validar: boolean;
+var
+  loqry: TFDQuery;
+begin
+  result := false;
+
+  if edt_descricao.text = '' then
+  begin
+    ShowMessage('informe o DESCRIÇÃO DA BANDEIRA DO CARTÃO DE CRÉDITO');
+    edt_descricao.SetFocus;
+    exit;
+  end;
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+    loqry.SQL.Add('select descricao from cartao_bandeiras where descricao =:descricao');
+    loqry.ParamByName('descricao').AsString := edt_descricao.Text ;
+    loqry.open;
+    if loqry.RecordCount > 0 then
+    begin
+      criarmensagem('AVISO','JÁ EXITE UMA BANDEIRA DE CARTÃO CADASTRADA NO SISTEMA COM ESSA DESCRIÇÃO.');
+      exit;
+    end;
+
+  finally
+    freeandnil(loqry);
+  end;
+
+  result := true;
+
+end;
+
+end.

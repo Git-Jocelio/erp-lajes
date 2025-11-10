@@ -1,0 +1,278 @@
+inherited frmCartaoVendas: TfrmCartaoVendas
+  Caption = 'frmCartaoVendas'
+  ClientWidth = 1028
+  Position = poDesktopCenter
+  ExplicitWidth = 1028
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 1028
+    ExplicitWidth = 1028
+    inherited edt_consulta: TEdit
+      Width = 584
+      ExplicitWidth = 584
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 1028
+    ExplicitWidth = 1028
+  end
+  inherited StatusBar: TStatusBar
+    Width = 1028
+    ExplicitWidth = 1028
+  end
+  inherited PageControl1: TPageControl
+    Width = 1028
+    ExplicitWidth = 1028
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 1020
+      inherited Panel5: TPanel
+        Width = 1020
+        ExplicitWidth = 1020
+        inherited DBGrid1: TDBGrid
+          Width = 980
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Width = 100
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ALTERADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Alterado em'
+              Width = 100
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'DATA_VENDA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Data Venda'
+              Width = 100
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CARTAO_OPERADORA_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cod Operadora'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NM_OPERADORA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Operadora'
+              Width = 220
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CARTAO_MAQUINA_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cod M'#225'quina'
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CARTAO_BANDEIRA_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cod Bandeira'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NM_BANDEIRA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Bandeira'
+              Width = 130
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CARTAO_FORMA_PAGTO_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cod Forma Pagto'
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'TAXA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Taxa'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_VENDA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Vr Venda'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_LIQUIDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Vr Liquido'
+              Width = 100
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CV'
+              Title.Alignment = taCenter
+              Width = 130
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 980
+          ExplicitWidth = 980
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 1028
+    ExplicitWidth = 1028
+    inherited btn_fechar: TSpeedButton
+      Left = 958
+      ExplicitLeft = 817
+    end
+    inherited lbl_titulo: TLabel
+      Width = 489
+      Height = 56
+      Caption = 'CONTROLE DE VENDAS COM CART'#195'O DE CR'#201'DITO'
+      ExplicitWidth = 489
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 1028
+      ExplicitWidth = 1028
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  V.ID,'
+      '  V.CADASTRADO_EM,'
+      '  V.ALTERADO_EM,'
+      '  V.DATA_VENDA,'
+      '  V.CARTAO_OPERADORA_ID,'
+      '  P.NOME AS NM_OPERADORA,'
+      '  V.CARTAO_MAQUINA_ID,'
+      '  V.CARTAO_BANDEIRA_ID,'
+      '  B.DESCRICAO AS NM_BANDEIRA,'
+      '  V.CARTAO_FORMA_PAGTO_ID,'
+      '  V.TAXA,'
+      '  V.VALOR_VENDA,'
+      '  V.VALOR_LIQUIDO,'
+      '  V.CV'
+      'from'
+      '  CARTAO_VENDAS V,'
+      '  CARTAO_OPERADORAS O,'
+      '  CARTAO_BANDEIRAS B,'
+      '  PESSOAS P'
+      'where'
+      '  V.CARTAO_OPERADORA_ID = O.PESSOA_ID AND'
+      '  V.CARTAO_BANDEIRA_ID =  B.ID AND'
+      '  P.ID = O.pessoa_id')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryCADASTRADO_EM: TDateField
+      FieldName = 'CADASTRADO_EM'
+      Origin = 'CADASTRADO_EM'
+    end
+    object qryALTERADO_EM: TDateField
+      FieldName = 'ALTERADO_EM'
+      Origin = 'ALTERADO_EM'
+    end
+    object qryDATA_VENDA: TDateField
+      FieldName = 'DATA_VENDA'
+      Origin = 'DATA_VENDA'
+    end
+    object qryCARTAO_OPERADORA_ID: TIntegerField
+      FieldName = 'CARTAO_OPERADORA_ID'
+      Origin = 'CARTAO_OPERADORA_ID'
+    end
+    object qryNM_OPERADORA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NM_OPERADORA'
+      Origin = 'DESCRICAO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 60
+    end
+    object qryCARTAO_MAQUINA_ID: TIntegerField
+      FieldName = 'CARTAO_MAQUINA_ID'
+      Origin = 'CARTAO_MAQUINA_ID'
+    end
+    object qryCARTAO_BANDEIRA_ID: TIntegerField
+      FieldName = 'CARTAO_BANDEIRA_ID'
+      Origin = 'CARTAO_BANDEIRA_ID'
+    end
+    object qryNM_BANDEIRA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NM_BANDEIRA'
+      Origin = 'DESCRICAO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 60
+    end
+    object qryCARTAO_FORMA_PAGTO_ID: TIntegerField
+      FieldName = 'CARTAO_FORMA_PAGTO_ID'
+      Origin = 'CARTAO_FORMA_PAGTO_ID'
+    end
+    object qryTAXA: TCurrencyField
+      FieldName = 'TAXA'
+      Origin = 'TAXA'
+      DisplayFormat = '0.00'
+    end
+    object qryVALOR_VENDA: TFMTBCDField
+      FieldName = 'VALOR_VENDA'
+      Origin = 'VALOR_VENDA'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryVALOR_LIQUIDO: TFMTBCDField
+      FieldName = 'VALOR_LIQUIDO'
+      Origin = 'VALOR_LIQUIDO'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryCV: TStringField
+      FieldName = 'CV'
+      Origin = 'CV'
+      Size = 40
+    end
+  end
+end

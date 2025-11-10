@@ -1,0 +1,262 @@
+inherited frmProdutoTrelica: TfrmProdutoTrelica
+  Caption = 'frmProdutoTrelica'
+  ClientHeight = 441
+  ClientWidth = 984
+  ExplicitWidth = 996
+  ExplicitHeight = 499
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 984
+    ExplicitWidth = 980
+    inherited btnLocalizar: TBitBtn
+      Left = 669
+      ExplicitLeft = 669
+    end
+    object cbDescricao: TCheckBox
+      Left = 32
+      Top = 24
+      Width = 97
+      Height = 17
+      Caption = 'Descri'#231#227'o'
+      TabOrder = 1
+    end
+    object rgSituacao: TRadioGroup
+      Left = 574
+      Top = 6
+      Width = 89
+      Height = 78
+      Caption = ' Situa'#231#227'o '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ItemIndex = 0
+      Items.Strings = (
+        'Ativo'
+        'Inativo'
+        'Todos')
+      ParentFont = False
+      TabOrder = 2
+    end
+    object edNome: TEdit
+      Left = 32
+      Top = 47
+      Width = 188
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 3
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 984
+    ExplicitWidth = 980
+    inherited btnSair: TToolButton [7]
+      Left = 555
+      ExplicitLeft = 555
+    end
+    inherited ToolButton10: TToolButton [8]
+      Left = 664
+      ExplicitLeft = 664
+    end
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Top = 422
+    Width = 984
+    ExplicitTop = 421
+    ExplicitWidth = 980
+  end
+  inherited PageControl1: TPageControl
+    Width = 984
+    Height = 274
+    ExplicitWidth = 980
+    ExplicitHeight = 273
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 976
+      ExplicitHeight = 264
+      inherited Panel5: TPanel
+        Width = 976
+        Height = 264
+        ExplicitWidth = 972
+        ExplicitHeight = 263
+        inherited DBGrid1: TDBGrid
+          Width = 976
+          Height = 264
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME_FANTASIA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 376
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_CUSTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Custo Barra'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PERCA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Perca(%)'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 96
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CUSTO_LIQUIDO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Custo Liquido'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'KGS_METRO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Kgs / Mt'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -15
+              Title.Font.Name = 'Times New Roman'
+              Title.Font.Style = [fsBold]
+              Visible = False
+            end>
+        end
+      end
+    end
+  end
+  inherited ds: TDataSource
+    Left = 296
+    Top = 176
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
+    FormatOptions.FmtDisplayNumeric = '0.00'
+    SQL.Strings = (
+      'select'
+      '  P.ATIVO,'
+      '  P.ID,'
+      '  P.NOME_FANTASIA,'
+      '  P.PRECO_CUSTO,'
+      '  P.PERCA,'
+      '  P.CUSTO_LIQUIDO'
+      'from '
+      '  PRODUTOS P')
+    Left = 296
+    Top = 208
+    object qryATIVO: TStringField
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      Required = True
+      Size = 1
+    end
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      DisplayFormat = '0.00'
+    end
+    object qryNOME_FANTASIA: TStringField
+      FieldName = 'NOME_FANTASIA'
+      Origin = 'NOME_FANTASIA'
+      Size = 100
+    end
+    object qryPRECO_CUSTO: TCurrencyField
+      FieldName = 'PRECO_CUSTO'
+      Origin = 'PRECO_CUSTO'
+      DisplayFormat = '0.00'
+    end
+    object qryPERCA: TCurrencyField
+      FieldName = 'PERCA'
+      Origin = 'PERCA'
+      DisplayFormat = '0.00'
+    end
+    object qryCUSTO_LIQUIDO: TCurrencyField
+      FieldName = 'CUSTO_LIQUIDO'
+      Origin = 'CUSTO_LIQUIDO'
+      DisplayFormat = '0.00'
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 280
+    Top = 64
+  end
+  inherited ActionList1: TActionList
+    Left = 248
+    Top = 64
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+    inherited actLocalizar: TAction
+      OnExecute = actLocalizarExecute
+    end
+  end
+end

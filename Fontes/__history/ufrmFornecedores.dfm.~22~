@@ -1,0 +1,234 @@
+inherited frmFornecedores: TfrmFornecedores
+  Caption = 'frmFornecedores'
+  ClientHeight = 436
+  ClientWidth = 914
+  Position = poDesigned
+  ExplicitWidth = 914
+  ExplicitHeight = 436
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 914
+    ExplicitWidth = 914
+    inherited btnLocalizar: TBitBtn
+      Top = 50
+      ExplicitTop = 50
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 914
+    ExplicitWidth = 914
+  end
+  inherited StatusBar: TStatusBar
+    Top = 404
+    Width = 914
+    ExplicitTop = 346
+    ExplicitWidth = 914
+  end
+  inherited PageControl1: TPageControl
+    Width = 914
+    Height = 199
+    ExplicitWidth = 914
+    ExplicitHeight = 141
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 906
+      ExplicitHeight = 189
+      inherited Panel5: TPanel
+        Width = 906
+        Height = 189
+        ExplicitWidth = 906
+        ExplicitHeight = 131
+        inherited DBGrid1: TDBGrid
+          Width = 866
+          Height = 138
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 167
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              ImeName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 298
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CPF_CNPJ'
+              ImeName = 'CPF_CNPJ'
+              Title.Alignment = taCenter
+              Title.Caption = 'CPF/CNPJ'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CONTATOS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Contato'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 82
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TELEFONES_CONTATO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Telefones'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 64
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PRODUTOS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Produtos'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 64
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 190
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 866
+          ExplicitWidth = 866
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 914
+    ExplicitWidth = 914
+    inherited btn_fechar: TSpeedButton
+      Left = 844
+      ExplicitLeft = 844
+    end
+    inherited lbl_titulo: TLabel
+      Width = 299
+      Caption = 'CONSULTA DE FORNECEDORES'
+      ExplicitWidth = 299
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 914
+      ExplicitWidth = 914
+    end
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select '
+      
+        '   F.ID, P.NOME, P.CPF_CNPJ, F.CONTATOS, F.TELEFONES_CONTATO, F.' +
+        'PRODUTOS, F.ATIVO'
+      'from  '
+      '   PESSOAS P, FORNECEDORES F'
+      'where'
+      '   P.ID = F.PESSOA_ID')
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+      Origin = 'CPF_CNPJ'
+      Required = True
+      Size = 18
+    end
+    object qryCONTATOS: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CONTATOS'
+      Origin = 'CONTATOS'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object qryTELEFONES_CONTATO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'TELEFONES_CONTATO'
+      Origin = 'TELEFONES_CONTATO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object qryPRODUTOS: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'PRODUTOS'
+      Origin = 'PRODUTOS'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object qryATIVO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 1
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 680
+  end
+  inherited ActionList1: TActionList
+    Left = 712
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

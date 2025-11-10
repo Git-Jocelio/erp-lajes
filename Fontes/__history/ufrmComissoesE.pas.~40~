@@ -1,0 +1,371 @@
+unit ufrmComissoesE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, uBiblioteca,
+  Vcl.DBCtrls;
+
+type
+  TfrmComissoesE = class(TfrmBaseEdicao)
+    dsComissao_itens: TDataSource;
+    qryComissao_itens: TFDQuery;
+    qryComissao_itensID: TIntegerField;
+    qryComissao_itensPEDIDO_ID: TIntegerField;
+    qryComissao_itensPRODUTO_ID: TIntegerField;
+    qryComissao_itensNOME_FANTASIA: TStringField;
+    qryComissao_itensQUANTIDADE: TCurrencyField;
+    qryComissao_itensCUSTO_FORN: TCurrencyField;
+    qryComissao_itensCUSTO_VEND: TCurrencyField;
+    qryComissao_itensPRECO_VENDA: TCurrencyField;
+    qryComissao_itensDEBITO_CREDITO: TStringField;
+    qryComissao_itensOBS: TStringField;
+    dsVendedor: TDataSource;
+    qryVendedor: TFDQuery;
+    Label32: TLabel;
+    Label1: TLabel;
+    lbl_id: TLabel;
+    Label2: TLabel;
+    lbl_cadastrado_em: TLabel;
+    Label4: TLabel;
+    lbl_alterado_em: TLabel;
+    Label8: TLabel;
+    Label3: TLabel;
+    lbl_nome_vendedor: TLabel;
+    lbl_numero_pedido: TLabel;
+    Label7: TLabel;
+    dtp_data_contabil: TDateTimePicker;
+    mm_obs: TMemo;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fp_obs: string;
+    procedure prc_salvar;
+
+  protected
+    function fnc_validar : Boolean;
+    function fnc_incluir : Boolean;
+    function fnc_alterar : Boolean;
+    function fnc_excluir : Boolean;
+
+    // conf as propridades dos componestes
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    procedure prc_limpar_tela;
+
+
+  public
+    property Codigo   : integer read FCodigo write FCodigo;
+    property Operacao : uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   : string read FTabela write FTabela;
+    property p_obs    : string read Fp_obs write Fp_obs;
+
+  end;
+
+  function fnc_incluir      : string;
+  function Alterar(ACodigo  : integer) : string;
+  procedure Excluir(ACodigo : integer);
+
+implementation
+
+function fnc_incluir: string;
+var
+  loForm : TfrmComissoesE;
+begin
+  loForm := TfrmComissoesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+    Result := loForm.p_obs;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+function Alterar(ACodigo : integer): string;
+var
+  loForm : TfrmComissoesE;
+begin
+  loForm := TfrmComissoesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure Excluir(ACodigo : integer);
+var
+  loForm : TfrmComissoesE;
+begin
+  loForm := TfrmComissoesE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+
+
+{$R *.dfm}
+
+procedure TfrmComissoesE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+function TfrmComissoesE.fnc_alterar: Boolean;
+var
+  loQuery : TFDQuery;
+begin
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('UPDATE                           ');
+        Add('  COMISSAO                       ');
+        Add('SET                              ');
+        Add('  ALTERADO_EM = :ALTERADO_EM,    ');
+        Add('  DATA_CONTABIL = :DATA_CONTABIL,');
+        Add('  HISTORICO = :HISTORICO         ');
+        Add('WHERE   ');
+        Add('PEDIDO_ID = :PEDIDO_ID');
+        ParamByName('PEDIDO_ID').AsInteger  := Codigo;
+        ParamByName('ALTERADO_EM').AsDate   := Date;
+        ParamByName('DATA_CONTABIL').AsDate := dtp_data_contabil.Date;
+        ParamByName('HISTORICO').AsMemo     := mm_obs.Lines.Text;
+        ExecSQL;
+        //***
+        Result := (loQuery.RowsAffected > 0);
+      end;
+    finally
+      FreeAndNil(loQuery);
+    end; // try/finnaly
+  except
+
+    on E : Exception do
+       Raise Exception.Create(E.Message + ' : ufrmComissoesE.prc_salvar.fnc_alterar');
+
+  end; //try/exception
+end;
+
+function TfrmComissoesE.fnc_excluir: Boolean;
+begin
+//
+end;
+
+function TfrmComissoesE.fnc_incluir: Boolean;
+begin
+//
+end;
+
+function TfrmComissoesE.fnc_validar: Boolean;
+begin
+  result := false;
+
+  if dtp_data_contabil.Date < StrToDate(lbl_cadastrado_em.Caption) then
+  begin
+    ShowMessage('informe uma data contábil valida');
+    dtp_data_contabil.SetFocus;
+    exit;
+  end;
+
+  p_obs := mm_obs.Lines.Text;
+
+  result := true;
+end;
+
+procedure TfrmComissoesE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  titulo := 'Manutenção de dados da comissão';
+
+  self.Tabela := 'COMISSAO';
+
+  // Cria os campos do dataset em memoria
+//  CriarTabelaTemporaria(cdsProdutos);
+
+end;
+
+procedure TfrmComissoesE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmComissoesE.prc_componentes;
+begin
+
+  qryVendedor.Connection := self.Conexao;
+  qryVendedor.Close;
+  qryVendedor.SQL.Clear;
+  qryVendedor.SQL.Add( 'select ');
+  qryVendedor.SQL.Add('  P.ID, P.NOME ');
+  qryVendedor.SQL.Add(' from ');
+  qryVendedor.SQL.Add('  PESSOAS P, VENDEDORES V ');
+  qryVendedor.SQL.Add(' where ');
+  qryVendedor.SQL.Add('  P.ID = V.PESSOA_ID and');
+  qryVendedor.SQL.Add(' P.ID =:PESSOA_ID');
+
+
+end;
+
+
+procedure TfrmComissoesE.prc_inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+                       lbl_titulo.Caption  := pnTitulo.Caption + ' [Incluir]';
+                       btnOk.Caption  := 'Incluir';
+                       self.Codigo    := uBiblioteca.AutoIncremento( self.Conexao, self.Tabela );
+                       lbl_id.Caption := inttostr( self.Codigo );
+                       lbl_cadastrado_em.Caption  := DateToStr(date);
+                     end;
+  uTipos.opAlterar: begin
+                      self.prc_ler_dados;
+                      lbl_titulo.Caption  := titulo + ' [Alteração]';
+                      lbl_sub_titulo.Caption  :=  'Aqui voce pode alterar a data contábil e ou alterar/incluir um observação na comissão do pedido';
+                      btnOk.Caption := 'Alterar';
+                      // não é permitido alterar uma compra finalizada
+                    end;
+  uTipos.opExcluir: begin
+                      self.prc_ler_dados;
+                      pnTitulo.Caption  := pnTitulo.Caption + ' [Exclusão]';
+                      pnDados.Enabled := false;
+                      if btnFechar.CanFocus then btnFechar.SetFocus;
+                      btnOk.Caption := 'Excluir';
+                    end;
+  else
+    begin
+      pnDados.Enabled := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmComissoesE.prc_ler_dados;
+var
+  qryComissao : TFDQuery;
+begin
+  try
+    qryComissao := TFDQuery.Create(Application);
+    qryComissao.Connection := self.Conexao;
+    qryComissao.close;
+    qryComissao.SQL.Clear;
+    qryComissao.SQL.Add('select * from COMISSAO where PEDIDO_ID =:PEDIDO_ID');
+    qryComissao.ParamByName('PEDIDO_ID').AsInteger := Codigo;
+    qryComissao.Open;
+
+    // carregar os labels
+    lbl_id.Caption                := IntToStr(qryComissao.FieldByName('ID').AsInteger );
+    lbl_numero_pedido.Caption     := IntToStr(qryComissao.FieldByName('PEDIDO_ID').AsInteger );
+    //ShowMessage(qryVendedor.SQL.Text);
+    uBiblioteca.FilterCds( qryVendedor, uTipos.fsInteger,qryComissao.FieldByName('VENDEDOR_ID').AsString );
+    lbl_nome_vendedor.Caption     := qryVendedor.FieldByName('NOME').AsString ;
+    lbl_cadastrado_em.Caption     := DateToStr(qryComissao.FieldByName('CADASTRADO_EM').AsDateTime );
+    lbl_alterado_em.Caption       := DateToStr(qryComissao.FieldByName('ALTERADO_EM').AsDateTime );
+    dtp_data_contabil.date        := qryComissao.FieldByName('DATA_CONTABIL').AsDateTime ;
+    mm_obs.Text                  := qryComissao.FieldByName('HISTORICO').AsString ;
+
+    // itens de comissao
+    uBiblioteca.FilterCds(qryComissao_itens, utipos.fsInteger, inttostr(qryComissao.FieldByName('PEDIDO_ID').AsInteger));
+
+  finally
+     FreeAndNil(qryComissao);
+  end;
+end;
+
+procedure TfrmComissoesE.prc_limpar_tela;
+begin
+
+end;
+
+
+
+procedure TfrmComissoesE.prc_salvar;
+begin
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not fnc_validar then Exit;
+
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if fnc_incluir then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
+          prc_inicializar
+        else
+          ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível incluir a comissão');
+      end;
+    end;
+
+    // Alteração
+    uTipos.opAlterar :
+    begin
+      if not fnc_validar then Exit;
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if fnc_alterar then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível alterar a comissão');
+      end;
+    end;
+
+    //Exclusão
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        if fnc_excluir then
+        begin
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+          ModalResult := mrOk;
+        end
+        else
+        begin
+          ShowMessage('Não foi possível excluir a comissão');
+        end;
+      end; // if
+    end;
+  end;// case
+end;
+
+end.

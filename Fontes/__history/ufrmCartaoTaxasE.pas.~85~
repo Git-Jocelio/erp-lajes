@@ -1,0 +1,698 @@
+unit ufrmCartaoTaxasE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids,
+  uTipos, uBiblioteca, ufrmCartaoTaxasItens, FireDAC.Stan.StorageBin;
+
+type
+  TfrmCartaoTaxasE = class(TfrmBaseEdicao)
+    Label2: TLabel;
+    lbl_Id: TLabel;
+    Label4: TLabel;
+    lbl_cadastrado_em: TLabel;
+    Label1: TLabel;
+    lbl_alterado_em: TLabel;
+    Label3: TLabel;
+    Label7: TLabel;
+    cbx_operadora: TDBLookupComboBox;
+    edt_id_operadora: TDBEdit;
+    cbx_bandeiras: TDBLookupComboBox;
+    edt_id_bandeira: TDBEdit;
+    gb_conta: TGroupBox;
+    Label6: TLabel;
+    cbx_bancos: TDBLookupComboBox;
+    edt_agencia: TDBEdit;
+    gb_taxas: TGroupBox;
+    dbg_taxas: TDBGrid;
+    ds_operadora: TDataSource;
+    qry_operadora: TFDQuery;
+    ds_bandeiras: TDataSource;
+    qry_bandeiras: TFDQuery;
+    ds_bancos: TDataSource;
+    qry_bancos: TFDQuery;
+    cb_ativo: TCheckBox;
+    ds_itens: TDataSource;
+    mt_itens: TFDMemTable;
+    mt_itensID: TIntegerField;
+    mt_itensFORMA_PAGTO_ID: TIntegerField;
+    mt_itensDESCRICAO: TStringField;
+    mt_itensQTDE_PARCELAS: TIntegerField;
+    mt_itensPRIMEIRO_VENCIMENTO: TIntegerField;
+    mt_itensINTERVALO_DEMAIS_PARC: TIntegerField;
+    mt_itensTAXA: TFloatField;
+    mt_itens_deletados: TFDMemTable;
+    mt_itens_deletadosID: TIntegerField;
+    pnl_botoes_itens: TPanel;
+    btn_incluir: TBitBtn;
+    btn_alterar: TBitBtn;
+    btn_excluir: TBitBtn;
+    edt_cod_banco: TDBEdit;
+    Label5: TLabel;
+    cbx_contas_bancarias: TDBLookupComboBox;
+    ds_conta_bancaria_itens: TDataSource;
+    qry_conta_bancaria_itens: TFDQuery;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure btnOkClick(Sender: TObject);
+    procedure btn_incluirClick(Sender: TObject);
+    procedure btn_excluirClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+
+    procedure ds_itensDataChange(Sender: TObject; Field: TField);
+    procedure cbx_bancosCloseUp(Sender: TObject);
+
+
+  private
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fp_id: integer;
+
+    procedure prc_salvar;
+
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_incluir_alterar_na_grid(operacao: TOperacao);
+    procedure prc_incluir_alterar_itens;
+
+  protected
+
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    function prc_validar: boolean;
+
+  public
+    property Codigo   :integer read FCodigo write FCodigo;
+    property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela   :string read FTabela write FTabela;
+
+    {controla o id dos itens}
+    property p_id   :integer read Fp_id write Fp_id;
+
+
+  end;
+
+  procedure prc_incluir;
+  procedure prc_alterar(ACodigo :integer);
+  procedure prc_excluir(ACodigo :integer);
+
+implementation
+
+procedure prc_incluir;
+var
+  loForm : TfrmCartaoTaxasE;
+begin
+  loForm := TfrmCartaoTaxasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opIncluir;
+    loForm.Codigo   := 0;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_alterar(ACodigo :integer);
+var
+  loForm : TfrmCartaoTaxasE;
+begin
+  loForm := TfrmCartaoTaxasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opAlterar;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+procedure prc_excluir(ACodigo :integer);
+var
+  loForm : TfrmCartaoTaxasE;
+begin
+  loForm := TfrmCartaoTaxasE.Create(Application);
+  try
+    loForm.Operacao := uTipos.opExcluir;
+    loForm.Codigo   := ACodigo;
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+{$R *.dfm}
+
+{ TfrmCartaoTaxasE }
+
+procedure TfrmCartaoTaxasE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmCartaoTaxasE.prc_salvar;
+begin
+  if not prc_validar then Exit;
+
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  //***
+  try
+    prc_incluir_alterar(Operacao);
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+    ModalResult := mrOk;
+  except
+    conexao.Rollback;
+    ShowMessage('Não foi possível salvar o registro');
+  end;
+
+end;
+
+
+procedure TfrmCartaoTaxasE.btn_alterarClick(Sender: TObject);
+begin
+  inherited;
+  try
+    if frmCartaoTaxasItens = nil then
+      frmCartaoTaxasItens := TfrmCartaoTaxasItens.Create(self) ;
+
+    frmCartaoTaxasItens.p_operacao := opAlterar;
+    //frmCartaoTaxasItens.p_codigo := 0;
+
+    {carregar componentes}
+    frmCartaoTaxasItens.lbl_Id.Caption           := mt_itensID.AsString;
+    frmCartaoTaxasItens.cbx_forma_pagto.KeyValue := mt_itensFORMA_PAGTO_ID.AsInteger;
+    frmCartaoTaxasItens.up_vencimento.Associate  := nil;
+    frmCartaoTaxasItens.edt_Vencimento.Text      := mt_itensPRIMEIRO_VENCIMENTO.AsString;
+
+    frmCartaoTaxasItens.up_parcela.Associate     := nil;
+    frmCartaoTaxasItens.edt_intervalo.Text       := mt_itensINTERVALO_DEMAIS_PARC.AsString;
+
+    frmCartaoTaxasItens.edt_taxa.Text            := mt_itensTAXA.AsString;
+
+    frmCartaoTaxasItens.ShowModal;
+
+    if frmCartaoTaxasItens.p_confirmado then
+      prc_incluir_alterar_na_grid( opAlterar );
+
+
+  finally
+    freeandnil( frmCartaoTaxasItens );
+  end;
+
+end;
+
+procedure TfrmCartaoTaxasE.btn_excluirClick(Sender: TObject);
+begin
+  inherited;
+  prc_incluir_alterar_na_grid(opExcluir);
+end;
+
+procedure TfrmCartaoTaxasE.btn_incluirClick(Sender: TObject);
+begin
+  inherited;
+  try
+    if frmCartaoTaxasItens = nil then
+      frmCartaoTaxasItens := TfrmCartaoTaxasItens.Create(self) ;
+
+    frmCartaoTaxasItens.p_operacao := OpIncluir;
+    //frmCartaoTaxasItens.p_codigo := 0;
+
+    frmCartaoTaxasItens.ShowModal;
+
+    {verfificar duplicidade}
+    mt_itens.First;
+    if mt_itens.Locate('forma_pagto_id', frmcartaotaxasitens.p_forma_pagto_id, []) then
+    begin
+      ShowMessage('Taxa já inclusa');
+      exit;
+    end;
+
+    if frmCartaoTaxasItens.p_confirmado then
+      prc_incluir_alterar_na_grid( OpIncluir );
+
+
+  finally
+    freeandnil( frmCartaoTaxasItens );
+  end;
+
+
+end;
+
+
+procedure TfrmCartaoTaxasE.cbx_bancosCloseUp(Sender: TObject);
+begin
+  inherited;
+// ShowMessage('banco :' + qry_bancos.FieldByName('id').Asstring);
+
+  qry_conta_bancaria_itens.Close;
+  qry_conta_bancaria_itens.Params.ParamByName('banco_id').AsInteger:=
+    qry_bancos.FieldByName('id').AsInteger;
+  qry_conta_bancaria_itens.Open;
+
+end;
+
+procedure TfrmCartaoTaxasE.ds_itensDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  btn_alterar.Enabled := not mt_itens.IsEmpty;
+  btn_excluir.Enabled := not mt_itens.IsEmpty;
+end;
+
+procedure TfrmCartaoTaxasE.prc_incluir_alterar_na_grid(operacao: TOperacao);
+
+begin
+
+  {inclui o id da taxa na memoria para deletar da confirmição }
+  if operacao = opExcluir then
+  begin
+    mt_itens_deletados.Insert;
+    mt_itens_deletadosID.AsInteger := mt_itensID.AsInteger;
+    mt_itens_deletados.Post;
+
+    mt_itens.Delete;
+    exit;
+  end;
+
+
+
+  if operacao = OpIncluir then
+  begin
+    p_id := p_id -1;
+
+    mt_itens.Insert;
+    mt_itensID.AsInteger                    := p_id;
+    mt_itensFORMA_PAGTO_ID.AsInteger        := frmCartaoTaxasItens.p_forma_pagto_id;
+    mt_itensDESCRICAO.AsString              := frmCartaoTaxasItens.p_descricao;
+    mt_itensQTDE_PARCELAS.AsInteger         := frmCartaoTaxasItens.p_qtde_parcelas;
+    mt_itensPRIMEIRO_VENCIMENTO.AsInteger   := frmCartaoTaxasItens.p_primeiro_vencimento;
+    mt_itensINTERVALO_DEMAIS_PARC.AsInteger := frmCartaoTaxasItens.p_intervalo_parcelas;
+    mt_itensTAXA.AsFloat                    := frmCartaoTaxasItens.p_taxa;
+    mt_itens.Post;
+
+  end
+  else
+  begin
+    mt_itens.Edit;
+    //mt_itensID.AsInteger                    := p_id;
+    mt_itensFORMA_PAGTO_ID.AsInteger        := frmCartaoTaxasItens.p_forma_pagto_id;
+    mt_itensDESCRICAO.AsString              := frmCartaoTaxasItens.p_descricao;
+    mt_itensQTDE_PARCELAS.AsInteger         := frmCartaoTaxasItens.p_qtde_parcelas;
+    mt_itensPRIMEIRO_VENCIMENTO.AsInteger   := frmCartaoTaxasItens.p_primeiro_vencimento;
+    mt_itensINTERVALO_DEMAIS_PARC.AsInteger := frmCartaoTaxasItens.p_intervalo_parcelas;
+    mt_itensTAXA.AsFloat                    := frmCartaoTaxasItens.p_taxa;
+    mt_itens.Post;
+
+  end;
+
+
+end;
+
+procedure TfrmCartaoTaxasE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_TAXAS';
+  p_id   := 0;
+
+end;
+
+procedure TfrmCartaoTaxasE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmCartaoTaxasE.prc_componentes;
+begin
+  {qry de principal}
+  qry.Connection := Conexao;
+
+  {qry operadoras}
+  qry_operadora.Connection := Conexao;
+  qry_operadora.SQL.Add('select id, descricao from cartao_operadoras order by descricao');
+  qry_operadora.open;
+
+  {qry bandeiras}
+  qry_bandeiras.Connection := Conexao;
+  qry_bandeiras.SQL.Add('select id, descricao from cartao_bandeiras order by descricao');
+  qry_bandeiras.Open;
+
+  {qry bancos}
+  qry_bancos.Connection := Conexao;
+  qry_bancos.SQL.Add('select b.id, b.cod_banco, p.nome from bancos b, pessoas p  where p.id = b.pessoa_id order by nome');
+  qry_bancos.Open;
+
+  {qry contas bancarias itens}
+  qry_conta_bancaria_itens.Connection := Conexao;
+  qry_conta_bancaria_itens.SQL.Add('select id, agencia, nr_conta from contas_bancarias_itens where banco_id =:banco_id ');
+ // qry_contas.Open;
+
+
+  mt_itens.Active := true;
+
+  dbg_taxas.Columns[0].Visible := false;
+  dbg_taxas.Columns[1].Visible := false;
+
+end;
+
+procedure TfrmCartaoTaxasE.prc_incluir_alterar(operacao: TOperacao);
+begin
+
+  qry.sql.clear;
+  if operacao = opExcluir then
+  begin
+
+    qry.SQL.Add('update '+ self.Tabela + ' set ATIVO = ''N'' where id =:id');
+    qry.ParamByName('id').AsInteger := Codigo;
+    qry.ExecSQL;
+    exit;
+
+  end;
+
+  if operacao = OpIncluir then
+  begin
+    qry.SQL.Add('insert into ' + self.Tabela );
+    qry.SQL.Add('(');
+    qry.SQL.Add('  CADASTRADO_EM,          ');
+    qry.SQL.Add('  CARTAO_OPERADORAS_ID,   ');
+    qry.SQL.Add('  CARTAO_BANDEIRAS_ID,    ');
+    qry.SQL.Add('  BANCO_ID,    ');
+    qry.SQL.Add('  CONTAS_BANCARIAS_ITENS_ID,    ');
+    qry.SQL.Add('  ATIVO                   ');
+    qry.SQL.Add(')                         ');
+    qry.SQL.Add('VALUES                    ');
+    qry.SQL.Add('(                         ');
+    qry.SQL.Add('  :CADASTRADO_EM,         ');
+    qry.SQL.Add('  :CARTAO_OPERADORAS_ID,  ');
+    qry.SQL.Add('  :CARTAO_BANDEIRAS_ID,   ');
+    qry.SQL.Add('  :BANCO_ID,   ');
+    qry.SQL.Add('  :CONTAS_BANCARIAS_ITENS_ID,   ');
+    qry.SQL.Add('  :ATIVO                  ');
+    qry.SQL.Add(')                         ');
+    qry.SQL.Add('returning ID              ');
+
+    qry.ParamByName('CADASTRADO_EM').AsDate := Date;
+  end
+  else
+  begin
+    qry.SQL.Add('UPDATE                                              ');
+    qry.SQL.Add(Tabela);
+    qry.SQL.Add('SET                                                 ');
+    qry.SQL.Add('  ALTERADO_EM = :ALTERADO_EM,                       ');
+    qry.SQL.Add('  CARTAO_OPERADORAS_ID = :CARTAO_OPERADORAS_ID,     ');
+    qry.SQL.Add('  CARTAO_BANDEIRAS_ID = :CARTAO_BANDEIRAS_ID,       ');
+    qry.SQL.Add('  BANCO_ID = :BANCO_ID,       ');
+    qry.SQL.Add('  CONTAS_BANCARIAS_ITENS_ID = :CONTAS_BANCARIAS_ITENS_ID,       ');
+    qry.SQL.Add('  ATIVO = :ATIVO                                    ');
+    qry.SQL.Add('WHERE                                               ');
+    qry.SQL.Add('  ID = :ID                                          ');
+    //
+    qry.ParamByName('ID').AsInteger       := Codigo;
+    qry.ParamByName('ALTERADO_EM').AsDate := Date;
+
+  end;
+  //ShowMessage(QRY.SQL.Text);
+
+  qry.ParamByName('CARTAO_OPERADORAS_ID').AsInteger  := cbx_operadora.KeyValue;
+  qry.ParamByName('CARTAO_BANDEIRAS_ID').AsInteger   := cbx_bandeiras.KeyValue;
+  qry.ParamByName('BANCO_ID').AsInteger   := cbx_bancos.KeyValue;
+  qry.ParamByName('CONTAS_BANCARIAS_ITENS_ID').AsInteger   := cbx_contas_bancarias.KeyValue;
+  qry.ParamByName('ATIVO').AsString                  := ubiblioteca.SeSenao(cb_ativo.Checked  , 'S','N');
+
+  if operacao = opincluir then
+  begin
+    QRY.Open;
+    codigo := qry.FieldByName('ID').AsInteger;
+  end
+  else
+    qry.ExecSQL;
+
+  {salvar/alterar itens}
+  prc_incluir_alterar_itens;
+
+end;
+
+procedure TfrmCartaoTaxasE.prc_incluir_alterar_itens;
+var
+  loQry: TFDQuery;
+begin
+
+  loQry:= TFDQuery.Create(self);
+  loqry.Connection := conexao;
+
+  {excluir itens da memoria "mt_itens_deletados"}
+  mt_itens_deletados.First;
+  while not mt_itens_deletados.Eof do
+  begin
+    {inserir}
+    loqry.SQL.Clear;
+    loQry.SQL.Add('delete from cartao_taxas_itens where id =:id ') ;
+    loQry.Params.ParamByName('id').AsInteger := mt_itens_deletadosID.AsInteger;;
+    loqry.ExecSQL;
+
+    mt_itens_deletados.Next;
+  end;
+
+  mt_itens.First;
+  while not mt_itens.Eof do
+  begin
+
+    if mt_itensID.AsInteger < 0 then
+    begin
+      {inserir}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('insert into cartao_taxas_itens ') ;
+      loQry.SQL.Add(' ( cartao_taxas_id, formas_pagto_id, qtde_parcelas, primeiro_vencimento, intervalo_demais_parc, taxa )') ;
+      loQry.SQL.Add(' values ') ;
+      loQry.SQL.Add(' ( :cartao_taxas_id, :formas_pagto_id, :qtde_parcelas, :primeiro_vencimento, :intervalo_demais_parc, :taxa )') ;
+      loQry.Params.ParamByName('cartao_taxas_id').AsInteger := codigo;
+    end
+    else
+    begin
+      {alterar}
+      loqry.SQL.Clear;
+      loQry.SQL.Add('update  ');
+      loQry.SQL.Add('  cartao_taxas_itens  ');
+      loQry.SQL.Add('set ');
+      loQry.SQL.Add('  formas_pagto_id =:formas_pagto_id, qtde_parcelas =:qtde_parcelas, primeiro_vencimento =:primeiro_vencimento, intervalo_demais_parc =:intervalo_demais_parc, taxa =:taxa ');
+      loQry.SQL.Add('where ');
+      loQry.SQL.Add(' id =:id ');
+      loQry.Params.ParamByName('id').AsInteger := mt_itensID.AsInteger;
+    end;
+(*
+    ShowMessage(loqry.SQL.Text);
+    ShowMessage(
+                inttostr(Codigo) + sLineBreak +
+                mt_itensFORMA_PAGTO_ID.AsString + sLineBreak +
+                mt_itensQTDE_PARCELAS.AsString + sLineBreak +
+                mt_itensPRIMEIRO_VENCIMENTO.AsString + sLineBreak +
+                mt_itensINTERVALO_DEMAIS_PARC.AsString + sLineBreak +
+                mt_itensTAXA.AsString );
+*)
+
+
+    {parametros}
+    loQry.Params.ParamByName('formas_pagto_id').AsInteger      := mt_itensFORMA_PAGTO_ID.AsInteger;
+    loQry.Params.ParamByName('qtde_parcelas').AsInteger        := mt_itensQTDE_PARCELAS.AsInteger;
+    loQry.Params.ParamByName('primeiro_vencimento').AsInteger  := mt_itensPRIMEIRO_VENCIMENTO.AsInteger;
+    loQry.Params.ParamByName('intervalo_demais_parc').AsInteger:= mt_itensINTERVALO_DEMAIS_PARC.AsInteger;
+    loQry.Params.ParamByName('taxa').AsFloat                   := mt_itensTAXA.AsFloat;
+    loqry.ExecSQL;
+
+    mt_itens.Next;
+  end;
+
+  FreeAndNil(loqry) ;
+
+end;
+
+procedure TfrmCartaoTaxasE.prc_inicializar;
+begin
+  pnTitulo.Caption := 'TAXAS DE CARTÃO DE CRÉDITO';
+
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       lbl_sub_titulo.Caption    := 'INCLUSÃO';
+                       lbl_Id.Caption            := '-1';
+                       lbl_cadastrado_em.Caption := datetostr(date);
+                       btnOk.Caption             := 'Incluir';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption    := 'ALTERAÇÃO';
+                      btnOk.Caption             := 'Alterar';
+                      lbl_alterado_em.Caption   := datetostr(date);
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      lbl_sub_titulo.Caption := 'EXCLUIR';
+                      pnDados.Enabled        := false;
+                      btnOk.Caption          := 'Excluir';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmCartaoTaxasE.prc_ler_dados;
+var
+ loQry: TFDQuery;
+begin
+
+  try
+
+    loQry := TFDQuery.Create(Self);
+    loQry.Connection := Conexao;;
+    try
+      loQry.sql.Add('SELECT * FROM CARTAO_TAXAS  WHERE ID =:ID');
+      loQry.ParamByName('ID').AsInteger := Codigo;
+      loQry.Open;
+      if not loQry.IsEmpty then
+      begin
+        //Carrega dados tabela taxa
+        lbl_Id.Caption            := loQry.FieldByName('ID').AsString;
+        lbl_cadastrado_em.Caption := loQry.FieldByName('CADASTRADO_EM').AsString;
+        lbl_alterado_em.Caption   := loQry.FieldByName('ALTERADO_EM').AsString;
+        cb_ativo.Checked          := loQry.FieldByName('ATIVO').AsString = 'S';
+
+        cbx_operadora.KeyValue    := loQry.FieldByName('CARTAO_OPERADORAS_ID').AsInteger;
+        cbx_bandeiras.KeyValue    := loQry.FieldByName('CARTAO_BANDEIRAS_ID').AsInteger;
+        cbx_bancos.KeyValue       := loQry.FieldByName('BANCO_ID').AsInteger;
+
+        {cbx_contas_bancarias}
+        qry_conta_bancaria_itens.Params[0].AsInteger := loQry.FieldByName('BANCO_ID').AsInteger;
+        qry_conta_bancaria_itens.Open;
+        cbx_contas_bancarias.KeyValue := loQry.FieldByName('CONTAS_BANCARIAS_ITENS_ID').AsInteger;
+
+        loqry.SQL.Clear;
+        loQry.sql.Add('SELECT I.*, F.DESCRICAO FROM CARTAO_TAXAS_ITENS I, CARTAO_FORMAS_PAGTO F WHERE I.FORMAS_PAGTO_ID = F.ID AND I.CARTAO_TAXAS_ID =:CARTAO_TAXAS_ID');
+        loQry.params.ParamByName('CARTAO_TAXAS_ID').AsInteger := Codigo;
+        loQry.Open;
+        loQry.First;
+        while not loqry.eof do
+        begin
+
+          mt_itens.Insert;
+          mt_itensID.AsInteger                    := loqry.FieldByName('id').AsInteger;
+          mt_itensFORMA_PAGTO_ID.AsInteger        := loqry.FieldByName('formas_pagto_id').AsInteger;
+          mt_itensDESCRICAO.AsString              := loqry.FieldByName('descricao').AsString;
+          mt_itensQTDE_PARCELAS.AsInteger         := loqry.FieldByName('qtde_parcelas').AsInteger;
+          mt_itensPRIMEIRO_VENCIMENTO.AsInteger   := loqry.FieldByName('primeiro_vencimento').AsInteger;;
+          mt_itensINTERVALO_DEMAIS_PARC.AsInteger := loqry.FieldByName('intervalo_demais_parc').AsInteger;
+          mt_itensTAXA.AsFloat                    := loqry.FieldByName('taxa').AsFloat;
+          mt_itens.Post;
+
+          loqry.Next;
+        end;
+
+
+      end
+      else
+      begin
+        ShowMessage('conta NÃO encontrada!');
+
+      end;
+    finally
+      FreeAndNil(loQry);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name + '.prc_ler_dados');
+  end;
+end;
+
+function TfrmCartaoTaxasE.prc_validar: boolean;
+var
+  loQry: TFDQuery;
+begin
+  result := false;
+
+  if cbx_operadora.Text = '' then
+  begin
+    ShowMessage('Selecione uma OPERADORA DE CARTÃO DE CRÉDITO');
+    cbx_operadora.SetFocus;
+    cbx_operadora.DropDown;
+    exit;
+  end;
+
+  if cbx_bandeiras.Text = '' then
+  begin
+    ShowMessage('Selecione uma BANDEIRA DE CARTÃO DE CRÉDITO');
+    cbx_bandeiras.SetFocus;
+    cbx_bandeiras.DropDown;
+    exit;
+  end;
+
+  {verificar duplicidade}
+  if Operacao = OpIncluir then
+  begin
+    try
+      loQry:= TFDQuery.Create(self);
+      loQry.Connection := conexao;
+      loqry.SQL.Add('select id from cartao_taxas where cartao_operadoras_id =:cartao_operadoras_id and cartao_bandeiras_id =:cartao_bandeiras_id');
+      loqry.Params.ParamByName('cartao_operadoras_id').AsInteger := cbx_operadora.KeyValue;
+      loqry.Params.ParamByName('cartao_bandeiras_id').AsInteger := cbx_bandeiras.KeyValue;
+      loqry.Open;
+      if not loQry.IsEmpty then
+      begin
+        ShowMessage('Bandeira já foi cadastrado para esta operadora ');
+        exit;
+      end;
+
+    finally
+      FreeAndNil(loQry);
+    end;
+  end;
+
+  if cbx_bancos.Text = '' then
+  begin
+    ShowMessage('Selecione um BANCO');
+    cbx_bancos.SetFocus;
+    cbx_bancos.DropDown;
+    exit;
+  end;
+
+  if cbx_contas_bancarias.Text = '' then
+  begin
+    ShowMessage('Selecione um CONTA');
+    cbx_contas_bancarias.SetFocus;
+    cbx_contas_bancarias.DropDown;
+    exit;
+  end;
+
+
+ if mt_itens.IsEmpty then
+ begin
+   ShowMessage('Informe as TAXAS DO CARTÃO DE CRÉDITO');
+   btn_incluir.Click;
+   exit;
+ end;
+
+
+  result := true;
+
+end;
+
+end.

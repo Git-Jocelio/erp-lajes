@@ -1,0 +1,112 @@
+unit ufrmCartaoMaquinas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca,
+  ufrmCartaoMaquinasE;
+
+type
+  TfrmCartaoMaquinas = class(TfrmBaseGrade)
+    procedure FormCreate(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+  private
+    procedure prc_sql;
+    function  fnc_validar_pesquisa: boolean;
+    procedure prc_pesquisar;
+
+  public
+    { Public declarations }
+  end;
+
+procedure prc_executa;
+
+implementation
+
+procedure prc_executa;
+var
+  loForm :  TfrmCartaoMaquinas;
+begin
+  try
+    loForm :=  TfrmCartaoMaquinas.Create(Application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loform);
+  end;
+end;
+
+
+{$R *.dfm}
+
+procedure TfrmCartaoMaquinas.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoMaquinasE.prc_alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmCartaoMaquinas.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoMaquinasE.prc_excluir(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmCartaoMaquinas.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoMaquinasE.prc_incluir;
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+function TfrmCartaoMaquinas.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+
+  result := true;
+
+end;
+
+procedure TfrmCartaoMaquinas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_MAQUINAS';
+  Titulo := 'CADASTRO DE MÁQUININHAS DE CARTÃO DE CRÉDITO' + '[' + Tabela + ']';
+  Caption := Titulo;
+  prc_sql;
+
+  btnLocalizar.Click;
+
+end;
+
+procedure TfrmCartaoMaquinas.prc_pesquisar;
+begin
+  qry.close;
+
+  qry.Open;
+
+end;
+
+procedure TfrmCartaoMaquinas.prc_sql;
+begin
+  qry.SQL.ADD('select ' );
+  qry.SQL.ADD('  M.ID, M.CADASTRADO_EM, M.ALTERADO_EM, O.DESCRICAO, P.NOME, M.NR_MAQUINA, M.MAQUINA_EM_POSSE_DE, M.ATIVO ' );
+  qry.SQL.ADD('from ' );
+  qry.SQL.ADD(' CARTAO_MAQUINAS M, CARTAO_OPERADORAS O, PESSOAS P ' );
+  qry.SQL.ADD('where ' );
+  qry.SQL.ADD(' M.CARTAO_OPERADORAS_ID = O.ID and M.PROPRIETARIO_ID = P.ID' );
+  qry.Open;
+  sSql := qry.SQL.Text;
+
+end;
+
+end.

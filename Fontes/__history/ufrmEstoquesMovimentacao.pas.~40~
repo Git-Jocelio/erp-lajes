@@ -1,0 +1,412 @@
+unit ufrmEstoquesMovimentacao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TfrmEstoquesMovimentacao = class(TfrmBaseGrade)
+    qryESTOQUES_ID: TIntegerField;
+    qryPRODUTO_ID: TIntegerField;
+    qryNOME_FANTASIA: TStringField;
+    qryDATA: TDateField;
+    qryHISTORICO: TStringField;
+    qryENTRADA: TFMTBCDField;
+    qrySAIDA: TFMTBCDField;
+    qryESTOQUE_FISICO: TFMTBCDField;
+    qryUNIDADE: TStringField;
+    btn_produto: TSpeedButton;
+    ds_produtos: TDataSource;
+    qry_produtos: TFDQuery;
+    lbl_descricao_produto: TLabel;
+    pnl_estoques: TPanel;
+    Label1: TLabel;
+    lbl_estoque_disponivel: TLabel;
+    Label3: TLabel;
+    lbl_estoque_fisico: TLabel;
+    Label5: TLabel;
+    lbl_pedido_aberto: TLabel;
+    mtb_movimento: TFDMemTable;
+    mtb_movimentoDATA: TDateField;
+    mtb_movimentoNOME_FANTASIA: TStringField;
+    mtb_movimentoHISTORICO: TStringField;
+    mtb_movimentoENTRADA: TFloatField;
+    mtb_movimentoSAIDA: TFloatField;
+    mtb_movimentoESTOQUE_FISICO: TFloatField;
+    mtb_movimentoUNIDADE: TStringField;
+    GroupBox1: TGroupBox;
+    dtp_data_ini: TDateTimePicker;
+    mtb_movimentoESTOQUES_ID: TIntegerField;
+    qryTABELA_ORIGEM: TStringField;
+    qryTABELA_ORIGEM_ID: TIntegerField;
+    mtb_movimentoTABELA_ORIGEM: TStringField;
+    mtb_movimentoTABELA_ORIGEM_ID: TIntegerField;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure edt_consultaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure btn_produtoClick(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure dsDataChange(Sender: TObject; Field: TField);
+    procedure actPesquisarExecute(Sender: TObject);
+    procedure dtp_data_iniCloseUp(Sender: TObject);
+  private
+    var
+      qtde_a_entregar, estoque_disponivel: double;
+    Fp_produto_id: integer;
+    procedure ASql();
+    procedure prc_filtrar_produto( produto_id : integer );
+    function fnc_somar_pedidos_abertos(produto_id: integer): double;
+    procedure prc_incluir_no_memtable;
+
+  public
+    property p_produto_id: integer read Fp_produto_id write Fp_produto_id;
+  end;
+
+
+var
+  loForm :  TfrmEstoquesMovimentacao;
+  procedure executa;
+
+implementation
+
+uses unit_principal, udmConn, uBiblioteca, ufrmEstoquesMovimentacaoE,
+  ufrmPesquisaProdutos, unit_funcoes, uTipos;
+
+procedure executa;
+
+begin
+  if loForm = nil then
+  begin
+
+    loForm := TfrmEstoquesMovimentacao.Create(Application);
+    form_principal.prc_controla_menu(false);
+
+    // se abrir dentro no painel principal não funciona os edites :(
+    //loform.Parent := form_principal.pnl_principal;
+
+    loform.top    :=  form_principal.pnl_Principal.Top;
+    loform.Left   := form_principal.pnl_menulateral.Width;
+
+    loForm.Width  := form_principal.pnl_principal.Width;
+    loForm.Height := form_principal.pnl_principal.Height;
+  end;
+  loForm.Show;
+
+end;
+
+{$R *.dfm}
+
+procedure TfrmEstoquesMovimentacao.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  qry_produtos.Close;
+
+  form_principal.prc_controla_menu(true);
+  FreeAndNil(loForm);
+
+end;
+
+procedure TfrmEstoquesMovimentacao.FormCreate(Sender: TObject);
+begin
+   Conexao        := dmConn.FDConnection;
+  // property tabela no form BaseGrade
+  self.Tabela := 'ESTOQUES_MOVIMENTACAO';
+  ASql();
+
+//  inherited;
+end;
+
+procedure TfrmEstoquesMovimentacao.FormShow(Sender: TObject);
+begin
+  inherited;
+  qry_produtos.Open;
+end;
+
+procedure TfrmEstoquesMovimentacao.actAlterarExecute(Sender: TObject);
+var
+  id : integer;
+begin
+  id := mtb_movimento.fieldbyname('ESTOQUES_ID').AsInteger;
+  ufrmEstoquesMovimentacaoE.Alterar(id);
+  uBiblioteca.AtualizaQuery(qry);
+
+  mtb_movimento.First;
+  mtb_movimento.Locate('ESTOQUES_ID', id, []);
+
+  prc_filtrar_produto(qry.fieldbyname('PRODUTO_ID').AsInteger) ;
+
+  inherited;
+end;
+
+
+procedure TfrmEstoquesMovimentacao.actExcluirExecute(Sender: TObject);
+var
+  id : integer;
+begin
+  id := qry.fieldbyname('ESTOQUES_ID').AsInteger;
+  ufrmEstoquesMovimentacaoE.Excluir(id);
+  uBiblioteca.AtualizaQuery(qry);
+
+  qry.Locate('ESTOQUES_ID', id, []);
+
+  inherited;
+
+end;
+
+procedure TfrmEstoquesMovimentacao.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmEstoquesMovimentacaoE.Incluir(qry.FieldByName('PRODUTO_ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+  prc_filtrar_produto(qry.fieldbyname('PRODUTO_ID').AsInteger) ;
+  inherited;
+
+end;
+
+procedure TfrmEstoquesMovimentacao.actPesquisarExecute(Sender: TObject);
+begin
+  inherited;
+  DBGrid1.Columns[1].Visible := btnPesquisar.Caption = 'Pesquisa >>';
+
+
+  //ajustas as colunas do dbgrid
+  prc_ajustar_colunas_grid( DBGrid1 );
+
+  //aumenta o tamanho da linha do ddgrid
+  prc_ajusta_tamanho_linha( DBGrid1 );
+
+
+end;
+
+procedure TfrmEstoquesMovimentacao.ASql;
+begin
+
+  sSql :=
+          ' select                                 ' +
+          '   E.ESTOQUES_ID,                       ' +
+          '   E.TABELA_ORIGEM,                     ' +
+          '   E.TABELA_ORIGEM_ID,                  ' +
+          '   E.PRODUTO_ID,                        ' +
+          '   P.NOME_FANTASIA,                     ' +
+          '   P.UNIDADE,                           ' +
+          '   E.DATA,                              ' +
+          '   E.HISTORICO,                         ' +
+          '   E.ENTRADA,                           ' +
+          '   E.SAIDA,                             ' +
+          '   E.ESTOQUE_FISICO                     ' +
+          ' from                                   ' +
+          '   ESTOQUES_MOVIMENTACAO E, PRODUTOS P  ' +
+          ' where                                  ' +
+          '  E.PRODUTO_ID = P.ID and               ' +
+          '  P.ID = :PRODUTO_ID                    ' +
+          ' order by                               ' +
+          '  E.ESTOQUES_ID                         ' ;
+
+  QRY.SQL.Clear;
+  qry.sql.add(sSql);
+
+end;
+
+
+procedure TfrmEstoquesMovimentacao.btn_produtoClick(Sender: TObject);
+begin
+  inherited;
+  try
+    if frmPesquisaProdutos = nil then
+      frmPesquisaProdutos := TfrmPesquisaProdutos.Create(application);
+
+    // esconde paineis de preços
+    frmPesquisaProdutos.btnBuscar.Visible           := false;
+    frmPesquisaProdutos.pnRodape.Visible            := false;
+
+    frmPesquisaProdutos.btnConfirma.Caption         := 'SELECIONAR';
+    frmPesquisaProdutos.lbl_forma_pagamento.Visible := false;
+    frmPesquisaProdutos.rgFiltrar.ItemIndex         := 4;
+
+    frmPesquisaProdutos.ShowModal;
+
+    if frmPesquisaProdutos.itemConfirmado then
+    begin
+      // propriedade produto_id
+      p_produto_id := frmPesquisaProdutos.Produto;
+      prc_filtrar_produto( p_produto_id );
+    end;
+
+  finally
+     frmPesquisaProdutos.qry.Close;
+     FreeAndNil(frmPesquisaProdutos);
+  end;
+
+
+end;
+
+procedure TfrmEstoquesMovimentacao.prc_filtrar_produto( produto_id: integer );
+begin
+  // lista todo o movimento do produto por ordem de id
+  ubiblioteca.FilterCds(qry, utipos.fsInteger, inttostr(produto_id) );
+
+  // vou jogar todo o movimento dentro de um memTable
+  // conforme for inserindo vou atualizando o estoque fisico
+  prc_incluir_no_memtable;
+
+  // após inserido aplico o filtro do periodo selecionado
+  mtb_movimento.Filter := 'DATA >=' + QuotedStr( DateToStr( dtp_data_ini.Date ));
+
+
+  if not qry.IsEmpty then
+  begin
+
+    lbl_descricao_produto.Caption := qry.FieldByName('PRODUTO_ID').AsString + ' - ' +
+                                     qry.FieldByName('NOME_FANTASIA').AsString;
+
+    //atualizar painel de estoques
+    mtb_movimento.Last;
+    lbl_estoque_fisico.Caption      := formatfloat ('#,##0,00', mtb_movimento.FieldByName('ESTOQUE_FISICO').AsFloat);
+    qtde_a_entregar                 := fnc_somar_pedidos_abertos(produto_id) ;
+    lbl_pedido_aberto.Caption       := formatfloat ('#,##0.00', qtde_a_entregar);
+    estoque_disponivel              := mtb_movimento.FieldByName('ESTOQUE_FISICO').AsFloat - qtde_a_entregar;
+    lbl_estoque_disponivel.Caption  := formatfloat ('#,##0.00',estoque_disponivel);
+    if estoque_disponivel < 0  then
+       lbl_estoque_disponivel.font.Color := clred;
+  end
+  else if qry.IsEmpty then
+    criarmensagem('AVISO', 'NÃO HÁ MOVIMENTO DE ESTOQUES PARA ESTE PRODUTO!');
+
+  //ajustas as colunas do dbgrid
+  prc_ajustar_colunas_grid( DBGrid1 );
+
+  //aumenta o tamanho da linha do ddgrid
+  prc_ajusta_tamanho_linha( DBGrid1 );
+
+end;
+
+procedure TfrmEstoquesMovimentacao.prc_incluir_no_memtable;
+var
+ saldo_anterior : double;
+begin
+  saldo_anterior := 0;
+  mtb_movimento.Close;
+  mtb_movimento.Open;
+  qry.First;
+  while not qry.Eof do
+  begin
+    mtb_movimento.Insert;
+
+    mtb_movimento.FieldByName('ESTOQUES_ID').AsInteger  := qry.FieldByName('ESTOQUES_ID').AsInteger;
+    mtb_movimento.FieldByName('TABELA_ORIGEM').AsString := 'a';//qry.FieldByName('TABELA_ORIGEM').AsString;
+    mtb_movimento.FieldByName('TABELA_ORIGEM_ID').AsInteger :=0;// qry.FieldByName('TABELA_ORIGEM_ID').AsInteger;
+    mtb_movimento.FieldByName('DATA').AsDateTime        := qry.FieldByName('DATA').AsDateTime;
+    mtb_movimento.FieldByName('NOME_FANTASIA').AsString := qry.FieldByName('NOME_FANTASIA').AsString;
+    mtb_movimento.FieldByName('HISTORICO').AsString     := qry.FieldByName('HISTORICO').AsString;
+    mtb_movimento.FieldByName('ENTRADA').AsFloat        := qry.FieldByName('ENTRADA').AsFloat;
+    mtb_movimento.FieldByName('SAIDA').AsFloat          := qry.FieldByName('SAIDA').AsFloat;
+    mtb_movimento.FieldByName('ESTOQUE_FISICO').AsFloat := saldo_anterior + qry.FieldByName('ENTRADA').AsFloat - qry.FieldByName('SAIDA').AsFloat;
+    mtb_movimento.FieldByName('UNIDADE').AsString       := qry.FieldByName('UNIDADE').AsString;
+    saldo_anterior := saldo_anterior + qry.FieldByName('ENTRADA').AsFloat - qry.FieldByName('SAIDA').AsFloat;
+    mtb_movimento.post;
+
+    qry.Next;
+  end;
+
+
+end;
+
+
+function TfrmEstoquesMovimentacao.fnc_somar_pedidos_abertos( produto_id: integer ): double;
+var
+  loqry : TFDQuery;
+  total_itens_pedido, total_itens_laje: double;
+begin
+  result := 0;
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+    //ITENS DO PEDIDO
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select                         ');
+    loqry.SQL.Add('  sum(qtde) as QTDE            ');
+    loqry.SQL.Add('from                           ');
+    loqry.SQL.Add('  pedidos_itens                ');
+    loqry.SQL.Add('where                          ');
+    loqry.SQL.Add('  PRODUTO_ID = :PRODUTO_ID and ');
+    loqry.SQL.Add('  situacao = :situacao         ');
+
+    loqry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loqry.ParamByName('situacao').AsString    := 'ABERTO';
+
+    loqry.Open;
+    total_itens_pedido := loqry.FieldByName('QTDE').AsFloat;
+    loqry.close;
+
+    //ITENS DA LAJE
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select                         ');
+    loqry.SQL.Add('  sum(qtde) as QTDE            ');
+    loqry.SQL.Add('from                           ');
+    loqry.SQL.Add('  pedidos_itens_laje           ');
+    loqry.SQL.Add('where                          ');
+    loqry.SQL.Add('  PRODUTO_ID = :PRODUTO_ID and ');
+    loqry.SQL.Add('  situacao = :situacao         ');
+
+    loqry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loqry.ParamByName('situacao').AsString    := 'ABERTO';
+
+    loqry.Open;
+    total_itens_laje := loqry.FieldByName('QTDE').AsFloat;
+    loqry.close;
+
+    Result := total_itens_pedido + total_itens_laje;
+
+  finally
+    loqry.Close;
+    FreeAndNil(loqry);
+  end;
+end;
+
+procedure TfrmEstoquesMovimentacao.DBGrid1TitleClick(Column: TColumn);
+begin
+//  inherited;
+
+end;
+
+procedure TfrmEstoquesMovimentacao.dsDataChange(Sender: TObject; Field: TField);
+begin
+//  inherited;  controla botoes
+  // só pode alteração lançamentos avulsos de estoque
+  btnAlterar.Enabled  := not mtb_movimento.FieldByName('TABELA_ORIGEM_ID').AsInteger > 0;
+  btnImprimir.Enabled := not ds.DataSet.IsEmpty;
+end;
+
+procedure TfrmEstoquesMovimentacao.dtp_data_iniCloseUp(Sender: TObject);
+begin
+  inherited;
+  prc_filtrar_produto( p_produto_id );
+
+
+end;
+
+procedure TfrmEstoquesMovimentacao.edt_consultaKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  //inherited;
+
+end;
+
+end.

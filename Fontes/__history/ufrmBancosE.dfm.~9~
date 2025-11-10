@@ -1,0 +1,581 @@
+inherited frmBancosE: TfrmBancosE
+  Caption = 'frmBancosE'
+  ClientHeight = 450
+  ClientWidth = 600
+  Font.Height = -12
+  Font.Name = 'Segoe UI Semibold'
+  Font.Style = [fsBold]
+  ExplicitWidth = 612
+  ExplicitHeight = 488
+  TextHeight = 15
+  inherited pnTitulo: TPanel
+    Width = 600
+    inherited lbl_titulo: TLabel
+      Width = 600
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 600
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 600
+    Height = 356
+    ExplicitTop = 52
+    ExplicitWidth = 600
+    ExplicitHeight = 439
+    object Label3: TLabel
+      Left = 5
+      Top = 296
+      Width = 78
+      Height = 15
+      Caption = 'C'#243'd. do Banco'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object edt_cod_banco: TEdit
+      Left = 5
+      Top = 319
+      Width = 96
+      Height = 25
+      CharCase = ecUpperCase
+      MaxLength = 3
+      NumbersOnly = True
+      TabOrder = 0
+    end
+    object pnl_cep: TPanel
+      Left = 0
+      Top = 0
+      Width = 600
+      Height = 297
+      Align = alTop
+      BevelOuter = bvNone
+      Color = clWhite
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 1
+      object Label1: TLabel
+        Left = 5
+        Top = 6
+        Width = 11
+        Height = 15
+        Caption = 'ID'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 104
+        Top = 6
+        Width = 47
+        Height = 15
+        Caption = 'Cadastro'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 216
+        Top = 6
+        Width = 50
+        Height = 15
+        Caption = 'Altera'#231#227'o'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 5
+        Top = 58
+        Width = 59
+        Height = 15
+        Caption = 'CPF / CNPJ'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label7: TLabel
+        Left = 208
+        Top = 58
+        Width = 35
+        Height = 15
+        Caption = 'RG / IE'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label8: TLabel
+        Left = 342
+        Top = 58
+        Width = 44
+        Height = 15
+        Caption = 'Telefone'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label9: TLabel
+        Left = 474
+        Top = 58
+        Width = 37
+        Height = 15
+        Caption = 'Celular'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label10: TLabel
+        Left = 5
+        Top = 112
+        Width = 33
+        Height = 15
+        Caption = 'Nome'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label11: TLabel
+        Left = 5
+        Top = 162
+        Width = 49
+        Height = 15
+        Caption = 'Endere'#231'o'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label12: TLabel
+        Left = 516
+        Top = 162
+        Width = 44
+        Height = 15
+        Caption = 'N'#250'mero'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label13: TLabel
+        Left = 5
+        Top = 213
+        Width = 31
+        Height = 15
+        Caption = 'Bairro'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label14: TLabel
+        Left = 183
+        Top = 213
+        Width = 37
+        Height = 15
+        Caption = 'Cidade'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label15: TLabel
+        Left = 441
+        Top = 213
+        Width = 14
+        Height = 15
+        Caption = 'UF'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label16: TLabel
+        Left = 486
+        Top = 213
+        Width = 21
+        Height = 15
+        Caption = 'CEP'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label17: TLabel
+        Left = 5
+        Top = 256
+        Width = 29
+        Height = 15
+        Caption = 'email'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object btn_busca_pessoa: TBitBtn
+        Left = 132
+        Top = 73
+        Width = 33
+        Height = 25
+        Hint = 'buscar uma pessoa j'#225' cadastrada'
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FF00FF314B62
+          AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+          106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+          00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+          9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+          E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+          FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+          B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+          FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+          DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+          B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+          BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+          D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+          6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        WordWrap = True
+      end
+      object btnIncluirPessoa: TBitBtn
+        Left = 167
+        Top = 73
+        Width = 33
+        Height = 25
+        Hint = 'Incluir uma nova pessoa'
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FF00FFFF00FF
+          A46769A46769A46769A46769A46769A46769A46769A46769A46769A46769A467
+          69A46769A46769FF00FFFF00FFFF00FFB79184FEE9C7F4DAB5F3D5AAF2D0A0EF
+          CB96EFC68BEDC182EBC17FEBC180EBC180F2C782A46769FF00FFFF00FFFF00FF
+          B79187FCEACEF3DABCF2D5B1F0D0A7EECB9EEDC793EDC28BE9BD81E9BD7FE9BD
+          7FEFC481A46769FF00FFFF00FFFF00FFB7938AFEEFDAF6E0C6F2DABCF2D5B2EF
+          D0A9EECB9EEDC796EBC28CE9BD82E9BD7FEFC481A46769FF00FFFF00FFFF00FF
+          BA978FFFF4E5F7E5CFF4E0C5F3DABBF2D5B1F0D0A6EECB9EEDC795EBC28AEABF
+          81EFC480A46769FF00FFFF00FFFF00FFC09E95FFFBF0F8EADCF6E3CFF4E0C6F2
+          D9BCF2D5B1F0D0A9EDCB9EEDC695EBC28AEFC583A46769FF00FFFF00FFFF00FF
+          C6A49AFFFFFCFAF0E6F8EADAF7E5CFF4E0C5F2DABAF2D5B1F0D0A7EECB9DEBC7
+          93F2C98CA46769FF00FFFF00FFFF00FFCBA99EFFFFFFFEF7F2FAEFE6F8EAD9F7
+          E3CFF6E0C5F2DABBF2D4B1F0D0A7EECC9EF3CE97A46769FF00FFFF00FFFF00FF
+          CFAC9FFFFFFFFFFEFCFCF6F0FAEFE6F7EADAF6E3CFF4E0C5F3D9BBF3D4B0F0D0
+          A6F6D3A0A46769FF00FFFF00FFFF00FFD4B0A1FFFFFFFFFFFFFFFEFCFEF7F0FA
+          EFE5F8EAD9F7E5CEF6DEC4F3D9B8F4D8B1EBCFA4A46769FF00FFFF00FFFF00FF
+          D9B5A1FFFFFFFFFFFFFFFFFFFFFEFCFCF7F0FAEFE5F8E9D9F8E7D1FBEACEDECE
+          B4B6AA93A46769FF00FFFF00FFFF00FFDDB7A4FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FEFCFCF6EFFCF3E6EDD8C9B68A7BA17B6F9C7667A46769FF00FFFF00FFFF00FF
+          E2BCA5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFFFEF7DAC1BAAD735BE19E
+          55E68F31B56D4DFF00FFFF00FFFF00FFE6BFA7FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFDCC7C5B88265F8B55CBF7A5CFF00FFFF00FFFF00FFFF00FF
+          E4BCA4FBF4F0FBF4EFFAF3EFFAF3EFF8F2EFF7F2EFF7F2EFD8C2C0B77F62C183
+          6CFF00FFFF00FFFF00FFFF00FFFF00FFE8C4ADEBCBB7EBCBB7EACBB7EACAB6EA
+          CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+      object DBCheckBox1: TDBCheckBox
+        Left = 329
+        Top = 32
+        Width = 97
+        Height = 17
+        Caption = 'Ativo'
+        DataField = 'ATIVO'
+        DataSource = ds
+        Enabled = False
+        TabOrder = 2
+        ValueChecked = 'S'
+        ValueUnchecked = 'N'
+      end
+      object rgPessoa: TDBRadioGroup
+        Left = 423
+        Top = 4
+        Width = 170
+        Height = 47
+        Caption = ' Pessoa '
+        Columns = 2
+        DataField = 'FIS_JUR'
+        DataSource = ds
+        Enabled = False
+        Items.Strings = (
+          'Fisica'
+          'Juridica')
+        ReadOnly = True
+        TabOrder = 3
+        Values.Strings = (
+          'F'
+          'J')
+      end
+      object Panel2: TPanel
+        Left = 5
+        Top = 25
+        Width = 62
+        Height = 25
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+      end
+      object Panel3: TPanel
+        Left = 208
+        Top = 73
+        Width = 121
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+      end
+      object Panel4: TPanel
+        Left = 216
+        Top = 25
+        Width = 96
+        Height = 25
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+      end
+      object Panel5: TPanel
+        Left = 5
+        Top = 73
+        Width = 122
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 7
+      end
+      object Panel6: TPanel
+        Left = 104
+        Top = 25
+        Width = 96
+        Height = 25
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 8
+      end
+      object Panel7: TPanel
+        Left = 342
+        Top = 73
+        Width = 121
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 9
+      end
+      object Panel8: TPanel
+        Left = 474
+        Top = 73
+        Width = 119
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 10
+      end
+      object pnl_nome: TPanel
+        Left = 5
+        Top = 129
+        Width = 588
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 11
+      end
+      object Panel9: TPanel
+        Left = 5
+        Top = 179
+        Width = 502
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 12
+      end
+      object pnl_numero: TPanel
+        Left = 516
+        Top = 179
+        Width = 77
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 13
+      end
+      object pnl_bairro: TPanel
+        Left = 5
+        Top = 231
+        Width = 169
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 14
+      end
+      object pnl_cidade: TPanel
+        Left = 183
+        Top = 231
+        Width = 249
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 15
+      end
+      object pnl_uf: TPanel
+        Left = 441
+        Top = 231
+        Width = 41
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 16
+      end
+      object Panel10: TPanel
+        Left = 487
+        Top = 229
+        Width = 106
+        Height = 25
+        Alignment = taLeftJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 17
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 413
+    Width = 600
+    ExplicitTop = 268
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 384
+    Top = 16
+  end
+  inherited ds: TDataSource
+    Left = 352
+    Top = 17
+  end
+end

@@ -1,0 +1,52 @@
+inherited frmTabelaPrecos: TfrmTabelaPrecos
+  Caption = 'frmTabelaPrecos'
+  ClientHeight = 377
+  ClientWidth = 814
+  ExplicitWidth = 826
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 814
+    ExplicitWidth = 879
+  end
+  inherited ToolBar1: TToolBar
+    Width = 814
+    ExplicitWidth = 879
+    inherited dbn_principal: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Top = 358
+    Width = 814
+    ExplicitTop = 356
+    ExplicitWidth = 879
+  end
+  inherited PageControl1: TPageControl
+    Width = 814
+    Height = 210
+    ExplicitWidth = 879
+    ExplicitHeight = 208
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 806
+      inherited Panel5: TPanel
+        Width = 806
+        ExplicitWidth = 871
+        ExplicitHeight = 198
+        inherited DBGrid1: TDBGrid
+          Width = 806
+        end
+      end
+    end
+  end
+  inherited ActionList1: TActionList
+    inherited actIncluir: TAction
+      OnExecute = actIncluirExecute
+    end
+    inherited actAlterar: TAction
+      OnExecute = actAlterarExecute
+    end
+    inherited actExcluir: TAction
+      OnExecute = actExcluirExecute
+    end
+  end
+end

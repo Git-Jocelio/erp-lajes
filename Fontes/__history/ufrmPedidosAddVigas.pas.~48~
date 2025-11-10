@@ -1,0 +1,310 @@
+unit ufrmPedidosAddVigas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, ufrmPedidosDigitarVigas, Vcl.DBCtrls,
+  udmConn;
+
+type
+  TfrmPedidosAddVigas = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    pnl_titulo: TPanel;
+    img_principal: TImage;
+    lbl_titulo: TLabel;
+    lbl_sub_titulo: TLabel;
+    pnl_informacoes: TPanel;
+    Label3: TLabel;
+    pnl_traco: TPanel;
+    Panel1: TPanel;
+    pnl_precos_adicionais: TPanel;
+    dbg_reforcos: TDBGrid;
+    Label5: TLabel;
+    Label4: TLabel;
+    Panel2: TPanel;
+    dbg_vigas: TDBGrid;
+    pnl_totais: TPanel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    edt_qtde_vigas_informadas: TEdit;
+    Label13: TLabel;
+    Label14: TLabel;
+    ds_vigas: TDataSource;
+    btn_add_viga: TSpeedButton;
+    btn_exc_viga: TSpeedButton;
+    edt_qtde_vigas_digitadas: TPanel;
+    edt_metros_lineares: TPanel;
+    edt_metros_quadrados: TPanel;
+    edt_qtde_lajotas: TPanel;
+    edt_qtde_eps: TPanel;
+    mtb_vigas: TFDMemTable;
+    mtb_vigasqtde: TIntegerField;
+    mtb_vigastamanho: TFloatField;
+    mtb_vigasField4_2: TIntegerField;
+    mtb_vigasField5_0: TIntegerField;
+    mtb_vigasField6_3: TIntegerField;
+    mtb_vigasField8_0: TIntegerField;
+    mtb_vigasField10_0: TIntegerField;
+    mtb_vigasField12_5: TIntegerField;
+    mtb_vigasdobra_ini: TFloatField;
+    mtb_vigasdobra_fim: TFloatField;
+    mtb_vigasposicao: TStringField;
+    mtb_vigastotal_vigas: TAggregateField;
+    mtb_vigasmetros_lineares: TFloatField;
+    mtb_vigasmetro_lineares_total: TAggregateField;
+    ds_ferragens: TDataSource;
+    qry_ferragens: TFDQuery;
+    mtb_ferragens: TFDMemTable;
+    mtb_ferragensproduto_id: TIntegerField;
+    mtb_ferragensnome_fantasia: TStringField;
+    mtb_ferragensqtde_total: TFloatField;
+    mtb_ferragenspreco_vendedor: TFloatField;
+    mtb_ferragenssub_total: TFloatField;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    mtb_ferragensDIAMETRO: TFloatField;
+    procedure btn_naoClick(Sender: TObject);
+    procedure btn_add_vigaClick(Sender: TObject);
+    procedure mtb_vigasAfterPost(DataSet: TDataSet);
+    procedure mtb_vigasBeforePost(DataSet: TDataSet);
+    procedure FormShow(Sender: TObject);
+    procedure mtb_ferragensBeforePost(DataSet: TDataSet);
+    procedure dbg_vigasColExit(Sender: TObject);
+    procedure ds_vigasDataChange(Sender: TObject; Field: TField);
+  private
+    Fp_metros_lineares_total: double;
+    Fp_qtde_vigas: integer;
+    Fp_metros_quadrados: double;
+    Fp_qtde_lajotas: integer;
+    Fp_qtde_eps: integer;
+    Fp_total_linear_42: double;
+    procedure prc_carregar_ferragens;
+    procedure prc_totalizar_reforcos(f_4_2, f_5_0, f_6_3, f_8_0, f_10_0, f_12_5: integer);
+    { Private declarations }
+  public
+    { Public declarations }
+
+    property p_qtde_vigas: integer read Fp_qtde_vigas write Fp_qtde_vigas;
+    property p_metros_lineares_total: double read Fp_metros_lineares_total write Fp_metros_lineares_total;
+    property p_metros_quadrados: double read Fp_metros_quadrados write Fp_metros_quadrados;
+    property p_qtde_lajotas: integer read Fp_qtde_lajotas write Fp_qtde_lajotas;
+    property p_qtde_eps: integer read Fp_qtde_eps write Fp_qtde_eps;
+
+    property p_total_linear_42: double read Fp_total_linear_42 write Fp_total_linear_42;
+
+    procedure prc_componentes;
+  end;
+
+var
+  frmPedidosAddVigas: TfrmPedidosAddVigas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPedidosAddVigas.btn_add_vigaClick(Sender: TObject);
+var
+ continua : boolean;
+begin
+  inherited;
+  //mtb_vigas.Insert;
+
+  continua := true;
+  while continua do
+  begin
+    if frmPedidosDigitarVigas = nil then
+    try
+      frmPedidosDigitarVigas := TfrmPedidosDigitarVigas.Create(Application);
+      frmPedidosDigitarVigas.ShowModal;
+      mtb_vigas.Insert;
+
+      mtb_vigasqtde.AsInteger      := frmPedidosDigitarVigas.quantidade;
+      mtb_vigastamanho.AsFloat     := frmPedidosDigitarVigas.tamanho;
+      mtb_vigasField4_2.AsInteger  := frmPedidosDigitarVigas.f_4_2;
+      mtb_vigasField5_0.AsInteger  := frmPedidosDigitarVigas.f_5_0;
+      mtb_vigasField6_3.AsInteger  := frmPedidosDigitarVigas.f_6_3;
+      mtb_vigasField8_0.AsInteger  := frmPedidosDigitarVigas.f_8_0;
+      mtb_vigasField10_0.AsInteger := frmPedidosDigitarVigas.f_10_0;
+      mtb_vigasField12_5.AsInteger := frmPedidosDigitarVigas.f_12_5;
+      mtb_vigasdobra_ini.AsFloat   := frmPedidosDigitarVigas.f_dobra_ini;
+      mtb_vigasdobra_fim.AsFloat   := frmPedidosDigitarVigas.f_dobra_fim;
+      mtb_vigasposicao.AsString    := frmPedidosDigitarVigas.f_posicao;
+
+      mtb_vigas.Post;
+
+
+    finally
+      freeandnil( frmPedidosDigitarVigas );
+    end;
+
+    if application.MessageBox('Deseja continuar incluindo ?', 'Inclusão', MB_YESNO)= mrNo then
+      continua := false
+  end;
+
+end;
+
+procedure TfrmPedidosAddVigas.btn_naoClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmPedidosAddVigas.dbg_vigasColExit(Sender: TObject);
+begin
+  inherited;
+  prc_totalizar_reforcos(
+                         mtb_vigasField4_2.AsInteger,
+                         mtb_vigasField5_0.AsInteger,
+                         mtb_vigasField6_3.AsInteger,
+                         mtb_vigasField8_0.AsInteger,
+                         mtb_vigasField10_0.AsInteger,
+                         mtb_vigasField12_5.AsInteger
+                         );
+
+end;
+
+procedure TfrmPedidosAddVigas.ds_vigasDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  prc_totalizar_reforcos(
+                         mtb_vigasField4_2.AsInteger,
+                         mtb_vigasField5_0.AsInteger,
+                         mtb_vigasField6_3.AsInteger,
+                         mtb_vigasField8_0.AsInteger,
+                         mtb_vigasField10_0.AsInteger,
+                         mtb_vigasField12_5.AsInteger
+                         );
+
+end;
+
+procedure TfrmPedidosAddVigas.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmPedidosAddVigas.mtb_ferragensBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  mtb_ferragenssub_total.AsFloat := mtb_ferragensqtde_total.AsFloat * mtb_ferragenspreco_vendedor.AsFloat;
+
+end;
+
+procedure TfrmPedidosAddVigas.mtb_vigasAfterPost(DataSet: TDataSet);
+begin
+  inherited;
+  {total de vigas}
+  p_qtde_vigas                     := mtb_vigastotal_vigas.Value;
+  edt_qtde_vigas_digitadas.Caption := IntToStr( p_qtde_vigas) ;
+
+  {metros lineares total}
+  p_metros_lineares_total     := mtb_vigasmetro_lineares_total.Value;
+  edt_metros_lineares.Caption := FormatFloat('0.00', p_metros_lineares_total) ;
+
+  {metros quadrados}
+  p_metros_quadrados           := p_metros_lineares_total * 0.42;
+  edt_metros_quadrados.Caption := FormatFloat('0.00', p_metros_quadrados) ;
+
+  {quantidade de lajotas}
+  p_qtde_lajotas               := trunc( p_metros_quadrados * 12 );
+  edt_qtde_lajotas.Caption := inttostr( p_qtde_lajotas ) ;
+
+  {quantidade de eps}
+  p_qtde_eps               := trunc( p_metros_lineares_total);
+  edt_qtde_eps.Caption := inttostr( p_qtde_eps ) ;
+(*
+  prc_totalizar_reforcos(
+                         mtb_vigasField4_2.AsInteger,
+                         mtb_vigasField5_0.AsInteger,
+                         mtb_vigasField6_3.AsInteger,
+                         mtb_vigasField8_0.AsInteger,
+                         mtb_vigasField10_0.AsInteger,
+                         mtb_vigasField12_5.AsInteger
+                         );
+*)
+end;
+
+procedure TfrmPedidosAddVigas.prc_totalizar_reforcos(f_4_2, f_5_0, f_6_3, f_8_0, f_10_0, f_12_5: integer);
+var
+  comprimento_final, total_linear: double;
+  qtde_vigas, qtde_reforcos: integer;
+begin
+  {qtde de adicionais 4.20 por viga }
+  if f_4_2 > 0 then
+  begin
+   { totaliza na grid }
+   mtb_ferragens.First;
+   if mtb_ferragens.Locate('DIAMETRO', 4, []) then
+   begin
+     qtde_vigas        := mtb_vigasqtde.AsInteger;
+     qtde_reforcos     := f_4_2;
+     comprimento_final := mtb_vigastamanho.AsFloat + mtb_vigasdobra_ini.AsFloat + mtb_vigasdobra_fim.AsFloat;
+     total_linear      := qtde_vigas * qtde_reforcos * comprimento_final;
+
+     {totaliza}
+     mtb_ferragens.Edit;
+     mtb_ferragensqtde_total.AsFloat := total_linear;
+     mtb_ferragenssub_total.AsFloat  := mtb_ferragenssub_total.AsFloat + ( mtb_ferragensqtde_total.AsFloat * mtb_ferragenspreco_vendedor.AsFloat );
+     mtb_ferragens.post;
+
+   end;
+  end;
+
+
+end;
+
+procedure TfrmPedidosAddVigas.mtb_vigasBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  {total linear de vigas de laje}
+  mtb_vigasmetros_lineares.AsFloat := mtb_vigasqtde.AsInteger *  mtb_vigastamanho.AsFloat;
+end;
+
+procedure TfrmPedidosAddVigas.prc_componentes;
+begin
+
+  qry_ferragens.Connection := self.Conexao;
+  qry_ferragens.close;
+  qry_ferragens.SQL.Clear;
+  qry_ferragens.SQL.Add('select P.ID, F.DIAMETRO, P.NOME_FANTASIA, PRECO_VENDEDOR from produtos p, produtos_adicional f where p.id = f.produto_id order by f.diametro');
+  qry_ferragens.Open;
+
+  prc_carregar_ferragens;
+
+  {ordenar por tamanho}
+  mtb_vigas.IndexFieldNames := 'tamanho';
+end;
+
+procedure TfrmPedidosAddVigas.prc_carregar_ferragens;
+begin
+
+  qry_ferragens.First;
+  while not qry_ferragens.Eof do
+  begin
+
+    mtb_ferragens.Insert;
+    mtb_ferragensproduto_id.AsInteger   := qry_ferragens.FieldByName('ID').AsInteger;
+    mtb_ferragensDIAMETRO.AsFloat       := qry_ferragens.FieldByName('DIAMETRO').AsFloat;
+    mtb_ferragensnome_fantasia.AsString := qry_ferragens.FieldByName('NOME_FANTASIA').AsString;
+    mtb_ferragenspreco_vendedor.AsFloat := qry_ferragens.FieldByName('PRECO_VENDEDOR').AsFloat;
+    mtb_ferragens.Post;
+
+    qry_ferragens.Next;
+  end;
+
+end;
+
+end.

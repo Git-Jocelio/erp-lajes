@@ -1,0 +1,97 @@
+unit ufrmMensagens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseConexao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.StdCtrls;
+
+type
+  TfrmMensagens = class(TfrmBaseConexao)
+    pnl_fundo: TPanel;
+    shpFundo: TShape;
+    pnl_barra: TPanel;
+    lbl_titulo_janela: TLabel;
+    img_icone: TImage;
+    lbl_titulo_mensagem: TLabel;
+    lbl_msg: TLabel;
+    pnl_Botoes: TPanel;
+    pln_sim: TPanel;
+    btn_sim: TSpeedButton;
+    pnl_nao: TPanel;
+    btn_nao: TSpeedButton;
+    procedure btn_naoClick(Sender: TObject);
+    procedure btn_simClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    bRespostaMSG : boolean;
+    sTituloJanela, sTituloMSG, sMSG, sCaminhoIcone, sTipo : string;
+
+  end;
+
+var
+  frmMensagens: TfrmMensagens;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmMensagens.btn_naoClick(Sender: TObject);
+begin
+  inherited;
+  bRespostaMSG := false;
+  close;
+end;
+
+procedure TfrmMensagens.btn_simClick(Sender: TObject);
+begin
+  inherited;
+  bRespostaMSG := true;
+  close;
+end;
+
+procedure TfrmMensagens.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+   action := caFree;
+end;
+
+procedure TfrmMensagens.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+
+  if key = VK_RETURN then
+   btn_simClick( self )
+  else
+  if key = VK_ESCAPE then
+   btn_naoClick( self );
+
+end;
+
+procedure TfrmMensagens.FormShow(Sender: TObject);
+begin
+  inherited;
+  bRespostaMSG                := false;
+  lbl_titulo_janela.Caption   := sTituloJanela;
+  lbl_titulo_mensagem.Caption := sTituloMSG;
+  lbl_msg.Caption             := sMSG;
+  img_icone.Picture.LoadFromFile( sCaminhoIcone );
+
+  if sTipo = 'OK' then //'OK' ou 'CONFIRMA' será passado por parametro na variavel sTipo
+  begin
+    pnl_nao.Visible := false;
+    btn_sim.Caption := 'OK (ENTER)';
+  end;
+
+end;
+
+end.

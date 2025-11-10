@@ -1,0 +1,335 @@
+unit unit_calcular_custo_de_lajes;
+
+interface
+
+uses
+  FireDAC.Comp.Client, Vcl.Forms, udmConn, Vcl.Dialogs, uTipos,
+  System.SysUtils, Classe.Conexao, unit_funcoes;
+
+  procedure GravarCusto( forma: integer );
+  procedure AlterarCustoViga(CodViga: integer);
+  //procedure prc_atualiza_preco_laje(altura_trelica, largura_forma: integer);
+  function CalcularCustoViga(CodViga: integer): double;
+  function fnc_custo_mao_obra(produto_id: integer): double;
+
+implementation
+
+uses uBiblioteca, udmPesquisa;
+
+
+procedure GravarCusto(  forma: integer );
+var
+  loQry : TFDQuery;
+begin
+
+  try
+ // ShowMessage('FORMA ' + INTTOSTR(forma)) ;
+    loQry := TFDQuery.Create(nil);
+    loqry.Connection := dmConn.FDConnection;
+
+    // gravar custo
+    loqry.SQL.Clear;
+    loqry.SQL.add('select * from PRODUTOS_VIGAS where FORMA_MEDIDA =:FORMA_MEDIDA ');
+    loqry.ParamByName('FORMA_MEDIDA').AsInteger := forma;
+    loqry.Open();
+
+    loqry.First;
+    while not loqry.Eof do
+    begin
+      AlterarCustoViga(loqry.FieldByName('PRODUTO_ID').AsInteger);
+      //
+      loqry.Next;
+    end;
+
+    criarMensagem('AVISO', 'CUSTO DAS VIGAS CALCULADOS COM SUCESSO !!!');
+
+    {atualiza custo e preços de venda a laje conforme a altura selecionada}
+    //prc_atualiza_preco_laje(p_altura_trelica, p_largura_forma);
+
+  finally
+    loQry.Close;
+    FreeAndNil(loQry);
+  end;
+
+end;
+
+procedure AlterarCustoViga(CodViga: integer);
+var
+  custo_mp: double; // custo materia prima (areia, pedra, cimento e treliça)
+  custo_mo: double; // custo mao de obra
+
+  p_percentual_vendedor    : double;
+  p_percentual_venda_final : double;
+
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select * from CONFIGURACOES_SISTEMA');
+    loQry.Open;
+
+    // calcula o custo mp
+    custo_mp := CalcularCustoViga(CodViga);
+
+    // calcular custo mão de obra
+    custo_mo := fnc_custo_mao_obra(CodViga);
+
+    // localiza o produto para gravar o custo
+    ubiblioteca.FilterCds(dmpesquisa.qryBuscaProduto, utipos.fsInteger, inttostr(CodViga));
+
+    //Edita e grava
+    {busca valores configuralçoes da tabela CONFIGURACAO_SISTEMA}
+    p_percentual_vendedor    := (100 - loQry.FieldByName('CUSTOS_PERC_VENDEDOR').AsFloat ) / 100;
+    p_percentual_venda_final := (100 - loQry.FieldByName('CUSTOS_PERC_BALCAO').AsFloat   ) / 100;
+
+    dmpesquisa.qryBuscaProduto.Edit;
+    dmpesquisa.qryBuscaProduto.FieldByName('PRECO_CUSTO').AsFloat    := custo_mp;
+    dmpesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat  := custo_mp + custo_mo;
+   // dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDEDOR').AsFloat := (custo_mp + custo_mo) / p_percentual_vendedor;
+   // dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDA').AsFloat    := (custo_mp + custo_mo) / p_percentual_venda_final;
+    dmpesquisa.qryBuscaProduto.Post;
+    dmPesquisa.qryBuscaProduto.ApplyUpdates;
+
+  finally
+    loqry.Close;
+    freeandnil(loQry);
+  end;
+end;
+
+function CalcularCustoViga(CodViga: integer): double;
+var
+  quantidade,custoMp, custoFinal, vr_trelica_linear : double;
+  loqry :  TFDQuery;
+begin
+  result := 0;
+  // busca a composicao da viga, geralmente areia, pedra, cimento e trelica. 4 itens
+  uBiblioteca.FilterCds(dmPesquisa.qryBuscaComposicaoProduto, fsInteger, inttostr(CodViga));
+  dmPesquisa.qryBuscaComposicaoProduto.First;
+  while not dmPesquisa.qryBuscaComposicaoProduto.Eof do
+  begin
+    // quantidade de uma das mp's da composicao
+    quantidade := dmPesquisa.qryBuscaComposicaoProduto.FieldByName('QUANTIDADE').AsFloat;
+
+    // busca o preco de custo da mp
+    uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, fsInteger, inttostr(dmpesquisa.qryBuscaComposicaoProduto.FieldByName('MP_ID').AsInteger));
+
+    {se a mp for treliça buscar o preço do metro linear}
+    if dmPesquisa.qryBuscaProduto.fieldbyname('TRELICA').asstring = 'S' then
+    begin
+      try
+        loqry := TFDQuery.Create(application);
+        loqry.Connection := dmConn.FDConnection;
+        loqry.SQL.ADD('select P.*, T.* from PRODUTOS P, PRODUTOS_TRELICA T where P.ID = T.PRODUTO_ID and P.ID = :PRODUTO_ID ');
+        loqry.Params.ParamByName('PRODUTO_ID').AsInteger := dmpesquisa.qryBuscaComposicaoProduto.FieldByName('MP_ID').AsInteger;
+        loqry.Open;
+        {calcula o valor do metro linear}
+        vr_trelica_linear := loqry.FieldByName('CUSTO_LIQUIDO').AsFloat / loqry.FieldByName('COMPRIMENTO').AsFloat;
+        custoMp := vr_trelica_linear;
+       // ShowMessage('custo tr linear ' + floattostr(custoMp));
+      finally
+        freeandnil(loqry);
+      end;
+    end
+    else
+    begin
+      {alterado para pegar o custo_liquido ou seja, ja com as perdas calculadas}
+      custoMp := dmPesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat;
+    end;
+
+    custoFinal := custoFinal + (custoMp * quantidade);
+
+    // proximo item da composicao
+    dmPesquisa.qryBuscaComposicaoProduto.next;
+  end;
+  //***
+  Result := custoFinal;
+
+
+end;
+
+
+function fnc_custo_mao_obra(produto_id: integer): double;
+var
+  loQry: TFDQuery;
+  eixo,
+  tamanho_viga, valor_mt, custo : double;
+begin
+  //ShowMessage('fnc_custo_mao_obra');
+  custo := 0;
+  try
+    loQry := TFDQuery.Create(application);
+    loQry.Connection := dmConn.FDConnection;
+    loQry.SQL.Add('select MO.* from PRODUTOS_VIGA_COMP_MO MO where MO.PRODUTO_ID =:PRODUTO_ID');
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loQry.Open;
+    loQry.First;
+    if not loQry.IsEmpty then
+    begin
+      while not loQry.eof do
+      begin
+        valor_mt     := loQry.FieldByName('VALOR').AsFloat;
+        tamanho_viga := loQry.FieldByName('COMPRIMENTO').Asinteger / 1000; // converte milimetro para metro
+        eixo         := loQry.FieldByName('EIXO').AsFloat;
+        {metro quadrado da viga considerando a lajota, não acho justo}
+        //eixo         := ubiblioteca.SeSenao(eixo = 130, 0.42, 0.25);// se for forma de h8 eixo 0,42, senao 0,25 mt
+        {metro quadrado considerando somente a area da viga, como o painel}
+        eixo         := ubiblioteca.SeSenao(eixo = 130, 0.13, 0.25);// se for forma de h8 eixo 0,42, senao 0,25 mt
+        custo        :=  custo + (tamanho_viga * eixo * valor_mt);
+        (*
+        ShowMessage('valor ' + FLOATTOSTR(valor_mt) + sLineBreak +
+                     'tamanho ' + FLOATTOSTR(tamanho_viga) + sLineBreak +
+                     'eixo ' + FLOATTOSTR(eixo)
+                      ) ;
+        *)
+        loQry.Next;
+      end;
+    end;
+    //
+
+    result := custo;
+   // ShowMessage('result ' + floattostr(Result)) ;
+  finally
+    FreeAndNil(loQry);
+  end;
+
+end;
+
+(*
+procedure prc_atualiza_preco_laje(altura_trelica, largura_forma: integer);
+var
+  loQry, loQryVigas: TFDQuery;
+  custo_viga_mt :double;
+  custo_lajota :double;
+  custo_eps :double;
+  custo_laje, custo_mao_obra : double;
+begin
+  try
+    {buscar a valor da viga tamanho = 1,00}
+    loQry := TFDQuery.Create(application);
+    loQry.Connection := dmConn.FDConnection;
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  v.PRODUTO_ID, v.comprimento, p.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_vigas v ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = v.produto_id and ');
+    loQry.SQL.Add('   v.comprimento = 1000 and v.trelica_altura =:ALTURA and v.forma_medida = :FORMA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+    loQry.ParamByName('forma').AsInteger  := largura_forma;
+//ShowMessage('viga ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+    custo_viga_mt := loQry.FieldByName('preco_custo').AsFloat;
+
+    {busca valor da lajota}
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  L.PRODUTO_ID, P.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_lajotas L ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = L.produto_id and ');
+    loQry.SQL.Add('   L.altura =:ALTURA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+//ShowMessage('lajota ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+    custo_lajota := loQry.FieldByName('preco_custo').AsFloat;
+
+    {busca valor do eps}
+    loQry.SQL.Clear;
+    loQry.SQL.Add('select ');
+    loQry.SQL.Add('  E.PRODUTO_ID, P.preco_custo ');
+    loQry.SQL.Add('from ');
+    loQry.SQL.Add('  produtos p, produtos_EPS E ');
+    loQry.SQL.Add('where  ');
+    loQry.SQL.Add('   P.id = E.produto_id and ');
+    loQry.SQL.Add('   E.altura =:ALTURA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+//ShowMessage('eps ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+
+    custo_eps := loQry.FieldByName('preco_custo').AsFloat;
+    {custo mao-de-obra, vou somar o que esta no dataset mao de obra}
+    custo_mao_obra := 0;
+    mtb_mao_obra.First;
+    while not mtb_mao_obra.Eof do
+    begin
+      custo_mao_obra := custo_mao_obra + mtb_mao_obra.FieldByName('VALOR').AsFloat;
+      mtb_mao_obra.next;
+    end;
+{
+ ShowMessage('qtde registros ' + inttostr(mtb_mao_obra.RecordCount)
+ + sLineBreak + 'vr mao de obra ' + floattostr(custo_mao_obra)
+ + sLineBreak + 'mt viga ' + floattostr(custo_viga_mt)
+ + sLineBreak + 'vr lajota ' + floattostr(custo_lajota)
+ + sLineBreak + 'vr eps ' + floattostr(custo_eps));
+}    {buscar as lajes com a mesma forma e mesma altura}
+    loQry.SQL.Clear;
+    loqry.SQL.Add('select ');
+    loqry.SQL.Add('  L.PRODUTO_ID, L.lajota, L.isopor, L.mista, L.FORMA ');
+    loqry.SQL.Add('from ');
+    loqry.SQL.Add('  produtos p, produtos_lajes L ');
+    loqry.SQL.Add('where  ');
+    loqry.SQL.Add('   P.id = L.produto_id and ');
+    loqry.SQL.Add('   L.altura =:ALTURA and L.forma = :FORMA ');
+    loQry.ParamByName('ALTURA').AsInteger := altura_trelica;
+    loQry.ParamByName('forma').AsInteger  := largura_forma;
+//ShowMessage('lajes ' + sLineBreak + loqry.SQL.Text);
+    loqry.Open;
+
+    loqry.First;
+    while not loQry.eof do
+    begin
+      {FORMA O VALOR DO METRO QUADRADO}
+      custo_laje := 0;
+      {tipo de forma}
+      {130 mm}
+      if loQry.FieldByName('FORMA').AsInteger = 130 then
+      begin
+        {custo m² com lajota}
+        if loQry.FieldByName('LAJOTA').AsString = 'S' then
+        begin
+          custo_laje := ( custo_viga_mt * 2.40 ) + ( custo_lajota * 12 );
+        end;
+        {custo m² com isopor}
+        if loQry.FieldByName('ISOPOR').AsString = 'S' then
+        begin
+          custo_laje := ( custo_viga_mt * 2.40 ) + ( custo_eps * 2.4 );
+        end;
+      end;
+
+      {painel}
+      if loQry.FieldByName('FORMA').AsInteger = 250 then
+      begin
+        custo_laje := ( custo_viga_mt * 4 );
+      end;
+      {
+      ShowMessage('laje ' + inttostr(loQry.FieldByName('PRODUTO_ID').AsInteger) + sLineBreak +
+                  'preco_custo ' + floattostr(custo_laje) + sLineBreak +
+                  'custo liquido ' + floattostr(custo_laje + custo_mao_obra) + sLineBreak +
+                  'preco vendedor ' + floattostr((custo_laje + custo_mao_obra) / p_percentual_vendedor) + sLineBreak +
+                  'preco_venda ' + floattostr((custo_laje + custo_mao_obra) / p_percentual_venda_final));
+      }
+      {ALTERAR PREÇO DE CUSTO NA TABELA DE PRODUTOS}
+      uBiblioteca.FilterCds(dmPesquisa.qryBuscaProduto, fsInteger, inttostr(loQry.FieldByName('PRODUTO_ID').AsInteger));
+      dmpesquisa.qryBuscaProduto.Edit;
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_CUSTO').AsFloat    := custo_laje;  // viga + lajota ou isopor
+      dmpesquisa.qryBuscaProduto.FieldByName('CUSTO_LIQUIDO').AsFloat  := ( custo_laje + custo_mao_obra );
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDEDOR').AsFloat := (custo_laje + custo_mao_obra) / p_percentual_vendedor;
+      dmpesquisa.qryBuscaProduto.FieldByName('PRECO_VENDA').AsFloat    := (custo_laje + custo_mao_obra) / p_percentual_venda_final;
+      dmpesquisa.qryBuscaProduto.Post;
+      dmpesquisa.qryBuscaProduto.ApplyUpdates;
+
+
+      loQry.Next;
+    end;
+  finally
+    freeandnil(loQry);
+  end;
+end;
+*)
+
+
+end.

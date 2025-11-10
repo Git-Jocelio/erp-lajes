@@ -1,0 +1,6 @@
+como instalar
+
+
+1. instale como administrador "1-setup_customer_2023.04.14.exe"
+2. instale como administrador "2-setup_customer_2023.04.14.exe" no diretorio IBExpert do passo 1
+ex: C:\Program Files (x86)\HK-Software\IBExpert

@@ -1,0 +1,1182 @@
+unit ufrmRecibosFornecedoresE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask, Vcl.ComCtrls, Vcl.Grids,
+  Vcl.DBGrids, ufrmPesquisaContas, unit_funcoes, ufrmRecibosAterarValorConta,
+  uBiblioteca, ufrmPesquisaChequeCliente, uFinanceiro;
+
+type
+  TfrmRecibosFornecedoresE = class(TfrmBaseEdicao)
+    btn_fechar: TSpeedButton;
+    pnl_topo: TPanel;
+    Label2: TLabel;
+    lbl_nr_recibo: TLabel;
+    Label3: TLabel;
+    Label17: TLabel;
+    cbx_pessoa: TDBLookupComboBox;
+    edt_observacoes: TEdit;
+    pnl_totais: TPanel;
+    Label1: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    pnl_dinheiro: TPanel;
+    pnl_pix: TPanel;
+    pnl_cheques: TPanel;
+    pnl_contas_receber: TPanel;
+    pnl_total_pagamentos: TPanel;
+    pnl_contas_pagar: TPanel;
+    pnl_saldo: TPanel;
+    pnl_page_controls: TPanel;
+    Splitter1: TSplitter;
+    gbx_debitos_clientes: TGroupBox;
+    PageControl2: TPageControl;
+    pnl_botoes_debitos: TPanel;
+    btn_incluir_conta_pagar: TSpeedButton;
+    btn_alterar_valor_debito: TSpeedButton;
+    btn_excluir_conta_pagar: TSpeedButton;
+    dbg_contas_pagar: TDBGrid;
+    gbx_creditos_clientes: TGroupBox;
+    PageControlCreditos: TPageControl;
+    tbs_dinheiro: TTabSheet;
+    pnl_entrada_dinheiro: TPanel;
+    Label13: TLabel;
+    Label14: TLabel;
+    edt_valor_dinheiro: TEdit;
+    edt_obs_dinheiro: TEdit;
+    tbs_pix: TTabSheet;
+    pnl_entrada_pix: TPanel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label20: TLabel;
+    edt_valor_pix: TEdit;
+    edt_obs_pix: TEdit;
+    cbx_conta_bancaria: TDBLookupComboBox;
+    cbx_bancos: TDBLookupComboBox;
+    edt_cod_Banco: TDBEdit;
+    DBEdit1: TDBEdit;
+    tbs_cheque: TTabSheet;
+    pnl_entrada_cheque: TPanel;
+    pnl_botoes_cheque: TPanel;
+    btn_incluir_cheque: TSpeedButton;
+    btn_excluir_cheque: TSpeedButton;
+    dbg_cheques: TDBGrid;
+    tbs_contas_receber: TTabSheet;
+    pnl_incluir_conta_pagar: TPanel;
+    pnl_botoes_contas_pagar: TPanel;
+    btn_incluir_conta_receber: TSpeedButton;
+    btn_excluir_conta_receber: TSpeedButton;
+    btn_alterar_valor_credito: TSpeedButton;
+    dbg_contas_receber: TDBGrid;
+    ds_contas_pagar: TDataSource;
+    mtb_conta_pagar: TFDMemTable;
+    mtb_conta_pagarID: TIntegerField;
+    mtb_conta_pagarNR_DOCUMENTO: TStringField;
+    mtb_conta_pagarDESCRICAO: TStringField;
+    mtb_conta_pagarTOTAL_PARCELA: TFloatField;
+    mtb_conta_pagarVALOR_PAGO: TFloatField;
+    mtb_conta_pagarBAIXAR: TFloatField;
+    mtb_conta_pagarTOTAL: TAggregateField;
+    ds_bancos: TDataSource;
+    ds_contas_bancarias: TDataSource;
+    qry_bancos: TFDQuery;
+    qry_contas_bancarias: TFDQuery;
+    ds_cheque_cliente: TDataSource;
+    mtb_cheque_cliente: TFDMemTable;
+    mtb_cheque_clienteID: TIntegerField;
+    mtb_cheque_clienteCADASTRADO_EM: TDateField;
+    mtb_cheque_clienteCORRENTISTA_CONTA_ID: TIntegerField;
+    mtb_cheque_clienteNR_CHEQUE: TStringField;
+    mtb_cheque_clientePRE_DATADO_PARA: TDateField;
+    mtb_cheque_clienteVALOR: TFloatField;
+    mtb_cheque_clienteREPASSADO: TStringField;
+    mtb_cheque_clienteRECIBO_ID: TIntegerField;
+    mtb_cheque_clienteHISTORICO: TStringField;
+    mtb_cheque_clienteBANCO: TStringField;
+    mtb_cheque_clienteAGENCIA: TStringField;
+    mtb_cheque_clienteCONTA: TStringField;
+    mtb_cheque_clienteTOTAL: TAggregateField;
+    ds_conta_receber: TDataSource;
+    mtb_conta_receber: TFDMemTable;
+    mtb_conta_receberID: TIntegerField;
+    mtb_conta_receberNR_DOCUMENTO: TStringField;
+    mtb_conta_receberDESCRICAO: TStringField;
+    mtb_conta_receberTOTAL_PARCELA: TFloatField;
+    mtb_conta_receberVALOR_PAGO: TFloatField;
+    mtb_conta_receberBAIXAR: TFloatField;
+    mtb_conta_receberTABELA_ORIGEM: TStringField;
+    procedure btn_fecharClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btn_incluir_conta_pagarClick(Sender: TObject);
+    procedure ds_contas_pagarDataChange(Sender: TObject; Field: TField);
+    procedure btn_excluir_conta_pagarClick(Sender: TObject);
+    procedure btn_alterar_valor_debitoClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+    procedure edt_valor_dinheiroExit(Sender: TObject);
+    procedure edt_valor_dinheiroKeyPress(Sender: TObject; var Key: Char);
+    procedure edt_valor_pixExit(Sender: TObject);
+    procedure edt_valor_pixKeyPress(Sender: TObject; var Key: Char);
+    procedure cbx_bancosCloseUp(Sender: TObject);
+    procedure btn_incluir_chequeClick(Sender: TObject);
+    procedure ds_cheque_clienteDataChange(Sender: TObject; Field: TField);
+    procedure btn_excluir_chequeClick(Sender: TObject);
+    procedure btn_incluir_conta_receberClick(Sender: TObject);
+    procedure ds_conta_receberDataChange(Sender: TObject; Field: TField);
+    procedure btn_excluir_conta_receberClick(Sender: TObject);
+    procedure btn_alterar_valor_creditoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    Fpessoa_id: integer;
+    Ftabela: string;
+    Fcodigo: integer;
+    Fp_operacao: utipos.Toperacao;
+    procedure prc_componentes;
+    procedure prc_salvar;
+    function fnc_validar: boolean;
+    procedure prc_atualiza_painel_totais;
+    procedure prc_incluir_alterar(operacao: TOperacao);
+    procedure prc_incluir_alterar_dinheiro(operacao: TOperacao);
+    procedure prc_incluir_alterar_pix(operacao: TOperacao);
+    procedure prc_incluir_alterar_cheque(operacao: TOperacao;
+      conta_bancaria_id: integer; banco, agencia, nr_conta, nr_cheque: string;
+      data: TDate; valor: double; historico: string);
+    procedure prc_incluir_alterar_contas_receber(operacao: TOperacao;
+      contas_receber_id: integer; historico: string; valor_parcela, valor_pago,
+      baixar: double);
+  public
+    property codigo    :integer read Fcodigo write Fcodigo;
+    property p_operacao:utipos.Toperacao read Fp_operacao write Fp_operacao;
+    property pessoa_id :integer read Fpessoa_id write Fpessoa_id;
+    property tabela    : string read Ftabela write Ftabela;
+
+  end;
+
+var
+  frmRecibosFornecedoresE: TfrmRecibosFornecedoresE;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmRecibosFornecedoresE.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  prc_salvar;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_alterar_valor_creditoClick(
+  Sender: TObject);
+begin
+  try
+    if frmRecibosAlterarValorConta = nil then
+      frmRecibosAlterarValorConta := TfrmRecibosAlterarValorConta.Create(application);
+    // passar paramentros
+    frmRecibosAlterarValorConta.lbl_pessoa.Caption        := cbx_pessoa.Text;
+    frmRecibosAlterarValorConta.lbl_nr_documento.Caption  := mtb_conta_receber.FieldByName('NR_DOCUMENTO').AsString;
+    frmRecibosAlterarValorConta.lbl_historico.Caption     := mtb_conta_receber.FieldByName('DESCRICAO').AsString;
+    frmRecibosAlterarValorConta.lbl_total_parcela.Caption := formatfloat('0.00', mtb_conta_receber.FieldByName('TOTAL_PARCELA').Asfloat);
+    frmRecibosAlterarValorConta.lbl_saldo_aberto.Caption  := formatfloat('0.00', mtb_conta_receber.FieldByName('TOTAL_PARCELA').Asfloat - mtb_conta_receber.FieldByName('VALOR_PAGO').Asfloat );
+    frmRecibosAlterarValorConta.edt_baixar.Text           := formatfloat('0.00', mtb_conta_receber.FieldByName('TOTAL_PARCELA').Asfloat - mtb_conta_receber.FieldByName('VALOR_PAGO').Asfloat );
+
+    //chama o formulario de alteração
+    frmRecibosAlterarValorConta.ShowModal;
+    // se confirmado, faz as alterações
+    if frmRecibosAlterarValorConta.p_confirmado then
+    begin
+      mtb_conta_receber.Edit;
+      mtb_conta_receber.FieldByName('BAIXAR').AsFloat := strtofloat(frmRecibosAlterarValorConta.edt_baixar.Text) ;
+      mtb_conta_receber.post;
+      // atualiza totais
+      prc_atualiza_painel_totais
+    end;
+
+
+  finally
+    freeandnil(frmRecibosAlterarValorConta);
+  end;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_alterar_valor_debitoClick(
+  Sender: TObject);
+begin
+  try
+    if frmRecibosAlterarValorConta = nil then
+      frmRecibosAlterarValorConta := TfrmRecibosAlterarValorConta.Create(application);
+    // passar paramentros
+    frmRecibosAlterarValorConta.lbl_pessoa.Caption        := cbx_pessoa.Text;
+    frmRecibosAlterarValorConta.lbl_nr_documento.Caption  := mtb_conta_pagar.FieldByName('NR_DOCUMENTO').AsString;
+    frmRecibosAlterarValorConta.lbl_historico.Caption     := mtb_conta_pagar.FieldByName('DESCRICAO').AsString;
+    frmRecibosAlterarValorConta.lbl_total_parcela.Caption := formatfloat('0.00', mtb_conta_pagar.FieldByName('TOTAL_PARCELA').Asfloat);
+    frmRecibosAlterarValorConta.lbl_saldo_aberto.Caption  := formatfloat('0.00', mtb_conta_pagar.FieldByName('TOTAL_PARCELA').Asfloat - mtb_conta_pagar.FieldByName('VALOR_PAGO').Asfloat );
+    //frmRecibosAlterarValorConta.edt_baixar.Text           := formatfloat('0.00', mtb_conta_pagar.FieldByName('TOTAL_PARCELA').Asfloat - mtb_conta_pagar.FieldByName('VALOR_PAGO').Asfloat );
+    // sugestão de pagamento...
+    frmRecibosAlterarValorConta.edt_baixar.Text := formatfloat('0.00', mtb_conta_pagar.FieldByName('TOTAL_PARCELA').Asfloat - StrToFloat(pnl_saldo.Caption) );
+
+    //chama o formulario de alteração
+    frmRecibosAlterarValorConta.ShowModal;
+    // se confirmado, faz as alterações
+    if frmRecibosAlterarValorConta.p_confirmado then
+    begin
+      mtb_conta_pagar.Edit;
+      mtb_conta_pagar.FieldByName('BAIXAR').AsFloat := strtofloat(frmRecibosAlterarValorConta.edt_baixar.Text) ;
+      mtb_conta_pagar.post;
+      // atualiza totais
+      prc_atualiza_painel_totais
+    end;
+
+
+  finally
+    freeandnil(frmRecibosAlterarValorConta);
+  end;
+end;
+
+function TfrmRecibosFornecedoresE.fnc_validar : boolean;
+begin
+  result := false;
+
+  if cbx_pessoa.Text = '' then
+  begin
+    criarmensagem('AVISO','INFORME UMA PESSOA.');
+    cbx_pessoa.SetFocus;
+    exit;
+  end;
+
+  if edt_observacoes.Text = '' then
+  begin
+    criarmensagem('AVISO','PREENCHA O CAMPO OBSERVAÇÃO.');
+    edt_observacoes.SetFocus;
+    exit;
+  end;
+
+  if mtb_conta_pagar.IsEmpty  then
+  begin
+    criarmensagem('AVISO','NENHUMA CONTA FOI SELECIONADA.' + slinebreak + slinebreak +
+                  'SELECIONE UMA OU MAIS CONTAS E TENTE NOVAMENTE.');
+    btn_incluir_conta_pagar.Click;
+    exit;
+  end;
+
+  // se tiver algum valor lançado em dinheiro, posiciono na tab dinheiro e
+  // faço as verificações
+  if strtofloatdef(pnl_dinheiro.Caption,0) > 0 then
+  begin
+    PageControlCreditos.ActivePage := tbs_dinheiro;
+
+    if edt_obs_dinheiro.Text = '' then
+    begin
+      criarmensagem('AVISO','ENTRADA EM DINHEIRO.' + sLineBreak + slinebreak +
+                    ' PREENCHA O CAMPO OBSERVAÇÃO.');
+      edt_obs_dinheiro.SetFocus;
+      exit;
+    end;
+  end;
+
+  // se tiver algum valor lançado em pix, posiciono na tab pix e
+  // faço as verificações
+  if strtofloatdef(pnl_pix.Caption,0) > 0 then
+  begin
+    PageControlCreditos.ActivePage := tbs_pix;
+
+    if cbx_bancos.Text = '' then
+    begin
+      criarmensagem('AVISO','ENTRADA EM PIX.' + sLineBreak + slinebreak +
+                    ' SELECIONE UM BANCO.');
+      cbx_bancos.SetFocus;
+      exit;
+    end;
+
+    if cbx_conta_bancaria.Text = '' then
+    begin
+      criarmensagem('AVISO','ENTRADA EM PIX.' + sLineBreak + slinebreak +
+                    ' SELECIONE EM QUAL CONTA O PIX SERÁ CREDITADO.');
+      cbx_conta_bancaria.SetFocus;
+      exit;
+    end;
+
+    if edt_obs_pix.Text = '' then
+    begin
+      criarmensagem('AVISO','ENTRADA EM PIX.' + sLineBreak + slinebreak +
+                    ' PREENCHA O CAMPO OBSERVAÇÃO.');
+      edt_obs_pix.SetFocus;
+      exit;
+    end;
+  end;
+
+  // agora se não houve nenhum pagamento, não a como emitir um recibo
+  if strtofloatdef(pnl_total_pagamentos.Caption,0) <= 0 then
+  begin
+    criarmensagem('AVISO','NENHUM PAGAMENTO FOI INFORMADO.' + slinebreak + slinebreak +
+                  'INFORME O(S) PAGAMENTO(S) E TENTE NOVAMENTE.');
+    exit;
+
+  end;
+
+
+  result := true;
+end;
+
+
+procedure TfrmRecibosFornecedoresE.prc_salvar;
+begin
+  {faz as validações, se não validar não contiunua}
+  if not fnc_validar then Exit;
+
+  {inicia uma nova transação}
+  if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+  try
+
+    {incluir/alterar o recibo}
+    prc_incluir_alterar( p_operacao );
+
+    {manda pro banco de dados}
+    if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+    {mensagem ao usuário}
+    if p_operacao = opincluir then
+      CriarMensagem('AVISO',' RECIBO INCLUIDO COM SUCESSO. ')
+    else if p_operacao = opalterar then
+      CriarMensagem('AVISO',' RECIBO ALTERADO COM SUCESSO. ');
+
+    {fecha o formulário}
+    Close;
+
+  except
+    {se der algum erro durante o processo de gravação desfaz tudo!}
+    on E : Exception do
+       begin
+         CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O PEDIDO.' + slinebreak + slinebreak + E.Message);
+         if Conexao.InTransaction then
+           Conexao.Rollback;;
+         //***
+         Raise;
+       end;
+  end;
+
+end;
+
+
+procedure TfrmRecibosFornecedoresE.btn_excluir_chequeClick(Sender: TObject);
+begin
+  inherited;
+  mtb_cheque_cliente.Delete;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_excluir_conta_pagarClick(
+  Sender: TObject);
+begin
+  inherited;
+  mtb_conta_pagar.Delete;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_excluir_conta_receberClick(
+  Sender: TObject);
+begin
+  inherited;
+  mtb_conta_receber.Delete;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_fecharClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_incluir_chequeClick(Sender: TObject);
+begin
+  try
+    if frmPesquisaChequeCliente = nil then
+      frmPesquisaChequeCliente := TfrmPesquisaChequeCliente.Create(application);
+
+    frmPesquisaChequeCliente.ShowModal;
+
+    if frmPesquisaChequeCliente.p_confirmado = true then
+    begin
+
+       // ver duplicidade
+       mtb_cheque_cliente.First;
+       if mtb_cheque_cliente.Locate('ID', frmPesquisaChequeCliente.p_id, []) then
+       begin
+         unit_funcoes.criarmensagem('AVISO','DUPLICIDADE!' + slinebreak + slinebreak +
+                                   'CONTA JÁ FOI SELECIONA.');
+         exit;
+       end else
+       begin
+         // incluir no memtable
+         mtb_cheque_cliente.Append;
+         mtb_cheque_cliente.FieldByName('ID').AsInteger               := frmPesquisaChequeCliente.p_id;
+         mtb_cheque_cliente.FieldByName('CADASTRADO_EM').AsDateTime   := DATE;
+         mtb_cheque_cliente.FieldByName('CORRENTISTA_CONTA_ID').AsInteger := frmPesquisaChequeCliente.p_correntista_id;
+         mtb_cheque_cliente.FieldByName('BANCO').AsString             := frmPesquisaChequeCliente.p_nm_banco;;
+         mtb_cheque_cliente.FieldByName('AGENCIA').AsString           := frmPesquisaChequeCliente.p_agencia;;
+         mtb_cheque_cliente.FieldByName('NR_CHEQUE').AsString         := frmPesquisaChequeCliente.p_nr_cheque;;
+         mtb_cheque_cliente.FieldByName('CONTA').AsString             := frmPesquisaChequeCliente.p_conta;;
+         mtb_cheque_cliente.FieldByName('PRE_DATADO_PARA').AsDateTime := frmPesquisaChequeCliente.p_data;;
+         mtb_cheque_cliente.FieldByName('VALOR').AsFloat              := frmPesquisaChequeCliente.p_valor;
+         mtb_cheque_cliente.FieldByName('REPASSADO').AsString         := 'N';
+         mtb_cheque_cliente.FieldByName('RECIBO_ID').AsInteger        := -1;
+         mtb_cheque_cliente.FieldByName('HISTORICO').AsString         := frmPesquisaChequeCliente.p_historico;
+         mtb_cheque_cliente.Post;
+         prc_atualiza_painel_totais;
+       end;
+    end;
+
+
+  finally
+    freeandnil( frmPesquisaChequeCliente );
+  end;
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_incluir_conta_pagarClick(
+  Sender: TObject);
+var
+  loqry : TFDQuery;
+begin
+  try
+    if frmPesquisaContas = nil then
+      frmPesquisaContas := TfrmPesquisaContas.Create(application);
+
+    if cbx_pessoa.Text = '' then
+    begin
+      CriarMensagem('AVISO','INFORME UMA PESSOA.');
+      cbx_pessoa.SetFocus;
+      exit;
+    end;
+
+
+    // passa a pessoa como parametro
+    frmPesquisaContas.p_R_OU_P           := 'P'; //contas a pagar
+    frmPesquisaContas.lbl_titulo.Caption := 'CONSULTA CONTAS A PAGAR DO CLIENTE';
+    frmPesquisaContas.p_pessoa_id        := cbx_pessoa.KeyValue;
+    frmPesquisaContas.lbl_pessoa.Caption := cbx_pessoa.text;
+
+     frmPesquisaContas.ShowModal;
+
+     if frmPesquisaContas.p_confirmado then
+     begin
+       // localizar a conta a pagar
+       loqry := TFDQuery.create(application);
+       loqry.Connection := conexao;
+       loqry.SQL.Clear;
+       loqry.SQL.Add('select id, nr_documento, descricao, total_parcela, valor_pago from contas_pagar where id =:conta_id');
+       loqry.ParamByName('conta_id').AsInteger := frmPesquisaContas.p_conta_id;
+       loqry.Open;
+
+       // ver duplicidade
+       mtb_conta_pagar.First;
+       if mtb_conta_pagar.Locate('ID', loqry.FieldByName('id').AsInteger, []) then
+       begin
+         unit_funcoes.criarmensagem('AVISO','DUPLICIDADE!' + slinebreak + slinebreak +
+                                   'CONTA JÁ FOI SELECIONA.');
+         exit;
+       end else
+       begin
+         // incluir a conta na grid
+         mtb_conta_pagar.insert;
+         mtb_conta_pagar.FieldByName('id').AsInteger          := loqry.FieldByName('id').AsInteger;
+         mtb_conta_pagar.FieldByName('nr_documento').Asstring := loqry.FieldByName('nr_documento').Asstring;
+         mtb_conta_pagar.FieldByName('descricao').Asstring    := loqry.FieldByName('descricao').Asstring;
+         mtb_conta_pagar.FieldByName('total_parcela').Asfloat := loqry.FieldByName('total_parcela').Asfloat;
+         mtb_conta_pagar.FieldByName('valor_pago').Asfloat    := loqry.FieldByName('valor_pago').Asfloat;
+         mtb_conta_pagar.FieldByName('baixar').Asfloat        := loqry.FieldByName('total_parcela').Asfloat - loqry.FieldByName('valor_pago').Asfloat;
+         mtb_conta_pagar.post;
+         prc_atualiza_painel_totais;
+       end;
+     end;
+  finally
+    freeandnil( loqry );
+    freeandnil( frmPesquisaContas );
+  end;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.btn_incluir_conta_receberClick(
+  Sender: TObject);
+var
+  loqry : TFDQuery;
+begin
+  try
+    if frmPesquisaContas = nil then
+      frmPesquisaContas := TfrmPesquisaContas.Create(application);
+
+    if cbx_pessoa.Text = '' then
+    begin
+      CriarMensagem('AVISO','INFORME UMA PESSOA.');
+      cbx_pessoa.SetFocus;
+      exit;
+    end;
+
+
+    // passa a pessoa como parametro
+    frmPesquisaContas.p_R_OU_P           := 'R'; //contas a receber
+    frmPesquisaContas.lbl_titulo.Caption := 'CONSULTA CONTAS A RECEBER DA PESSOA.';
+    frmPesquisaContas.p_pessoa_id        := cbx_pessoa.KeyValue;
+    frmPesquisaContas.lbl_pessoa.Caption := cbx_pessoa.text;
+
+     frmPesquisaContas.ShowModal;
+
+     if frmPesquisaContas.p_confirmado then
+     begin
+       // localizar a conta a receber
+       loqry := TFDQuery.create(application);
+       loqry.Connection := conexao;
+       loqry.SQL.Clear;
+       loqry.SQL.Add('select id, tabela_origem, id_origem, descricao, total, valor_pago from contas_receber where id =:conta_id');
+       loqry.ParamByName('conta_id').AsInteger := frmPesquisaContas.p_conta_id;
+       loqry.Open;
+
+       // ver duplicidade
+       mtb_conta_receber.First;
+       if mtb_conta_receber.Locate('ID', loqry.FieldByName('id').AsInteger, []) then
+       begin
+         unit_funcoes.criarmensagem('AVISO','DUPLICIDADE!' + slinebreak + slinebreak +
+                                   'CONTA JÁ FOI SELECIONA.');
+         exit;
+       end else
+       begin
+         // incluir a conta na grid
+         mtb_conta_receber.insert;
+         mtb_conta_receber.FieldByName('id').AsInteger          := loqry.FieldByName('id').AsInteger;
+         mtb_conta_receber.FieldByName('nr_documento').Asstring := loqry.FieldByName('id_origem').Asstring;
+         mtb_conta_receber.FieldByName('descricao').Asstring    := loqry.FieldByName('descricao').Asstring;
+         mtb_conta_receber.FieldByName('total_parcela').Asfloat := loqry.FieldByName('total').Asfloat;
+         mtb_conta_receber.FieldByName('valor_pago').Asfloat    := loqry.FieldByName('valor_pago').Asfloat;
+         mtb_conta_receber.FieldByName('baixar').Asfloat        := loqry.FieldByName('total').Asfloat - loqry.FieldByName('valor_pago').Asfloat;
+         mtb_conta_receber.FieldByName('tabela_origem').AsString:= loqry.FieldByName('tabela_origem').AsString;
+         mtb_conta_receber.post;
+         prc_atualiza_painel_totais;
+       end;
+     end;
+  finally
+    freeandnil( loqry );
+    freeandnil( frmPesquisaContas );
+  end;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.cbx_bancosCloseUp(Sender: TObject);
+begin
+  inherited;
+  qry_contas_bancarias.Close;
+  qry_contas_bancarias.ParamByName('banco_id').AsInteger := qry_bancos.FieldByName('id').AsInteger;
+  qry_contas_bancarias.open;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.ds_cheque_clienteDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_excluir_cheque.Enabled := not mtb_cheque_cliente.IsEmpty;
+end;
+
+procedure TfrmRecibosFornecedoresE.ds_contas_pagarDataChange(Sender: TObject;
+  Field: TField);
+begin
+  btn_excluir_conta_pagar.Enabled   := not mtb_conta_pagar.IsEmpty;
+  btn_alterar_valor_debito.Enabled  := not mtb_conta_pagar.IsEmpty;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.ds_conta_receberDataChange(Sender: TObject;
+  Field: TField);
+begin
+  inherited;
+  btn_excluir_conta_receber.Enabled := not mtb_conta_receber.IsEmpty;
+  btn_alterar_valor_credito.Enabled := not mtb_conta_receber.IsEmpty;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.edt_valor_dinheiroExit(Sender: TObject);
+begin
+  inherited;
+  ubiblioteca.prc_formata_dinheiro(sender);
+
+  prc_atualiza_painel_totais;
+end;
+
+procedure TfrmRecibosFornecedoresE.edt_valor_dinheiroKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  ubiblioteca.prc_somente_numeros(sender, key);
+
+end;
+
+procedure TfrmRecibosFornecedoresE.edt_valor_pixExit(Sender: TObject);
+begin
+  inherited;
+  ubiblioteca.prc_formata_dinheiro(sender);
+
+  prc_atualiza_painel_totais;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.edt_valor_pixKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  ubiblioteca.prc_somente_numeros(sender, key);
+
+end;
+
+procedure TfrmRecibosFornecedoresE.FormCreate(Sender: TObject);
+begin
+  inherited;
+  tabela := 'RECIBOS_fornecedores';
+  titulo := 'RECIBO DE PAGAMENTO A FORNECEDORES';
+
+end;
+
+procedure TfrmRecibosFornecedoresE.FormShow(Sender: TObject);
+begin
+  inherited;
+  prc_componentes;
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_componentes;
+begin
+  qry.Connection := conexao;
+  qry.Open;
+
+  qry_bancos.Connection := conexao;
+  qry_bancos.open;
+
+  qry_contas_bancarias.Connection := conexao;
+
+  dbg_cheques.Columns[0].Visible := false;
+  dbg_cheques.Columns[1].Visible := false;
+  dbg_cheques.Columns[2].Visible := false;
+  dbg_cheques.Columns[9].Visible := false;
+  dbg_cheques.Columns[10].Visible := false;
+
+
+  dbg_contas_pagar.Columns[0].Visible := false; // id
+  dbg_contas_pagar.Columns[6].Visible := false; // tabela origem
+
+
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_atualiza_painel_totais;
+var
+  total_em_cheques        : double;
+  total_em_contas_pagar   : double;
+  total_em_contas_receber : double;
+begin
+
+   total_em_cheques      := uBiblioteca.SeSenao( mtb_cheque_cliente.IsEmpty, 0, mtb_cheque_cliente.FieldByName('TOTAL').value);
+   total_em_contas_pagar := uBiblioteca.SeSenao( mtb_conta_pagar.IsEmpty, 0, mtb_conta_pagar.FieldByName('TOTAL').value);
+
+   pnl_dinheiro.Caption := edt_valor_dinheiro.Text;
+   pnl_pix.Caption      := edt_valor_pix.Text;
+   pnl_cheques.Caption  := FormatFloat('0.00',  total_em_cheques);
+   pnl_contas_pagar.Caption    := FormatFloat('0.00',  total_em_contas_pagar);
+
+   // contas a receber
+   total_em_contas_receber := 0;
+   if not mtb_conta_receber.IsEmpty then
+   begin
+     mtb_conta_receber.First;
+     while not mtb_conta_receber.eof do
+     begin
+       total_em_contas_receber := total_em_contas_receber +
+                                 mtb_conta_receber.FieldByName('baixar').AsFloat;
+       mtb_conta_receber.Next;
+     end;
+   end;
+
+   // totais
+   pnl_total_pagamentos.caption := formatfloat('0.00',
+                                strtofloat(edt_valor_dinheiro.Text)
+                              + strtofloat(edt_valor_pix.text)
+                              + total_em_cheques
+                              + total_em_contas_receber
+                              );
+
+
+   pnl_contas_receber.Caption :=  formatfloat('0.00', total_em_contas_receber );
+
+   {saldo}
+   pnl_saldo.Caption :=formatfloat('0.00', strtofloat(pnl_contas_pagar.caption) - strtofloat(pnl_total_pagamentos.caption)  );
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_incluir_alterar(operacao: TOperacao);
+var
+  loqry : TFDQuery;
+begin
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loQry.sql.clear;
+    if operacao = opExcluir then
+    begin
+
+      loQry.SQL.Add('update RECIBOS_FORNECEDORES set ATIVO = ''N'' where ID =:ID');
+      loQry.ParamByName('ID').AsInteger := Codigo;
+      loQry.ExecSQL;
+      exit;
+
+    end;
+
+    if operacao = OpIncluir then
+    begin
+      loQry.SQL.Add('insert into RECIBOS_FORNECEDORES ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  CADASTRADO_EM,    ');
+      loQry.SQL.Add('  VALOR,            ');
+      loQry.SQL.Add('  PESSOA_ID,        ');
+      loQry.SQL.Add('  USUARIO_ID,       ');
+      loQry.SQL.Add('  OBSERVACAO        ');
+      loQry.SQL.Add(')                   ');
+      loQry.SQL.Add('VALUES              ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add(' :CADASTRADO_EM,    ');
+      loQry.SQL.Add(' :VALOR,            ');
+      loQry.SQL.Add(' :PESSOA_ID,        ');
+      loQry.SQL.Add(' :USUARIO_ID,       ');
+      loQry.SQL.Add(' :OBSERVACAO        ');
+      loQry.SQL.Add(')                   ');
+      loQry.SQL.Add('returning ID        ');
+
+      loQry.ParamByName('CADASTRADO_EM').AsDate := Date;
+    end else
+    if operacao = opAlterar then
+    begin
+      loQry.SQL.Add('UPDATE                      ');
+      loQry.SQL.Add(Tabela);
+      loQry.SQL.Add('SET                         ');
+      loQry.SQL.Add('  VALOR      = :VALOR,      ');
+      loQry.SQL.Add('  PESSOA_ID  = :PESSOA_ID,  ');
+      loQry.SQL.Add('  USUARIO_ID = :USUARIO_ID, ');
+      loQry.SQL.Add('  OBSERVACAO = :OBSERVACAO  ');
+      loQry.SQL.Add('WHERE                       ');
+      loQry.SQL.Add('  ID  = :ID                 ');
+      //
+      loQry.ParamByName('ID').AsInteger := Codigo;
+
+    end;
+
+    loQry.ParamByName('VALOR').AsFloat        := strtofloatdef(pnl_total_pagamentos.Caption,0);
+    loQry.ParamByName('PESSOA_ID').AsInteger  := cbx_pessoa.KeyValue;
+    loQry.ParamByName('USUARIO_ID').AsInteger := 3;
+    loQry.ParamByName('OBSERVACAO').asstring  := edt_observacoes.Text;
+
+    //ShowMessage(loQry.SQL.Text);
+
+    if operacao = opincluir then
+    begin
+      loQry.Open;
+      codigo := loQry.FieldByName('ID').AsInteger;
+    end
+    else
+    begin
+      loQry.ExecSQL;
+    end;
+
+    {INICIO DE GRAVAÇÃO DOS ITENS DO RECIBO}
+    // créditos do cliente
+
+    {dinheiro}
+    if strtofloatdef(edt_valor_dinheiro.Text,0) > 0 then
+    begin
+      // salva entrada na tabela recibo_itens_dinheiro
+      prc_incluir_alterar_dinheiro( p_operacao );
+
+      // salva entrada em dinheiro da tabela dinheiro_entrada
+     // prc_salva_entrada_dinheiro(opincluir);
+    end;
+
+    {pix}
+    if strtofloatdef(edt_valor_pix.Text,0) > 0  then
+    begin
+      // salva da tabela recibo_itens_pix
+      prc_incluir_alterar_pix( p_operacao );
+      // registra do pix na tabela de pix_recebidos
+    //  prc_salvar_entrada_pix;
+    end;
+
+    {cheque}
+    if not mtb_cheque_cliente.IsEmpty  then
+    begin
+      mtb_cheque_cliente.First;
+      while not mtb_cheque_cliente.eof do
+      begin
+        {inclui na tabela recibo_itens_cheque}
+        prc_incluir_alterar_cheque( p_operacao,
+          mtb_cheque_cliente.fieldbyname('CORRENTISTA_CONTA_ID').AsInteger,
+          mtb_cheque_cliente.fieldbyname('BANCO').AsString,
+          mtb_cheque_cliente.fieldbyname('AGENCIA').AsString,
+          mtb_cheque_cliente.fieldbyname('CONTA').AsString,
+          mtb_cheque_cliente.fieldbyname('NR_CHEQUE').AsString,
+          mtb_cheque_cliente.fieldbyname('PRE_DATADO_PARA').AsDateTime,
+          mtb_cheque_cliente.fieldbyname('VALOR').AsFloat,
+          mtb_cheque_cliente.fieldbyname('HISTORICO').AsString );
+
+        {incluir o cheque na tabela de cheques_cliente}
+      //  prc_salvar_entrada_cheque;
+        // próximo cheque
+        mtb_cheque_cliente.Next;
+      end;
+    end;
+
+    {contas a receber}
+    if not mtb_conta_receber.IsEmpty  then
+    begin
+      mtb_conta_receber.First;
+      while not mtb_conta_receber.eof do
+      begin
+        {inclui conta a receber na tabela recibo_itens_contas_receber}
+          prc_incluir_alterar_contas_receber( p_operacao,
+          mtb_conta_receber.fieldbyname('ID').AsInteger,
+          mtb_conta_receber.fieldbyname('DESCRICAO').AsString,
+          mtb_conta_receber.fieldbyname('TOTAL_PARCELA').AsFloat,
+          mtb_conta_receber.fieldbyname('VALOR_PAGO').AsFloat,
+          mtb_conta_receber.fieldbyname('BAIXAR').AsFloat);
+
+        {inclui o pagamento na tabela contas_receber_baixa}
+        //prc_salvar_baixa_conta_receber;
+
+        {atualiza saldo contas a receber}
+        uFinanceiro.baixar_contas_receber(
+                                      Conexao, mtb_conta_receber.fieldbyname('ID').AsInteger, 0,
+                                      mtb_conta_receber.fieldbyname('BAIXAR').AsFloat);
+        mtb_conta_receber.Next;
+      end;
+    end;
+
+    {contas a pagar}
+    if not mtb_conta_pagar.IsEmpty  then
+    begin
+      mtb_conta_pagar.First;
+      while not mtb_conta_pagar.eof do
+      begin
+
+        {inclui conta a pagar na tabela recibo_itens_contas_pagar}
+(*        prc_incluir_alterar_contas_pagar( p_operacao,
+          mtb_conta_pagar.fieldbyname('ID').AsInteger,
+          mtb_conta_pagar.fieldbyname('DESCRICAO').AsString,
+          mtb_conta_pagar.fieldbyname('TOTAL_PARCELA').AsFloat,
+          mtb_conta_pagar.fieldbyname('VALOR_PAGO').AsFloat,
+          mtb_conta_pagar.fieldbyname('BAIXAR').AsFloat);
+*)
+        {implementar baixar saldo da conta a pagar selecionada}
+//        prc_salvar_baixa_conta_pagar;
+        mtb_conta_pagar.Next;
+
+      end;
+    end;
+
+    /// fim de créditos
+
+
+
+
+
+  finally
+    freeandnil( loQry );
+  end;
+
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_incluir_alterar_dinheiro( operacao : TOperacao);
+var
+  loqry : TFDQuery;
+begin
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loQry.sql.clear;
+    if operacao = opExcluir then
+    begin
+
+      //loQry.SQL.Add('update RECIBO_ITENS_DINHEIRO set ATIVO = ''N'' where ID =:ID');
+      //loQry.ParamByName('ID').AsInteger := Codigo;
+      //loQry.ExecSQL;
+      exit;
+
+    end;
+
+    if operacao = OpIncluir then
+    begin
+      loQry.SQL.Add('insert into RECIBO_PAGTO_DINHEIRO ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  RECIBO_ID,        ');
+      loQry.SQL.Add('  VALOR,            ');
+      loQry.SQL.Add('  OBSERVACAO        ');
+      loQry.SQL.Add(')                   ');
+      loQry.SQL.Add('VALUES              ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add(' :RECIBO_ID,        ');
+      loQry.SQL.Add(' :VALOR,            ');
+      loQry.SQL.Add(' :OBSERVACAO        ');
+      loQry.SQL.Add(')                   ');
+      loQry.ParamByName('RECIBO_ID').AsInteger := Codigo;
+
+    end else
+    if operacao = opAlterar then
+    begin
+      loQry.SQL.Add('UPDATE                      ');
+      loQry.SQL.Add('RECIBO_PAGTO_DINHEIRO       ');
+      loQry.SQL.Add('SET                         ');
+      loQry.SQL.Add('  VALOR      = :VALOR,      ');
+      loQry.SQL.Add('  OBSERVACAO = :OBSERVACAO  ');
+      loQry.SQL.Add('WHERE                       ');
+      loQry.SQL.Add('  ID  = :ID                 ');
+      //
+      loQry.ParamByName('ID').AsInteger := Codigo;
+
+    end;
+
+    loQry.ParamByName('VALOR').AsFloat        := strtofloatdef(edt_valor_dinheiro.Text,0);
+    loQry.ParamByName('OBSERVACAO').asstring  := edt_obs_dinheiro.Text;
+
+    loQry.ExecSQL;
+  finally
+    freeandnil( loQry );
+  end;
+
+end;
+
+
+procedure TfrmRecibosFornecedoresE.prc_incluir_alterar_pix( operacao : TOperacao);
+var
+  loqry : TFDQuery;
+begin
+//ShowMessage('ENTREI');
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loQry.sql.clear;
+    if operacao = opExcluir then
+    begin
+
+      //loQry.SQL.Add('update RECIBO_ITENS_DINHEIRO set ATIVO = ''N'' where ID =:ID');
+      //loQry.ParamByName('ID').AsInteger := Codigo;
+      //loQry.ExecSQL;
+      exit;
+
+    end;
+
+    if operacao = OpIncluir then
+    begin
+  //ShowMessage('incluir');
+      loQry.SQL.Add('insert into RECIBO_PAGTO_PIX ');
+      loQry.SQL.Add('(                            ');
+      loQry.SQL.Add('  RECIBO_ID,                 ');
+      loQry.SQL.Add('  BANCO_PESSOA_ID,           ');
+      loQry.SQL.Add('  CONTAS_BANCARIAS_ITENS_ID, ');
+      loQry.SQL.Add('  VALOR,                     ');
+      loQry.SQL.Add('  OBSERVACAO                 ');
+      loQry.SQL.Add(')                            ');
+      loQry.SQL.Add('VALUES                       ');
+      loQry.SQL.Add('(                            ');
+      loQry.SQL.Add(' :RECIBO_ID,                 ');
+      loQry.SQL.Add(' :BANCO_PESSOA_ID,           ');
+      loQry.SQL.Add(' :CONTAS_BANCARIAS_ITENS_ID, ');
+      loQry.SQL.Add(' :VALOR,                     ');
+      loQry.SQL.Add(' :OBSERVACAO                 ');
+      loQry.SQL.Add(')                            ');
+      loQry.ParamByName('RECIBO_ID').AsInteger := Codigo;
+
+    end else
+    if operacao = opAlterar then
+    begin
+      loQry.SQL.Add('UPDATE                                                   ');
+      loQry.SQL.Add('  RECIBO_PAGTO_PIX                                       ');
+      loQry.SQL.Add('SET                                                      ');
+      loQry.SQL.Add('  BANCO_PESSOA_ID = :BANCO_PESSOA_ID,                    ');
+      loQry.SQL.Add('  CONTAS_BANCARIAS_ITENS_ID = :CONTAS_BANCARIAS_ITENS_ID,');
+      loQry.SQL.Add('  VALOR      = :VALOR,      ');
+      loQry.SQL.Add('  OBSERVACAO = :OBSERVACAO  ');
+      loQry.SQL.Add('WHERE                       ');
+      loQry.SQL.Add('  ID  = :ID                 ');
+      //
+      loQry.ParamByName('ID').AsInteger := Codigo;
+
+    end;
+
+    loQry.ParamByName('BANCO_PESSOA_ID').AsInteger := qry_bancos.FieldByName('pessoa_id').AsInteger;
+    loQry.ParamByName('CONTAS_BANCARIAS_ITENS_ID').AsInteger := cbx_conta_bancaria.KeyValue;
+    loQry.ParamByName('VALOR').AsFloat        := strtofloatdef(edt_valor_pix.Text,0);
+    loQry.ParamByName('OBSERVACAO').asstring  := edt_obs_pix.Text;
+
+    loQry.ExecSQL;
+  finally
+    freeandnil( loQry );
+  end;
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_incluir_alterar_cheque( operacao : TOperacao;
+          conta_bancaria_id :integer; banco, agencia, nr_conta, nr_cheque :string;
+          data : TDate; valor: double; historico: string);
+var
+  loqry : TFDQuery;
+begin
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loQry.sql.clear;
+    if operacao = opExcluir then
+    begin
+      //loQry.SQL.Add('update RECIBO_ITENS_DINHEIRO set ATIVO = ''N'' where ID =:ID');
+      //loQry.ParamByName('ID').AsInteger := Codigo;
+      //loQry.ExecSQL;
+      exit;
+    end;
+
+    if operacao = OpIncluir then
+    begin
+  //ShowMessage('incluir');
+      loQry.SQL.Add('insert into RECIBO_PAGTO_CHEQUE ');
+      loQry.SQL.Add('(                               ');
+      loQry.SQL.Add('  RECIBO_ID,                    ');
+      loQry.SQL.Add('  CORRENTISTA_CONTAS_ID,        ');
+      loQry.SQL.Add('  BANCO,                        ');
+      loQry.SQL.Add('  AGENCIA,                      ');
+      loQry.SQL.Add('  NR_CONTA,                     ');
+      loQry.SQL.Add('  NR_CHEQUE,                    ');
+      loQry.SQL.Add('  DATA,                         ');
+      loQry.SQL.Add('  VALOR,                        ');
+      loQry.SQL.Add('  HISTORICO                     ');
+      loQry.SQL.Add(')                               ');
+      loQry.SQL.Add('VALUES                          ');
+      loQry.SQL.Add('(                               ');
+      loQry.SQL.Add(' :RECIBO_ID,                    ');
+      loQry.SQL.Add(' :CORRENTISTA_CONTAS_ID,        ');
+      loQry.SQL.Add(' :BANCO,                        ');
+      loQry.SQL.Add(' :AGENCIA,                      ');
+      loQry.SQL.Add(' :NR_CONTA,                     ');
+      loQry.SQL.Add(' :NR_CHEQUE,                    ');
+      loQry.SQL.Add(' :DATA,                         ');
+      loQry.SQL.Add(' :VALOR,                        ');
+      loQry.SQL.Add(' :HISTORICO                     ');
+      loQry.SQL.Add(')                               ');
+      loQry.ParamByName('RECIBO_ID').AsInteger := Codigo;
+
+    end else
+    if operacao = opAlterar then
+    begin
+      loQry.SQL.Add('UPDATE                                           ');
+      loQry.SQL.Add('  RECIBO_PAGTO_CHEQUE                            ');
+      loQry.SQL.Add('SET                                              ');
+      loQry.SQL.Add('  CORRENTISTA_CONTAS_ID = :CORRENTISTA_CONTAS_ID,');
+      loQry.SQL.Add('  BANCO                 = :BANCO,                ');
+      loQry.SQL.Add('  AGENCIA               = :AGENCIA,              ');
+      loQry.SQL.Add('  CONTA                 = :CONTA,                ');
+      loQry.SQL.Add('  NR_CHEQUE             = :NR_CHEQUE,            ');
+      loQry.SQL.Add('  DATA                  = :DATA,                 ');
+      loQry.SQL.Add('  VALOR                 = :VALOR,                ');
+      loQry.SQL.Add('  HISTORICO             = :HISTORICO             ');
+      loQry.SQL.Add('WHERE                                            ');
+      loQry.SQL.Add('  ID  = :ID                                      ');
+      //
+      loQry.ParamByName('ID').AsInteger := Codigo;
+
+    end;
+
+    loQry.ParamByName('CORRENTISTA_CONTAS_ID').AsInteger := conta_bancaria_id;
+    loQry.ParamByName('BANCO').asstring       := banco;
+    loQry.ParamByName('AGENCIA').asstring     := agencia;
+    loQry.ParamByName('NR_CONTA').asstring    := nr_conta;
+    loQry.ParamByName('NR_CHEQUE').asstring   := nr_cheque;
+    loQry.ParamByName('DATA').AsDate          := data;
+    loQry.ParamByName('VALOR').AsFloat        := valor;
+    loQry.ParamByName('HISTORICO').asstring   := historico;
+
+    loQry.ExecSQL;
+  finally
+    freeandnil( loQry );
+  end;
+end;
+
+procedure TfrmRecibosFornecedoresE.prc_incluir_alterar_contas_receber( operacao : TOperacao;
+          contas_receber_id :integer; historico: string; valor_parcela :double;
+          valor_pago :double; baixar :double);
+var
+  loqry : TFDQuery;
+begin
+  try
+    loqry := TFDQuery.Create(application);
+    loqry.Connection := conexao;
+
+    loQry.sql.clear;
+    if operacao = opExcluir then
+    begin
+
+      //loQry.SQL.Add('update RECIBO_ITENS_CONTAS_RECEBER set ATIVO = ''N'' where ID =:ID');
+      //loQry.ParamByName('ID').AsInteger := Codigo;
+      //loQry.ExecSQL;
+      exit;
+
+    end;
+
+    if operacao = OpIncluir then
+    begin
+  //ShowMessage('incluir');
+      loQry.SQL.Add('insert into RECIBO_PAGTO_CONTAS_RECEBER ');
+      loQry.SQL.Add('(                          ');
+      loQry.SQL.Add('  RECIBO_ID,               ');
+      loQry.SQL.Add('  CONTAS_RECEBER_ID,       ');
+      loQry.SQL.Add('  HISTORICO,               ');
+      loQry.SQL.Add('  VALOR_PARCELA,           ');
+      loQry.SQL.Add('  VALOR_PAGO,              ');
+      loQry.SQL.Add('  BAIXAR                   ');
+      loQry.SQL.Add(')                          ');
+      loQry.SQL.Add('VALUES                     ');
+      loQry.SQL.Add('(                          ');
+      loQry.SQL.Add(' :RECIBO_ID,               ');
+      loQry.SQL.Add(' :CONTAS_RECEBER_ID,       ');
+      loQry.SQL.Add(' :HISTORICO,               ');
+      loQry.SQL.Add(' :VALOR_PARCELA,           ');
+      loQry.SQL.Add(' :VALOR_PAGO,              ');
+      loQry.SQL.Add(' :BAIXAR                   ');
+      loQry.SQL.Add(')                          ');
+      loQry.ParamByName('RECIBO_ID').AsInteger := Codigo;
+    end else
+    if operacao = opAlterar then
+    begin
+      loQry.SQL.Add('UPDATE                                     ');
+      loQry.SQL.Add('  RECIBO_PAGTO_CONTAS_RECEBER              ');
+      loQry.SQL.Add('SET                                        ');
+      loQry.SQL.Add('  CONTAS_RECEBER_ID = :CONTAS_RECEBER_ID,  ');
+      loQry.SQL.Add('  HISTORICO        = :HISTORICO,           ');
+      loQry.SQL.Add('  VALOR_PARCELA    = :VALOR_PARCELA,       ');
+      loQry.SQL.Add('  VALOR_PAGO       = :VALOR_PAGO,          ');
+      loQry.SQL.Add('  BAIXAR           = :BAIXAR               ');
+      loQry.SQL.Add('WHERE                                      ');
+      loQry.SQL.Add('  ID  = :ID                                ');
+      //
+      loQry.ParamByName('ID').AsInteger := Codigo;
+
+    end;
+
+    loQry.ParamByName('CONTAS_RECEBER_ID').AsInteger := contas_receber_id;
+    loQry.ParamByName('HISTORICO').AsString          := historico;
+    loQry.ParamByName('VALOR_PARCELA').AsFloat       := valor_parcela;
+    loQry.ParamByName('VALOR_PAGO').AsFloat          := valor_pago;
+    loQry.ParamByName('BAIXAR').AsFloat              := baixar;
+
+    loQry.ExecSQL;
+  finally
+    freeandnil( loQry );
+  end;
+end;
+
+
+
+end.

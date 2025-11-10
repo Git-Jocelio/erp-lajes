@@ -1,0 +1,5 @@
+inherited frmComissaoFechamento_Alt_Valor: TfrmComissaoFechamento_Alt_Valor
+  Caption = 'frmComissaoFechamento_Alt_Valor'
+  PixelsPerInch = 96
+  TextHeight = 17
+end

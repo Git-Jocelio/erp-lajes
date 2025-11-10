@@ -1,0 +1,5 @@
+inherited frmDepartamentosE: TfrmDepartamentosE
+  Caption = 'frmDepartamentosE'
+  PixelsPerInch = 96
+  TextHeight = 17
+end

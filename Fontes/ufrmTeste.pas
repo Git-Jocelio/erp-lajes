@@ -1,0 +1,300 @@
+unit ufrmTeste;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmTeste = class(TfrmBaseEdicao)
+    cdsTeste: TClientDataSet;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    FDMemTable1: TFDMemTable;
+    procedure btnOkClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    procedure CriarTabelaTemporaria(cds: TFDMemTable);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+procedure executa ;
+
+implementation
+
+procedure executa;
+var
+  loForm : TfrmTeste;
+
+begin
+  loForm := TfrmTeste.Create(Application);
+  try
+    loForm.ShowModal
+  finally
+    FreeAndNil(loForm);
+  end;
+end;
+
+{$R *.dfm}
+
+
+procedure TfrmTeste.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage('helo');
+end;
+
+procedure TfrmTeste.CriarTabelaTemporaria(cds : TFDMemTable);
+var
+  Campos : TField;
+begin
+  {Itens do pedido}
+
+  (* Cria a estrutura do ClientDataSet*)
+  cds.Close;
+  Cds.Fields.Clear;
+  Cds.FieldDefs.Clear;
+
+  (* Coluna ID *)
+  Campos               := TIntegerField.Create(self);
+  Campos.FieldName    := 'ID';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'ID';
+
+
+  (* Coluna PEDIDO_ID *)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'PEDIDO_ID';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'PEDIDO_ID';
+
+  (* Coluna ITEM *)
+  Campos               := TIntegerField.Create(self);
+  Campos.FieldName    := 'ITEM';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Item';
+
+
+  (* Coluna PRODUTO_ID *)
+  Campos              := TIntegerField.Create(self);
+  Campos.FieldName    := 'PRODUTO_ID';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Código';
+
+  (* Coluna DESCRICAO *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'DESCRICAO';
+  campos.Size         := 55;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Produtos e Serviços';
+
+  (* Coluna QUANTIDADE *)
+  Campos              := TFloatField.Create(self);
+  Campos.FieldName    := 'QTDE';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Quantidade';
+
+  (* Coluna VALOR_UNIT *)
+  Campos              := TCurrencyField.Create(self);
+  Campos.FieldName    := 'CUSTO_FORNECEDOR';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Custo fornecedor';
+
+  (* Coluna VALOR_UNIT *)
+  Campos              := TCurrencyField.Create(self);
+  Campos.FieldName    := 'CUSTO';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'custo vendedor';
+
+
+  (* Coluna SUB_TOTAL, Campo calculado *)
+  Campos              := TCurrencyField.Create(self);
+  Campos.FieldName    := 'VENDA';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  //Campos.FieldKind    := fkCalculated;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Total';
+
+  (* Coluna SUB_TOTAL, Campo calculado *)
+  Campos              := TCurrencyField.Create(self);
+  Campos.FieldName    := 'SUB_TOTAL';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.FieldKind    := fkCalculated;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Total';
+
+
+  (* Coluna LOCAL *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'LOCAL';
+  campos.Size         := 4;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Local';
+
+  (* Coluna SITUACAO *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'SITUACAO';
+  campos.Size         := 15;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Situação';
+
+  (* Coluna NIVEL *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'NIVEL';
+  campos.Size         := 15;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Nivel x ';
+
+  (* Coluna LAJE *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'LAJE';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'laje';
+
+  (* Coluna VIGA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'VIGA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Viga';
+
+  (* Coluna LAJOTA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'LAJOTA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Lajota';
+
+  (* Coluna ISOPOR *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'ISOPOR';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Isopor';
+
+  (* Coluna REVENDA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'REVENDA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Revenda';
+
+  (* Coluna CONCRETO *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'CONCRETO';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Concreto';
+
+  (* Coluna BOMBA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'BOMBA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Bomba';
+
+  (* Coluna ADICIONAL_DE_VIGA campos auxiliar*)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'ADICIONAL_DE_VIGA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Adicional de Viga';
+
+  (* Coluna VERGALHAO *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'VERGALHAO';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'Vergalhao';
+
+  (* Coluna NEGATIVO DE LAJE *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'NEGATIVO_DE_LAJE';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'negativo de laje';
+
+  (* Coluna REFORÇO DE VIGA *)
+  Campos              := TStringField.Create(self);
+  Campos.FieldName    := 'REFORCO_DE_VIGA';
+  campos.Size         := 1;
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'refroco de viga';
+
+  (* Coluna ITEM *)
+  Campos               := TIntegerField.Create(self);
+  Campos.FieldName    := 'QTDE_VIGAS';
+  Campos.Name         := Cds.Name + Campos.FieldName;
+  Campos.Index        := Cds.FieldCount;
+  Campos.DataSet      := Cds;
+  Campos.DisplayLabel := 'QTDE_VIGAS';
+
+
+
+  (* Cria o ClientDataSet de produtos em memória*)
+  Cds.CreateDataSet;
+  cds.Open;
+end;
+
+
+procedure TfrmTeste.FormCreate(Sender: TObject);
+begin
+  inherited;
+  CriarTabelaTemporaria( FDMemTable1 );
+end;
+
+end.

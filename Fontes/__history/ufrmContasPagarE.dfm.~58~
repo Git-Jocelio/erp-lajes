@@ -1,0 +1,1027 @@
+inherited frmContasPagarE: TfrmContasPagarE
+  ClientHeight = 648
+  ClientWidth = 573
+  ExplicitWidth = 585
+  ExplicitHeight = 686
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 573
+    ExplicitWidth = 555
+    inherited lbl_titulo: TLabel
+      Width = 573
+      Height = 40
+      Alignment = taRightJustify
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 573
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 573
+    Height = 554
+    ExplicitWidth = 555
+    ExplicitHeight = 553
+    object pnDevedor: TGroupBox
+      Left = 0
+      Top = 0
+      Width = 573
+      Height = 100
+      Align = alTop
+      Caption = ' Pessoa '
+      TabOrder = 0
+      ExplicitWidth = 555
+      object Label6: TLabel
+        Left = 10
+        Top = 31
+        Width = 41
+        Height = 17
+        Caption = 'Pessoa'
+      end
+      object Label18: TLabel
+        Left = 280
+        Top = 31
+        Width = 55
+        Height = 17
+        Caption = 'Telefones'
+      end
+      object Label19: TLabel
+        Left = 10
+        Top = 64
+        Width = 55
+        Height = 17
+        Caption = 'Endere'#231'o'
+      end
+      object lbl_pessoa: TDBText
+        Left = 10
+        Top = 45
+        Width = 263
+        Height = 18
+        DataField = 'NOME'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_telefone: TDBText
+        Left = 278
+        Top = 45
+        Width = 94
+        Height = 18
+        Alignment = taCenter
+        DataField = 'TELEFONE'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_celular: TDBText
+        Left = 385
+        Top = 45
+        Width = 94
+        Height = 18
+        Alignment = taCenter
+        DataField = 'CELULAR'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label24: TLabel
+        Left = 376
+        Top = 46
+        Width = 5
+        Height = 17
+        Caption = '/'
+      end
+      object lbl_endereco: TDBText
+        Left = 11
+        Top = 79
+        Width = 252
+        Height = 17
+        DataField = 'ENDERECO'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_bairro: TDBText
+        Left = 387
+        Top = 80
+        Width = 55
+        Height = 15
+        AutoSize = True
+        DataField = 'BAIRRO'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label25: TLabel
+        Left = 11
+        Top = 14
+        Width = 64
+        Height = 17
+        Caption = 'CPP / CNPJ'
+      end
+      object lbl_cpf: TDBText
+        Left = 85
+        Top = 16
+        Width = 90
+        Height = 18
+        DataField = 'CPF_CNPJ'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lbl_numero: TDBText
+        Left = 327
+        Top = 80
+        Width = 54
+        Height = 17
+        Alignment = taRightJustify
+        DataField = 'NUMERO'
+        DataSource = dsPessoas
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btn_localizar_pessoa: TBitBtn
+        Left = 503
+        Top = 69
+        Width = 34
+        Height = 25
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FF00FF314B62
+          AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+          106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+          00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+          9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+          E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+          FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+          B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+          FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+          DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+          B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+          BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+          D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+          6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+        TabOrder = 0
+        OnClick = btn_localizar_pessoaClick
+      end
+      object btn_cadastrar_pessoa: TBitBtn
+        Left = 537
+        Top = 69
+        Width = 25
+        Height = 25
+        Caption = '...'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = False
+        TabOrder = 1
+        OnClick = btn_cadastrar_pessoaClick
+      end
+    end
+    object pnConta: TGroupBox
+      Left = 0
+      Top = 100
+      Width = 573
+      Height = 257
+      Align = alTop
+      Caption = 'Dados da Conta '
+      TabOrder = 1
+      ExplicitWidth = 555
+      object Label1: TLabel
+        Left = 8
+        Top = 15
+        Width = 11
+        Height = 17
+        Caption = 'Id'
+      end
+      object Label2: TLabel
+        Left = 69
+        Top = 15
+        Width = 90
+        Height = 17
+        Caption = 'Cadastrado em'
+      end
+      object Label3: TLabel
+        Left = 166
+        Top = 15
+        Width = 72
+        Height = 17
+        Caption = 'Alterado em'
+      end
+      object Label7: TLabel
+        Left = 222
+        Top = 157
+        Width = 55
+        Height = 17
+        Caption = 'N.Parcela'
+      end
+      object Label8: TLabel
+        Left = 300
+        Top = 157
+        Width = 89
+        Height = 17
+        Caption = 'Qtde Parcela(s)'
+      end
+      object Label12: TLabel
+        Left = 192
+        Top = 207
+        Width = 61
+        Height = 17
+        Caption = 'Descontos'
+      end
+      object Label13: TLabel
+        Left = 301
+        Top = 207
+        Width = 33
+        Height = 17
+        Caption = 'Multa'
+      end
+      object Label14: TLabel
+        Left = 376
+        Top = 207
+        Width = 31
+        Height = 17
+        Caption = 'Juros'
+      end
+      object Label15: TLabel
+        Left = 96
+        Top = 209
+        Width = 66
+        Height = 17
+        Caption = 'Acr'#233'scimos'
+      end
+      object Label16: TLabel
+        Left = 470
+        Top = 209
+        Width = 93
+        Height = 17
+        Caption = 'Total da Parcela'
+      end
+      object Label17: TLabel
+        Left = 98
+        Top = 157
+        Width = 67
+        Height = 17
+        Caption = 'Vencimento'
+      end
+      object lbl_tabela_origem: TLabel
+        Left = 258
+        Top = 15
+        Width = 86
+        Height = 17
+        Caption = 'Tabela Origem'
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 111
+        Width = 104
+        Height = 17
+        Caption = 'Descreva  a conta'
+      end
+      object Label11: TLabel
+        Left = 8
+        Top = 207
+        Width = 30
+        Height = 17
+        Caption = 'Valor'
+      end
+      object Label20: TLabel
+        Left = 8
+        Top = 61
+        Width = 120
+        Height = 17
+        Caption = 'Selecione uma conta'
+      end
+      object Label21: TLabel
+        Left = 8
+        Top = 157
+        Width = 67
+        Height = 17
+        Caption = 'Documento'
+      end
+      object lbl_tabela_id: TLabel
+        Left = 348
+        Top = 15
+        Width = 54
+        Height = 17
+        Caption = 'Tabela ID'
+      end
+      object edt_id: TEdit
+        Left = 9
+        Top = 33
+        Width = 57
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object edt_cadastrado_em: TEdit
+        Left = 69
+        Top = 33
+        Width = 93
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object edt_alterado_em: TEdit
+        Left = 166
+        Top = 33
+        Width = 88
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object edt_historico: TEdit
+        Left = 8
+        Top = 129
+        Width = 554
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        MaxLength = 100
+        TabOrder = 6
+      end
+      object edt_nr_parcela: TEdit
+        Left = 222
+        Top = 176
+        Width = 73
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        NumbersOnly = True
+        TabOrder = 3
+        Text = '1'
+      end
+      object edt_qtde_parcelas: TEdit
+        Left = 300
+        Top = 176
+        Width = 83
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        NumbersOnly = True
+        TabOrder = 4
+        Text = '1'
+      end
+      object edt_valor: TEdit
+        Left = 10
+        Top = 229
+        Width = 85
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        TabOrder = 7
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+      object edt_desconto: TEdit
+        Left = 192
+        Top = 229
+        Width = 90
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        ReadOnly = True
+        TabOrder = 8
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+      object edt_multa: TEdit
+        Left = 301
+        Top = 230
+        Width = 52
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        TabOrder = 9
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+      object edt_juros: TEdit
+        Left = 376
+        Top = 230
+        Width = 40
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        TabOrder = 10
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+      object edt_acrescimo: TEdit
+        Left = 98
+        Top = 229
+        Width = 88
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        ReadOnly = True
+        TabOrder = 11
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+      object edt_total_parcela: TEdit
+        Left = 472
+        Top = 229
+        Width = 90
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 12
+        Text = '0,00'
+      end
+      object dtp_vencimento: TDateTimePicker
+        Left = 98
+        Top = 176
+        Width = 118
+        Height = 24
+        Date = 41473.000000000000000000
+        Time = 0.746216006940812800
+        Color = clInfoBk
+        TabOrder = 5
+      end
+      object edt_tabela_origem: TEdit
+        Left = 258
+        Top = 33
+        Width = 86
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 13
+      end
+      object cbx_plano_contas: TDBLookupComboBox
+        Left = 8
+        Top = 80
+        Width = 396
+        Height = 25
+        KeyField = 'ID'
+        ListField = 'DESCRICAO'
+        ListSource = ds_plano_contas
+        TabOrder = 14
+      end
+      object edt_nr_documento: TEdit
+        Left = 8
+        Top = 176
+        Width = 73
+        Height = 25
+        CharCase = ecUpperCase
+        Color = clInfoBk
+        TabOrder = 15
+      end
+      object gb_visualizar: TGroupBox
+        Left = 410
+        Top = 15
+        Width = 152
+        Height = 90
+        Caption = ' Visualizar no : '
+        TabOrder = 16
+        object cb_dre: TCheckBox
+          Left = 18
+          Top = 21
+          Width = 97
+          Height = 17
+          Caption = 'DRE'
+          TabOrder = 0
+        end
+        object cb_fluxo_caixa: TCheckBox
+          Left = 18
+          Top = 42
+          Width = 105
+          Height = 17
+          Caption = 'Fluxo de Caixa'
+          TabOrder = 1
+        end
+        object cb_balanco: TCheckBox
+          Left = 18
+          Top = 62
+          Width = 129
+          Height = 17
+          Caption = 'Balan'#231'o financeiro'
+          TabOrder = 2
+        end
+      end
+      object edt_tabela_id: TEdit
+        Left = 348
+        Top = 33
+        Width = 56
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 17
+      end
+    end
+    object gb_Totais: TGroupBox
+      Left = 0
+      Top = 357
+      Width = 573
+      Height = 70
+      Align = alTop
+      Caption = 'Totais '
+      TabOrder = 2
+      ExplicitWidth = 555
+      object Label22: TLabel
+        Left = 197
+        Top = 20
+        Width = 108
+        Height = 17
+        Caption = #218'ltimo Pagamento'
+      end
+      object Label26: TLabel
+        Left = 8
+        Top = 20
+        Width = 64
+        Height = 17
+        Caption = 'Valor Pago'
+      end
+      object Label27: TLabel
+        Left = 101
+        Top = 20
+        Width = 77
+        Height = 17
+        Caption = 'Saldo Aberto'
+      end
+      object edt_ultimo_pagamento: TEdit
+        Left = 197
+        Top = 40
+        Width = 90
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 0
+        Text = '0,00'
+      end
+      object edt_valor_pago: TEdit
+        Left = 8
+        Top = 40
+        Width = 90
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        TabOrder = 1
+        Text = '0,00'
+      end
+      object edt_saldo_aberto: TEdit
+        Left = 101
+        Top = 40
+        Width = 90
+        Height = 25
+        CharCase = ecUpperCase
+        Color = 16311512
+        Enabled = False
+        TabOrder = 2
+        Text = '0,00'
+        OnExit = edt_valorExit
+      end
+    end
+    object pgc_historico: TPageControl
+      Left = 0
+      Top = 427
+      Width = 573
+      Height = 127
+      ActivePage = tbs_acrescimos
+      Align = alClient
+      TabOrder = 3
+      ExplicitWidth = 555
+      ExplicitHeight = 126
+      object tbs_acrescimos: TTabSheet
+        Caption = 'Acr'#233'scimos/descontos'
+        ImageIndex = 2
+        object dbg_lancamentos: TDBGrid
+          Left = 42
+          Top = 0
+          Width = 523
+          Height = 95
+          Align = alRight
+          DataSource = ds_lancamentos
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 21
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CONTAS_PAGAR_ID'
+              Title.Caption = 'CP_ID'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 38
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Caption = 'Emiss'#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 89
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'HISTORICO'
+              Title.Caption = 'Hist'#243'rico'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 165
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Caption = 'Valor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DEBITO_CREDITO'
+              Title.Caption = 'Deb/Cred'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 95
+              Visible = True
+            end>
+        end
+        object btn_incluir_lancamento: TBitBtn
+          Left = 6
+          Top = 3
+          Width = 24
+          Height = 25
+          Caption = '+'
+          TabOrder = 1
+          OnClick = btn_incluir_lancamentoClick
+        end
+        object btn_excluir_lancamento: TBitBtn
+          Left = 6
+          Top = 30
+          Width = 24
+          Height = 25
+          Caption = '-'
+          Enabled = False
+          TabOrder = 2
+          OnClick = btn_excluir_lancamentoClick
+        end
+      end
+      object tbs_historico_pagamento: TTabSheet
+        Caption = 'Hist'#243'rico de pagamento'
+        object dbg_baixas: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 565
+          Height = 95
+          Align = alClient
+          DataSource = ds_contas_pagar_baixa
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ReadOnly = True
+          TabOrder = 0
+          TitleFont.Charset = ANSI_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 24
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CONTAS_PAGAR_ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 30
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Data'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 74
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'HISTORICO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Hist'#243'rico'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 254
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 75
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'FORMA_PAGTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Forma'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Width = 50
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'USUARIO_ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Usu'#225'rio'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end>
+        end
+      end
+      object tbs_historico_cobranca: TTabSheet
+        Caption = 'Hist'#243'rico de cobran'#231'a'
+        ImageIndex = 1
+        object mm_historico_cobranca: TMemo
+          Left = 0
+          Top = 0
+          Width = 565
+          Height = 95
+          Align = alClient
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  inherited pnRodape: TPanel
+    Top = 611
+    Width = 573
+    ExplicitTop = 610
+    ExplicitWidth = 555
+    inherited pnl_botoes: TPanel
+      inherited btnOk: TBitBtn
+        OnClick = btnOkClick
+      end
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 198
+    Top = 105
+  end
+  inherited ds: TDataSource
+    Left = 200
+    Top = 73
+  end
+  object dsPessoas: TDataSource
+    AutoEdit = False
+    DataSet = qryPessoas
+    Left = 136
+    Top = 72
+  end
+  object qryPessoas: TFDQuery
+    Left = 136
+    Top = 104
+  end
+  object ds_plano_contas: TDataSource
+    AutoEdit = False
+    DataSet = qry_plano_contas
+    Left = 168
+    Top = 72
+  end
+  object qry_plano_contas: TFDQuery
+    Left = 168
+    Top = 104
+  end
+  object ds_lancamentos: TDataSource
+    DataSet = mt_lacamentos
+    OnDataChange = ds_lancamentosDataChange
+    Left = 380
+    Top = 534
+  end
+  object mt_lacamentos: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'CONTAS_PAGAR_ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'CADASTRADO_EM'
+        DataType = ftDate
+      end
+      item
+        Name = 'HISTORICO'
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'VALOR'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DEBITO_CREDITO'
+        DataType = ftString
+        Size = 20
+      end>
+    IndexDefs = <>
+    AggregatesActive = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 380
+    Top = 566
+    object mt_lacamentosID: TIntegerField
+      Alignment = taCenter
+      FieldName = 'ID'
+    end
+    object mt_lacamentosCONTAS_PAGAR_ID: TIntegerField
+      Alignment = taCenter
+      FieldName = 'CONTAS_PAGAR_ID'
+    end
+    object mt_lacamentosCADASTRADO_EM: TDateField
+      Alignment = taCenter
+      FieldName = 'CADASTRADO_EM'
+    end
+    object mt_lacamentosHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Size = 255
+    end
+    object mt_lacamentosVALOR: TFloatField
+      FieldName = 'VALOR'
+      currency = True
+    end
+    object mt_lacamentosDEBITO_CREDITO: TStringField
+      Alignment = taCenter
+      FieldName = 'DEBITO_CREDITO'
+    end
+  end
+  object mt_lancamentos_deletados: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 412
+    Top = 568
+    object mt_lancamentos_deletadosID: TIntegerField
+      FieldName = 'ID'
+    end
+  end
+  object ds_contas_pagar_baixa: TDataSource
+    AutoEdit = False
+    DataSet = qry_contas_pagar_baixa
+    Left = 44
+    Top = 536
+  end
+  object qry_contas_pagar_baixa: TFDQuery
+    Left = 36
+    Top = 568
+  end
+end

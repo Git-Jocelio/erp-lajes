@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/07/21 10:43:13.000.216,=C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/07/21 10:48:30.000.405,=C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/08/04 10:24:58.000.270,=C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/08/30 09:24:54.000.598,=C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/09/05 21:18:22.000.408,=C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/09/05 21:24:38.000.935,C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Intel\Desktop\sqlExplorer\Unit1.pas</Transaction>
+    <Transaction>2021/09/05 21:24:38.000.935,C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Intel\Desktop\sqlExplorer\Unit1.dfm</Transaction>
+    <Transaction>2021/09/05 21:24:47.000.378,C:\Users\Intel\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Intel\Desktop\sqlExplorer\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

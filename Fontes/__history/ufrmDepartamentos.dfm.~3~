@@ -1,0 +1,33 @@
+inherited frmDepartamentos: TfrmDepartamentos
+  Caption = 'frmDepartamentos'
+  PixelsPerInch = 96
+  TextHeight = 17
+  inherited GroupBoxPesquisa: TGroupBox
+    inherited btnLocalizar: TBitBtn
+      Left = 281
+      Top = 50
+      ExplicitLeft = 281
+      ExplicitTop = 50
+    end
+    object cbNome: TCheckBox
+      Left = 20
+      Top = 27
+      Width = 97
+      Height = 17
+      Caption = 'Nome'
+      TabOrder = 1
+    end
+    object edNome: TEdit
+      Left = 20
+      Top = 50
+      Width = 255
+      Height = 25
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+  end
+  inherited MainMenu1: TMainMenu
+    Left = 560
+    Top = 64
+  end
+end

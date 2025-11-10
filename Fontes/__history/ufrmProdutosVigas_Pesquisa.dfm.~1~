@@ -1,0 +1,5 @@
+inherited frmProdutosVigas_Pesquisa: TfrmProdutosVigas_Pesquisa
+  Caption = 'frmProdutosVigas_Pesquisa'
+  PixelsPerInch = 96
+  TextHeight = 17
+end

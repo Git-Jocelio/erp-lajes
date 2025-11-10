@@ -1,0 +1,167 @@
+inherited frmContasBancarias: TfrmContasBancarias
+  Caption = 'frmContasBancarias'
+  ClientWidth = 783
+  Position = poDesktopCenter
+  ExplicitWidth = 783
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 783
+    ExplicitWidth = 848
+    inherited edt_consulta: TEdit
+      Width = 378
+    end
+  end
+  inherited ToolBar1: TToolBar
+    Width = 783
+    ExplicitWidth = 848
+  end
+  inherited StatusBar: TStatusBar
+    Width = 783
+    ExplicitWidth = 848
+  end
+  inherited PageControl1: TPageControl
+    Width = 783
+    ExplicitWidth = 848
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 775
+      inherited Panel5: TPanel
+        Width = 775
+        ExplicitWidth = 840
+        inherited DBGrid1: TDBGrid
+          Width = 735
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 57
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'CADASTRADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Cadastrado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 104
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ALTERADO_EM'
+              Title.Alignment = taCenter
+              Title.Caption = 'Alterado em'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 133
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'COD_BANCO'
+              Title.Alignment = taCenter
+              Title.Caption = 'C'#243'd. Banco'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 90
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Nome do banco'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 254
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ATIVO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Ativo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 77
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 735
+          ExplicitWidth = 800
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 783
+    ExplicitWidth = 848
+    inherited btn_fechar: TSpeedButton
+      Left = 713
+    end
+    inherited lbl_titulo: TLabel
+      Width = 288
+      Height = 56
+      Caption = 'CONSULTA CONTA BANC'#193'RIA'
+      ExplicitWidth = 288
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 783
+      ExplicitWidth = 848
+    end
+  end
+  inherited ds: TDataSource
+    Left = 616
+    Top = 120
+  end
+  inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      'select                  '
+      '  c.id,                 '
+      '  c.cadastrado_em,      '
+      '  c.alterado_em,        '
+      '  b.cod_banco,          '
+      '  p.nome,               '
+      '  c.ativo               '
+      'from                    '
+      '  contas_bancarias c,   '
+      '  bancos b,             '
+      '  pessoas p             '
+      'where                   '
+      '  c.banco_id = b.id and '
+      '  p.id = b.pessoa_id    ')
+    Left = 648
+    Top = 120
+  end
+end

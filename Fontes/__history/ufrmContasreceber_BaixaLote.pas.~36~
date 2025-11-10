@@ -1,0 +1,592 @@
+//** programador :jocelio g da silva
+//** inicio: 16/02/2022
+//** fim :
+//** unit para baixar contas a receber por fora do recibo em lote
+//** ou conforme a pesquisa
+// unit base : ContaReceberE
+unit ufrmContasreceber_BaixaLote;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, uTipos, uBiblioteca;
+
+type
+  TfrmContasReceber_Baixa = class(TfrmBaseEdicao)
+    Bevel2: TBevel;
+    Bevel1: TBevel;
+    Label1: TLabel;
+    Label7: TLabel;
+    lbl_ID: TLabel;
+    lbl_cadastrado_em: TLabel;
+    Label4: TLabel;
+    edt_valor: TEdit;
+    Bevel4: TBevel;
+    Label8: TLabel;
+    lbl_usuario: TLabel;
+    PageControl: TPageControl;
+    Tab_forma_de_pagto: TTabSheet;
+    mm_forma_de_pagto: TMemo;
+    Tab_debitos: TTabSheet;
+    dbg_debitos: TDBGrid;
+    lbl_usuarioID: TLabel;
+    Bevel3: TBevel;
+    Label2: TLabel;
+    lbl_pessoaName: TLabel;
+    lbl_pessoaID: TLabel;
+    qryPedidos: TFDQuery;
+    qryContaReceber: TFDQuery;
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+
+  private
+    Fuser_id: integer;
+    Fuser_name: string;
+    FOperacao: uTipos.TOperacao;
+    FTabela: string;
+    FCodigo: integer;
+    Fpessoa_id: integer;
+    Fpessoa_nome: string;
+
+    function  fnc_totalizarDebitos: boolean;
+    procedure prc_salvar;
+    function  fnc_incluir_itens(contaReceber_id: integer; contareceber_valor: double): Boolean;
+    procedure prc_baixar_pedido(idPedido: integer; BaixarValor: double;
+      Justificativa: string);
+
+  protected
+    function fnc_validar : Boolean;
+    function fnc_incluir : Boolean;
+    function fnc_alterar : Boolean;
+
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_limpaTela;
+    procedure prc_lerDados;
+
+  public
+    property Codigo   : integer read FCodigo    write FCodigo;// id da tabela contas_receber_baixa
+    property Tabela   : string  read FTabela    write FTabela;
+    property user_id  : integer read Fuser_id   write fuser_id;
+    property user_name: string  read Fuser_name write Fuser_name;
+
+    property pessoa_id  : integer read Fpessoa_id   write Fpessoa_id;
+    property pessoa_nome: string  read Fpessoa_nome write Fpessoa_nome;
+
+    property Operacao : uTipos.TOperacao read FOperacao write FOperacao;
+  end;
+
+procedure incluir(pessoaID: integer; pessoaNome: string; usuario_id: integer; usuario_nome: string; debitos: TFDQuery);
+
+implementation
+
+{$R *.dfm}
+
+procedure incluir(pessoaID: integer; pessoaNome: string; usuario_id: integer; usuario_nome: string; debitos: TFDQuery);
+var
+  loForm: TfrmContasReceber_Baixa;
+begin
+  loForm := TfrmContasReceber_Baixa.Create(Application);
+
+  try
+    loForm.Operacao := uTipos.opIncluir;
+
+    {datasource do dbGrid}
+    loform.dbg_debitos.DataSource := loForm.ds;
+
+    {qry do datasource}
+    loForm.ds.DataSet := debitos;
+
+    loForm.user_id    := usuario_id;
+    loForm.user_name  := usuario_nome;
+
+    loForm.pessoa_id  := pessoaID;
+    loForm.pessoa_nome:= pessoaNome;
+
+
+    loform.ds.DataSet.Open;
+
+    loForm.ShowModal;
+  finally
+    freeandnil(loForm);
+  end;
+end;
+
+function TfrmContasReceber_Baixa.fnc_validar: Boolean;
+begin
+
+  result := false;
+
+  if StrToFloatDef( edt_valor.Text,0 ) = 0 then
+  begin
+    ShowMessage('Informe um valor válido');
+    edt_valor.SetFocus;
+    exit;
+  end;
+  if dbg_debitos.DataSource.DataSet.RecordCount = 0 then
+  //if qry.IsEmpty then
+  begin
+    ShowMessage(' Não há conta(s) a ser baixada');
+    btnFechar.SetFocus;
+    exit;
+  end;
+
+  if mm_forma_de_pagto.Text = '' then
+  begin
+    ShowMessage('Informe a forma de pagamento');
+    PageControl.ActivePageIndex := 1;
+    mm_forma_de_pagto.SetFocus;
+    exit;
+  end;
+
+  if fnc_totalizarDebitos = false then
+  begin
+    ShowMessage('valor a ser baixado diferente do débito listado');
+    exit;
+  end;
+
+  result := true;
+
+end;
+
+procedure TfrmContasReceber_Baixa.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  try
+
+    ModalResult := mrNone;
+    prc_salvar;
+
+  except
+    on E : Exception do
+       begin
+
+         ShowMessage('ROLL BACK : erro executar a prc_salvar');
+         if Self.Conexao.InTransaction then
+            Self.Conexao.Rollback;;
+         Raise;
+       end;
+  end;
+
+end;
+
+function TfrmContasReceber_Baixa.fnc_alterar: Boolean;
+begin
+  result := true;
+end;
+
+function TfrmContasReceber_Baixa.fnc_incluir: Boolean;
+var
+  loQry : TFDQuery;
+  nrContaReceber: integer;
+
+begin
+  ShowMessage('fnc_incluir');
+
+  // Incluir ContaReceber
+  try
+    loQry := TFDQuery.Create(Self);
+    try
+      with loQry, loQry.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('INSERT INTO           ');
+        Add('  CONTAS_RECEBER_BAIXA');
+        Add('  (ID,                ');
+        Add('   CADASTRADO_EM,     ');
+        Add('   RECIBO_ID,         ');
+        Add('   HISTORICO,         ');
+        Add('   VALOR,             ');
+        Add('   USUARIO_ID,        ');
+        Add('   PESSOA_ID)        ');
+        Add('VALUES                ');
+        Add('  (:ID,               ');
+        Add('   :CADASTRADO_EM,    ');
+        Add('   :RECIBO_ID,        ');
+        Add('   :HISTORICO,        ');
+        Add('   :VALOR,            ');
+        Add('   :USUARIO_ID,       ');
+        Add('   :PESSOA_ID)       ');
+
+        ParamByName('ID').AsInteger         := self.Codigo;
+        ParamByName('CADASTRADO_EM').AsDate := Date;
+        ParamByName('RECIBO_ID').AsInteger  := -1;
+        ParamByName('HISTORICO').AsMemo     := mm_forma_de_pagto.Text ;
+        ParamByName('VALOR').AsFloat        := StrToFloatDef(edt_valor.Text,0);
+        ParamByName('USUARIO_ID').AsInteger := StrToInt(lbl_usuarioID.Caption);
+        ParamByName('PESSOA_ID').AsInteger  := StrToInt(lbl_pessoaID.Caption);
+
+        ExecSQL;
+        //***
+
+        { Guarda as contas baixadas no banco de dados (contas_receber_baixa_itens)
+        e baixa no contas a receber e o pedido }
+
+        dbg_debitos.DataSource.DataSet.First;
+        while not dbg_debitos.DataSource.DataSet.eof do
+        begin
+          { Guarda as contas baixadas no banco de dados (contas_receber_baixa_itens)
+          e baixa no contas a receber}
+          fnc_incluir_itens(
+                            dbg_debitos.DataSource.DataSet.FieldByName('ID').AsInteger,
+                            dbg_debitos.DataSource.DataSet.FieldByName('SALDO_ABERTO').AsFloat
+                            );
+
+          { Baixar saldo do pedido }
+          {buscar o número do pedido na tabela de contas a receber}
+          nrContaReceber := dbg_debitos.DataSource.DataSet.FieldByName('ID').AsInteger;
+          ShowMessage('nr conta ' + inttostr( nrContaReceber ));
+
+          ShowMessage(qryContaReceber.SQL.Text);
+
+
+          ubiblioteca.FilterCds(qryContaReceber, utipos.fsInteger, inttostr( nrContaReceber ) );
+
+
+              if not qryContaReceber.IsEmpty then
+
+
+          ShowMessage(
+                      'id ' +     qryContaReceber.fieldbyname('ID_ORIGEM').AsString +{número do pedido na tabela de contas_receber}
+                      'saldo aberto ' +    dbg_debitos.DataSource.DataSet.FieldByName('SALDO_ABERTO').AsString +
+                      'mm ' +    mm_forma_de_pagto.Text
+
+
+          ) else  ShowMessage('qty vazia');
+
+          prc_baixar_pedido(
+                           qryContaReceber.fieldbyname('ID_ORIGEM').AsInteger,{número do pedido na tabela de contas_receber}
+                           dbg_debitos.DataSource.DataSet.FieldByName('SALDO_ABERTO').AsFloat,
+                           mm_forma_de_pagto.Text
+                           );
+
+          { prox pedido }
+          dbg_debitos.DataSource.DataSet.next;
+
+        end;
+
+        Result := (loQry.RowsAffected > 0);
+
+      end;
+
+    finally
+      FreeAndNil(loQry);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.fnc_incluir');
+    end;
+end;
+
+function TfrmContasReceber_Baixa.fnc_incluir_itens(contaReceber_id: integer; contareceber_valor: double): Boolean;
+var
+  loQuery : TFDQuery;
+begin
+  // Incluir ContaReceber
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('INSERT INTO           ');
+        Add('  CONTAS_RECEBER_BAIXA_ITENS');
+        Add('  (ID,                      ');
+        Add('   CONTAS_RECEBER_BAIXA_ID, ');
+        Add('   CONTAS_RECEBER_ID,       ');
+        Add('   CONTAS_RECEBER_VALOR,    ');
+        Add('   VALOR_PAGO)              ');
+        Add('VALUES                      ');
+        Add('  (:ID,                     ');
+        Add('   :CONTAS_RECEBER_BAIXA_ID,');
+        Add('   :CONTAS_RECEBER_ID,      ');
+        Add('   :CONTAS_RECEBER_VALOR,   ');
+        Add('   :VALOR_PAGO)             ');
+
+        ParamByName('ID').AsInteger := uBiblioteca.AutoIncremento(self.Conexao, 'CONTAS_RECEBER_BAIXA_ITENS');
+        ParamByName('CONTAS_RECEBER_BAIXA_ID').AsInteger := self.Codigo;
+        ParamByName('CONTAS_RECEBER_ID').AsInteger       := contaReceber_id;
+        ParamByName('CONTAS_RECEBER_VALOR').AsFloat      := contaReceber_valor ;
+        ParamByName('VALOR_PAGO').AsFloat                := contaReceber_valor;
+
+        ExecSQL;
+
+        {baixa no contas a receber}
+        Clear;
+        Add('UPDATE           ');
+        Add('  CONTAS_RECEBER ');
+        Add('SET              ');
+        Add('  DATA_PAGTO =:DATA_PAGTO,        ');
+        Add('  VALOR_PAGO =:VALOR_PAGO,        ');
+        Add('  SALDO_ABERTO =:SALDO_ABERTO,    ');
+        Add('  PAGO =:PAGO,                    ');
+        Add('  HISTORICO =:HISTORICO           ');
+        Add('WHERE   ');
+        Add('ID = :ID');
+
+        ParamByName('ID'            ).AsInteger := contaReceber_id;
+        ParamByName('DATA_PAGTO'     ).AsDate   := Date;
+        ParamByName('VALOR_PAGO'    ).AsFloat   := contaReceber_valor ;
+        ParamByName('SALDO_ABERTO'  ).AsFloat   := 0;
+        ParamByName('PAGO'          ).AsString  := 'S';
+        ParamByName('HISTORICO'     ).AsMemo    := 'Baixa manual N.' + inttostr(self.Codigo);
+        ExecSQL;
+
+
+        //***
+        Result := (loQuery.RowsAffected > 0);
+
+      end;
+
+    finally
+      FreeAndNil(loQuery);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name +'.fnc_incluir_itens');
+    end;
+end;
+
+procedure TfrmContasReceber_Baixa.prc_baixar_pedido(idPedido: integer; BaixarValor: double; Justificativa : string);
+var
+  TotalPedido, oldValorPago : double;
+  Mensagem :String;
+begin
+   ShowMessage('TfrmContasReceber_Baixa.prc_baixar_pedido');
+
+    {localiza o pedido}
+    uBiblioteca.FilterCds(qryPedidos, uTipos.fsInteger, IntToStr(idPedido));
+
+    ShowMessage('pedido n. ' + IntToStr(idPedido) );
+    TotalPedido  := qryPedidos.fieldbyname('VALOR_TOTAL_PEDIDO').AsFloat;
+    oldValorPago := qryPedidos.fieldbyname('VALOR_PAGO').AsFloat;
+    Mensagem     := qryPedidos.fieldbyname('OBS_ADM').AsString;
+
+    {atualiza do valor pago e salva a mensagem}
+    qryPedidos.Edit;
+
+    qryPedidos.fieldbyname('VALOR_PAGO').AsFloat:= oldValorPago + BaixarValor;
+    qryPedidos.fieldbyname('PAGO').AsString     := uBiblioteca.SeSenao( TotalPedido - (oldValorPago + BaixarValor) < 0.01, True, False ) ;
+    qryPedidos.fieldbyname('OBS_ADM').AsString  := Mensagem +
+                                                 '. - Justificativa para baixa manual N. ' +
+                                                 lbl_ID.Caption +
+                                                 ' em ' + datetostr(date) +
+                                                 ' [ ' + Justificativa + ' ]';
+
+    qryPedidos.Post;
+    qryPedidos.ApplyUpdates(0);
+
+end;
+
+function TfrmContasReceber_Baixa.fnc_totalizarDebitos: boolean;
+var
+  totalDebito: double;
+begin
+  totalDebito := 0;
+  dbg_debitos.DataSource.DataSet.First;
+  while not dbg_debitos.DataSource.DataSet.eof do
+  begin
+    totalDebito := totalDebito + dbg_debitos.DataSource.DataSet.FieldByName('SALDO_ABERTO').AsFloat;
+
+    dbg_debitos.DataSource.DataSet.Next;
+  end;
+
+  Result := ( (StrToFloat(edt_valor.Text)+0.01) >=  totalDebito  );
+end;
+
+procedure TfrmContasReceber_Baixa.FormCreate(Sender: TObject);
+begin
+  inherited;
+  titulo      := 'Baixar pedidos';
+  self.Tabela := 'CONTAS_RECEBER_BAIXA';
+end;
+
+procedure TfrmContasReceber_Baixa.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  prc_componentes;
+  prc_inicializar;
+
+end;
+
+procedure TfrmContasReceber_Baixa.prc_componentes;
+begin
+
+  lbl_usuarioID.Caption := inttostr( user_id );
+  lbl_usuario.Caption   := user_name;
+
+  lbl_pessoaID.Caption  := inttostr( pessoa_id );
+  lbl_pessoaName.Caption:= pessoa_nome;
+
+  qryPedidos.Connection := self.Conexao;
+  qryPedidos.SQL.Clear;
+  qryPedidos.SQL.Add('select * from pedidos where id =:id');
+
+  qryContaReceber.Connection := self.Conexao;
+  qryContaReceber.SQL.Clear;
+  qryContaReceber.SQL.Add('select * from contas_receber where id =:id');
+
+
+  PageControl.ActivePageIndex := 0;
+end;
+
+procedure TfrmContasReceber_Baixa.prc_inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       btnOk.Caption  := 'Baixar';
+                       {novo id da tabela de contas_receber_baixa}
+                       Self.Codigo    := ubiblioteca.AutoIncremento(self.Conexao, self.Tabela);
+                       lbl_ID.Caption := inttostr(Self.Codigo);
+                       lbl_cadastrado_em.Caption := DateToStr(date);
+
+                       prc_limpaTela;
+
+                       if edt_valor.CanFocus then edt_valor.SetFocus;
+
+                     end;
+  uTipos.opAlterar: begin
+                      self.prc_lerDados;
+
+                      if btnFechar.CanFocus then btnFechar.SetFocus;
+                      btnOk.Caption := 'Alterar';
+
+                      btnOk.Enabled := false;
+                    end;
+  uTipos.opExcluir: begin
+                      self.prc_lerDados;
+
+                      pnDados.Enabled   := false;
+                      if btnFechar.CanFocus then btnFechar.SetFocus;
+                      btnOk.Caption := 'Excluir';
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfrmContasReceber_Baixa.prc_lerDados;
+var
+  loQuery : TFDQuery;
+begin
+  try
+    loQuery := TFDQuery.Create(Self);
+    try
+      with loQuery, loQuery.Sql do
+      begin
+        Connection := Self.Conexao;
+        Add('SELECT * FROM ' + Self.Tabela + ' WHERE ID =:ID');
+        uBiblioteca.FilterCds(loQuery,uTipos.fsInteger,IntToStr(Self.Codigo));
+        Open;
+      end;
+      //Carrega os edits
+      // cabeçalho
+      lbl_ID.Caption            := loQuery.fieldbyname('ID').AsString;
+      lbl_cadastrado_em.Caption := loQuery.fieldbyname('CADASTRADO_EM').AsString;
+      lbl_usuarioID.Caption     := IntToStr(user_id);
+      lbl_usuario.Caption       := user_name;
+      edt_valor.Text            := loQuery.fieldbyname('VALOR').AsString;
+      mm_forma_de_pagto.Lines.Add( loQuery.fieldbyname('HISTORICO').AsString );
+      {carregar pedidos baixados}
+
+
+    finally
+      FreeAndNil(loQuery);
+    end;
+  except
+    on E : Exception do
+       Raise Exception.Create(E.Message + Self.Name + '.LerDados');
+    end;
+end;
+
+procedure TfrmContasReceber_Baixa.prc_limpaTela;
+begin
+  edt_valor.Text := '0,00';
+  mm_forma_de_pagto.Clear;
+end;
+
+procedure TfrmContasReceber_Baixa.prc_salvar;
+begin
+
+
+  case Self.Operacao of
+
+    // Inclusão
+    uTipos.opIncluir :
+    begin
+      if not fnc_validar then Exit;
+      ShowMessage('aqui');
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if fnc_incluir then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+
+
+
+        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
+          prc_inicializar
+        else
+          ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível salvar o registro');
+      end;
+    end;
+
+    // Alteração . obs só visualização
+    uTipos.opAlterar :
+    begin
+      if not fnc_validar then Exit;
+      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+      //***
+      if fnc_alterar then
+      begin
+        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+        ModalResult := mrOk;
+      end
+      else
+      begin
+        ShowMessage('Não foi possível alterar o registro');
+      end;
+    end;
+
+    //não terá Exclusão
+    (*
+    uTipos.opExcluir :
+    begin
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+      begin
+        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+        if Excluir then
+        begin
+          if Self.Conexao.InTransaction then Self.Conexao.Commit;
+          ModalResult := mrOk;
+        end
+        else
+        begin
+          ShowMessage('Não foi possível excluir o registro');
+        end;
+      end; // if
+    end;
+    *)
+  end;// case
+
+
+end;
+
+end.
+

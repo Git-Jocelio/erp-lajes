@@ -1,0 +1,461 @@
+inherited frmPedidosCustos: TfrmPedidosCustos
+  BorderStyle = bsDialog
+  Caption = 'SYSLAJES - SISTEMA DE GERENCIAMENTO DE LAJES'
+  ClientHeight = 412
+  ClientWidth = 745
+  OnShow = FormShow
+  ExplicitWidth = 757
+  ExplicitHeight = 450
+  TextHeight = 15
+  object pnl_topo: TPanel [0]
+    Left = 0
+    Top = 0
+    Width = 745
+    Height = 41
+    Align = alTop
+    Caption = 'CUSTOS DO PEDIDO N.'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    ExplicitLeft = -24
+    ExplicitTop = 2
+  end
+  object pnl_comissao_totais: TPanel [1]
+    Left = 0
+    Top = 41
+    Width = 745
+    Height = 112
+    Align = alTop
+    BevelOuter = bvNone
+    Color = clMenu
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 1
+    ExplicitWidth = 566
+    object Label32: TLabel
+      Left = 7
+      Top = 9
+      Width = 84
+      Height = 17
+      Caption = 'Data contabil :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_data_contabil: TLabel
+      Left = 111
+      Top = 8
+      Width = 66
+      Height = 17
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label65: TLabel
+      Left = 7
+      Top = 32
+      Width = 115
+      Height = 17
+      Caption = 'Valor da Venda : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_valor_venda: TLabel
+      Left = 129
+      Top = 33
+      Width = 50
+      Height = 16
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label66: TLabel
+      Left = 7
+      Top = 56
+      Width = 117
+      Height = 17
+      Caption = 'Custo pedido    : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_custo_pedido: TLabel
+      Left = 130
+      Top = 56
+      Width = 50
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label67: TLabel
+      Left = 216
+      Top = 8
+      Width = 78
+      Height = 17
+      Caption = 'taxa Adm (%)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_taxa_adm: TLabel
+      Left = 317
+      Top = 8
+      Width = 24
+      Height = 17
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label73: TLabel
+      Left = 388
+      Top = 33
+      Width = 142
+      Height = 17
+      Caption = 'Comiss'#227'o Adm        : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_comissao_adm: TLabel
+      Left = 535
+      Top = 32
+      Width = 50
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label74: TLabel
+      Left = 388
+      Top = 56
+      Width = 144
+      Height = 17
+      Caption = 'Margem                  : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_margem: TLabel
+      Left = 535
+      Top = 56
+      Width = 50
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label75: TLabel
+      Left = 388
+      Top = 8
+      Width = 140
+      Height = 17
+      Caption = 'Comiss'#227'o vendedor (%)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_margem_vendedor: TLabel
+      Left = 534
+      Top = 8
+      Width = 50
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label76: TLabel
+      Left = 387
+      Top = 78
+      Width = 143
+      Height = 17
+      Caption = 'Comiss'#227'o vendedor : R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_comissao_vendedor: TLabel
+      Left = 536
+      Top = 78
+      Width = 50
+      Height = 17
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object labelOutrasdespesas: TLabel
+      Left = 7
+      Top = 80
+      Width = 117
+      Height = 15
+      Caption = 'Outras Despesas   :  R$'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl_outras_despesas: TLabel
+      Left = 130
+      Top = 78
+      Width = 50
+      Height = 15
+      Alignment = taRightJustify
+      Caption = '0,00'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object GroupBox1: TGroupBox [2]
+    Left = 0
+    Top = 153
+    Width = 745
+    Height = 259
+    Align = alClient
+    Caption = 'Custo Agrupado'
+    TabOrder = 2
+    ExplicitTop = 209
+    ExplicitWidth = 566
+    ExplicitHeight = 203
+    object dbg_comissao_itens: TDBGrid
+      Left = 2
+      Top = 17
+      Width = 741
+      Height = 240
+      Align = alClient
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ParentFont = False
+      TabOrder = 0
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ID'
+          Title.Alignment = taCenter
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Visible = False
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PEDIDO_ID'
+          Title.Alignment = taCenter
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Visible = False
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PRODUTO_ID'
+          Title.Alignment = taCenter
+          Title.Caption = 'Prod'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOME_FANTASIA'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Width = 260
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QUANTIDADE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Quant'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Width = 94
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CUSTO_FORN'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '1'
+          Font.Style = []
+          Title.Alignment = taCenter
+          Title.Caption = 'C. Fornecedor'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'CUSTO_VEND'
+          Title.Alignment = taCenter
+          Title.Caption = 'C. Vendedor'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO_VENDA'
+          Title.Alignment = taCenter
+          Title.Caption = 'P. Venda'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Width = 110
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'DEBITO_CREDITO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Deb / Cred'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Width = 76
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'OBS'
+          Title.Alignment = taCenter
+          Title.Caption = 'Observa'#231#245'es'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI'
+          Title.Font.Style = [fsBold]
+          Visible = False
+        end>
+    end
+  end
+  inherited qry: TFDQuery
+    Left = 224
+    Top = 272
+  end
+  object dsLancamentos: TDataSource
+    AutoEdit = False
+    DataSet = qry
+    Left = 224
+    Top = 241
+  end
+end

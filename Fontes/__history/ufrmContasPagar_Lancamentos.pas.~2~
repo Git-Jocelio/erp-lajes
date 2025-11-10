@@ -1,0 +1,134 @@
+unit ufrmContasPagar_Lancamentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, uTipos, uBiblioteca, Vcl.ComCtrls;
+
+type
+  TfrmContasPagar_Lancamentos = class(TfrmBaseEdicao)
+    Label32: TLabel;
+    Label1: TLabel;
+    lbl_id: TLabel;
+    Label2: TLabel;
+    lbl_cadastrado_em: TLabel;
+    Label4: TLabel;
+    Label3: TLabel;
+    lbl_conta_pagar: TLabel;
+    Label7: TLabel;
+    lbl_alterado_em: TLabel;
+    Label5: TLabel;
+    dtp_data_contabil: TDateTimePicker;
+    mm_obs: TMemo;
+    rg_operacao: TRadioGroup;
+    edt_valor: TEdit;
+  private
+    FOperacao: uTipos.TOperacao;
+    Fpedido_id: integer;
+    FTabela: string;
+    FCodigo: integer;
+
+  protected
+
+    procedure prc_componentes;
+    procedure prc_inicializar;
+    procedure prc_ler_dados;
+    procedure prc_limpar_tela;
+
+  public
+
+    property Codigo    :integer read FCodigo write FCodigo;
+    property Operacao  :uTipos.TOperacao read FOperacao write FOperacao;
+    property Tabela    :string read FTabela write FTabela;
+    property pedido_id :integer read Fpedido_id write Fpedido_id;
+
+  end;
+
+var
+  frmContasPagar_Lancamentos: TfrmContasPagar_Lancamentos;
+
+implementation
+
+{$R *.dfm}
+
+
+
+{ TfrmContasPagar_Lancamentos }
+
+procedure TfrmContasPagar_Lancamentos.prc_componentes;
+begin
+
+end;
+
+procedure TfrmContasPagar_Lancamentos.prc_inicializar;
+begin
+  case self.Operacao of
+  uTipos.opIncluir: begin
+
+                       {Novo id usuario}
+                       Codigo := ubiblioteca.AutoIncremento(self.Conexao,self.Tabela);
+                       lbl_id.Caption := inttostr( Codigo );
+                       lbl_conta_pagar.Caption := inttostr( self.pedido_id );
+
+                       lbl_titulo.Caption        := titulo + pnTitulo.Caption + ' [Incluir]';
+                       lbl_sub_titulo.Caption    := ' Incluir outras despesas/crédito dentro comissão de um pedido ';
+
+                       lbl_cadastrado_em.Caption := datetostr(date);
+                       dtp_data_contabil.Date    := date;
+                       lbl_cadastrado_em.caption := DateToStr(Date);
+
+                       prc_limpar_tela;
+                       //pnDados.Enabled := true;
+
+                       rg_operacao.SetFocus;
+                       btnOk     .Caption := 'Incluir';
+
+                     end;
+  uTipos.opAlterar: begin
+
+                      prc_ler_dados;
+                      //pnDados.Enabled  := false;
+                      lbl_titulo.Caption  := titulo + ' [Alteração]';
+                      lbl_sub_titulo.Caption  := 'Alterar outras despesas/crédito dentro comissão de um pedido ';
+                      lbl_alterado_em.Caption := datetostr( date );
+                      btnOk.Caption    := 'Alterar';
+                      //
+                      btnOk.SetFocus;
+
+                    end;
+  uTipos.opExcluir: begin
+
+                      prc_ler_dados;
+                      lbl_titulo.Caption        := titulo + pnTitulo.Caption + ' [Excluir]';
+                      lbl_sub_titulo.Caption    := ' Excluir outras despesas/crédito dentro comissão de um pedido ';
+                      pnDados.Enabled     := false;
+                      btnOk.Caption       := 'Excluir';
+                      btnFechar.SetFocus;
+
+                    end;
+  else
+    begin
+      pnDados.Enabled   := false;
+      //pnCliente.Enabled   := false;
+      if btnFechar.CanFocus then btnFechar.SetFocus;
+    end;
+  end;
+
+end;
+
+procedure TfrmContasPagar_Lancamentos.prc_ler_dados;
+begin
+
+end;
+
+procedure TfrmContasPagar_Lancamentos.prc_limpar_tela;
+begin
+
+end;
+
+end.

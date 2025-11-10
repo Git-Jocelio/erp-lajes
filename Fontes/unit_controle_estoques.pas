@@ -1,0 +1,1019 @@
+unit unit_controle_estoques;
+
+interface
+uses
+ FireDAC.Comp.Client, udmConn, Vcl.Forms, System.SysUtils, uTipos, Vcl.Dialogs  ;
+
+// muda a situacao dos itens de  pedido , ENTREGUE OU RETIROU
+procedure prc_mudar_situacao_dos_itens_do_pedido( id_item_pedido: integer; situacao: string );
+
+
+// muda a situacao da cabeça do pedido , ENTREGUE OU PARCIAL
+procedure prc_atualizar_situacao_do_pedido(pedido_id: integer);
+
+// procedure para mudar a situação de um item de laje (ENTREGUE / RETIROU)
+procedure prc_mudar_situacao_dos_itens_da_laje( id_item_laje: integer; situacao: string );
+
+
+// procedure para incluir/alterar/excluir na tabela estoques_movimentacao
+procedure prc_incluir_alterar(
+                              operacao: TOperacao;       // INCLUIR OU ALTERAR um registro na tabela estoques_movimentacao
+                              entrada_ou_saida : string; // se é uma entrada ou saida de estoque (ENTRADA - SAIDA)
+                              tabela_origem : string;    // nome da tabela que gerou o lancamento
+                              tabela_origem_id : integer;// id da tabela que gerou o lancamento
+                              produto_id: integer;       // id do produto
+                              historico: string;         // descrição do movimento
+                              quantidade: double         // qtde lancada no banco de dados antes de uma edição
+                              );
+
+// muda a situacao de um item de pedido. no caso se for uma laje
+// prc verifica a situacao dos itens da laje e define a situacao da mesma
+procedure prc_atualizar_situacao_de_um_item_de_pedido(pedido_id, item: integer);
+
+function fnc_buscar_estoque_fisico(produto_id: integer): double;
+function fnc_buscar_pedido_aberto(produto_id: integer): double;
+function fnc_buscar_pedido_aguardando(produto_id: integer): double;
+function fnc_buscar_estoque_minimo(produto_id: integer): double;
+procedure prc_emitir_ordem_compra(produto_id: integer);
+function fnc_buscar_ordem_compra_por_produto(produto_id: integer): Boolean;
+function fnc_buscar_ordem_compra_por_status(status: string): Boolean;
+procedure prc_atualiza_ordem_compra_por_produto(compra_id, produto_id: integer);
+procedure prc_atualizar_estoque(produto_id: integer; entrada_saida: string; situacao_Pedido:string; quantidade: double);
+
+procedure prc_movimentar_estoques(operacao: TOperacao;// usa a operacao do pedido se é incluir, alterar, excluir
+                                  pedido_id: integer;
+                                  entrada_saida, // entrada ou saida de estoque
+                                  situacao_pedido_tela: string);
+
+procedure prc_atualizar_estoque_fisico(produto_id: integer; quantidade: double);
+
+implementation
+
+uses uBiblioteca;
+
+// procedure para incluir/alterar/excluir na tabela estoques_movimentacao
+procedure prc_incluir_alterar(
+                              operacao: TOperacao;       // INCLUIR OU ALTERAR um registro na tabela estoques_movimentacao
+                              entrada_ou_saida : string; // se é uma entrada ou saida de estoque (ENTRADA - SAIDA)
+                              tabela_origem : string;    // nome da tabela que gerou o lancamento
+                              tabela_origem_id : integer;// id da tabela que gerou o lancamento
+                              produto_id: integer;       // id do produto
+                              historico: string;         // descrição do movimento
+                              quantidade: double         // qtde lançada no banco de dados antes de uma edição
+                              );
+
+var
+  loQry, loqry_estoque : TFDQuery;
+  estoque_fisico: double;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {qry para buscar o estoque fisico pelo id do produto}
+    loqry_estoque := TFDQuery.Create(application);
+    loqry_estoque.Connection := dmConn.FDConnection;
+    loqry_estoque.sql.clear;
+    loqry_estoque.SQL.Add('select ESTOQUE_FISICO from ESTOQUES_MOVIMENTACAO where produto_id =:produto_id order by estoques_id');
+    loqry_estoque.ParamByName('produto_id').AsInteger := produto_id;
+    loqry_estoque.open;
+
+    {estoque fisico atual}
+    if not loqry_estoque.IsEmpty then
+    begin
+      loqry_estoque.Last;
+      estoque_fisico := loqry_estoque.fieldByName('estoque_fisico').Asfloat;
+    end
+    else if loqry_estoque.IsEmpty then
+    begin
+      estoque_fisico := 0;
+      operacao       := OpIncluir;
+    end;
+(*    ShowMessage('produtoId      : ' + floattostr(produto_id) + slinebreak +
+                'estoque fisico : ' + floattostr(estoque_fisico) + slinebreak +
+                'quantidade     : ' + floattostr(quantidade) + slinebreak +
+                'entrada ou saida : ' + entrada_ou_saida );
+*)
+    // excluir
+    if operacao = opExcluir then
+    begin
+      loQry.sql.clear;
+      loQry.SQL.Add('delete from ESTOQUES_MOVIMENTACAO ');
+      loQry.SQL.Add(' where TABELA_ORIGEM  = :TABELA_ORIGEM and TABELA_ORIGEM_ID =:TABELA_ORIGEM_ID ');
+      loqry.ParamByName('TABELA_ORIGEM').AsString     := tabela_origem;
+      loqry.ParamByName('TABELA_ORIGEM_ID').AsInteger := tabela_origem_id;
+      loqry.ExecSQL;
+      exit;
+    end;
+
+    // incluir
+    if operacao = OpIncluir then
+    begin
+
+      loQry.sql.clear;
+      loQry.SQL.Add('insert into  ESTOQUES_MOVIMENTACAO ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  TABELA_ORIGEM,    ');
+      loQry.SQL.Add('  TABELA_ORIGEM_ID, ');
+      loQry.SQL.Add('  PRODUTO_ID,       ');
+      loQry.SQL.Add('  DATA,             ');
+      loQry.SQL.Add('  HISTORICO,        ');
+      loQry.SQL.Add('  ENTRADA,          ');
+      loQry.SQL.Add('  SAIDA,            ');
+      loQry.SQL.Add('  ESTOQUE_FISICO    ');
+      loQry.SQL.Add(')                   ');
+      loQry.SQL.Add('VALUES              ');
+      loQry.SQL.Add('(                   ');
+      loQry.SQL.Add('  :TABELA_ORIGEM,   ');
+      loQry.SQL.Add('  :TABELA_ORIGEM_ID,');
+      loQry.SQL.Add('  :PRODUTO_ID,      ');
+      loQry.SQL.Add('  :DATA,            ');
+      loQry.SQL.Add('  :HISTORICO,       ');
+      loQry.SQL.Add('  :ENTRADA,         ');
+      loQry.SQL.Add('  :SAIDA,           ');
+      loQry.SQL.Add('  :ESTOQUE_FISICO   ');
+      loQry.SQL.Add(')                   ');
+
+      loQry.ParamByName('DATA').AsDate := Date;
+    end
+    // alterar
+    else if operacao = opAlterar then
+    begin
+      loQry.sql.clear;
+      loQry.SQL.Add('update ESTOQUES_MOVIMENTACAO            ');
+      loQry.SQL.Add('set                                     ');
+      loQry.SQL.Add('  TABELA_ORIGEM    = :TABELA_ORIGEM,    ');
+      loQry.SQL.Add('  TABELA_ORIGEM_ID = :TABELA_ORIGEM_ID, ');
+      loQry.SQL.Add('  PRODUTO_ID       = :PRODUTO_ID,       ');
+      loQry.SQL.Add('  ALTERADO_EM      = :ALTERADO_EM,      ');
+      loQry.SQL.Add('  HISTORICO        = :HISTORICO,        ');
+      loQry.SQL.Add('  ENTRADA          = :ENTRADA,          ');
+      loQry.SQL.Add('  SAIDA            = :SAIDA,            ');
+      loQry.SQL.Add('  ESTOQUE_FISICO   = :ESTOQUE_FISICO    ');
+      loQry.SQL.Add('where                                   ');
+      loQry.SQL.Add('  TABELA_ORIGEM    = :TABELA_ORIGEM and ');
+      loQry.SQL.Add('  TABELA_ORIGEM_ID = :TABELA_ORIGEM_ID  ');
+
+      loqry.ParamByName('TABELA_ORIGEM').AsString     := tabela_origem;
+      loqry.ParamByName('TABELA_ORIGEM_ID').AsInteger := tabela_origem_id;
+      loqry.ParamByName('ALTERADO_EM').AsDate         := date;
+    end;
+
+    {novo estoque fisico}
+    if entrada_ou_saida = 'ENTRADA' then
+    begin
+      estoque_fisico := estoque_fisico + quantidade;
+    end else
+    if entrada_ou_saida = 'SAIDA' then
+    begin
+      estoque_fisico := estoque_fisico - quantidade;
+    end;
+
+    loQry.ParamByName('TABELA_ORIGEM').AsString     := tabela_origem;
+    loQry.ParamByName('TABELA_ORIGEM_ID').AsInteger := tabela_origem_id;
+    loQry.ParamByName('PRODUTO_ID').AsInteger       := produto_id;
+    loQry.ParamByName('HISTORICO').AsString         := historico;// edt_historico.Text;
+    loQry.ParamByName('ENTRADA').AsFloat            := uBiblioteca.SeSenao(entrada_ou_saida = 'ENTRADA', quantidade, 0 ) ;
+    loQry.ParamByName('SAIDA').AsFloat              := uBiblioteca.SeSenao(entrada_ou_saida = 'SAIDA', quantidade, 0 ) ;
+    loQry.ParamByName('ESTOQUE_FISICO').Asfloat     := estoque_fisico;
+    loQry.ExecSQL;
+
+
+  finally
+    freeandnil(loqry_estoque);
+    freeandnil(loQry);
+  end;
+end;
+
+procedure prc_atualizar_estoque_fisico(produto_id: integer; quantidade: double);
+var
+  loQry: TFDQuery;
+  loQryAtualiza: TFDQuery;
+  saldo_anterior : double;
+  entrada : double;
+  saida : double;
+begin
+  {atualizar o campo estoque_fisico da tabela estoques_movimentação após uma
+  alteração nas quantidade}
+  try
+    {lista o movimento de um produto}
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {qry para atualização do estoque fisico de um produto}
+    loQryAtualiza := TFDQuery.Create(application);
+    loQryAtualiza.Connection := dmConn.FDConnection;
+
+    {lista o histórico de movimentação do produto}
+    loqry.sql.clear;
+    loqry.SQL.Add(' select ');
+    loqry.SQL.Add('   estoques_id, data,  historico, entrada, saida, estoque_fisico ');
+    loqry.SQL.Add(' from ESTOQUES_MOVIMENTACAO                               ');
+    loqry.SQL.Add('   where produto_id =:produto_id                            ');
+    loqry.SQL.Add(' order by estoques_id                                     ');
+    loqry.ParamByName('produto_id').AsInteger := produto_id;
+    loqry.open;
+    {localiza o registro modificado}
+    loqry.First;
+    if loqry.Locate('ESTOQUE_FISICO',-999999999,[]) then
+    begin
+      //ShowMessage('achei!') ;
+      {qry de atualização do estoque fisico}
+      loQryAtualiza.sql.Clear;
+      loQryAtualiza.SQL.Add('update estoques_movimentacao set estoque_fisico =:estoque_fisico where estoque_id =:estoque_id');
+
+      {pegar o saldo anterior do produto}
+      loqry.Prior;
+      saldo_anterior := loqry.FieldByName('ESTOQUE_FISICO').AsFloat;
+
+      {volta pro registro a ser alterado}
+      loqry.Locate('ESTOQUE_FISICO',-999999999,[]);
+      while not loqry.eof do
+      begin
+        {calculo do novo estoque fisico}
+        entrada := loqry.fieldByName('entrada').AsFloat;
+        saida   := loqry.fieldByName('saida').AsFloat;
+        loQryAtualiza.paramByName('estoque_fisico').AsFloat := saldo_anterior + entrada - saida;
+        loQryAtualiza.paramByName('estoque_id').AsInteger   := loqry.FieldByName('estoques_id').AsInteger;
+        loQryAtualiza.ExecSQL;
+
+        {rsss... novo saldo anterior}
+        saldo_anterior := saldo_anterior + entrada - saida;
+
+        loqry.Next;
+      end;
+    end
+    else
+    begin
+      ShowMessage('registro não encontrado para atualização');
+      exit;
+    end;
+
+  finally
+    freeandnil(loQryAtualiza);
+    freeandnil(loQry);
+  end;
+
+
+end;
+
+
+// procedure para mudar a situação de um item de pedido (ENTREGUE / RETIROU)
+procedure prc_mudar_situacao_dos_itens_do_pedido( id_item_pedido: integer; situacao: string );
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {qry de atualização da situação do item do pedido}
+    loQry.sql.clear;
+    loqry.SQL.Add(' update PEDIDOS_ITENS set SITUACAO =:SITUACAO, DATA_ENTREGA =:DATA_ENTREGA where ID =:PEDIDO_ITEM_ID' );
+    loQry.ParamByName('SITUACAO').AsString        := situacao;
+    loQry.ParamByName('DATA_ENTREGA').AsDate      := Date;
+    loQry.ParamByName('PEDIDO_ITEM_ID').AsInteger := id_item_pedido;
+    loqry.ExecSQL;
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+// procedure para mudar a situação de um item de laje (ENTREGUE / RETIROU)
+procedure prc_mudar_situacao_dos_itens_da_laje( id_item_laje: integer; situacao: string );
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {atualiza a situação do itens da laje pelo id da tabela de pedidos_itens_laje}
+    loQry.sql.clear;
+    loqry.SQL.Add(' update PEDIDOS_ITENS_LAJE set SITUACAO =:SITUACAO where ID =:ITEM_LAJE_ID' );
+    loQry.ParamByName('SITUACAO').AsString      := situacao;
+    loQry.ParamByName('ITEM_LAJE_ID').AsInteger := id_item_laje;
+    loqry.ExecSQL;
+  finally
+
+    FreeAndNil(loQry);
+  end;
+end;
+
+
+
+// muda a situacao da cabeça do pedido , ENTREGUE OU PARCIAL
+procedure prc_atualizar_situacao_do_pedido(pedido_id: integer);
+var
+  loQry : TFDQuery;
+  qtde_itens_no_pedido :integer;
+  qtde_itens_aberto, qtde_itens_aguardando,
+  qtde_itens_entregue, qtde_itens_retirou :integer;
+  nova_situacao : string;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {qtde de itens no pedido}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select ID, SITUACAO from PEDIDOS_ITENS where PEDIDO_ID =:PEDIDO_ID' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    loqry.open;
+    qtde_itens_no_pedido := loQry.RecordCount;
+
+    {qtde itens aberto}
+    loqry.CLOSE;
+    loQry.sql.clear;
+    loqry.SQL.Add(' select ID, SITUACAO from PEDIDOS_ITENS where PEDIDO_ID =:PEDIDO_ID and SITUACAO =:SITUACAO' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    loQry.ParamByName('SITUACAO').AsString   := 'ABERTO';
+    loqry.open;
+    qtde_itens_aberto := loQry.RecordCount;
+
+    {qtde itens aguardando}
+    loQry.ParamByName('SITUACAO').AsString   := 'AGUARDANDO';
+    loqry.open;
+    qtde_itens_aguardando := loQry.RecordCount;
+
+
+    {qtde itens entregue}
+    loqry.Close;
+    loQry.ParamByName('SITUACAO').AsString := 'ENTREGUE';
+    loqry.open;
+    qtde_itens_entregue := loQry.RecordCount;
+
+    {qtde itens retirou}
+    loqry.Close;
+    loQry.ParamByName('SITUACAO').AsString := 'RETIROU';
+    loqry.open;
+    qtde_itens_retirou := loQry.RecordCount;
+
+    {***atualiza a situação do pedido***}
+    loqry.CLOSE;
+    loQry.sql.clear;
+    loqry.SQL.Add(' update PEDIDOS set SITUACAO =:SITUACAO where ID =:PEDIDO_ID' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    //
+    if qtde_itens_no_pedido = qtde_itens_aberto then
+      nova_situacao := 'ABERTO'
+    else if qtde_itens_no_pedido = (qtde_itens_entregue + qtde_itens_retirou)   then
+      nova_situacao := 'ENTREGUE'
+    else if qtde_itens_no_pedido = (qtde_itens_entregue)   then
+      nova_situacao := 'ENTREGUE'
+    else if qtde_itens_no_pedido = (qtde_itens_retirou)   then
+      nova_situacao := 'RETIROU'
+    else if qtde_itens_no_pedido = (qtde_itens_aguardando)   then
+      nova_situacao := 'AGUARDANDO'
+    else
+      nova_situacao := 'PARCIAL';
+
+    loQry.ParamByName('SITUACAO').AsString := nova_situacao;
+    loqry.ExecSQL;
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+
+// muda a situacao de um item de pedido. no caso se for uma laje
+// prc verifica a situacao dos itens da laje e define a situacao da mesma
+procedure prc_atualizar_situacao_de_um_item_de_pedido(pedido_id, item: integer);
+var
+  loQry : TFDQuery;
+  qtde_itens_no_pedido :integer;
+  qtde_itens_aberto,
+  qtde_itens_entregue, qtde_itens_retirou :integer;
+  nova_situacao : string;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    // ITENS DO PEDIDO
+    loQry.sql.clear;
+    loqry.SQL.Add(' select ID, SITUACAO from PEDIDOS_ITENS_LAJE where PEDIDO_ID =:PEDIDO_ID and ITEM =:ITEM' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    loQry.ParamByName('ITEM').AsInteger      := item;
+    loqry.open;
+    qtde_itens_no_pedido := loQry.RecordCount;
+    // ITENS DA LAJE
+    loqry.CLOSE;
+    loQry.sql.clear;
+    loqry.SQL.Add(' select ID, SITUACAO from PEDIDOS_ITENS_LAJE where PEDIDO_ID =:PEDIDO_ID and ITEM =:ITEM and SITUACAO =:SITUACAO' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    loQry.ParamByName('ITEM').AsInteger      := item;
+    loQry.ParamByName('SITUACAO').AsString   := 'ABERTO';
+    loqry.open;
+
+    qtde_itens_aberto := loQry.RecordCount;
+    //ShowMessage('aberto ' + inttostr(qtde_itens_aberto));
+
+    loqry.Close;
+    loQry.ParamByName('ITEM').AsInteger      := item;
+    loQry.ParamByName('SITUACAO').AsString := 'ENTREGUE';
+    loqry.open;
+    qtde_itens_entregue := loQry.RecordCount;
+    //ShowMessage('entregue ' + inttostr(qtde_itens_entregue));
+
+    loqry.Close;
+    loQry.ParamByName('ITEM').AsInteger      := item;
+    loQry.ParamByName('SITUACAO').AsString := 'RETIROU';
+    loqry.open;
+    qtde_itens_retirou := loQry.RecordCount;
+    //ShowMessage('retirou ' + inttostr(qtde_itens_retirou));
+
+
+    // se a qtde de itens do pedido for maior que a qtde de itens com a
+    //situacao ABERTO é pq algum item ja foi baixado, então a situação do
+    //pedido será PARCIAL, senão ENTREGUE
+    loqry.CLOSE;
+    loQry.sql.clear;
+    loqry.SQL.Add(' update PEDIDOS_ITENS set SITUACAO =:SITUACAO where PEDIDO_ID =:PEDIDO_ID and ITEM =:ITEM' );
+    loQry.ParamByName('PEDIDO_ID').AsInteger := pedido_id;
+    loQry.ParamByName('ITEM').AsInteger      := item;
+    //
+    if qtde_itens_aberto = 0 then
+      nova_situacao := 'ENTREGUE'
+    else if qtde_itens_no_pedido > ( qtde_itens_entregue + qtde_itens_retirou ) then
+      nova_situacao := 'ABERTO'
+    else if qtde_itens_no_pedido = qtde_itens_aberto   then
+      nova_situacao := 'ABERTO';
+
+    //ShowMessage(nova_situacao);
+
+    loQry.ParamByName('SITUACAO').AsString := nova_situacao;
+    loqry.ExecSQL;
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+function fnc_buscar_estoque_fisico(produto_id: integer): double;
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {buscar último saldo atual do produto}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select estoque_fisico from produtos where id =:PRODUTO_ID' );
+    loQry.ParamByName('produto_id').AsInteger := produto_id;
+    loqry.open;
+    Result := loQry.FieldByName('estoque_fisico').AsFloat;
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+function fnc_buscar_pedido_aberto(produto_id: integer): double;
+var
+  loQry : TFDQuery;
+  itens_pedido, itens_laje : double;
+begin
+  Result := 0;
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    loQry.sql.clear;
+    loqry.SQL.Add(' select pedido_aberto from produtos where id =:PRODUTO_ID' );
+    loQry.ParamByName('produto_id').AsInteger := produto_id;
+    loqry.open;
+    Result := loQry.FieldByName('pedido_aberto').AsFloat;
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+function fnc_buscar_pedido_aguardando(produto_id: integer): double;
+var
+  loQry : TFDQuery;
+  itens_pedido, itens_laje : double;
+begin
+  Result := 0;
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select  sum(I.QTDE) as PEDIDO_AGUARDANDO ');
+    loqry.SQL.Add(' from PEDIDOS P, PEDIDOS_ITENS I          ');
+    loqry.SQL.Add(' where                                    ');
+    loqry.SQL.Add(' P.ID = I.PEDIDO_ID and                   ');
+    loqry.SQL.Add(' P.ORCAMENTO = :ORCAMENTO and             ');
+    loqry.SQL.Add(' P.SITUACAO = :SITUACAO and               ');
+    loqry.SQL.Add(' PRODUTO_ID = :PRODUTO_ID                 ');
+    //loqry.SQL.Add(' ' );
+    loQry.ParamByName('ORCAMENTO').AsString   := 'N';
+    loQry.ParamByName('SITUACAO').AsString    := 'AGUARDANDO';
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loqry.open;
+    itens_pedido := loQry.FieldByName('PEDIDO_AGUARDANDO').AsFloat;
+
+    //itens de laje
+    loQry.sql.clear;
+    loqry.SQL.Add(' select  sum(I.QTDE) as PEDIDO_AGUARDANDO ');
+    loqry.SQL.Add(' from PEDIDOS P, PEDIDOS_ITENS_LAJE I     ');
+    loqry.SQL.Add(' where                                    ');
+    loqry.SQL.Add(' P.ID = I.PEDIDO_ID and                   ');
+    loqry.SQL.Add(' P.ORCAMENTO = :ORCAMENTO and             ');
+    loqry.SQL.Add(' I.SITUACAO = :SITUACAO and               ');
+    loqry.SQL.Add(' PRODUTO_ID = :PRODUTO_ID                 ');
+    //loqry.SQL.Add(' ' );
+    loQry.ParamByName('ORCAMENTO').AsString   := 'N';
+    loQry.ParamByName('SITUACAO').AsString    := 'AGUARDANDO';
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loqry.open;
+    itens_laje := loQry.FieldByName('PEDIDO_AGUARDANDO').AsFloat;
+
+    Result := itens_pedido + itens_laje;
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+function fnc_buscar_estoque_minimo(produto_id: integer): double;
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {buscar último saldo atual do produto}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select QTDE_MIN from PRODUTOS where ID =:PRODUTO_ID ' );
+    loQry.ParamByName('produto_id').AsInteger := produto_id;
+    loqry.open;
+    Result := loQry.FieldByName('QTDE_MIN').AsFloat;
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+
+procedure prc_emitir_ordem_compra(produto_id: integer);
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {buscar último saldo atual do produto}
+    loQry.sql.clear;
+    loqry.SQL.Add(' insert into ORDEM_COMPRA                                    ' );
+    loqry.SQL.Add('   ( CADASTRADO_EM, HORA, PRODUTO_ID, STATUS, COMPRA_ID )    ' );
+    loqry.SQL.Add(' values                                                      ' );
+    loqry.SQL.Add('   (:CADASTRADO_EM, :HORA, :PRODUTO_ID, :STATUS, :COMPRA_ID )' );
+
+    loQry.ParamByName('CADASTRADO_EM').AsDate := date;
+    loQry.ParamByName('HORA').AsTime          := Time;
+    loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+    loQry.ParamByName('STATUS').AsString      := 'A';
+    loQry.ParamByName('COMPRA_ID').AsInteger  := -1;
+    loqry.ExecSQL;
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+
+function fnc_buscar_ordem_compra_por_produto(produto_id: integer): Boolean;
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {buscar último saldo atual do produto}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select ORDEM_COMPRA_ID from ORDEM_COMPRA where PRODUTO_ID =:PRODUTO_ID and STATUS =:STATUS ' );
+    loQry.ParamByName('produto_id').AsInteger := produto_id;
+    loQry.ParamByName('STATUS').AsString      := 'A';
+    loqry.open;
+    Result := loQry.RecordCount > 0;
+  finally
+    LOQRY.Close;
+    FreeAndNil(loQry);
+  end;
+end;
+
+function fnc_buscar_ordem_compra_por_status(status: string): boolean;
+var
+  loQry : TFDQuery;
+begin
+  try
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+
+    {buscar último saldo atual do produto}
+    loQry.sql.clear;
+    loqry.SQL.Add(' select status from ORDEM_COMPRA where status =:STATUS ' );
+    loQry.ParamByName('STATUS').AsString := status;
+    loqry.open;
+    Result := loQry.RecordCount > 0;
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+procedure prc_atualiza_ordem_compra_por_produto(compra_id, produto_id: integer);
+var
+  loQry : TFDQuery;
+  ordem_compra_id : integer;
+begin
+  try
+    {verifico se tem ordem de compra aberta do produto lancada no sistema}
+    loQry := TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+    loqry.SQL.Clear;
+    loqry.SQL.Add(' select ORDEM_COMPRA_ID from ORDEM_COMPRA where PRODUTO_ID =:PRODUTO_ID and STATUS =:STATUS ' );
+    loQry.ParamByName('produto_id').AsInteger := produto_id;
+    loQry.ParamByName('STATUS').AsString      := 'A';
+    loqry.open;
+    if loqry.RecordCount = 1 then
+    begin
+      {se achar uma, altera o status e grava o número da compra}
+      ordem_compra_id := loqry.FieldByName('ORDEM_COMPRA_ID').AsInteger;
+
+      loqry.CLOSE;
+      loQry.sql.clear;
+      loqry.SQL.Add(' update ORDEM_COMPRA set STATUS =:STATUS, COMPRA_ID =:COMPRA_ID where ORDEM_COMPRA_ID =:ORDEM_COMPRA_ID ' );
+      loQry.ParamByName('ORDEM_COMPRA_ID').AsInteger := ordem_compra_id;
+      loQry.ParamByName('COMPRA_ID').AsInteger       := compra_id;
+      loQry.ParamByName('STATUS').AsString            := 'F';
+      LOQRY.ExecSQL;
+    end
+    else if loqry.RecordCount > 1 then
+    begin
+      {se achar mais que um ( problema :/ )... deleta tudo!,
+      pois o sistema gerará uma nova ordem de compra quando efetuar uma nova venda}
+      loqry.CLOSE;
+      loQry.sql.clear;
+      loqry.SQL.Add(' delete from ORDEM_COMPRA where PRODUTO_ID =:PRODUTO_ID and STATUS =:STATUS ' );
+      loQry.ParamByName('PRODUTO_ID').AsInteger := produto_id;
+      loQry.ParamByName('STATUS').AsString      := 'A';
+      LOQRY.ExecSQL;
+
+    end;
+
+
+
+  finally
+    FreeAndNil(loQry);
+  end;
+end;
+
+procedure prc_movimentar_estoques(operacao: TOperacao;// situacao do pedido
+                                  pedido_id: integer;
+                                  entrada_saida,      // entrada ou saida de estoque
+                                  situacao_pedido_tela: string);
+var
+  loqry, loqry_produto, qry_busca_lancamento: TFDQuery;
+  situacao_pedido : string;
+  entrada, saida: double;
+begin
+  try
+    {query buscar o pedido pelo o id}
+    loqry:= TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select id, orcamento, situacao from pedidos where id =:pedido_id');
+    loqry.ParamByName('pedido_id').AsInteger := pedido_id;
+    loqry.Open;
+
+    {obs. Pedido já esta salvo no banco de dados!... movimentar estoques}
+
+    {se for um orçamento não tem o porquê de movimentar o estoque}
+    if loqry.FieldByName('orcamento').AsString = 'S' then
+    begin
+      exit;
+    end else
+    if loqry.FieldByName('orcamento').AsString = 'N' then
+    begin
+      if entrada_saida = 'ENTRADA' then
+        {a situação do pedido no banco de dados}
+        situacao_pedido := loqry.FieldByName('situacao').AsString
+      else
+      if entrada_saida = 'SAIDA' then
+        {a situação do pedido na tela}
+        situacao_pedido := situacao_pedido_tela;
+        //situacao_pedido := loqry.FieldByName('situacao').AsString;
+
+      {qry buscar o produto pelo id}
+      loqry_produto:= TFDQuery.Create(application);
+      loqry_produto.Connection := dmConn.FDConnection;
+      loqry_produto.SQL.Clear;
+      loqry_produto.SQL.Add('select laje from produtos where id =:produto_id');
+    end;
+
+    {buscar os itens do pedido pelo id do pedido no banco de dados}
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select id, produto_id, qtde from pedidos_itens where pedido_id =:pedido_id');
+    loqry.ParamByName('pedido_id').AsInteger := pedido_id;
+    loqry.Open;
+
+    {se não encontrar nenhum item, cai fora!}
+    if loqry.IsEmpty then exit;
+
+    {movimentar itens do pedido}
+    loqry.first;
+    while not loqry.Eof do
+    begin
+      {busca o produto, e se não for uma laje, movimenta as quantidades de estoque}
+      FilterCds(loqry_produto, fsInteger, loqry.FieldByName('produto_id').AsString);
+      if loqry_produto.FieldByName('laje').AsString = 'N' then
+      begin
+        {atualiza as quantidades na tabela de produtos}
+        prc_atualizar_estoque(loqry.FieldByName('produto_id').Asinteger, entrada_saida,
+                              situacao_pedido, loqry.FieldByName('QTDE').AsFloat);
+
+        {em caso de sit. ENTREGUE ou RETIROU...
+        lançar produto na tabela de movimentação de estoques}
+        if ((situacao_pedido_tela = 'ENTREGUE') or (situacao_pedido_tela = 'RETIROU')) then
+        begin
+          if operacao = opalterar then
+          begin
+            // caso seja uma alteração estorno as quantidades na tabela de movimentacao
+            //buscar na tabela de estoques_movimentacao o lancamento e estornar
+            qry_busca_lancamento := TFDQuery.Create(application);
+            qry_busca_lancamento.Connection := dmconn.FDConnection;
+            qry_busca_lancamento.sql.add('select entrada, saida from estoques_movimentacao where tabela_origem =:tabela_origem and tabela_origem_id =:tabela_origem_id ');
+            qry_busca_lancamento.parambyname('TABELA_ORIGEM').asstring := 'PEDIDOS_ITENS';
+            qry_busca_lancamento.parambyname('TABELA_ORIGEM_ID').asinteger := loqry.FieldByName('id').asinteger;
+            qry_busca_lancamento.open;
+
+            entrada := 0;
+            saida   := 0;
+            if not qry_busca_lancamento.IsEmpty then
+            begin
+              entrada := qry_busca_lancamento.FieldByName('entrada').AsFloat;
+              saida   := qry_busca_lancamento.FieldByName('saida').AsFloat;
+              freeandnil(qry_busca_lancamento);
+              prc_incluir_alterar
+                (
+                operacao,                          // inclusão, alteracao ou exclusao de um pedido no banco de dados
+                'ENTRADA',
+                'PEDIDOS_ITENS',                   // tabela que gerou o lançamento
+                loqry.FieldByName('id').Asinteger, // id da tab que gerou lançamento.
+                loqry.FieldByName('produto_id').Asinteger,
+                'Estorno de lançamento ref. ao pedido n. ' + inttostr(pedido_id),
+                sesenao(entrada > 0, entrada, saida)
+                );
+            end;
+          end;
+
+          //lancamento na tabela de estoques_movimentacao
+          prc_incluir_alterar
+          (
+            operacao,                          // inclusão, alteracao ou exclusao de um pedido no banco de dados
+            'SAIDA',
+            'PEDIDOS_ITENS',                   // tabela que gerou o lançamento
+            loqry.FieldByName('id').Asinteger, // id da tab que gerou lançamento.
+            loqry.FieldByName('produto_id').Asinteger,
+            'Venda ref. ao pedido n. ' + inttostr(pedido_id),
+            loqry.FieldByName('QTDE').AsFloat
+          );
+
+        end;
+      end;
+
+      loqry.Next;
+    end;
+
+    {buscar os itens da laje no banco de dados}
+    loqry.SQL.Clear;
+    loqry.SQL.Add('select id, produto_id, qtde from pedidos_itens_laje where pedido_id =:pedido_id');
+    loqry.ParamByName('pedido_id').AsInteger := pedido_id;
+    loqry.Open;
+
+    {se não encontrar nenhum item, cai fora!}
+    if loqry.IsEmpty then exit;
+
+    {movimentar itens da laje}
+    loqry.first;
+    while not loqry.Eof do
+    begin
+      {busca o produto, e se não for uma laje, devolve a quantidade de estoque}
+      FilterCds(loqry_produto, fsInteger, loqry.FieldByName('produto_id').AsString);
+      if loqry_produto.FieldByName('laje').AsString = 'N' then
+      begin
+        {atualiza as quantidades na tabela de produtos}
+        prc_atualizar_estoque(loqry.FieldByName('produto_id').Asinteger, entrada_saida,
+                              situacao_pedido, loqry.FieldByName('QTDE').AsFloat);
+
+        {lançar produto na tabela de movimentação de estoques}
+        if ((situacao_pedido_tela = 'ENTREGUE') or (situacao_pedido_tela = 'RETIROU')) then
+        begin
+          if operacao = opalterar then
+          begin
+            // caso seja uma alteração estorno as quantidades na tabela de movimentacao
+            //buscar na tabela de estoques_movimentacao o lancamento
+            qry_busca_lancamento := TFDQuery.Create(application);
+            qry_busca_lancamento.Connection := dmconn.FDConnection;
+            qry_busca_lancamento.sql.add('select entrada, saida from estoques_movimentacao where tabela_origem =:tabela_origem and tabela_origem_id =:tabela_origem_id ');
+            qry_busca_lancamento.parambyname('TABELA_ORIGEM').asstring := 'PEDIDOS_ITENS';
+            qry_busca_lancamento.parambyname('TABELA_ORIGEM_ID').asinteger := loqry.FieldByName('id').asinteger;
+            qry_busca_lancamento.open;
+            entrada := 0;
+            saida   := 0;
+            if not qry_busca_lancamento.IsEmpty then
+            begin
+              entrada := qry_busca_lancamento.FieldByName('entrada').AsFloat;
+              saida   := qry_busca_lancamento.FieldByName('saida').AsFloat;
+              freeandnil(qry_busca_lancamento);
+              prc_incluir_alterar
+                (
+                operacao,                          // inclusão, alteracao ou exclusao de um pedido no banco de dados
+                'ENTRADA',
+                'PEDIDOS_ITENS_LAJE',                   // tabela que gerou o lançamento
+                loqry.FieldByName('id').Asinteger, // id da tab que gerou lançamento.
+                loqry.FieldByName('produto_id').Asinteger,
+                'Estorno de lançamento ref. ao pedido n. ' + inttostr(pedido_id),
+                sesenao(entrada > 0, entrada, saida)
+                );
+            end;
+          end;
+
+          //lancamento na tabela estoques_movimentacao
+          prc_incluir_alterar
+          (
+          operacao,                          //inclusão,alteração ou exclusão de um pedido no banco de daos
+          'SAIDA',
+          'PEDIDOS_ITENS_LAJE',              // tabela que gerou o lançamento
+          loqry.FieldByName('id').Asinteger, // id da tab que gerou lançamento.
+          loqry.FieldByName('produto_id').Asinteger,
+          'Venda ref. ao pedido n. ' + inttostr(pedido_id),
+          loqry.FieldByName('QTDE').AsFloat
+          );
+        end;
+
+      end;
+
+      loqry.Next;
+    end;
+
+  finally
+    loqry_produto.Close;
+    loqry.Close;
+    freeandnil( loqry_produto );
+    freeandnil( loqry );
+  end;
+
+end;
+
+{procedure que atualiza os estoques na tabela de produtos
+para ser usada no frmPedidos, frmCompras, frmPedidosBaixa, frmProducoesVigas}
+procedure prc_atualizar_estoque(produto_id: integer; entrada_saida: string;
+                                    situacao_pedido:string; quantidade: double);
+var
+  loqry, loqry_produto: TFDQuery;
+  estoque_fisico, pedido_aberto, estoque_disponivel,pedido_aguardando, estoque_liquido : double;
+begin
+  try
+    {query de atualização dos estoques na tabela de produtos}
+    loqry:= TFDQuery.Create(application);
+    loqry.Connection := dmConn.FDConnection;
+    loqry.SQL.Clear;
+    loqry.Close;
+    loqry.SQL.Add('update                                    ');
+    loqry.SQL.Add('  produtos                                ');
+    loqry.SQL.Add('set                                       ');
+    loqry.SQL.Add(' estoque_fisico     =:estoque_fisico,     ');
+    loqry.SQL.Add(' pedido_aberto      =:pedido_aberto,      ');
+    loqry.SQL.Add(' estoque_disponivel =:estoque_disponivel, ');
+    loqry.SQL.Add(' pedido_aguardando  =:pedido_aguardando,  ');
+    loqry.SQL.Add(' estoque_liquido    =:estoque_liquido     ');
+    loqry.SQL.Add('where                                     ');
+    loqry.SQL.Add(' id =:produto_id                          ');
+
+    {query de busca de produtos}
+    loqry_produto:= TFDQuery.Create(application);
+    loqry_produto.Connection := dmConn.FDConnection;
+    loqry_produto.SQL.Clear;
+    loqry_produto.SQL.Add('select estoque_fisico, pedido_aberto, pedido_aguardando from produtos where id =:produto_id');
+    loqry_produto.ParamByName('produto_id').AsInteger := produto_id;
+    loqry_produto.Open;
+
+    {valores no banco de dados}
+    estoque_fisico    := loqry_produto.fieldByName('estoque_fisico').AsFloat ;
+    pedido_aberto     := loqry_produto.fieldByName('pedido_aberto').AsFloat ;
+    pedido_aguardando := loqry_produto.fieldByName('pedido_aguardando').AsFloat ;
+(*
+ShowMessage(
+'produto_id       : ' + inttostr(produto_id) + slinebreak +
+'entrada ou saida : ' + entrada_saida + slinebreak +
+'situacao nova    : ' + situacao_Pedido + slinebreak +
+'quantidade       : ' + floattostr(quantidade) + slinebreak +
+
+'est. fisico       : ' + floattostr(estoque_fisico) + slinebreak +
+'ped. aberto       : ' + floattostr(pedido_aberto) + slinebreak +
+'ped. aguard       : ' + floattostr(pedido_aguardando)
+);
+*)
+
+    if entrada_saida = 'ENTRADA' then
+    begin
+      if ((situacao_pedido = 'ENTREGUE') or (situacao_pedido = 'RETIROU')) then
+      begin
+        {atualizar estoque fisico na tabela de produtos}
+        loqry.ParamByName('estoque_fisico').AsFloat     := (estoque_fisico + quantidade);
+        loqry.ParamByName('pedido_aberto').Asfloat      := pedido_aberto;
+        loqry.ParamByName('estoque_disponivel').AsFloat := (estoque_fisico + quantidade) - pedido_aberto;
+        loqry.ParamByName('pedido_aguardando').Asfloat  := pedido_aguardando;
+        loqry.ParamByName('estoque_liquido').AsFloat    := (estoque_fisico + quantidade) - pedido_aberto - pedido_aguardando;
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+      end else
+      if situacao_pedido = 'ABERTO' then
+      begin
+        {atualizar estoque "pedido_aberto" na tabela de produtos}
+        loqry.Close;
+        loqry.ParamByName('estoque_fisico').AsFloat     := estoque_fisico;
+        loqry.ParamByName('pedido_aberto').Asfloat      := (pedido_aberto - quantidade);
+        loqry.ParamByName('estoque_disponivel').AsFloat := estoque_fisico - (pedido_aberto - quantidade);
+        loqry.ParamByName('pedido_aguardando').Asfloat  := pedido_aguardando;
+        loqry.ParamByName('estoque_liquido').AsFloat    := estoque_fisico - (pedido_aberto - quantidade)  - pedido_aguardando;
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+
+      end else
+      if situacao_pedido = 'AGUARDANDO' then
+      begin
+        {atualizar estoque "pedido_aguardando" na tabela de produtos}
+        loqry.Close;
+        loqry.ParamByName('estoque_fisico').AsFloat     := estoque_fisico;
+        loqry.ParamByName('pedido_aberto').Asfloat      := pedido_aberto;
+        loqry.ParamByName('estoque_disponivel').AsFloat := estoque_fisico - pedido_aberto;
+        loqry.ParamByName('pedido_aguardando').Asfloat  := (pedido_aguardando - quantidade);
+        loqry.ParamByName('estoque_liquido').AsFloat    := estoque_fisico - pedido_aberto - (pedido_aguardando - quantidade);
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+      end;
+
+    end else
+    if entrada_saida = 'SAIDA' then
+    begin
+      if ((situacao_pedido = 'ENTREGUE') or (situacao_pedido = 'RETIROU')) then
+      begin
+        //ShowMessage('opcao correta');
+        {atualizar estoque fisico na tabela de produtos}
+        estoque_fisico     := estoque_fisico     - quantidade;
+        pedido_aberto      := pedido_aberto      - quantidade;
+        estoque_disponivel := estoque_fisico     - pedido_aberto;
+        estoque_liquido    := estoque_disponivel - pedido_aguardando;
+
+        loqry.ParamByName('estoque_fisico').AsFloat     := estoque_fisico ;
+        loqry.ParamByName('pedido_aberto').Asfloat      := pedido_aberto;
+        loqry.ParamByName('estoque_disponivel').AsFloat := estoque_disponivel;
+        loqry.ParamByName('pedido_aguardando').Asfloat  := pedido_aguardando;
+        loqry.ParamByName('estoque_liquido').AsFloat    := estoque_liquido;
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+      end else
+      if situacao_pedido = 'ABERTO' then
+      begin
+        {atualizar estoque "pedido_aberto" na tabela de produtos}
+        loqry.Close;
+        loqry.ParamByName('estoque_fisico').AsFloat     := estoque_fisico;
+        loqry.ParamByName('pedido_aberto').Asfloat      := (pedido_aberto + quantidade);
+        loqry.ParamByName('estoque_disponivel').AsFloat := estoque_fisico - (pedido_aberto + quantidade);
+        loqry.ParamByName('pedido_aguardando').Asfloat  := pedido_aguardando;
+        loqry.ParamByName('estoque_liquido').AsFloat    := estoque_fisico - (pedido_aberto + quantidade)  - pedido_aguardando;
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+      end else
+      if situacao_pedido = 'AGUARDANDO' then
+      begin
+        {atualizar estoque "pedido_aguardando" na tabela de produtos}
+        loqry.Close;
+        loqry.ParamByName('estoque_fisico').AsFloat     := estoque_fisico;
+        loqry.ParamByName('pedido_aberto').Asfloat      := pedido_aberto;
+        loqry.ParamByName('estoque_disponivel').AsFloat := estoque_fisico - pedido_aberto;
+        loqry.ParamByName('pedido_aguardando').Asfloat  := (pedido_aguardando + quantidade);
+        loqry.ParamByName('estoque_liquido').AsFloat    := estoque_fisico - pedido_aberto - (pedido_aguardando + quantidade);
+        loqry.ParamByName('produto_id').AsInteger       := produto_id;
+        loqry.ExecSQL;
+      end;
+
+    end;
+  finally
+    loqry.Close;
+    loqry_produto.Close;
+    FreeAndNil(loqry);
+    FreeAndNil(loqry_produto);
+  end;
+end;
+
+
+end.

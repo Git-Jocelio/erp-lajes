@@ -1,0 +1,39 @@
+inherited frmBaseEdicao1: TfrmBaseEdicao1
+  Caption = 'frmPesquisaFormaPamentos'
+  ClientHeight = 198
+  ClientWidth = 448
+  ExplicitWidth = 460
+  ExplicitHeight = 236
+  TextHeight = 17
+  inherited pnTitulo: TPanel
+    Width = 448
+    ExplicitWidth = 552
+    inherited lbl_titulo: TLabel
+      Width = 448
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 448
+    end
+  end
+  inherited pnDados: TPanel
+    Width = 448
+    Height = 104
+    ExplicitWidth = 552
+    ExplicitHeight = 211
+  end
+  inherited pnRodape: TPanel
+    Top = 161
+    Width = 448
+    ExplicitTop = 268
+    ExplicitWidth = 552
+  end
+  inherited qry: TFDQuery
+    Left = 376
+    Top = 56
+  end
+  inherited ds: TDataSource
+    Left = 376
+    Top = 25
+  end
+end

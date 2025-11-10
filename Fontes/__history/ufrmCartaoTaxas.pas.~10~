@@ -1,0 +1,114 @@
+unit ufrmCartaoTaxas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca,
+  ufrmCartaoTaxasE;
+
+type
+  TfrmCartaoTaxas = class(TfrmBaseGrade)
+    procedure FormCreate(Sender: TObject);
+
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+  private
+    procedure prc_sql;
+    function  fnc_validar_pesquisa: boolean;
+    procedure prc_pesquisar;
+  public
+    { Public declarations }
+  end;
+
+procedure prc_executa;
+
+implementation
+
+procedure prc_executa;
+var
+  loForm :  TfrmCartaoTaxas;
+begin
+  try
+    loForm :=  TfrmCartaoTaxas.Create(Application);
+    loForm.ShowModal;
+  finally
+    FreeAndNil(loform);
+  end;
+end;
+
+{$R *.dfm}
+
+procedure TfrmCartaoTaxas.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoTaxasE.prc_alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmCartaoTaxas.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoTaxasE.prc_excluir(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+end;
+
+procedure TfrmCartaoTaxas.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmCartaoTaxasE.prc_incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+function TfrmCartaoTaxas.fnc_validar_pesquisa: boolean;
+begin
+  result := false;
+  result := true;
+end;
+
+procedure TfrmCartaoTaxas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Tabela := 'CARTAO_TAXAS';
+  Titulo := 'TAXAS  DE CARTÃO DE CRÉDITO' + '[' + Tabela + ']';
+  Caption := Titulo;
+  prc_sql;
+
+  btnLocalizar.Click;
+
+end;
+
+procedure TfrmCartaoTaxas.prc_pesquisar;
+begin
+  if fnc_validar_pesquisa then
+    prc_pesquisar;
+
+end;
+
+procedure TfrmCartaoTaxas.prc_sql;
+begin
+  qry.Close;
+  qry.SQL.Add('select ');
+  qry.SQL.Add('  t.id, ');
+  qry.SQL.Add('  t.cadastrado_em, ');
+  qry.SQL.Add('  t.alterado_em, ');
+  qry.SQL.Add('  o.descricao as descricao_operadora, ');
+  qry.SQL.Add('  b.descricao as descricao_bandeira, ');
+  qry.SQL.Add('  t.ativo ');
+  qry.SQL.Add('from ');
+  qry.SQL.Add('  cartao_taxas t, cartao_operadoras o, cartao_bandeiras b');
+  qry.SQL.Add('where ');
+  qry.SQL.Add('  t.cartao_operadoras_id = o.id and ');
+  qry.SQL.Add('  t.cartao_bandeiras_id = b.id  ');
+  qry.open;
+end;
+
+end.

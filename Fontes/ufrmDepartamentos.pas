@@ -1,0 +1,189 @@
+unit ufrmDepartamentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfrmDepartamentos = class(TfrmBaseGrade)
+    cbNome: TCheckBox;
+    edNome: TEdit;
+    rgSituacao: TRadioGroup;
+    procedure FormCreate(Sender: TObject);
+    procedure actLocalizarExecute(Sender: TObject);
+    procedure actIncluirExecute(Sender: TObject);
+    procedure actAlterarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+  private
+    procedure ASql();
+    function ValidarPesquisa(): boolean;
+    procedure Pesquisar();
+  public
+
+
+  end;
+
+  procedure executa;
+
+implementation
+
+uses uBiblioteca, ufrmDepartamentosE;
+
+procedure executa;
+var
+  loForm: TfrmDepartamentos;
+begin
+  loForm := TfrmDepartamentos.Create(Application);
+  try
+    loForm.ShowModal;
+  finally
+    Freeandnil(loForm);
+  end;
+
+end;
+
+{$R *.dfm}
+
+{ TfrmDepartamentos }
+
+
+procedure TfrmDepartamentos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  // property tabela no form BaseGrade
+  self.Tabela := 'DEPARTAMENTOS';
+  self.Titulo := 'Cadastro de Departamentos' + '[' + self.Tabela + ']';
+  Caption := Titulo;
+  ASql();
+
+end;
+
+procedure TfrmDepartamentos.actAlterarExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmDepartamentosE.Alterar(qry.fieldbyname('ID').AsInteger);
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmDepartamentos.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+    ufrmDepartamentosE.Excluir(qry.fieldbyname('ID').AsInteger);
+    uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmDepartamentos.actIncluirExecute(Sender: TObject);
+begin
+  inherited;
+  ufrmDepartamentosE.Incluir;
+  uBiblioteca.AtualizaQuery(qry);
+
+end;
+
+procedure TfrmDepartamentos.actLocalizarExecute(Sender: TObject);
+begin
+  inherited;
+  if ValidarPesquisa() then
+    Pesquisar();
+
+  // mensagem para o usuario
+  StatusBar.Panels[0].Text := 'Encontrado(s) : ' + inttostr(qry.RecordCount) + ' registro(s)';
+
+end;
+
+procedure TfrmDepartamentos.ASql;
+begin
+  qry.Open('select * from ' + Self.Tabela + ' where ID = -1');
+
+end;
+
+
+
+function TfrmDepartamentos.ValidarPesquisa: boolean;
+begin
+   result := false;
+
+   if (cbNome.Checked) and (edNome.Text = '') then
+   begin
+     ShowMessage('Infome um Nome');
+     edNome.SetFocus;
+     exit;
+   end;
+
+   result := true;
+end;
+
+procedure TfrmDepartamentos.Pesquisar;
+var
+  situacao, Condicao : string;
+begin
+  {Situação da pessoa}
+
+
+  if rgSituacao.ItemIndex = 0 then
+    situacao := 'ATIVO =' + QuotedStr('S') + ' and ';
+  if rgSituacao.ItemIndex = 1 then
+    situacao := 'ATIVO =' + QuotedStr('N') + ' and ';
+  if rgSituacao.ItemIndex = 2 then
+    situacao := 'ATIVO <>' + QuotedStr('') + ' and ';
+
+  Condicao := '';
+
+
+  if cbNome.Checked then
+    if trim(edNome.Text) <> '' then
+    Condicao := Condicao + 'and NOME like :NOME ';
+
+
+  if Condicao <> '' then
+  begin
+    Condicao := copy(Condicao,4,length(Condicao)-4);
+
+    qry.SQL.Clear;
+    qry.SQL.Add('select * from ' + self.Tabela + ' where ' + situacao + Condicao);
+    self.ssql := qry.SQL.Text;
+
+    {Carregar parametros}
+
+     if cbNome.Checked then
+      begin
+        qry.Params.ParamByName('NOME').AsString := '%' + edNome.Text + '%';
+      end;
+
+    //ShowMessage(qry.SQL.Text);
+    qry.Open;
+  end
+  else
+  begin
+    qry.SQL.Clear;
+    if rgSituacao.ItemIndex = 2 then // todos
+    begin
+      qry.SQL.Add('select * from DEPARTAMENTOS');
+      self.ssql := qry.SQL.Text;
+    end
+    else
+    begin
+      // retira o and final
+      situacao := copy(situacao,1,length(situacao)-4);
+      qry.SQL.Add('select * from DEPARTAMENTOS where ' + situacao);
+      self.ssql := qry.SQL.Text;
+  end;
+    //ShowMessage(qry.SQL.Text);
+    qry.Open;
+  end;
+
+
+end;
+
+
+end.

@@ -1,0 +1,182 @@
+inherited frmCartaoOperadoras: TfrmCartaoOperadoras
+  ClientWidth = 902
+  Position = poDesktopCenter
+  ExplicitWidth = 902
+  TextHeight = 15
+  inherited GroupBoxPesquisa: TGroupBox
+    Width = 902
+    ExplicitWidth = 902
+  end
+  inherited ToolBar1: TToolBar
+    Width = 902
+    ExplicitWidth = 902
+  end
+  inherited StatusBar: TStatusBar
+    Width = 902
+    ExplicitWidth = 902
+  end
+  inherited PageControl1: TPageControl
+    Width = 902
+    ExplicitWidth = 902
+    inherited TabSheet1: TTabSheet
+      ExplicitWidth = 894
+      inherited Panel5: TPanel
+        Width = 894
+        ExplicitWidth = 894
+        inherited DBGrid1: TDBGrid
+          Width = 854
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 230
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NR_ESTABELECIMENTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'N. Estabelecimento'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 124
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TELEFONE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Telefone de contato'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 153
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'EMAIL'
+              Title.Alignment = taCenter
+              Title.Caption = 'e-mail'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 209
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'SENHA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Senha'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end>
+        end
+        inherited pnl_resultado: TPanel
+          Width = 854
+          ExplicitWidth = 854
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
+      end
+    end
+  end
+  inherited pnl_cabecalho: TPanel
+    Width = 902
+    ExplicitWidth = 902
+    inherited btn_fechar: TSpeedButton
+      Left = 832
+      ExplicitLeft = 832
+    end
+    inherited lbl_titulo: TLabel
+      Width = 519
+      Height = 56
+      Caption = 'CONSULTA DE OPERADORAS DE CART'#195'O DE CR'#201'DITO'
+      ExplicitWidth = 519
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 902
+      ExplicitWidth = 902
+    end
+  end
+  inherited qry: TFDQuery
+    SQL.Strings = (
+      'select'
+      '  P.ID,'
+      '  P.NOME,'
+      '  O.NR_ESTABELECIMENTO,'
+      '  P.TELEFONE,'
+      '  P.EMAIL,'
+      '  O.SENHA'
+      'from'
+      '  CARTAO_OPERADORAS  O,'
+      '  PESSOAS P'
+      'where'
+      '  O.PESSOA_ID = P.ID')
+    Left = 632
+    Top = 40
+    object qryID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryNR_ESTABELECIMENTO: TStringField
+      FieldName = 'NR_ESTABELECIMENTO'
+      Origin = 'NR_ESTABELECIMENTO'
+    end
+    object qryTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Origin = 'TELEFONE'
+      Size = 13
+    end
+    object qryEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Origin = 'EMAIL'
+      Size = 60
+    end
+    object qrySENHA: TStringField
+      FieldName = 'SENHA'
+      Origin = 'SENHA'
+      Size = 40
+    end
+  end
+end

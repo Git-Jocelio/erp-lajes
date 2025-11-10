@@ -1,0 +1,39 @@
+unit ufrmPixRecebidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseGrade, Data.DB,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
+  System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, udmConn;
+
+type
+  TfrmPixRecebidos = class(TfrmBaseGrade)
+    qryID: TIntegerField;
+    qryDATA_PIX: TDateField;
+    qryCONTAS_BANCARIAS_ITENS_ID: TIntegerField;
+    qryBANCO_ID: TIntegerField;
+    qryNOME_BANCO: TStringField;
+    qryAGENCIA: TStringField;
+    qryNR_CONTA: TStringField;
+    qryVALOR: TFMTBCDField;
+    qryOBS: TStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPixRecebidos: TfrmPixRecebidos;
+
+implementation
+
+{$R *.dfm}
+
+end.
