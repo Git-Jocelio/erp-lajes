@@ -6186,7 +6186,7 @@ end;
 procedure TfrmPedidosE.TabSheet6Show(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 160;
+  pcVenda.Height := 180;
 
 end;
 
@@ -6307,14 +6307,14 @@ end;
 procedure TfrmPedidosE.tbClienteShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 177;
+  pcVenda.Height := 180;
 
 end;
 
 procedure TfrmPedidosE.tbDestinatarioShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 177;
+  pcVenda.Height := 180;
 
 end;
 
@@ -6322,7 +6322,7 @@ end;
 procedure TfrmPedidosE.tbVendaShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 145;  //104
+  pcVenda.Height := 180;  //104
 end;
 
 procedure TfrmPedidosE.tbs_itens_pedidoShow(Sender: TObject);

@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Vcl.Buttons, Vcl.AppEvnts, ufrmEstoquesConsulta,
   ufrmProducoesVigas, unit_atualizacao_banco_de_dados, unit_seguranca_sistema,
   Vcl.ExtDlgs,  System.DateUtils, ufrmRecibos, Vcl.Menus, ufrmProducaoVigas,
-  ufrmCortes;
+  ufrmCortes, ufrmPequisa_vigas_vendidas;
 
 type
   Tform_principal = class(TForm)
@@ -252,6 +252,8 @@ type
     Button1: TButton;
     N5: TMenuItem;
     GerarCortes1: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
     procedure img_botao_sairClick(Sender: TObject);
     procedure pnl_menulateralMouseEnter(Sender: TObject);
     procedure pnl_PrincipalMouseEnter(Sender: TObject);
@@ -326,6 +328,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure lbl_tituloDblClick(Sender: TObject);
     procedure GerarCortes1Click(Sender: TObject);
+    procedure N7Click(Sender: TObject);
 
 
   private
@@ -865,6 +868,17 @@ begin
     freeandnil(frmDinheiroMovimentacao);
   end;
 
+end;
+
+procedure Tform_principal.N7Click(Sender: TObject);
+begin
+  try
+    if frmPedidosBaixa = nil  then
+      frmPequisa_vigas_vendidas := TfrmPequisa_vigas_vendidas.Create(application);
+    frmPequisa_vigas_vendidas.ShowModal;
+  finally
+    freeandnil(frmPequisa_vigas_vendidas);
+  end;
 end;
 
 procedure Tform_principal.Panel1Click(Sender: TObject);

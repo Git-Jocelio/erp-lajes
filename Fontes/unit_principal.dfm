@@ -4524,18 +4524,25 @@ object form_principal: Tform_principal
       object ProduodoDia1: TMenuItem
         Caption = 'Produ'#231#227'o do Dia'
       end
-      object ProduodeTelas1: TMenuItem
-        Caption = 'Produ'#231#227'o de Telas'
-      end
-      object ConsultaAteraodeEstoques1: TMenuItem
-        Caption = 'Consulta/Atera'#231#227'o de Estoques'
-      end
-      object N5: TMenuItem
+      object N6: TMenuItem
         Caption = '-'
       end
       object GerarCortes1: TMenuItem
         Caption = 'Gerar Cortes'
         OnClick = GerarCortes1Click
+      end
+      object ProduodeTelas1: TMenuItem
+        Caption = 'Produ'#231#227'o de Telas'
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object ConsultaAteraodeEstoques1: TMenuItem
+        Caption = 'Consulta/Atera'#231#227'o de Estoques'
+      end
+      object N7: TMenuItem
+        Caption = 'Consulta de vigas vendidas'
+        OnClick = N7Click
       end
     end
     object Estoques2: TMenuItem

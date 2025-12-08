@@ -6,23 +6,23 @@
   ClientWidth = 1105
   Position = poDefault
   OnActivate = FormActivate
-  ExplicitLeft = -34
   ExplicitWidth = 1105
   ExplicitHeight = 541
   TextHeight = 15
   inherited GroupBoxPesquisa: TGroupBox
     Width = 1105
-    Height = 177
+    Height = 167
     ExplicitWidth = 1105
-    ExplicitHeight = 177
+    ExplicitHeight = 167
     object pcPesquisa: TPageControl [1]
       Left = 2
       Top = 19
       Width = 1032
-      Height = 156
-      ActivePage = TabSheet2
+      Height = 146
+      ActivePage = tbs_customizado
       Align = alClient
       TabOrder = 2
+      ExplicitHeight = 99
       object tbs_numero_Pedido: TTabSheet
         Caption = 'Pelo N'#250'mero'
         OnShow = tbs_numero_PedidoShow
@@ -231,7 +231,7 @@
         OnShow = tbs_cpf_cnpjShow
         object Label1: TLabel
           Left = 2
-          Top = 28
+          Top = 39
           Width = 151
           Height = 18
           Caption = 'Digite somente n'#250'meros'
@@ -244,7 +244,7 @@
         end
         object btnFiltrarCPF_CNPJ: TSpeedButton
           Left = 183
-          Top = 3
+          Top = 14
           Width = 27
           Height = 27
           Glyph.Data = {
@@ -278,7 +278,7 @@
         end
         object edCpfCnpj: TEdit
           Left = 0
-          Top = 3
+          Top = 14
           Width = 177
           Height = 25
           NumbersOnly = True
@@ -873,13 +873,13 @@
       Left = 1034
       Top = 19
       Width = 69
-      Height = 156
+      Height = 146
       Align = alRight
       Visible = False
       ExplicitLeft = 1034
       ExplicitTop = 19
       ExplicitWidth = 69
-      ExplicitHeight = 156
+      ExplicitHeight = 99
     end
     inherited edt_consulta: TEdit
       Left = 967
@@ -946,23 +946,23 @@
     ExplicitHeight = 27
   end
   inherited PageControl1: TPageControl
-    Top = 282
+    Top = 272
     Width = 1105
-    Height = 232
-    ExplicitTop = 282
+    Height = 242
+    ExplicitTop = 225
     ExplicitWidth = 1105
-    ExplicitHeight = 232
+    ExplicitHeight = 289
     inherited TabSheet1: TTabSheet
       ExplicitWidth = 1097
-      ExplicitHeight = 222
+      ExplicitHeight = 232
       inherited Panel5: TPanel
         Width = 1097
-        Height = 222
+        Height = 232
         ExplicitWidth = 1097
-        ExplicitHeight = 222
+        ExplicitHeight = 279
         inherited DBGrid1: TDBGrid
           Width = 1057
-          Height = 171
+          Height = 181
           PopupMenu = ppm_financeiro
           OnDblClick = DBGrid1DblClick
           Columns = <

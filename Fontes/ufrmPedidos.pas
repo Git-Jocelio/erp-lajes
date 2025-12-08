@@ -187,14 +187,14 @@ begin
     // se abrir dentro no painel principal no funciona os edites
     //loform.Parent := form_principal.pnl_principal;
 
-    loform.top    :=  form_principal.pnl_Principal.Top;
+    loform.top    := form_principal.pnl_Principal.Top;
     loform.Left   := form_principal.pnl_menulateral.Width;
 
     loForm.Width  := form_principal.pnl_principal.Width;
     loForm.Height := form_principal.pnl_principal.Height;
   end;
-  loForm.Showmodal;
-  // loform.btnPesquisar.Click;
+    loForm.Showmodal;
+    // loform.btnPesquisar.Click;
   finally
     freeandnil(loform);
   end;
@@ -271,7 +271,7 @@ begin
   if btnPesquisar.Caption = 'Pesquisar >>' then
   begin
     btnPesquisar.Caption := '<< Ocultar Pesquisa';
-    GroupBoxPesquisa.Height := 169; // 100
+    GroupBoxPesquisa.Height := 210; // 100
 
   end
   else
@@ -1044,7 +1044,7 @@ begin
 
 
   //dbn_principal.Visible   := false;
-  GroupBoxPesquisa.Height := 121;
+  GroupBoxPesquisa.Height := 140;
   edCpfCnpj.Text          := '';
   edNumeroPedido.Text     := '';
   qry.Close;
@@ -1059,7 +1059,7 @@ begin
   btnImprimir.Enabled := false;
 
   //dbn_principal.Visible   := false;
-  GroupBoxPesquisa.Height := 120;
+  GroupBoxPesquisa.Height := 140;
 
   qry.Close;
 
@@ -1074,7 +1074,7 @@ begin
   btnImprimir.Enabled := false;
 
   //dbn_principal.Visible   := false;
-  GroupBoxPesquisa.Height := 100;
+  GroupBoxPesquisa.Height := 130;
   edCpfCnpj.Clear;
   edNumeroPedido.Clear;
 
@@ -1093,7 +1093,7 @@ begin
   cbxTipoVenda.ItemIndex  := 0; // Pedidos
   cbxSituacao.ItemIndex   := 5; // Todos
   cbxFinanceiro.ItemIndex := 2; // Todos
-  GroupBoxPesquisa.Height := 169;
+  GroupBoxPesquisa.Height := 210;
 
   qry.Close;
   cbEmissao.Checked := True;
@@ -1109,7 +1109,7 @@ begin
   btnImprimir.Enabled := false;
 
   qry.Close;
-  GroupBoxPesquisa.Height := 120;
+  GroupBoxPesquisa.Height := 140;
 end;
 
 function TfrmPedidos.ValidarPesquisa: boolean;

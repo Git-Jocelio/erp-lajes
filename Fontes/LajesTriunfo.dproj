@@ -759,6 +759,10 @@
             <Form>frmCortesProcessamento</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ufrmPequisa_vigas_vendidas.pas">
+            <Form>frmPequisa_vigas_vendidas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

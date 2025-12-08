@@ -170,7 +170,8 @@ uses
   ufrmCortes in 'ufrmCortes.pas' {frmCortes},
   ufrmCortesTamanhos in 'ufrmCortesTamanhos.pas' {frmCortesTamanhos},
   ufrmCortesCRUD in 'ufrmCortesCRUD.pas' {frmCortesCRUD},
-  ufrmCortesProcessamento in 'ufrmCortesProcessamento.pas' {frmCortesProcessamento};
+  ufrmCortesProcessamento in 'ufrmCortesProcessamento.pas' {frmCortesProcessamento},
+  ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas};
 
 {$R *.res}
 

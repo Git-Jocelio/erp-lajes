@@ -2,8 +2,8 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2025/03/03 08:37:23.000.832,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/03/03 08:55:44.000.057,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelasE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/03/03 08:55:44.000.057,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelasE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
+    <Transaction>2025/03/03 08:55:44.000.057,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelasE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/03/03 09:44:22.000.813,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/03/03 09:49:43.000.449,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelasPesquisa.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/03/03 09:49:43.000.449,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelasPesquisa.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
@@ -11,11 +11,11 @@
     <Transaction>2025/03/04 19:19:46.000.674,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelas.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/03/04 19:19:46.000.674,C:\LAJES TRIUNFO\Fontes\ufrmProducaoTelas.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/03/08 18:41:46.000.690,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/03/08 18:49:22.000.534,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmComprasParcelaE.dfm</Transaction>
     <Transaction>2025/03/08 18:49:22.000.534,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmComprasParcelaE.pas</Transaction>
+    <Transaction>2025/03/08 18:49:22.000.534,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmComprasParcelaE.dfm</Transaction>
     <Transaction>2025/04/17 11:09:15.000.819,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/04/17 11:10:50.000.699,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmRecibos.dfm</Transaction>
     <Transaction>2025/04/17 11:10:50.000.699,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmRecibos.pas</Transaction>
+    <Transaction>2025/04/17 11:10:50.000.699,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmRecibos.dfm</Transaction>
     <Transaction>2025/04/21 09:40:12.000.682,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/04/21 09:41:09.000.402,C:\LAJES TRIUNFO\Fontes\ufrmRecibosE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/04/21 09:41:09.000.402,C:\LAJES TRIUNFO\Fontes\ufrmRecibosE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
@@ -41,8 +41,8 @@
     <Transaction>2025/05/27 10:44:58.000.032,C:\LAJES TRIUNFO\Fontes\ufrmDinheiroSaidaE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/05/27 10:44:58.000.032,C:\LAJES TRIUNFO\Fontes\ufrmDinheiroSaidaE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/05/27 14:17:05.000.178,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/05/27 14:18:10.000.438,C:\LAJES TRIUNFO\Fontes\ufrmDinheiroMovimentacao.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/05/27 14:18:10.000.438,C:\LAJES TRIUNFO\Fontes\ufrmDinheiroMovimentacao.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
+    <Transaction>2025/05/27 14:18:10.000.438,C:\LAJES TRIUNFO\Fontes\ufrmDinheiroMovimentacao.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/05/27 19:48:47.000.441,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/05/27 19:49:50.000.621,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmCorrentistas.dfm</Transaction>
     <Transaction>2025/05/27 19:49:50.000.621,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmCorrentistas.pas</Transaction>
@@ -56,14 +56,14 @@
     <Transaction>2025/05/29 13:08:59.000.841,C:\LAJES TRIUNFO\Fontes\ufrmChequesClientes.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/05/29 13:08:59.000.841,C:\LAJES TRIUNFO\Fontes\ufrmChequesClientes.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/05/29 15:55:12.000.289,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/05/29 15:57:05.000.960,C:\LAJES TRIUNFO\Fontes\ufrmChequesClientesE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/05/29 15:57:05.000.960,C:\LAJES TRIUNFO\Fontes\ufrmChequesClientesE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
+    <Transaction>2025/05/29 15:57:05.000.960,C:\LAJES TRIUNFO\Fontes\ufrmChequesClientesE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/06/12 20:48:47.000.919,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/06/12 21:04:07.000.042,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmPesquisaContas.dfm</Transaction>
     <Transaction>2025/06/12 21:04:07.000.042,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmPesquisaContas.pas</Transaction>
     <Transaction>2025/06/18 19:33:18.000.423,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/06/18 19:34:58.000.493,C:\LAJES TRIUNFO\Fontes\ufrmRecibosAterarValorConta.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/06/18 19:34:58.000.493,C:\LAJES TRIUNFO\Fontes\ufrmRecibosAterarValorConta.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
+    <Transaction>2025/06/18 19:34:58.000.493,C:\LAJES TRIUNFO\Fontes\ufrmRecibosAterarValorConta.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/03 16:14:47.000.977,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/03 16:16:25.000.527,C:\LAJES TRIUNFO\Fontes\ufrmPixRecebidos.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/07/03 16:16:25.000.527,C:\LAJES TRIUNFO\Fontes\ufrmPixRecebidos.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
@@ -71,14 +71,14 @@
     <Transaction>2025/07/11 15:46:48.000.517,C:\LAJES TRIUNFO\Fontes\ufrmRecibosFornecedores.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/11 15:46:48.000.517,C:\LAJES TRIUNFO\Fontes\ufrmRecibosFornecedores.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
     <Transaction>2025/07/11 16:21:35.000.748,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/07/11 16:22:12.000.588,C:\LAJES TRIUNFO\Fontes\ufrmRecibosFornecedoresE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/11 16:22:12.000.588,C:\LAJES TRIUNFO\Fontes\ufrmRecibosFornecedoresE.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
+    <Transaction>2025/07/11 16:22:12.000.588,C:\LAJES TRIUNFO\Fontes\ufrmRecibosFornecedoresE.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/13 18:23:34.000.305,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/07/13 18:24:18.000.636,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmPesquisaChequeCliente.dfm</Transaction>
     <Transaction>2025/07/13 18:24:18.000.636,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmPesquisaChequeCliente.pas</Transaction>
+    <Transaction>2025/07/13 18:24:18.000.636,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmPesquisaChequeCliente.dfm</Transaction>
     <Transaction>2025/07/14 14:56:14.000.459,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/07/14 14:57:06.000.339,C:\LAJES TRIUNFO\Fontes\ufrmPixEnviados.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/07/14 14:57:06.000.339,C:\LAJES TRIUNFO\Fontes\ufrmPixEnviados.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
+    <Transaction>2025/07/14 14:57:06.000.339,C:\LAJES TRIUNFO\Fontes\ufrmPixEnviados.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/08/22 10:34:53.000.353,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/08/22 10:40:48.000.186,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmContratoVenda.pas</Transaction>
     <Transaction>2025/08/22 10:40:48.000.186,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmContratoVenda.dfm</Transaction>
@@ -87,10 +87,13 @@
     <Transaction>2025/10/13 12:32:39.000.205,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmCortesTamanhos.dfm</Transaction>
     <Transaction>2025/10/13 12:32:39.000.205,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmCortesTamanhos.pas</Transaction>
     <Transaction>2025/10/13 13:50:26.000.061,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
-    <Transaction>2025/10/13 13:51:10.000.091,C:\LAJES TRIUNFO\Fontes\ufrmCortesCRUD.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/10/13 13:51:10.000.091,C:\LAJES TRIUNFO\Fontes\ufrmCortesCRUD.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
+    <Transaction>2025/10/13 13:51:10.000.091,C:\LAJES TRIUNFO\Fontes\ufrmCortesCRUD.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/10/15 13:28:49.000.942,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
     <Transaction>2025/10/15 13:29:43.000.503,C:\LAJES TRIUNFO\Fontes\Unit1.dfm=C:\LAJES TRIUNFO\Fontes\ufrmCortesProcessamento.dfm</Transaction>
     <Transaction>2025/10/15 13:29:43.000.503,C:\LAJES TRIUNFO\Fontes\Unit1.pas=C:\LAJES TRIUNFO\Fontes\ufrmCortesProcessamento.pas</Transaction>
+    <Transaction>2025/12/08 18:05:25.810,=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
+    <Transaction>2025/12/08 19:09:22.224,C:\LAJES TRIUNFO\Fontes\ufrmPequisa_vigas_vendidas.pas=C:\LAJES TRIUNFO\Fontes\Unit1.pas</Transaction>
+    <Transaction>2025/12/08 19:09:22.224,C:\LAJES TRIUNFO\Fontes\ufrmPequisa_vigas_vendidas.dfm=C:\LAJES TRIUNFO\Fontes\Unit1.dfm</Transaction>
   </Transactions>
 </BorlandProject>

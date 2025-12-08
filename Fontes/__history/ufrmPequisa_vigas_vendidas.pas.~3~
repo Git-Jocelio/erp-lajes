@@ -1,0 +1,54 @@
+unit ufrmPequisa_vigas_vendidas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseEdicao, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, udmConn;
+
+type
+  TfrmPequisa_vigas_vendidas = class(TfrmBaseEdicao)
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    cb_entrega: TCheckBox;
+    dtp_entrega_ini: TDateTimePicker;
+    dtp_entrega_fim: TDateTimePicker;
+    Label1: TLabel;
+    GroupBox3: TGroupBox;
+    cbxSituacao: TComboBox;
+    DBGrid1: TDBGrid;
+    qryPRODUTO_ID: TIntegerField;
+    qryNOME_FANTASIA: TStringField;
+    qryTOTAL_QTDE: TLargeintField;
+    qryMETRO_LINEARES: TFMTBCDField;
+    procedure btnOkClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPequisa_vigas_vendidas.btnOkClick(Sender: TObject);
+begin
+  inherited;
+  qry.Close;
+  qry.ParamByName('DATA_INICIO').AsDate := dtp_entrega_ini.Date;
+  qry.ParamByName('DATA_FIM').AsDate := dtp_entrega_fim.Date;
+
+  qry.ParamByName('SITUACAO_PEDIDO').AsString := cbxSituacao.Text;
+  qry.Open;
+
+end;
+
+end.
