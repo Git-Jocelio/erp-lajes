@@ -1,5 +1,0 @@
-inherited frmTransportadorasE: TfrmTransportadorasE
-  Caption = 'frmTransportadorasE'
-  PixelsPerInch = 96
-  TextHeight = 17
-end

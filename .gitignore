@@ -1,0 +1,47 @@
+# ===== Delphi / RAD Studio =====
+
+# Compilados
+*.exe
+*.dll
+*.bpl
+*.dcu
+*.dcp
+*.map
+*.drc
+*.res
+
+# Builds
+Win32/
+Win64/
+Debug/
+Release/
+
+# Pastas temporárias
+__history/
+__recovery/
+
+# Configurações do Delphi
+*.local
+*.identcache
+*.proj.local
+*.stat
+*.skincfg
+
+# Cache do compilador
+*.~*
+*.rsm
+*.otares
+
+# IDE
+*.groupproj.local
+*.dproj.local
+
+# Backup automático do Delphi
+*.bak
+
+# Lixo do Windows
+Thumbs.db
+desktop.ini
+
+# Sua pasta problemática
+.tmp.driveupload/

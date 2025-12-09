@@ -1,5 +1,0 @@
-inherited frmComissoesItensE: TfrmComissoesItensE
-  Caption = 'frmComissoesItensE'
-  PixelsPerInch = 96
-  TextHeight = 17
-end
