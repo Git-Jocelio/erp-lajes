@@ -46,6 +46,9 @@ desktop.ini
 # Sua pasta problemática
 .tmp.driveupload/
 
-
-# banco de dados
+# Ignorar banco e arquivos grandes
+*.FDB
 *.fdb
+*.tmp
+.tmp.*
+.tmp.driveupload/
