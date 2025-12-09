@@ -1,54 +1,142 @@
-# ===== Delphi / RAD Studio =====
+###############################################
+#       .gitignore completo para DELPHI       #
+###############################################
 
-# Compilados
+##############
+## Compilados
+##############
 *.exe
 *.dll
 *.bpl
-*.dcu
 *.dcp
+*.dcpil
+*.dcu
+*.ocx
+*.a
+*.lib
+*.so
+*.apk
+*.ipa
+
+#################
+## Link e debug
+#################
 *.map
 *.drc
 *.res
+*.rsm
+*.dbg
+*.tds
 
-# Builds
-Win32/
-Win64/
-Debug/
-Release/
+###########
+## Builds
+###########
+/Win32/
+/Win64/
+/OSX32/
+/OSX64/
+/Android/
+/iOSDevice/
+/iOSSimulator/
+/Debug/
+/Release/
+/Build/
+/Output/
+/Binaries/
+/Deploy/
 
-# Pastas temporárias
+#########################
+## Arquivos temporários
+#########################
+*.~*
+*.tmp
+*.temp
+*.cache
+*.log
+*.bak
+*.old
+*.orig
+*.rej
+
+# Pastas internas
 __history/
 __recovery/
+__debug/
+__temp/
+.tmp/
+.tmp.*/
+.temp/
 
-# Configurações do Delphi
-*.local
+##################################
+## Configurações da IDE (NÃO subir)
+##################################
 *.identcache
+*.local
 *.proj.local
+*.dproj.local
+*.groupproj.local
 *.stat
 *.skincfg
+*.tvsconfig
+*.desktop
+*.idea/
+*.DS_Store
 
-# Cache do compilador
-*.~*
-*.rsm
-*.otares
+#########################
+## Objetos FMX e VCL
+#########################
+*.fmx.orig
+*.dfm.orig
+*.resx
 
-# IDE
-*.groupproj.local
-*.dproj.local
+############################
+## C++Builder (se usar)
+############################
+*.obj
+*.pch
+*.hpp
+*.ilc
+*.ild
+*.ilk
+*.tds
+*.lib
+*.idb
+*.pdb
 
-# Backup automático do Delphi
-*.bak
+#########################
+## WebBroker / IntraWeb
+#########################
+/wwwroot/
+/htdocs/
+/temp/
 
-# Lixo do Windows
+######################
+## Mobile (Android/iOS)
+######################
+/Android/ 
+/iOS/
+*.apk
+*.ipa
+
+###################################
+## Bancos de dados / arquivos pesados
+###################################
+*.fdb
+*.sqlite
+*.db
+*.mdb
+*.gdb
+
+###################################
+## GitHub / VSCode / Windows lixo
+###################################
 Thumbs.db
 desktop.ini
+*.code-workspace
+.vscode/
+.env
 
-# Sua pasta problemática
-.tmp.driveupload/
-
-# Ignorar banco e arquivos grandes
-*.FDB
-*.fdb
-*.tmp
-.tmp.*
+###################################
+## Seus diretórios pessoais
+###################################
 .tmp.driveupload/
