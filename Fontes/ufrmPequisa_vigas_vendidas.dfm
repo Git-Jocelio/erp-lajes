@@ -3,12 +3,12 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
   Caption = 'frmPequisa_vigas_vendidas'
   ClientHeight = 600
   ClientWidth = 755
-  ExplicitTop = -36
   ExplicitWidth = 755
   ExplicitHeight = 600
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 755
+    ExplicitWidth = 755
     inherited lbl_titulo: TLabel
       Width = 685
       Height = 40
@@ -17,8 +17,8 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
     end
     inherited lbl_sub_titulo: TLabel
       Width = 755
-      Caption = 'pesquisa vigas vendidas em um determinado periodo'
-      ExplicitWidth = 316
+      Caption = 'Pesquisa de vigas vendidas em um periodo determinado'
+      ExplicitWidth = 334
     end
     object btn_fechar: TSpeedButton
       Left = 685
@@ -96,6 +96,8 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
   inherited pnDados: TPanel
     Width = 755
     Height = 335
+    ExplicitWidth = 755
+    ExplicitHeight = 335
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -104,7 +106,6 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitWidth = 548
       object GroupBox1: TGroupBox
         Left = 16
         Top = 29
@@ -175,7 +176,7 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
         TabOrder = 1
         object cbxSituacao: TComboBox
           Left = 7
-          Top = 38
+          Top = 41
           Width = 120
           Height = 23
           Cursor = crHandPoint
@@ -193,14 +194,24 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
             '< Todos >')
         end
       end
+      object btn_pesquisar: TBitBtn
+        Left = 447
+        Top = 70
+        Width = 130
+        Height = 25
+        Caption = 'Pesquisar'
+        TabOrder = 2
+        OnClick = btn_pesquisarClick
+      end
     end
-    object DBGrid1: TDBGrid
+    object dbg_vigas: TDBGrid
       Left = 0
       Top = 113
       Width = 755
       Height = 222
       Align = alClient
       DataSource = ds
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
@@ -275,7 +286,7 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
       Width = 119
       Height = 17
       Caption = 'Total Linear Vendido'
-      FocusControl = DBEdit4
+      FocusControl = edt_total_geral
     end
     object Label4: TLabel [1]
       Left = 16
@@ -286,28 +297,38 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
     end
     inherited pnl_botoes: TPanel
       Left = 300
-      Top = 175
+      Top = 163
       ExplicitLeft = 300
-      ExplicitTop = 175
+      ExplicitTop = 163
       inherited btnOk: TBitBtn
+        Caption = 'Imprimir'
+        Enabled = False
         OnClick = btnOkClick
       end
     end
-    object DBEdit4: TDBEdit
+    object edt_total_geral: TDBEdit
       Left = 533
       Top = 29
       Width = 105
       Height = 25
       DataField = 'TOTAL_MTS_LINEARES'
       DataSource = ds_totais
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
       TabOrder = 1
     end
-    object DBGrid2: TDBGrid
+    object dbg_grupos: TDBGrid
       Left = 13
       Top = 29
       Width = 500
       Height = 120
       DataSource = ds_grupo
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 2
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
@@ -371,7 +392,6 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
     end
   end
   inherited qry: TFDQuery
-    Active = True
     Connection = dmConn.FDConnection
     SQL.Strings = (
       'SELECT'
@@ -392,8 +412,8 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
       '  AND pr.VIGA = '#39'S'#39
       'GROUP BY pil.PRODUTO_ID, pr.nome_fantasia'
       'ORDER BY pr.nome_fantasia;')
-    Left = 576
-    Top = 72
+    Left = 352
+    Top = 272
     ParamData = <
       item
         Name = 'DATA_INICIO'
@@ -434,13 +454,14 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
     end
   end
   inherited ds: TDataSource
-    Left = 616
-    Top = 73
+    OnDataChange = dsDataChange
+    Left = 352
+    Top = 241
   end
   object ds_grupo: TDataSource
     DataSet = qry_grupo
-    Left = 120
-    Top = 473
+    Left = 152
+    Top = 465
   end
   object qry_grupo: TFDQuery
     Connection = dmConn.FDConnection
@@ -463,8 +484,8 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
       '  AND pr.VIGA = '#39'S'#39
       'GROUP BY pv.FORMA_MEDIDA, pv.TRELICA_ALTURA'
       'ORDER BY pv.FORMA_MEDIDA, pv.TRELICA_ALTURA;')
-    Left = 120
-    Top = 489
+    Left = 152
+    Top = 497
     ParamData = <
       item
         Name = 'DATA_INICIO'
@@ -550,5 +571,745 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
       ReadOnly = True
       DisplayFormat = '0.00'
     end
+  end
+  object frxReport: TfrxReport
+    Version = '2022.2'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 46000.541881122680000000
+    ReportOptions.LastChange = 46000.541881122680000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 600
+    Top = 65
+    Datasets = <
+      item
+        DataSet = frxDBVigas
+        DataSetName = 'DBVigasVendidas'
+      end
+      item
+        DataSet = frxDBGrupo
+        DataSetName = 'DBGrupoVigas'
+      end
+      item
+        DataSet = frxDBTotal
+        DataSetName = 'DBTotalLinear'
+      end>
+    Variables = <
+      item
+        Name = ' Minhas Vari'#225'veis'
+        Value = Null
+      end
+      item
+        Name = 'Data_inicio'
+        Value = ''
+      end
+      item
+        Name = 'Data_fim'
+        Value = ''
+      end
+      item
+        Name = 'situacao_pedido'
+        Value = ''
+      end>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object ReportTitle1: TfrxReportTitle
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 75.590600000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          AllowVectorExport = True
+          Left = 181.417440000000000000
+          Width = 359.055350000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'SYSLAJES - SISTEMA DE GERENCIAMENTO DE LAJES')
+          ParentFont = False
+        end
+        object Memo2: TfrxMemoView
+          AllowVectorExport = True
+          Left = 219.212740000000000000
+          Top = 26.456710000000000000
+          Width = 260.787570000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'RELAT'#211'RIO DE VIGAS VENDIDAS')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 52.913420000000000000
+          Width = 124.724490000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Periodo pesquisado :')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          AllowVectorExport = True
+          Left = 449.764070000000000000
+          Top = 52.913420000000000000
+          Width = 132.283550000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Situa'#231#227'o dos pedidos :')
+          ParentFont = False
+        end
+        object memoTraco: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 75.590600000000000000
+          Width = 702.992101570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object Data_inicio: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 139.842610000000000000
+          Top = 52.913420000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.FormatStr = 'dd/mm/yyyy'
+          DisplayFormat.Kind = fkDateTime
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[Data_inicio]')
+          ParentFont = False
+        end
+        object Data_fim: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 249.448980000000000000
+          Top = 52.913420000000000000
+          Width = 71.811070000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.FormatStr = 'dd/mm/yyyy'
+          DisplayFormat.Kind = fkDateTime
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[Data_fim]')
+          ParentFont = False
+        end
+        object situacao_pedido: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 578.268090000000000000
+          Top = 52.913420000000000000
+          Width = 120.944960000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[situacao_pedido]')
+          ParentFont = False
+        end
+        object Memo21: TfrxMemoView
+          AllowVectorExport = True
+          Left = 219.212740000000000000
+          Top = 52.913420000000000000
+          Width = 26.456710000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'At'#233)
+          ParentFont = False
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 26.456692910000000000
+        Top = 117.165430000000000000
+        Width = 718.110700000000000000
+        object Memo7: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Top = 7.000000000000000000
+          Width = 117.165430000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Descri'#231#227'o da Viga')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          AllowVectorExport = True
+          Left = 302.362400000000000000
+          Top = 7.000000000000000000
+          Width = 94.488250000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Quantidade')
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          AllowVectorExport = True
+          Left = 461.102660000000000000
+          Top = 7.000000000000000000
+          Width = 94.488250000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Metros lineares')
+          ParentFont = False
+        end
+        object Memo17: TfrxMemoView
+          AllowVectorExport = True
+          Top = 25.118120000000000000
+          Width = 702.992101570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 204.094620000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBVigas
+        DataSetName = 'DBVigasVendidas'
+        RowCount = 0
+        object DBVigasVendidasNOME_FANTASIA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Width = 230.551330000000000000
+          Height = 18.897650000000000000
+          DataField = 'NOME_FANTASIA'
+          DataSet = frxDBVigas
+          DataSetName = 'DBVigasVendidas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[DBVigasVendidas."NOME_FANTASIA"]')
+          ParentFont = False
+        end
+        object DBVigasVendidasTOTAL_QTDE: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 245.669450000000000000
+          Width = 120.944960000000000000
+          Height = 18.897650000000000000
+          DataField = 'TOTAL_QTDE'
+          DataSet = frxDBVigas
+          DataSetName = 'DBVigasVendidas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBVigasVendidas."TOTAL_QTDE"]')
+          ParentFont = False
+        end
+        object DBVigasVendidasMETRO_LINEARES: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 385.512060000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          DataField = 'METRO_LINEARES'
+          DataSet = frxDBVigas
+          DataSetName = 'DBVigasVendidas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBVigasVendidas."METRO_LINEARES"]')
+          ParentFont = False
+        end
+      end
+      object MasterData2: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 17.007874015748030000
+        Top = 317.480520000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDBGrupo
+        DataSetName = 'DBGrupoVigas'
+        RowCount = 0
+        object DBGrupoVigasFORMA_MEDIDA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Width = 60.472480000000000000
+          Height = 15.118110240000000000
+          DataField = 'FORMA_MEDIDA'
+          DataSet = frxDBGrupo
+          DataSetName = 'DBGrupoVigas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBGrupoVigas."FORMA_MEDIDA"]')
+          ParentFont = False
+        end
+        object DBGrupoVigasTRELICA_ALTURA: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 83.149660000000000000
+          Width = 60.472480000000000000
+          Height = 15.118110240000000000
+          DataField = 'TRELICA_ALTURA'
+          DataSet = frxDBGrupo
+          DataSetName = 'DBGrupoVigas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBGrupoVigas."TRELICA_ALTURA"]')
+          ParentFont = False
+        end
+        object DBGrupoVigasTOTAL_QTDE: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 196.535560000000000000
+          Width = 71.811070000000000000
+          Height = 15.118110240000000000
+          DataField = 'TOTAL_QTDE'
+          DataSet = frxDBGrupo
+          DataSetName = 'DBGrupoVigas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBGrupoVigas."TOTAL_QTDE"]')
+          ParentFont = False
+        end
+        object DBGrupoVigasMTS_LINEARES: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 313.700990000000000000
+          Width = 105.826840000000000000
+          Height = 15.118110240000000000
+          DataField = 'MTS_LINEARES'
+          DataSet = frxDBGrupo
+          DataSetName = 'DBGrupoVigas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[DBGrupoVigas."MTS_LINEARES"]')
+          ParentFont = False
+        end
+      end
+      object ReportSummary1: TfrxReportSummary
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 26.456692910000000000
+        Top = 396.850650000000000000
+        Width = 718.110700000000000000
+        object DBTotalLinearTOTAL_MTS_LINEARES: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 234.330860000000000000
+          Top = 9.000000000000000000
+          Width = 268.346630000000000000
+          Height = 15.118110240000000000
+          DataField = 'TOTAL_MTS_LINEARES'
+          DataSet = frxDBTotal
+          DataSetName = 'DBTotalLinear'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[DBTotalLinear."TOTAL_MTS_LINEARES"]')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 9.000000000000000000
+          Width = 222.992270000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Total em metros lineares vendidos : ')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          AllowVectorExport = True
+          Top = 5.220470000000000000
+          Width = 702.992101570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+      end
+      object Header1: TfrxHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 49.133872910000000000
+        Top = 245.669450000000000000
+        Width = 718.110700000000000000
+        object Memo10: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Top = 30.000000000000000000
+          Width = 75.590600000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Forma')
+          ParentFont = False
+        end
+        object Memo11: TfrxMemoView
+          AllowVectorExport = True
+          Left = 90.708720000000000000
+          Top = 30.000000000000000000
+          Width = 75.590600000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Altura')
+          ParentFont = False
+        end
+        object Memo12: TfrxMemoView
+          AllowVectorExport = True
+          Left = 173.858380000000000000
+          Top = 30.181102360000000000
+          Width = 120.944960000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Qtde Total Vigas')
+          ParentFont = False
+        end
+        object Memo13: TfrxMemoView
+          AllowVectorExport = True
+          Left = 302.362400000000000000
+          Top = 30.181102360000000000
+          Width = 154.960730000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Total em metros lineares')
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          AllowVectorExport = True
+          Left = 3.779530000000000000
+          Top = 0.118120000000000000
+          Width = 702.992101570000000000
+          Height = 0.377952760000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          AllowVectorExport = True
+          Left = 211.653680000000000000
+          Top = 3.779530000000000000
+          Width = 332.598640000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'TOTAIS POR TIPO DE FORMA E ALTURA DA VIGA')
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677170240000000000
+        Top = 445.984540000000000000
+        Width = 718.110700000000000000
+        object Memo19: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Top = 3.779530000000000000
+          Width = 234.330860000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Data da Impress'#227'o: [Date][Time]')
+          ParentFont = False
+        end
+        object Memo20: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 602.606680000000000000
+          Top = 3.779530000000000000
+          Width = 136.063080000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'P'#225'gina : [Page]')
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          AllowVectorExport = True
+          Width = 737.008350000000000000
+          Height = 3.779527560000000000
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Verdana'
+          Font.Style = []
+          Frame.Typ = [ftTop]
+          ParentFont = False
+        end
+        object Memo31: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 260.787570000000000000
+          Top = 3.779530000000000000
+          Width = 268.346630000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'SysLajes - Sistema de Gerenciamento de Lajes ')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxDBVigas: TfrxDBDataset
+    UserName = 'DBVigasVendidas'
+    CloseDataSource = False
+    DataSet = qry
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 352
+    Top = 305
+  end
+  object frxDBGrupo: TfrxDBDataset
+    UserName = 'DBGrupoVigas'
+    CloseDataSource = False
+    DataSet = qry_grupo
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 152
+    Top = 528
+  end
+  object frxDBTotal: TfrxDBDataset
+    UserName = 'DBTotalLinear'
+    CloseDataSource = False
+    DataSet = qry_totais
+    BCDToCurrency = False
+    DataSetOptions = []
+    Left = 640
+    Top = 488
   end
 end

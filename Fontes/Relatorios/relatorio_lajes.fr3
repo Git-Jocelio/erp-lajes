@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <ReportTitle>
+    <Memo Text="Relatório de Vigas Produzidas"/>
+  </ReportTitle>
+
+  <PageHeader>
+    <Memo Text="Produto | Qtde | Metros"/>
+  </PageHeader>
+
+  <MasterData Name="MD_Q1" DataSet="frxDB_Q1">
+    <Memo Left="0" Text="[frxDB_Q1.&quot;NOME_FANTASIA&quot;]"/>
+    <Memo Left="200" Text="[frxDB_Q1.&quot;TOTAL_QTDE&quot;]"/>
+    <Memo Left="300" Text="[frxDB_Q1.&quot;METRO_LINEARES&quot;]"/>
+  </MasterData>
+
+  <GroupHeader Name="GH_Q2_FORM" Condition="[frxDB_Q2.&quot;FORMA_MEDIDA&quot;]">
+    <Memo Text="FORMA: [frxDB_Q2.&quot;FORMA_MEDIDA&quot;]"/>
+  </GroupHeader>
+
+  <GroupHeader Name="GH_Q2_ALT" Condition="[frxDB_Q2.&quot;TRELICA_ALTURA&quot;]">
+    <Memo Text="ALTURA: [frxDB_Q2.&quot;TRELICA_ALTURA&quot;]"/>
+  </GroupHeader>
+
+  <MasterData Name="MD_Q2" DataSet="frxDB_Q2">
+    <Memo Left="0" Text="[frxDB_Q2.&quot;TOTAL_QTDE&quot;]"/>
+    <Memo Left="200" Text="[frxDB_Q2.&quot;MTS_LINEARES&quot;]"/>
+  </MasterData>
+
+  <ReportSummary>
+    <Memo Text="TOTAL GERAL: [frxDB_Q3.&quot;TOTAL_MTS_LINEARES&quot;]"/>
+  </ReportSummary>
+
+  <PageFooter>
+    <Memo Text="Página [Page#] de [TotalPages#]"/>
+  </PageFooter>
+</report>

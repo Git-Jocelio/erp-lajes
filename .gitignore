@@ -45,3 +45,7 @@ desktop.ini
 
 # Sua pasta problemática
 .tmp.driveupload/
+
+
+# banco de dados
+*.fdb
