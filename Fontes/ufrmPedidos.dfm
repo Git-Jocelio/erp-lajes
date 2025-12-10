@@ -19,10 +19,9 @@
       Top = 19
       Width = 1032
       Height = 146
-      ActivePage = tbs_customizado
+      ActivePage = tbs_numero_Pedido
       Align = alClient
       TabOrder = 2
-      ExplicitHeight = 99
       object tbs_numero_Pedido: TTabSheet
         Caption = 'Pelo N'#250'mero'
         OnShow = tbs_numero_PedidoShow
@@ -879,7 +878,7 @@
       ExplicitLeft = 1034
       ExplicitTop = 19
       ExplicitWidth = 69
-      ExplicitHeight = 99
+      ExplicitHeight = 146
     end
     inherited edt_consulta: TEdit
       Left = 967
@@ -949,9 +948,9 @@
     Top = 272
     Width = 1105
     Height = 242
-    ExplicitTop = 225
+    ExplicitTop = 272
     ExplicitWidth = 1105
-    ExplicitHeight = 289
+    ExplicitHeight = 242
     inherited TabSheet1: TTabSheet
       ExplicitWidth = 1097
       ExplicitHeight = 232
@@ -959,7 +958,7 @@
         Width = 1097
         Height = 232
         ExplicitWidth = 1097
-        ExplicitHeight = 279
+        ExplicitHeight = 232
         inherited DBGrid1: TDBGrid
           Width = 1057
           Height = 181

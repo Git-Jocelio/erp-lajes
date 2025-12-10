@@ -9,7 +9,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, udmConn, Vcl.Mask,
-  Vcl.DBCtrls, frxClass, frxDBSet, unit_funcoes;
+  Vcl.DBCtrls, frxClass, frxDBSet, unit_funcoes, frxExportBaseDialog,
+  frxExportPDF;
 
 type
   TfrmPequisa_vigas_vendidas = class(TfrmBaseEdicao)
@@ -46,6 +47,7 @@ type
     frxDBVigas: TfrxDBDataset;
     frxDBGrupo: TfrxDBDataset;
     frxDBTotal: TfrxDBDataset;
+    frxPDFExport1: TfrxPDFExport;
     procedure FormCreate(Sender: TObject);
     procedure btn_fecharClick(Sender: TObject);
     procedure btn_pesquisarClick(Sender: TObject);
