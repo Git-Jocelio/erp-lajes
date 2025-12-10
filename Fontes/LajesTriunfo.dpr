@@ -171,7 +171,8 @@ uses
   ufrmCortesTamanhos in 'ufrmCortesTamanhos.pas' {frmCortesTamanhos},
   ufrmCortesCRUD in 'ufrmCortesCRUD.pas' {frmCortesCRUD},
   ufrmCortesProcessamento in 'ufrmCortesProcessamento.pas' {frmCortesProcessamento},
-  ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas};
+  ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas},
+  ufrmPedidosVigaVao in 'ufrmPedidosVigaVao.pas' {frmPedidosVigaVao};
 
 {$R *.res}
 
@@ -179,6 +180,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmConn, dmConn);
+  Application.CreateForm(TfrmPedidosVigaVao, frmPedidosVigaVao);
   if dmConn.conexao.fnc_conectar_banco_dados then
   begin
 

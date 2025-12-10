@@ -889,7 +889,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
       object Label11: TLabel
         Left = 0
         Top = 0
-        Width = 103
+        Width = 566
         Height = 21
         Align = alTop
         Alignment = taCenter
@@ -900,6 +900,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold, fsUnderline]
         ParentFont = False
+        ExplicitWidth = 103
       end
       object Label12: TLabel
         Left = 84
@@ -1032,7 +1033,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
   object ds_vigas: TDataSource
     DataSet = mtb_vigas
     Left = 320
-    Top = 134
+    Top = 198
   end
   object mtb_vigas: TFDMemTable
     Active = True
@@ -1100,7 +1101,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 320
-    Top = 166
+    Top = 230
     object mtb_vigasqtde: TIntegerField
       FieldName = 'qtde'
     end
