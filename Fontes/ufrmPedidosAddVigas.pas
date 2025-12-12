@@ -196,41 +196,33 @@ end;
 
 procedure TfrmPedidosAddVigas.btn_viga_diagonalClick(Sender: TObject);
 var
-   frmPedidosVigaVao : TfrmPedidosVigaVao;
+    frmPedidosVigaVao : TfrmPedidosVigaVao;
 begin
-  inherited;
+
   frmPedidosVigaVao := TfrmPedidosVigaVao.Create(self);
   try
-
-    if frmPedidosVigaVao.ShowModal = mrOk then
+    if frmPedidosVigaVao.ShowModal = mrok then
     begin
 
-       if not frmPedidosVigaVao.ListaVigas.IsEmpty then
-       begin
 
+     frmPedidosVigaVao.mtb_vigas_agrupadas.First;
+     while not frmPedidosVigaVao.mtb_vigas_agrupadas.Eof do
+     begin
 
-         frmPedidosVigaVao.ListaVigas.First;
-         while not frmPedidosVigaVao.ListaVigas.Eof do
-         begin
-           mtb_vigas.Insert;
+       mtb_vigas.append;
+       mtb_vigasqtde.AsInteger   := frmPedidosVigaVao.mtb_vigas_agrupadasQuantidade.AsInteger;
+       mtb_vigastamanho.AsFloat  := frmPedidosVigaVao.mtb_vigas_agrupadasTamanho_ajustado.AsFloat;
+       if (frmPedidosVigaVao.edt_menor_viga.Text) <> (frmPedidosVigaVao.edt_maior_viga.Text) then
+         mtb_vigasposicao.AsString := 'DGN' else mtb_vigasposicao.AsString :=frmPedidosVigaVao.local;
 
-           mtb_vigasqtde.AsInteger   :=
-              frmPedidosVigaVao.ListaVigas.FieldByName('quantidade').AsInteger;
+       mtb_vigas.Post;
 
-           mtb_vigastamanho.AsFloat  :=
-              frmPedidosVigaVao.ListaVigas.FieldByName('tamanho_ajustado').AsFloat;
-
-           mtb_vigasposicao.AsString := frmPedidosVigaVao.edt_local.Text;
-
-           mtb_vigas.Post;
-
-           frmPedidosVigaVao.ListaVigas.Next;
-         end;
-       end;
+       frmPedidosVigaVao.mtb_vigas_agrupadas.Next;
+     end;
     end;
-
   finally
-      FreeAndNil(frmPedidosVigaVao);
+   frmPedidosVigaVao.Free;
+
   end;
 end;
 

@@ -30,14 +30,20 @@ type
     dbg_vigas: TDBGrid;
     ds: TDataSource;
     Label4: TLabel;
-    edt_local: TEdit;
     btn_calcular: TBitBtn;
     rg_inicio: TRadioGroup;
     rg_arredondamento: TRadioGroup;
+    edt_local: TComboBox;
+    Label5: TLabel;
+    lbl_qtde_vigas: TLabel;
+    mtb_vigas_agrupadas: TFDMemTable;
+    mtb_vigas_agrupadasQuantidade: TIntegerField;
+    mtb_vigas_agrupadasTamanho_Real: TFloatField;
+    mtb_vigas_agrupadasTamanho_ajustado: TFloatField;
     mtb_lista_de_vigas: TFDMemTable;
-    mtb_lista_de_vigasQUANTIDADE: TIntegerField;
-    mtb_lista_de_vigasTAMANHO_REAL: TFloatField;
-    mtb_lista_de_vigasTAMANHO_AJUSTADO: TFloatField;
+    mtb_lista_de_vigasquantidade: TIntegerField;
+    mtb_lista_de_vigastamanho_real: TFloatField;
+    mtb_lista_de_vigastamanho_ajustado: TFloatField;
     procedure btn_fecharClick(Sender: TObject);
     procedure btn_fechar2Click(Sender: TObject);
     procedure dsDataChange(Sender: TObject; Field: TField);
@@ -45,20 +51,27 @@ type
     procedure btn_incluirClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-    Fvao: string;
+    Flocal: string;
+    FValores: TListBox;
+
+
     function fnc_validar: boolean;
     function fnc_ajustar_tamanho(arredondar, tamanho: double): double;
     procedure prc_calcular(arredondar: integer; eixo, menor, maior, vao: double);
-    function GetListaVigas: TFDMemTable;
+    procedure prc_agrupar_vigas;
+
     { Private declarations }
 
   public
-     property vao: string read Fvao write fvao;
-     property ListaVigas: TFDMemTable read GetListaVigas;
+     property local: string read Flocal write flocal;
+
+
   end;
 
 //var
- // frmPedidosVigaVao: TfrmPedidosVigaVao;
+// frmPedidosVigaVao: TfrmPedidosVigaVao;
+
+
 
 implementation
 
@@ -96,13 +109,11 @@ end;
 
 procedure TfrmPedidosVigaVao.FormCreate(Sender: TObject);
 begin
-  inherited;
-  mtb_lista_de_vigas.Active:= true
-end;
-
-function TfrmPedidosVigaVao.GetListaVigas: TFDMemTable;
-begin
-  Result := mtb_lista_de_vigas;
+  // garante memtable criado e limpo
+  if not mtb_lista_de_vigas.Active then
+    mtb_lista_de_vigas.Open;
+  // inicia limpo
+  mtb_lista_de_vigas.EmptyDataSet;
 end;
 
 procedure TfrmPedidosVigaVao.btn_calcularClick(Sender: TObject);
@@ -119,10 +130,10 @@ begin
   prc_calcular(arredondar_a_cada, 0.43, strtofloat(edt_menor_viga.Text),
                strtofloat(edt_maior_viga.Text), strtofloat(edt_vao.Text));
 
- ShowMessage('FIM')   ;
+  lbl_qtde_vigas.Caption := inttostr(mtb_lista_de_vigas.RecordCount);
 end;
 
-
+(*
 procedure TfrmPedidosVigaVao.prc_calcular(arredondar: integer; eixo, menor, maior,vao: double);
 var
 
@@ -130,8 +141,10 @@ var
   diferenca_maior_menor: double;
   intervalo: double;
   qtde_vigas: integer;
+
 begin
-  mtb_lista_de_vigas.Close; mtb_lista_de_vigas.Open;
+
+ // mtb_lista_de_vigas.Close; mtb_lista_de_vigas.Open;
 
   // diferença entre viga maior e viga menor
   diferenca_maior_menor  := ( maior - menor );
@@ -162,13 +175,43 @@ begin
       mtb_lista_de_vigas.FieldByName('tamanho_ajustado').Asfloat := fnc_ajustar_tamanho(arredondar, maior);
       //mtb_vigas.FieldByName('tamanho').Asfloat := maior;
       mtb_lista_de_vigas.Post;
-
       contador := contador +1;
     end;
+  end;
+ end;
+ *)
+procedure TfrmPedidosVigaVao.prc_calcular(arredondar: integer; eixo, menor, maior, vao: double);
+var
+  i, qtde_vigas: Integer;
+  diferenca, intervalo, tamanhoAtual: Double;
+begin
+  mtb_lista_de_vigas.EmptyDataSet;
+
+
+  qtde_vigas := Trunc(vao / eixo);
+  diferenca := maior - menor;
+  intervalo := 0;
+  if qtde_vigas > 1 then
+    intervalo := diferenca / (qtde_vigas - 1) // para distribuir de maior até menor
+  else
+    intervalo := 0;
+
+  for i := 0 to qtde_vigas - 1 do
+  begin
+    tamanhoAtual := maior - (i * intervalo);
+    mtb_lista_de_vigas.Append;
+    mtb_lista_de_vigasQUANTIDADE.AsInteger := 1;
+    mtb_lista_de_vigasTAMANHO_REAL.AsFloat := tamanhoAtual;
+    mtb_lista_de_vigasTAMANHO_AJUSTADO.AsFloat := fnc_ajustar_tamanho(arredondar, tamanhoAtual);
+    mtb_lista_de_vigas.Post;
   end;
 
 end;
 
+
+
+
+(*
 function TfrmPedidosVigaVao.fnc_ajustar_tamanho(arredondar, tamanho:double):double;
 var
   tamanho_x_10: double;
@@ -222,6 +265,39 @@ begin
   end;
 
 end;
+*)
+
+
+function TfrmPedidosVigaVao.fnc_ajustar_tamanho(arredondar, tamanho: double): double;
+//var
+//  v10: Double;
+//  inteiro: Integer;
+begin
+  // padrão: sem arredondamento
+  Result := tamanho;
+
+  if arredondar = 0 then Exit;
+
+  if arredondar = 5 then
+  begin
+    // arredonda ao múltiplo mais próximo de 0.05
+    Result := Round(tamanho * 20) / 20; // 1/0.05 = 20
+    Exit;
+  end;
+
+  if arredondar = 10 then
+  begin
+    Result := Round(tamanho * 10) / 10; // 0.1
+    Exit;
+  end;
+
+  if arredondar = 20 then
+  begin
+    // arredondar a cada 0.2 (0.2, 0.4, 0.6, 0.8, 1.0)
+    Result := Round(tamanho * 5) / 5; // 1/0.2 = 5
+    Exit;
+  end;
+end;
 
 procedure TfrmPedidosVigaVao.btn_fechar2Click(Sender: TObject);
 begin
@@ -238,18 +314,47 @@ end;
 procedure TfrmPedidosVigaVao.btn_incluirClick(Sender: TObject);
 begin
   inherited;
-  if not mtb_lista_de_vigas.IsEmpty then
+  if not fnc_validar then exit;
+
+
+ if not mtb_lista_de_vigas.IsEmpty then
   begin
-    vao := edt_vao.text;
+    // agrupar vigas
+    prc_agrupar_vigas;
+    local := edt_local.text;
     ModalResult := mrOk;
   end
   else
     ModalResult := mrCancel;
+
+end;
+
+procedure TfrmPedidosVigaVao.prc_agrupar_vigas;
+begin
+  mtb_lista_de_vigas.First;
+  while not mtb_lista_de_vigas.eof do
+  begin
+    mtb_vigas_agrupadas.First;
+    if mtb_vigas_agrupadas.Locate('tamanho_ajustado', mtb_lista_de_vigasTAMANHO_AJUSTADO.AsFloat) then
+    begin
+       mtb_vigas_agrupadas.Edit;
+       mtb_vigas_agrupadasQuantidade.asinteger :=  mtb_vigas_agrupadasQuantidade.asinteger +1;
+    end else
+    begin
+       mtb_vigas_agrupadas.append;
+       mtb_vigas_agrupadasQuantidade.asinteger :=  1;
+       mtb_vigas_agrupadasTamanho_Real.asfloat :=  mtb_lista_de_vigastamanho_real.asfloat;
+       mtb_vigas_agrupadasTamanho_ajustado.asfloat :=  mtb_lista_de_vigastamanho_ajustado.asfloat;
+    end ;
+    mtb_vigas_agrupadas.Post;
+    mtb_lista_de_vigas.Next;
+  end;
+ // ShowMessage('qtde ' + inttostr(mtb_vigas_agrupadas.RecordCount));
 end;
 
 procedure TfrmPedidosVigaVao.dsDataChange(Sender: TObject; Field: TField);
 begin
-//  btn_incluir.Enabled := not mtb_lista_de_vigas.IsEmpty;
+  btn_incluir.Enabled := not mtb_lista_de_vigas.IsEmpty;
 end;
 
 end.
