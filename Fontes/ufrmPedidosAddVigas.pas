@@ -9,7 +9,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Buttons, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, ufrmPedidosDigitarVigas, Vcl.DBCtrls,
-  udmConn;
+  udmConn, ufrmPedidosVigaVao;
 
 type
   TfrmPedidosAddVigas = class(TfrmBaseConexao)
@@ -75,6 +75,7 @@ type
     mtb_ferragensDIAMETRO: TFloatField;
     btn_add_viga: TSpeedButton;
     btn_exc_viga: TSpeedButton;
+    btn_viga_diagonal: TSpeedButton;
     procedure btn_naoClick(Sender: TObject);
     procedure btn_add_vigaClick(Sender: TObject);
     procedure mtb_vigasAfterPost(DataSet: TDataSet);
@@ -86,6 +87,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btn_viga_diagonalClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -190,6 +192,46 @@ procedure TfrmPedidosAddVigas.btn_simClick(Sender: TObject);
 begin
   inherited;
   prc_salvar;
+end;
+
+procedure TfrmPedidosAddVigas.btn_viga_diagonalClick(Sender: TObject);
+var
+   frmPedidosVigaVao : TfrmPedidosVigaVao;
+begin
+  inherited;
+  frmPedidosVigaVao := TfrmPedidosVigaVao.Create(self);
+  try
+
+    if frmPedidosVigaVao.ShowModal = mrOk then
+    begin
+
+       if not frmPedidosVigaVao.ListaVigas.IsEmpty then
+       begin
+
+
+         frmPedidosVigaVao.ListaVigas.First;
+         while not frmPedidosVigaVao.ListaVigas.Eof do
+         begin
+           mtb_vigas.Insert;
+
+           mtb_vigasqtde.AsInteger   :=
+              frmPedidosVigaVao.ListaVigas.FieldByName('quantidade').AsInteger;
+
+           mtb_vigastamanho.AsFloat  :=
+              frmPedidosVigaVao.ListaVigas.FieldByName('tamanho_ajustado').AsFloat;
+
+           mtb_vigasposicao.AsString := frmPedidosVigaVao.edt_local.Text;
+
+           mtb_vigas.Post;
+
+           frmPedidosVigaVao.ListaVigas.Next;
+         end;
+       end;
+    end;
+
+  finally
+      FreeAndNil(frmPedidosVigaVao);
+  end;
 end;
 
 function TfrmPedidosAddVigas.fnc_validar: boolean;

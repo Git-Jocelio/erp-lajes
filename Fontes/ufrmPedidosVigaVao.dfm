@@ -15,8 +15,6 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -378
-    ExplicitWidth = 998
     object btn_fechar: TSpeedButton
       Left = 606
       Top = 0
@@ -124,7 +122,6 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Color = clSilver
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 998
     end
   end
   object pnl_rodape: TPanel [1]
@@ -135,15 +132,14 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 15
     object btn_incluir: TBitBtn
       Left = 219
       Top = 6
       Width = 134
       Height = 25
       Caption = 'Incluir no pedido'
-      Enabled = False
       TabOrder = 0
+      OnClick = btn_incluirClick
     end
     object btn_fechar2: TBitBtn
       Left = 359
@@ -163,10 +159,6 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 176
-    ExplicitTop = 200
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object GroupBox2: TGroupBox
       Left = 0
       Top = 0
@@ -174,9 +166,6 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Height = 95
       Align = alTop
       TabOrder = 0
-      ExplicitLeft = 199
-      ExplicitTop = 2
-      ExplicitWidth = 722
       object Label1: TLabel
         Left = 330
         Top = 19
@@ -211,6 +200,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Width = 60
         Height = 23
         TabOrder = 0
+        Text = '1'
       end
       object edt_maior_viga: TEdit
         Left = 399
@@ -218,6 +208,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Width = 60
         Height = 23
         TabOrder = 1
+        Text = '6'
       end
       object edt_vao: TEdit
         Left = 471
@@ -225,6 +216,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Width = 57
         Height = 23
         TabOrder = 2
+        Text = '6'
       end
       object edt_local: TEdit
         Left = 539
@@ -262,7 +254,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Height = 76
         Align = alLeft
         Caption = 'Arredondar medidas a cada:'
-        ItemIndex = 0
+        ItemIndex = 2
         Items.Strings = (
           '  5 cm'
           '10 cm'
@@ -276,6 +268,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Width = 676
       Height = 341
       Align = alClient
+      DataSource = ds
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
@@ -284,17 +277,45 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       TitleFont.Style = []
       Columns = <
         item
+          Alignment = taCenter
           Expanded = False
+          FieldName = 'QUANTIDADE'
           Title.Alignment = taCenter
           Title.Caption = 'Quantidade'
-          Width = 96
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 101
           Visible = True
         end
         item
+          Alignment = taCenter
           Expanded = False
+          FieldName = 'TAMANHO_REAL'
           Title.Alignment = taCenter
-          Title.Caption = 'Tamanho'
-          Width = 107
+          Title.Caption = 'Tamanho real'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 104
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'TAMANHO_AJUSTADO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Tamanho ajustado'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -12
+          Title.Font.Name = 'Segoe UI Semibold'
+          Title.Font.Style = [fsBold]
+          Width = 132
           Visible = True
         end>
     end
@@ -304,12 +325,14 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     Top = 280
   end
   object ds: TDataSource
-    DataSet = mtb_vigas
+    DataSet = mtb_lista_de_vigas
     OnDataChange = dsDataChange
     Left = 264
     Top = 241
   end
-  object mtb_vigas: TFDMemTable
+  object mtb_lista_de_vigas: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -317,7 +340,19 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 264
     Top = 270
+    object mtb_lista_de_vigasQUANTIDADE: TIntegerField
+      FieldName = 'QUANTIDADE'
+    end
+    object mtb_lista_de_vigasTAMANHO_REAL: TFloatField
+      FieldName = 'TAMANHO_REAL'
+      DisplayFormat = '0.00'
+    end
+    object mtb_lista_de_vigasTAMANHO_AJUSTADO: TFloatField
+      FieldName = 'TAMANHO_AJUSTADO'
+      DisplayFormat = '0.00'
+    end
   end
 end

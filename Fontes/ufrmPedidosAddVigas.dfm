@@ -339,8 +339,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
       BevelOuter = bvNone
       TabOrder = 1
       object Label3: TLabel
-        Left = 223
-        Top = 6
+        Left = 343
+        Top = 7
         Width = 155
         Height = 21
         Caption = 'DESCRI'#199#195'O DA LAJE'
@@ -352,8 +352,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         ParentFont = False
       end
       object Label4: TLabel
-        Left = 112
-        Top = 6
+        Left = 255
+        Top = 7
         Width = 73
         Height = 21
         Caption = 'ITEM PED'
@@ -463,6 +463,24 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
           FFFFFFFFFFFFFCFBFBF8F3F3F8F2F2FCFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFF}
         OnClick = btn_exc_vigaClick
+      end
+      object btn_viga_diagonal: TSpeedButton
+        Left = 73
+        Top = 0
+        Width = 152
+        Height = 39
+        Align = alLeft
+        BiDiMode = bdLeftToRight
+        Caption = 'INCLUIR PELO V'#195'O'
+        Flat = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentBiDiMode = False
+        OnClick = btn_viga_diagonalClick
       end
       object pnl_traco: TPanel
         Left = 0

@@ -180,7 +180,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmConn, dmConn);
-  Application.CreateForm(TfrmPedidosVigaVao, frmPedidosVigaVao);
   if dmConn.conexao.fnc_conectar_banco_dados then
   begin
 
