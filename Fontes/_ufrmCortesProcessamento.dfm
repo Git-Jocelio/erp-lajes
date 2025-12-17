@@ -2,9 +2,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
   Left = 0
   Top = 0
   BorderStyle = bsNone
-  BorderWidth = 3
-  ClientHeight = 555
-  ClientWidth = 1125
+  ClientHeight = 561
+  ClientWidth = 980
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,15 +16,15 @@ object frmCortesProcessamento: TfrmCortesProcessamento
   object pnl_fundo: TPanel
     Left = 0
     Top = 0
-    Width = 1125
-    Height = 555
+    Width = 980
+    Height = 561
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object pnl_cabecalho: TPanel
       Left = 0
       Top = 0
-      Width = 1125
+      Width = 980
       Height = 57
       Align = alTop
       BevelOuter = bvNone
@@ -143,7 +142,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
         Transparent = True
       end
       object btn_fechar: TSpeedButton
-        Left = 1055
+        Left = 910
         Top = 0
         Width = 70
         Height = 56
@@ -217,7 +216,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
       object pnl_separa_topo: TPanel
         Left = 0
         Top = 56
-        Width = 1125
+        Width = 980
         Height = 1
         Margins.Left = 10
         Margins.Top = 0
@@ -233,8 +232,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     object pnl_fundo_inicio: TPanel
       Left = 0
       Top = 57
-      Width = 1125
-      Height = 498
+      Width = 980
+      Height = 504
       Align = alClient
       Alignment = taLeftJustify
       BevelOuter = bvNone
@@ -244,8 +243,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
       object PageControl1: TPageControl
         Left = 0
         Top = 0
-        Width = 1125
-        Height = 498
+        Width = 980
+        Height = 504
         ActivePage = tbs_inicial
         Align = alClient
         TabOrder = 0
@@ -260,8 +259,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
             Shape = stRoundRect
           end
           object lbl_corte_manual: TLabel
-            Left = 635
-            Top = 117
+            Left = 171
+            Top = 260
             Width = 241
             Height = 65
             Cursor = crHandPoint
@@ -304,15 +303,15 @@ object frmCortesProcessamento: TfrmCortesProcessamento
             OnMouseLeave = lbl_elaborar_cortesMouseLeave
           end
           object Label7: TLabel
-            Left = 155
-            Top = 256
+            Left = 163
+            Top = 344
             Width = 83
             Height = 15
             Caption = 'Sobra minima : '
           end
           object edt_sobra_minima: TEdit
-            Left = 244
-            Top = 253
+            Left = 252
+            Top = 341
             Width = 65
             Height = 23
             TabOrder = 0
@@ -340,7 +339,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
             Left = 0
             Top = 0
             Width = 169
-            Height = 468
+            Height = 474
             Align = alLeft
             BorderStyle = bsNone
             DataSource = ds_producao
@@ -373,7 +372,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
             Left = 169
             Top = 0
             Width = 240
-            Height = 468
+            Height = 474
             Align = alLeft
             DataSource = ds_produzir
             TabOrder = 1
@@ -574,7 +573,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           end
           object DBGrid1: TDBGrid
             Left = 415
-            Top = 133
+            Top = 112
             Width = 274
             Height = 208
             DataSource = DataSource1
@@ -644,18 +643,11 @@ object frmCortesProcessamento: TfrmCortesProcessamento
         object tbs_resto: TTabSheet
           Caption = 'Processamento Resto'
           ImageIndex = 2
-          object Label3: TLabel
-            Left = 280
-            Top = 0
-            Width = 85
-            Height = 15
-            Caption = 'mtb_corte_resto'
-          end
           object DBGrid2: TDBGrid
             Left = 0
             Top = 0
             Width = 265
-            Height = 468
+            Height = 474
             Align = alLeft
             DataSource = ds_resto
             TabOrder = 0
@@ -680,9 +672,9 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           end
           object DBGrid5: TDBGrid
             Left = 271
-            Top = 24
+            Top = 304
             Width = 442
-            Height = 441
+            Height = 120
             DataSource = ds_corte_resto
             TabOrder = 1
             TitleFont.Charset = DEFAULT_CHARSET
@@ -705,9 +697,9 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           object Label1: TLabel
             Left = 743
             Top = 195
-            Width = 205
+            Width = 112
             Height = 15
-            Caption = 'CORTES COM SOBRA(mtb_corte_resto)'
+            Caption = 'CORTES COM SOBRA'
           end
           object Label2: TLabel
             Left = 3
@@ -716,18 +708,11 @@ object frmCortesProcessamento: TfrmCortesProcessamento
             Height = 15
             Caption = 'RESUMO PARA IMPRESSAO'
           end
-          object Label6: TLabel
-            Left = 743
-            Top = 3
-            Width = 59
-            Height = 15
-            Caption = 'mtb_cortes'
-          end
           object dbg_corte_sugerido: TDBGrid
             Left = 743
-            Top = 24
-            Width = 410
-            Height = 165
+            Top = 104
+            Width = 202
+            Height = 73
             DataSource = DataSource3
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
@@ -739,8 +724,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           object DBGrid6: TDBGrid
             Left = 743
             Top = 216
-            Width = 410
-            Height = 201
+            Width = 158
+            Height = 73
             DataSource = ds_corte_resto
             TabOrder = 1
             TitleFont.Charset = DEFAULT_CHARSET
@@ -892,6 +877,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
   end
   object qry_produzir: TFDQuery
     Filter = 'MARCAR = '#39'N'#39
+    Connection = dmConn.FDConnection
     SQL.Strings = (
       'select * from produzir')
     Left = 172
@@ -924,6 +910,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     Top = 154
   end
   object qry_corte: TFDQuery
+    Connection = dmConn.FDConnection
     SQL.Strings = (
       'select'
       '  id, c12,c11,c10,c9,c8,c7,c6,c5,c4,c3,c2,c1'
@@ -1206,8 +1193,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 526
-    Top = 230
+    Left = 844
+    Top = 211
     object mtb_impressaoQUANTIDADE: TIntegerField
       FieldName = 'QUANTIDADE'
     end
@@ -1230,8 +1217,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
   object ds_impressao: TDataSource
     DataSet = mtb_impressao
     OnDataChange = ds_impressaoDataChange
-    Left = 526
-    Top = 203
+    Left = 804
+    Top = 211
   end
   object frxReport: TfrxReport
     Version = '2022.2'
@@ -1247,11 +1234,11 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     ScriptText.Strings = (
       'begin'
       
-        ' picture1.Picture.LoadFromFile ( <imagem_rel."REL_PEDIDO_IMG_TOP' +
-        'O">  );     '
+        '  picture1.Picture.LoadFromFile ( <imagem_rel."REL_PEDIDO_IMG_TO' +
+        'PO">  );  '
       '  '
       'end.')
-    Left = 445
+    Left = 476
     Top = 203
     Datasets = <
       item
@@ -1599,6 +1586,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           Left = 196.535560000000000000
           Width = 544.252320000000000000
           Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -1616,6 +1605,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           Top = 16.677180000000000000
           Width = 544.252320000000000000
           Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
@@ -1635,6 +1626,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           Top = 32.015770000000000000
           Width = 544.252320000000000000
           Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
@@ -1659,6 +1652,8 @@ object frmCortesProcessamento: TfrmCortesProcessamento
           Top = 47.133890000000000000
           Width = 544.252320000000000000
           Height = 15.118110240000000000
+          DataSet = frmRelPedidos.frxDBEmpresa
+          DataSetName = 'Empresa'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
@@ -1714,7 +1709,7 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     DataSet = mtb_impressao
     BCDToCurrency = False
     DataSetOptions = []
-    Left = 445
+    Left = 477
     Top = 230
   end
   object frxDBEmpresa: TfrxDBDataset
@@ -1723,16 +1718,17 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     DataSet = qryEmpresa
     BCDToCurrency = False
     DataSetOptions = []
-    Left = 472
-    Top = 230
+    Left = 520
+    Top = 232
   end
   object qryEmpresa: TFDQuery
+    Connection = dmConn.FDConnection
     SQL.Strings = (
       
         'select P.*, E.*  from PESSOAS P, EMPRESA E where E.PESSOA_ID = P' +
         '.ID')
-    Left = 472
-    Top = 203
+    Left = 512
+    Top = 200
   end
   object frxDBDataset2: TfrxDBDataset
     UserName = 'imagem_rel'
@@ -1740,13 +1736,14 @@ object frmCortesProcessamento: TfrmCortesProcessamento
     DataSet = qryImagemRelatorio
     BCDToCurrency = False
     DataSetOptions = []
-    Left = 499
-    Top = 230
+    Left = 560
+    Top = 200
   end
   object qryImagemRelatorio: TFDQuery
+    Connection = dmConn.FDConnection
     SQL.Strings = (
       'select rel_pedido_img_topo from configuracoes')
-    Left = 499
-    Top = 203
+    Left = 560
+    Top = 232
   end
 end
