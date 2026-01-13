@@ -19,13 +19,11 @@ type
     lbl_titulo: TLabel;
     lbl_sub_titulo: TLabel;
     pnl_informacoes: TPanel;
-    Label3: TLabel;
     pnl_traco: TPanel;
     Panel1: TPanel;
     pnl_precos_adicionais: TPanel;
     dbg_reforcos: TDBGrid;
     Label5: TLabel;
-    Label4: TLabel;
     Panel2: TPanel;
     dbg_vigas: TDBGrid;
     pnl_totais: TPanel;

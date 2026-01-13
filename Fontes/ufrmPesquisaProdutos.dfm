@@ -17,8 +17,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 440
-    ExplicitWidth = 1058
     object gbQtde: TGroupBox
       Left = 0
       Top = 0
@@ -111,7 +109,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentBackground = False
       ParentColor = False
       TabOrder = 2
-      ExplicitWidth = 622
       object lbNivel: TLabel
         Left = 58
         Top = 0
@@ -315,7 +312,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 1058
     object lbl_titulo: TLabel
       AlignWithMargins = True
       Left = 15
@@ -423,7 +419,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = clSilver
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 1058
     end
   end
   object Panel5: TPanel [2]
@@ -434,8 +429,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 1058
-    ExplicitHeight = 383
     object dbgProdutos: TDBGrid
       AlignWithMargins = True
       Left = 20
@@ -557,7 +550,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = 8404992
       ParentBackground = False
       TabOrder = 1
-      ExplicitWidth = 1018
       object lbl_resultado: TLabel
         AlignWithMargins = True
         Left = 15
@@ -593,7 +585,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = clGradientInactiveCaption
       ParentBackground = False
       TabOrder = 2
-      ExplicitWidth = 1018
       object rgFiltrar: TRadioGroup
         Left = 0
         Top = 0
@@ -634,7 +625,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
         Color = clWhite
         ParentBackground = False
         TabOrder = 1
-        ExplicitWidth = 605
         object rgTipoForma: TRadioGroup
           Left = 3
           Top = 0
@@ -800,8 +790,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
-    ExplicitTop = 506
-    ExplicitWidth = 1058
     DesignSize = (
       1044
       52)
@@ -835,13 +823,12 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentFont = False
       TabOrder = 0
       OnClick = btnConfirmaClick
-      ExplicitLeft = 360
     end
     object btn_fechar: TBitBtn
       AlignWithMargins = True
-      Left = 542
+      Left = 545
       Top = 10
-      Width = 185
+      Width = 132
       Height = 31
       Anchors = [akTop]
       Caption = 'FECHAR '
@@ -853,7 +840,6 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentFont = False
       TabOrder = 1
       OnClick = btn_fecharClick
-      ExplicitLeft = 551
     end
   end
   inherited qry: TFDQuery

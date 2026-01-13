@@ -2,21 +2,23 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
   BorderStyle = bsNone
   Caption = 'frmPedidosVigaVao'
   ClientHeight = 534
-  ClientWidth = 676
-  ExplicitWidth = 676
+  ClientWidth = 690
+  ExplicitTop = -83
+  ExplicitWidth = 690
   ExplicitHeight = 534
   TextHeight = 15
   object pnl_cabecalho: TPanel [0]
     Left = 0
     Top = 0
-    Width = 676
+    Width = 690
     Height = 57
     Align = alTop
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 676
     object btn_fechar: TSpeedButton
-      Left = 606
+      Left = 620
       Top = 0
       Width = 70
       Height = 56
@@ -111,7 +113,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     object pnl_separa_topo: TPanel
       Left = 0
       Top = 56
-      Width = 676
+      Width = 690
       Height = 1
       Margins.Left = 10
       Margins.Top = 0
@@ -122,16 +124,18 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Color = clSilver
       ParentBackground = False
       TabOrder = 0
+      ExplicitWidth = 676
     end
   end
   object pnl_rodape: TPanel [1]
     Left = 0
     Top = 493
-    Width = 676
+    Width = 690
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 676
     object Label5: TLabel
       Left = 15
       Top = 13
@@ -157,6 +161,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Top = 6
       Width = 134
       Height = 25
+      Cursor = crHandPoint
       Caption = 'Incluir no pedido'
       TabOrder = 0
       OnClick = btn_incluirClick
@@ -166,6 +171,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       Top = 6
       Width = 75
       Height = 25
+      Cursor = crHandPoint
       Caption = 'Fechar'
       TabOrder = 1
       OnClick = btn_fechar2Click
@@ -174,18 +180,20 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
   object pnl_principal: TPanel [2]
     Left = 0
     Top = 57
-    Width = 676
+    Width = 690
     Height = 436
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 676
     object GroupBox2: TGroupBox
       Left = 0
       Top = 0
-      Width = 676
+      Width = 690
       Height = 95
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 676
       object Label1: TLabel
         Left = 322
         Top = 17
@@ -219,31 +227,47 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Top = 38
         Width = 60
         Height = 23
+        Hint = 'Digite o tamanho da menor viga'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 0
-        Text = '1'
+        OnExit = edt_menor_vigaExit
+        OnKeyPress = edt_menor_vigaKeyPress
       end
       object edt_maior_viga: TEdit
         Left = 391
         Top = 38
         Width = 60
         Height = 23
+        Hint = 'Digite o tamanho da maior  viga'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 1
-        Text = '6'
+        OnExit = edt_menor_vigaExit
+        OnKeyPress = edt_menor_vigaKeyPress
       end
       object edt_vao: TEdit
         Left = 463
         Top = 38
         Width = 57
         Height = 23
+        Hint = 'Digite o v'#227'o'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 2
-        Text = '6'
+        OnExit = edt_menor_vigaExit
+        OnKeyPress = edt_menor_vigaKeyPress
       end
       object btn_calcular: TBitBtn
         Left = 598
         Top = 38
         Width = 75
         Height = 25
+        Cursor = crHandPoint
+        Hint = 'Calcula o tamanho das vigas'
         Caption = 'Calcular'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 3
         OnClick = btn_calcularClick
       end
@@ -252,6 +276,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Top = 17
         Width = 143
         Height = 76
+        Cursor = crHandPoint
         Align = alLeft
         Caption = ' Iniciar montagem com : '
         ItemIndex = 0
@@ -265,6 +290,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Top = 17
         Width = 168
         Height = 76
+        Cursor = crHandPoint
         Align = alLeft
         Caption = 'Arredondar medidas a cada:'
         ItemIndex = 2
@@ -279,6 +305,9 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
         Top = 38
         Width = 64
         Height = 23
+        Hint = 'Selecione um local'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 6
         Items.Strings = (
           'L-1'
@@ -296,7 +325,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
     object dbg_vigas: TDBGrid
       Left = 0
       Top = 95
-      Width = 676
+      Width = 690
       Height = 341
       Align = alClient
       DataSource = ds
@@ -307,6 +336,7 @@ inherited frmPedidosVigaVao: TfrmPedidosVigaVao
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnKeyPress = edt_menor_vigaKeyPress
       Columns = <
         item
           Alignment = taCenter

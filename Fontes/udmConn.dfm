@@ -12,6 +12,7 @@ object dmConn: TdmConn
       'CharacterSet=WIN1252'
       'DriverID=FB')
     UpdateOptions.AssignedValues = [uvLockWait]
+    ConnectedStoredUsage = []
     LoginPrompt = False
     BeforeConnect = FDConnectionBeforeConnect
     Left = 40

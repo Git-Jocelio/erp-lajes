@@ -1,11 +1,11 @@
 inherited frmPedidosAddVigas: TfrmPedidosAddVigas
-  Top = 165
   Align = alClient
   BorderStyle = bsNone
   Caption = 'frmPedidosAddVigas'
   ClientHeight = 760
   ClientWidth = 1338
   Color = clWhite
+  Position = poDesigned
   OnShow = FormShow
   ExplicitWidth = 1338
   ExplicitHeight = 760
@@ -338,37 +338,13 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
-      object Label3: TLabel
-        Left = 343
-        Top = 7
-        Width = 155
-        Height = 21
-        Caption = 'DESCRI'#199#195'O DA LAJE'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -16
-        Font.Name = 'Segoe UI'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 255
-        Top = 7
-        Width = 73
-        Height = 21
-        Caption = 'ITEM PED'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -16
-        Font.Name = 'Segoe UI'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
       object btn_add_viga: TSpeedButton
         Left = 0
         Top = 0
         Width = 41
         Height = 39
+        Cursor = crHandPoint
+        Hint = 'Incluir Viga'
         Align = alLeft
         Flat = True
         Glyph.Data = {
@@ -412,6 +388,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFF}
+        ParentShowHint = False
+        ShowHint = True
         OnClick = btn_add_vigaClick
       end
       object btn_exc_viga: TSpeedButton
@@ -419,6 +397,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         Top = 0
         Width = 32
         Height = 39
+        Cursor = crHandPoint
+        Hint = 'Excluir Viga'
         Align = alLeft
         Flat = True
         Glyph.Data = {
@@ -462,6 +442,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFCFBFBF8F3F3F8F2F2FCFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFF}
+        ParentShowHint = False
+        ShowHint = True
         OnClick = btn_exc_vigaClick
       end
       object btn_viga_diagonal: TSpeedButton
@@ -469,17 +451,21 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         Top = 0
         Width = 152
         Height = 39
+        Cursor = crHandPoint
+        Hint = 'Incluir pelo v'#227'o informado'
         Align = alLeft
         BiDiMode = bdLeftToRight
-        Caption = 'INCLUIR PELO V'#195'O'
+        Caption = 'Incluir vigas pelo v'#227'o'
         Flat = True
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
         Font.Height = -16
-        Font.Name = 'Segoe UI'
+        Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
+        ParentShowHint = False
         ParentBiDiMode = False
+        ShowHint = True
         OnClick = btn_viga_diagonalClick
       end
       object pnl_traco: TPanel
@@ -636,6 +622,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         Height = 658
         Align = alClient
         DataSource = ds_vigas
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = ANSI_CHARSET
         TitleFont.Color = clWindowText
@@ -1045,8 +1032,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     end
   end
   inherited qry: TFDQuery
-    Left = 464
-    Top = 0
+    Left = 392
+    Top = 32
   end
   object ds_vigas: TDataSource
     DataSet = mtb_vigas

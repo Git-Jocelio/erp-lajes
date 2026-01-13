@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, unit_funcoes;
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, unit_funcoes, uBiblioteca;
 
 type
   TfrmPedidosVigaVao = class(TfrmBaseConexao)
@@ -50,6 +50,9 @@ type
     procedure btn_calcularClick(Sender: TObject);
     procedure btn_incluirClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edt_menor_vigaKeyPress(Sender: TObject; var Key: Char);
+    procedure edt_menor_vigaExit(Sender: TObject);
   private
     Flocal: string;
     FValores: TListBox;
@@ -80,6 +83,7 @@ implementation
 function TfrmPedidosVigaVao.fnc_validar:boolean;
 begin
  result := false;
+
  if strtofloatdef( edt_menor_viga.Text,0) <= 0 then
  begin
    criarmensagem('AVISO','Informe um valor válido.');
@@ -101,10 +105,15 @@ begin
    exit;
  end;
 
-
-
  result := true;
 
+end;
+
+procedure TfrmPedidosVigaVao.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+ // inherited;
+ //deixar comentado. senão fecha o memtable de vigas agrupadas
 end;
 
 procedure TfrmPedidosVigaVao.FormCreate(Sender: TObject);
@@ -337,6 +346,7 @@ begin
     mtb_vigas_agrupadas.First;
     if mtb_vigas_agrupadas.Locate('tamanho_ajustado', mtb_lista_de_vigasTAMANHO_AJUSTADO.AsFloat) then
     begin
+
        mtb_vigas_agrupadas.Edit;
        mtb_vigas_agrupadasQuantidade.asinteger :=  mtb_vigas_agrupadasQuantidade.asinteger +1;
     end else
@@ -347,6 +357,7 @@ begin
        mtb_vigas_agrupadasTamanho_ajustado.asfloat :=  mtb_lista_de_vigastamanho_ajustado.asfloat;
     end ;
     mtb_vigas_agrupadas.Post;
+
     mtb_lista_de_vigas.Next;
   end;
  // ShowMessage('qtde ' + inttostr(mtb_vigas_agrupadas.RecordCount));
@@ -355,6 +366,19 @@ end;
 procedure TfrmPedidosVigaVao.dsDataChange(Sender: TObject; Field: TField);
 begin
   btn_incluir.Enabled := not mtb_lista_de_vigas.IsEmpty;
+end;
+
+procedure TfrmPedidosVigaVao.edt_menor_vigaExit(Sender: TObject);
+begin
+  inherited;
+  prc_formata_dinheiro(sender);
+end;
+
+procedure TfrmPedidosVigaVao.edt_menor_vigaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  ubiblioteca.prc_somente_numeros(sender,key);
 end;
 
 end.

@@ -155,12 +155,14 @@ const
   //versao_app = 154;   //28/07/2025; pesquisa de cheques de clientes
   // versao_app = 155;   // atualizador do sistema para pastas sislajes
   //versao_app = 156;   //
-  // versao_app = 157;   // contrato de concreto editavel
+  // versao_app = 157;  // contrato de concreto editavel
   //versao_app = 158;   // RET BUGS
   //versao_app = 159;   // RET BUGS no resumo de materiais vendidos por data de entrega
   //versao_app = 160;   // RET BUGS no resumo de materiais vendidos por data de entrega
   //versao_app = 161;   // consulta de concreto com detalhes
-  versao_app = 162;   // ret de bugs no frmProdutosLajesE
+  //versao_app = 162;   // ret de bugs no frmProdutosLajesE
+  //versao_app = 163;     // vigas diagonal e totais de vigas
+  versao_app = 164;     // retirada de bugs vigas diagonal
 
 
 var

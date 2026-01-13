@@ -31,7 +31,7 @@ inherited frmPedidosE: TfrmPedidosE
       Height = 37
       Caption = ''
       ExplicitLeft = 247
-      ExplicitWidth = 1007
+      ExplicitWidth = 6
     end
     inherited lbl_sub_titulo: TLabel
       Top = 37

@@ -616,8 +616,8 @@ inherited frmClientesE: TfrmClientesE
   end
   inherited ds: TDataSource
     AutoEdit = False
-    Left = 520
-    Top = 105
+    Left = 488
+    Top = 145
   end
   object qryClientes: TFDQuery
     CachedUpdates = True
