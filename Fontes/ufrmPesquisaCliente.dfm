@@ -18,7 +18,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
     ExplicitHeight = 73
     object btn_incluir_novo_cliente: TSpeedButton [0]
       Left = 520
-      Top = 36
+      Top = 49
       Width = 155
       Height = 23
       Cursor = crHandPoint
@@ -53,18 +53,16 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
       OnClick = btn_incluir_novo_clienteClick
     end
     inherited edLocalizar: TLabeledEdit
-      Left = 161
-      Top = 36
+      Left = 160
+      Top = 49
       Width = 353
-      Height = 23
       Cursor = crIBeam
-      EditLabel.ExplicitLeft = 161
-      EditLabel.ExplicitTop = 18
+      EditLabel.ExplicitLeft = 160
+      EditLabel.ExplicitTop = 31
       EditLabel.ExplicitWidth = 97
-      ExplicitLeft = 161
-      ExplicitTop = 36
+      ExplicitLeft = 160
+      ExplicitTop = 49
       ExplicitWidth = 353
-      ExplicitHeight = 23
     end
     inherited btnFiltrar: TBitBtn
       Left = 757
@@ -208,7 +206,6 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
   inherited pnl_rodape: TPanel
     Top = 405
     Width = 889
-    ExplicitLeft = 0
     ExplicitTop = 405
     ExplicitWidth = 889
     object Label1: TLabel [0]
@@ -369,19 +366,20 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
     object DBGrid1: TDBGrid
       AlignWithMargins = True
       Left = 20
-      Top = 41
+      Top = 10
       Width = 849
-      Height = 224
+      Height = 255
       Cursor = crIBeam
       Hint = 'DUPLO < CLICK > PARA VISUALIZAR REGISTRO'
       Margins.Left = 20
-      Margins.Top = 0
+      Margins.Top = 10
       Margins.Right = 20
       Margins.Bottom = 10
       Align = alClient
       BorderStyle = bsNone
       DataSource = ds
       DrawingStyle = gdsClassic
+      FixedColor = 11425536
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -405,7 +403,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           FieldName = 'ID'
           Title.Alignment = taCenter
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -417,7 +415,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Title.Alignment = taCenter
           Title.Caption = 'Nome'
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -431,7 +429,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Title.Alignment = taCenter
           Title.Caption = 'CPF / CNPJ'
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -444,7 +442,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Title.Alignment = taCenter
           Title.Caption = 'Endere'#231'o'
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -458,7 +456,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Title.Alignment = taCenter
           Title.Caption = 'N'#250'mero'
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -471,7 +469,7 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Title.Alignment = taCenter
           Title.Caption = 'Bairro'
           Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
+          Title.Font.Color = clWhite
           Title.Font.Height = -15
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
@@ -481,51 +479,24 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
           Expanded = False
           FieldName = 'CIDADE'
           Title.Caption = 'Cidade'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWhite
+          Title.Font.Height = -15
+          Title.Font.Name = 'Times New Roman'
+          Title.Font.Style = [fsBold]
           Visible = False
         end
         item
           Alignment = taCenter
           Expanded = False
           FieldName = 'UF'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWhite
+          Title.Font.Height = -15
+          Title.Font.Name = 'Times New Roman'
+          Title.Font.Style = [fsBold]
           Visible = False
         end>
-    end
-    object Panel2: TPanel
-      AlignWithMargins = True
-      Left = 20
-      Top = 0
-      Width = 849
-      Height = 41
-      Margins.Left = 20
-      Margins.Top = 0
-      Margins.Right = 20
-      Margins.Bottom = 0
-      Align = alTop
-      BevelOuter = bvNone
-      Color = 8404992
-      ParentBackground = False
-      TabOrder = 1
-      object Label2: TLabel
-        AlignWithMargins = True
-        Left = 15
-        Top = 0
-        Width = 213
-        Height = 41
-        Margins.Left = 15
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Caption = 'Resultado da Consulta'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 15395562
-        Font.Height = -21
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = []
-        ParentFont = False
-        Layout = tlCenter
-        ExplicitHeight = 30
-      end
     end
   end
   inherited qry: TFDQuery

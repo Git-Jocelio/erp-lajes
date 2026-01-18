@@ -22,8 +22,6 @@ type
     btn_incluir_novo_cliente: TSpeedButton;
     Panel5: TPanel;
     DBGrid1: TDBGrid;
-    Panel2: TPanel;
-    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

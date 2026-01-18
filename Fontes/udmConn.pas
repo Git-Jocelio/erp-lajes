@@ -159,10 +159,12 @@ const
   //versao_app = 158;   // RET BUGS
   //versao_app = 159;   // RET BUGS no resumo de materiais vendidos por data de entrega
   //versao_app = 160;   // RET BUGS no resumo de materiais vendidos por data de entrega
-  //versao_app = 161;   // consulta de concreto com detalhes
+  //versao_app = 161;   // consulta de concreto com detapedidolhes
   //versao_app = 162;   // ret de bugs no frmProdutosLajesE
   //versao_app = 163;     // vigas diagonal e totais de vigas
-  versao_app = 164;     // retirada de bugs vigas diagonal
+  //versao_app = 164;     // retirada de bugs vigas diagonal
+  //versao_app = 165;     // retirada de bugs pedido e ajuste de tela
+  versao_app = 166;     // liberação de impressão de itens pedido e itens laje na ordem de produção de pedidos liquidados e parceial
 
 
 var

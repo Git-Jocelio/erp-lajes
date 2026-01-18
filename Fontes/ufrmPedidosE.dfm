@@ -3,9 +3,11 @@ inherited frmPedidosE: TfrmPedidosE
   BorderWidth = 3
   Caption = 'frmPedidosE'
   ClientHeight = 729
-  ClientWidth = 1324
+  ClientWidth = 1297
+  Position = poDesigned
   ShowHint = True
-  ExplicitWidth = 1330
+  ExplicitTop = -188
+  ExplicitWidth = 1303
   ExplicitHeight = 735
   TextHeight = 17
   object DBText1: TDBText [0]
@@ -21,21 +23,21 @@ inherited frmPedidosE: TfrmPedidosE
     Height = 50
   end
   inherited pnTitulo: TPanel
-    Width = 1324
+    Width = 1297
     Height = 54
     ExplicitWidth = 1324
     ExplicitHeight = 54
     inherited lbl_titulo: TLabel
       Left = 247
-      Width = 1007
+      Width = 980
       Height = 37
       Caption = ''
       ExplicitLeft = 247
-      ExplicitWidth = 6
+      ExplicitWidth = 1007
     end
     inherited lbl_sub_titulo: TLabel
       Top = 37
-      Width = 1324
+      Width = 1297
       Caption = 'sub_titulo'
       Visible = False
       ExplicitTop = 37
@@ -63,7 +65,7 @@ inherited frmPedidosE: TfrmPedidosE
       ExplicitHeight = 30
     end
     object btn_fechar: TSpeedButton
-      Left = 1254
+      Left = 1227
       Top = 0
       Width = 70
       Height = 37
@@ -137,7 +139,7 @@ inherited frmPedidosE: TfrmPedidosE
   end
   inherited pnDados: TPanel
     Top = 54
-    Width = 1324
+    Width = 1297
     Height = 630
     ExplicitTop = 54
     ExplicitWidth = 1324
@@ -145,11 +147,12 @@ inherited frmPedidosE: TfrmPedidosE
     object pcVenda: TPageControl
       Left = 0
       Top = 55
-      Width = 1324
+      Width = 1297
       Height = 177
       ActivePage = tbVenda
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 1324
       object tbVenda: TTabSheet
         Caption = 'Venda'
         OnShow = tbVendaShow
@@ -408,11 +411,12 @@ inherited frmPedidosE: TfrmPedidosE
         object pcCliente: TPageControl
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 145
           ActivePage = tbCliente
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1316
           object tbCliente: TTabSheet
             Caption = 'Dados do Cliente'
             OnShow = tbClienteShow
@@ -924,7 +928,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pcObs: TPageControl
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 145
           ActivePage = tbObsAdm
           Align = alClient
@@ -935,17 +939,19 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1316
           object tbObsAdm: TTabSheet
             Caption = 'Obs Admin'
             object mm_obs_adm: TMemo
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 113
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
+              ExplicitWidth = 1308
             end
             object DBGrid3: TDBGrid
               Left = 376
@@ -968,12 +974,13 @@ inherited frmPedidosE: TfrmPedidosE
             object mm_obs_entrega: TMemo
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 113
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
+              ExplicitWidth = 1308
             end
           end
         end
@@ -982,27 +989,29 @@ inherited frmPedidosE: TfrmPedidosE
     object pgc_principal: TPageControl
       Left = 0
       Top = 232
-      Width = 1324
+      Width = 1297
       Height = 398
       Cursor = crHandPoint
       ActivePage = tbs_itens_pedido
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
+      ExplicitWidth = 1324
       object tbs_itens_pedido: TTabSheet
         Caption = 'Itens da Venda'
         OnShow = tbs_itens_pedidoShow
         object pnPedidoItens: TPanel
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1316
           object dbg_itens_venda: TDBGrid
             Left = 1
             Top = 1
-            Width = 1314
+            Width = 1287
             Height = 361
             Hint = 
               'Click com o bot'#227'o direito do mouse para incluir/alterar/excluir ' +
@@ -1502,17 +1511,18 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_itens_laje: TPanel
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           BevelOuter = bvNone
           Color = clWhite
           ParentBackground = False
           TabOrder = 0
+          ExplicitWidth = 1316
           object dbg_itens_laje: TDBGrid
             Left = 0
             Top = 0
-            Width = 1051
+            Width = 1024
             Height = 363
             Hint = 'Click com o bot'#227'o direito do mouse para ter acesso ao menu'
             Align = alClient
@@ -1710,13 +1720,14 @@ inherited frmPedidosE: TfrmPedidosE
               end>
           end
           object gbResumoLajeH8: TGroupBox
-            Left = 1051
+            Left = 1024
             Top = 0
             Width = 265
             Height = 363
             Align = alRight
             Caption = ' Resumo '
             TabOrder = 1
+            ExplicitLeft = 1051
             object Label6: TLabel
               Left = 9
               Top = 60
@@ -1826,7 +1837,7 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_Ferragens: TDBGrid
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 313
           Align = alClient
           DataSource = dsPedidoFerragens
@@ -2201,11 +2212,12 @@ inherited frmPedidosE: TfrmPedidosE
         object GroupBox5: TGroupBox
           Left = 0
           Top = 313
-          Width = 1316
+          Width = 1289
           Height = 50
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
+          ExplicitWidth = 1316
           object Label103: TLabel
             Left = 175
             Top = 19
@@ -2285,7 +2297,7 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_reforcos_das_vigas: TDBGrid
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 313
           Align = alClient
           DataSource = dsPedidoFerragens
@@ -2656,11 +2668,12 @@ inherited frmPedidosE: TfrmPedidosE
         object GroupBox6: TGroupBox
           Left = 0
           Top = 313
-          Width = 1316
+          Width = 1289
           Height = 50
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
+          ExplicitWidth = 1316
           object Label105: TLabel
             Left = 175
             Top = 19
@@ -2754,10 +2767,11 @@ inherited frmPedidosE: TfrmPedidosE
         object GroupBox3: TGroupBox
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1316
           object Label33: TLabel
             Left = 212
             Top = 25
@@ -2983,10 +2997,11 @@ inherited frmPedidosE: TfrmPedidosE
         object gbImpostos: TGroupBox
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1316
           object Label29: TLabel
             Left = 45
             Top = 33
@@ -3265,15 +3280,16 @@ inherited frmPedidosE: TfrmPedidosE
         object gb_contas_receber: TGroupBox
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 113
           Align = alTop
           Caption = 'Contas a Receber'
           TabOrder = 0
+          ExplicitWidth = 1316
           object dbg_contas_receber: TDBGrid
             Left = 2
             Top = 19
-            Width = 1312
+            Width = 1285
             Height = 92
             Align = alClient
             DataSource = dsContasReceber
@@ -3419,15 +3435,16 @@ inherited frmPedidosE: TfrmPedidosE
         object gb_recibos: TGroupBox
           Left = 0
           Top = 113
-          Width = 1316
+          Width = 1289
           Height = 250
           Align = alClient
           Caption = 'Recebimentos'
           TabOrder = 1
+          ExplicitWidth = 1316
           object dgb_recibos: TDBGrid
             Left = 2
             Top = 19
-            Width = 1312
+            Width = 1285
             Height = 229
             Align = alClient
             DataSource = ds_recibos
@@ -3548,7 +3565,7 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_contas_pagar: TDBGrid
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           DataSource = ds_contas_pagar
@@ -3650,7 +3667,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_comissao_totais: TPanel
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 70
           Align = alTop
           BevelOuter = bvNone
@@ -3663,6 +3680,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1316
           object Label32: TLabel
             Left = 9
             Top = 8
@@ -3940,25 +3958,27 @@ inherited frmPedidosE: TfrmPedidosE
         object pgc_comissoes: TPageControl
           Left = 0
           Top = 70
-          Width = 1316
+          Width = 1289
           Height = 293
           ActivePage = tbs_comissoes
           Align = alClient
           TabOrder = 1
+          ExplicitWidth = 1316
           object tbs_comissoes: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
             object gbx_comissao_itens: TGroupBox
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 261
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1308
               object dbg_comissao_itens: TDBGrid
                 Left = 2
                 Top = 19
-                Width = 1304
+                Width = 1277
                 Height = 240
                 Align = alClient
                 DataSource = dsComissao_itens
@@ -4118,14 +4138,15 @@ inherited frmPedidosE: TfrmPedidosE
             object gbx_comissao_outros: TGroupBox
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 261
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1308
               object dbg_outras_despesas: TDBGrid
                 Left = 38
                 Top = 19
-                Width = 1268
+                Width = 1241
                 Height = 240
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
@@ -4244,7 +4265,7 @@ inherited frmPedidosE: TfrmPedidosE
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 70
           Align = alTop
           BevelOuter = bvNone
@@ -4257,6 +4278,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1316
           object Label7: TLabel
             Left = 9
             Top = 8
@@ -4534,25 +4556,27 @@ inherited frmPedidosE: TfrmPedidosE
         object PageControl2: TPageControl
           Left = 0
           Top = 70
-          Width = 1316
+          Width = 1289
           Height = 293
           ActivePage = TabSheet1
           Align = alClient
           TabOrder = 1
+          ExplicitWidth = 1316
           object TabSheet1: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
             object GroupBox1: TGroupBox
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 261
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1308
               object DBGrid1: TDBGrid
                 Left = 2
                 Top = 19
-                Width = 1304
+                Width = 1277
                 Height = 240
                 Align = alClient
                 DataSource = dsComissao_itens
@@ -4712,14 +4736,15 @@ inherited frmPedidosE: TfrmPedidosE
             object GroupBox4: TGroupBox
               Left = 0
               Top = 0
-              Width = 1308
+              Width = 1281
               Height = 261
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1308
               object dbg_outras_despesas_ferrari: TDBGrid
                 Left = 38
                 Top = 19
-                Width = 1268
+                Width = 1241
                 Height = 240
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
@@ -4838,7 +4863,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_financeiro: TPanel
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           Align = alClient
           BevelOuter = bvNone
@@ -4849,6 +4874,7 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1316
           object Label51: TLabel
             Left = 34
             Top = 53
@@ -5034,7 +5060,7 @@ inherited frmPedidosE: TfrmPedidosE
           object Label8: TLabel
             Left = 0
             Top = 0
-            Width = 1316
+            Width = 1289
             Height = 25
             Align = alTop
             Alignment = taCenter
@@ -5309,11 +5335,12 @@ inherited frmPedidosE: TfrmPedidosE
         object pgc_concreto_realizado: TPageControl
           Left = 0
           Top = 0
-          Width = 1316
+          Width = 1289
           Height = 363
           ActivePage = tbs_concreto_realizado
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1316
           object tbs_concreto_realizado: TTabSheet
             Caption = 'Concreto'
             object Label99: TLabel
@@ -5739,18 +5766,20 @@ inherited frmPedidosE: TfrmPedidosE
     object pnl_topo: TPanel
       Left = 0
       Top = 0
-      Width = 1324
+      Width = 1297
       Height = 55
       Align = alTop
       TabOrder = 2
+      ExplicitWidth = 1324
       object gbx_cliente: TGroupBox
         Left = 1
         Top = 1
-        Width = 777
+        Width = 750
         Height = 53
         Align = alClient
         Caption = 'Cliente'
         TabOrder = 0
+        ExplicitWidth = 777
         object lbl_cliente_id: TLabel
           AlignWithMargins = True
           Left = 108
@@ -5774,7 +5803,7 @@ inherited frmPedidosE: TfrmPedidosE
         object lbl_cliente_nome: TLabel
           Left = 159
           Top = 19
-          Width = 616
+          Width = 589
           Height = 32
           Align = alClient
           Caption = 'lbl_cliente_nome'
@@ -5864,13 +5893,14 @@ inherited frmPedidosE: TfrmPedidosE
         end
       end
       object gbx_vendedor: TGroupBox
-        Left = 778
+        Left = 751
         Top = 1
         Width = 336
         Height = 53
         Align = alRight
         Caption = 'C'#243'd. Pessoa  / Nome Vendedor'
         TabOrder = 1
+        ExplicitLeft = 778
         object cbxVendedores: TDBLookupComboBox
           Left = 57
           Top = 19
@@ -5939,13 +5969,14 @@ inherited frmPedidosE: TfrmPedidosE
         end
       end
       object GroupBox2: TGroupBox
-        Left = 1114
+        Left = 1087
         Top = 1
         Width = 209
         Height = 53
         Align = alRight
         Caption = ' Situa'#231#227'o geral do pedido'
         TabOrder = 2
+        ExplicitLeft = 1114
         object lbl_situacao_pedido: TLabel
           Left = 2
           Top = 19
@@ -6303,7 +6334,7 @@ inherited frmPedidosE: TfrmPedidosE
   end
   inherited pnRodape: TPanel
     Top = 684
-    Width = 1324
+    Width = 1297
     Height = 45
     ExplicitTop = 684
     ExplicitWidth = 1324
@@ -6319,17 +6350,17 @@ inherited frmPedidosE: TfrmPedidosE
       ExplicitWidth = 225
       ExplicitHeight = 45
       inherited btnOk: TBitBtn
-        Width = 145
+        Width = 139
         Height = 45
         Cursor = crHandPoint
         Caption = 'CONFIRMAR'
         OnClick = btnOkClick
-        ExplicitWidth = 145
+        ExplicitWidth = 139
         ExplicitHeight = 45
       end
       inherited btnFechar: TBitBtn
-        Left = 145
-        Width = 80
+        Left = 139
+        Width = 86
         Height = 45
         Cursor = crHandPoint
         OnClick = btn_fecharClick
@@ -6341,10 +6372,11 @@ inherited frmPedidosE: TfrmPedidosE
     object gbx_financeiro: TGroupBox
       Left = 225
       Top = 0
-      Width = 1099
+      Width = 1072
       Height = 45
       Align = alClient
       TabOrder = 1
+      ExplicitWidth = 1099
       object Label52: TLabel
         Left = 2
         Top = 19
@@ -6360,9 +6392,11 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitLeft = 6
+        ExplicitTop = 6
       end
       object Label53: TLabel
-        Left = 784
+        Left = 766
         Top = 19
         Width = 54
         Height = 24
@@ -6375,10 +6409,11 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
+        ExplicitLeft = 784
         ExplicitHeight = 17
       end
       object Label54: TLabel
-        Left = 929
+        Left = 905
         Top = 19
         Width = 85
         Height = 24
@@ -6391,26 +6426,29 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitLeft = 929
         ExplicitHeight = 17
       end
       object Label77: TLabel
-        Left = 592
+        Left = 574
         Top = 19
         Width = 90
         Height = 24
         Align = alLeft
         Alignment = taCenter
         Caption = '   Desconto  R$'
+        ExplicitLeft = 592
         ExplicitHeight = 17
       end
       object Label78: TLabel
-        Left = 357
+        Left = 351
         Top = 19
         Width = 20
         Height = 24
         Align = alLeft
         Alignment = taCenter
         Caption = '     '
+        ExplicitLeft = 357
         ExplicitHeight = 17
       end
       object Label79: TLabel
@@ -6424,17 +6462,18 @@ inherited frmPedidosE: TfrmPedidosE
         ExplicitHeight = 17
       end
       object Label9: TLabel
-        Left = 522
+        Left = 510
         Top = 19
         Width = 8
         Height = 24
         Align = alLeft
         Alignment = taCenter
         Caption = '  '
+        ExplicitLeft = 522
         ExplicitHeight = 17
       end
       object lbl_percentual_desconto: TLabel
-        Left = 741
+        Left = 723
         Top = 19
         Width = 24
         Height = 24
@@ -6447,10 +6486,11 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitLeft = 741
         ExplicitHeight = 17
       end
       object Label55: TLabel
-        Left = 765
+        Left = 747
         Top = 19
         Width = 19
         Height = 24
@@ -6463,6 +6503,7 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitLeft = 765
         ExplicitHeight = 17
       end
       object edt_valor_produtos: TPanel
@@ -6484,7 +6525,7 @@ inherited frmPedidosE: TfrmPedidosE
       object edt_frete_cliente: TEdit
         Left = 295
         Top = 19
-        Width = 62
+        Width = 56
         Height = 24
         Align = alLeft
         Alignment = taRightJustify
@@ -6496,12 +6537,11 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 1
         OnExit = edt_frete_clienteExit
-        ExplicitHeight = 23
       end
       object cbx_desc_acrescimo: TComboBox
-        Left = 377
+        Left = 371
         Top = 19
-        Width = 145
+        Width = 139
         Height = 23
         Align = alLeft
         CharCase = ecUpperCase
@@ -6515,9 +6555,9 @@ inherited frmPedidosE: TfrmPedidosE
         Text = 'CBX_DESC_ACRESCIMO'
       end
       object edt_acrescimo: TEdit
-        Left = 530
+        Left = 518
         Top = 19
-        Width = 62
+        Width = 56
         Height = 24
         Align = alLeft
         Alignment = taRightJustify
@@ -6529,10 +6569,10 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 3
         OnExit = edt_frete_clienteExit
-        ExplicitHeight = 23
+        ExplicitLeft = 524
       end
       object edt_desconto: TEdit
-        Left = 682
+        Left = 664
         Top = 19
         Width = 59
         Height = 24
@@ -6546,12 +6586,13 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 4
         OnExit = edt_frete_clienteExit
+        ExplicitLeft = 682
         ExplicitHeight = 25
       end
       object edt_valor_total: TPanel
-        Left = 838
+        Left = 820
         Top = 19
-        Width = 91
+        Width = 85
         Height = 24
         Align = alLeft
         BevelKind = bkTile
@@ -6565,7 +6606,7 @@ inherited frmPedidosE: TfrmPedidosE
         TabOrder = 5
       end
       object edt_valor_pago: TPanel
-        Left = 1014
+        Left = 990
         Top = 19
         Width = 68
         Height = 24
@@ -6579,6 +6620,7 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Style = []
         ParentFont = False
         TabOrder = 6
+        ExplicitLeft = 1014
       end
     end
   end

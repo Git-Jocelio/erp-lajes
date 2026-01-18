@@ -7,6 +7,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
   Color = clWhite
   Position = poDesigned
   OnShow = FormShow
+  ExplicitLeft = -284
+  ExplicitTop = -213
   ExplicitWidth = 1338
   ExplicitHeight = 760
   TextHeight = 15
@@ -33,6 +35,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 8
     object pnl_titulo: TPanel
       AlignWithMargins = True
       Left = 3
@@ -482,16 +485,23 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     end
     object pnl_precos_adicionais: TPanel
       Left = 791
-      Top = 356
+      Top = 384
       Width = 570
-      Height = 404
+      Height = 344
+      Margins.Bottom = 10
       BevelOuter = bvNone
+      Color = clWindow
+      ParentBackground = False
       TabOrder = 2
+      DesignSize = (
+        570
+        344)
       object Label5: TLabel
-        Left = 168
-        Top = 19
+        Left = 224
+        Top = 0
         Width = 147
         Height = 21
+        Anchors = [akRight, akBottom]
         Caption = 'Pre'#231'os dos refor'#231'os'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGray
@@ -502,9 +512,13 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
       end
       object dbg_reforcos: TDBGrid
         Left = 0
-        Top = 46
+        Top = 24
         Width = 570
-        Height = 358
+        Height = 320
+        Margins.Left = 10
+        Margins.Top = 10
+        Margins.Right = 10
+        Margins.Bottom = 10
         Align = alBottom
         DataSource = ds_ferragens
         Font.Charset = ANSI_CHARSET
@@ -558,7 +572,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
             Title.Font.Height = -13
             Title.Font.Name = 'Segoe UI'
             Title.Font.Style = []
-            Width = 196
+            Width = 186
             Visible = True
           end
           item
@@ -573,7 +587,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
             Title.Font.Height = -13
             Title.Font.Name = 'Segoe UI'
             Title.Font.Style = []
-            Width = 61
+            Width = 48
             Visible = True
           end
           item
@@ -602,7 +616,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
             Title.Font.Height = -13
             Title.Font.Name = 'Segoe UI'
             Title.Font.Style = []
-            Width = 95
+            Width = 80
             Visible = True
           end>
       end
@@ -622,7 +636,6 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
         Height = 658
         Align = alClient
         DataSource = ds_vigas
-        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = ANSI_CHARSET
         TitleFont.Color = clWindowText
@@ -812,7 +825,7 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
             Title.Font.Height = -12
             Title.Font.Name = 'Segoe UI'
             Title.Font.Style = [fsBold]
-            Width = 63
+            Width = 80
             Visible = True
           end
           item
@@ -1032,13 +1045,12 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     end
   end
   inherited qry: TFDQuery
-    Left = 392
-    Top = 32
+    Left = 432
   end
   object ds_vigas: TDataSource
     DataSet = mtb_vigas
-    Left = 320
-    Top = 198
+    Left = 464
+    Top = 14
   end
   object mtb_vigas: TFDMemTable
     Active = True
@@ -1105,8 +1117,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 320
-    Top = 230
+    Left = 464
+    Top = 46
     object mtb_vigasqtde: TIntegerField
       FieldName = 'qtde'
     end
@@ -1163,8 +1175,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
   end
   object ds_ferragens: TDataSource
     DataSet = mtb_ferragens
-    Left = 959
-    Top = 583
+    Left = 903
+    Top = 399
   end
   object qry_ferragens: TFDQuery
     Connection = dmConn.FDConnection
@@ -1172,8 +1184,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
       
         'select P.ID, P.NOME_FANTASIA, PRECO_VENDEDOR from produtos p, pr' +
         'odutos_adicional f where p.id = f.produto_id order by f.diametro')
-    Left = 815
-    Top = 575
+    Left = 839
+    Top = 407
   end
   object mtb_ferragens: TFDMemTable
     Active = True
@@ -1214,8 +1226,8 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 991
-    Top = 583
+    Left = 967
+    Top = 399
     object mtb_ferragensproduto_id: TIntegerField
       FieldName = 'produto_id'
     end

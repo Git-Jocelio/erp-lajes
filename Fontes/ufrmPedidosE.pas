@@ -815,10 +815,10 @@ begin
 
     form_principal.prc_controla_menu(false);
 
-    loform.top    := form_principal.pnl_Principal.Top;
+    loform.top    := form_principal.pnl_Principal.Top +20;
     loform.Left   := form_principal.pnl_menulateral.Width ;
-    loForm.Width  := form_principal.pnl_principal.Width - 120;
-    loForm.Height := form_principal.pnl_principal.Height;
+    loForm.Width  := form_principal.pnl_principal.Width ;
+    loForm.Height := form_principal.pnl_principal.Height -10;
 
     loForm.ShowModal;
 
@@ -838,10 +838,10 @@ begin
 
     form_principal.prc_controla_menu(false);
 
-    loform.top    := form_principal.pnl_Principal.Top;
+    loform.top    := form_principal.pnl_Principal.Top +20;
     loform.Left   := form_principal.pnl_menulateral.Width;
     loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
+    loForm.Height := form_principal.pnl_principal.Height -10;
 
     loForm.ShowModal;
   finally
@@ -861,10 +861,10 @@ begin
 
     form_principal.prc_controla_menu(false);
 
-    loform.top    := form_principal.pnl_Principal.Top;
+    loform.top    := form_principal.pnl_Principal.Top +20;
     loform.Left   := form_principal.pnl_menulateral.Width;
     loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
+    loForm.Height := form_principal.pnl_principal.Height -10;
 
     loForm.ShowModal;
   finally

@@ -890,45 +890,45 @@
   end
   inherited ToolBar1: TToolBar
     Width = 1105
-    ButtonWidth = 126
+    ButtonWidth = 114
     ExplicitWidth = 1105
     inherited btnIncluir: TToolButton
       Cursor = crHandPoint
-      ExplicitWidth = 126
+      ExplicitWidth = 114
     end
     inherited btnAlterar: TToolButton
-      Left = 126
+      Left = 114
       Cursor = crHandPoint
       Caption = '&Visualizar / Alterar'
-      ExplicitLeft = 126
-      ExplicitWidth = 126
+      ExplicitLeft = 114
+      ExplicitWidth = 114
     end
     inherited btnExcluir: TToolButton
-      Left = 252
+      Left = 228
       Cursor = crHandPoint
-      ExplicitLeft = 252
-      ExplicitWidth = 126
+      ExplicitLeft = 228
+      ExplicitWidth = 114
     end
     inherited ToolButton4: TToolButton
-      Left = 378
-      ExplicitLeft = 378
+      Left = 342
+      ExplicitLeft = 342
     end
     inherited btnPesquisar: TToolButton
-      Left = 383
+      Left = 347
       Cursor = crHandPoint
-      Caption = '<< Ocultar Pesquisa'
-      ExplicitLeft = 383
-      ExplicitWidth = 126
+      Caption = 'Pesquisar >>'
+      ExplicitLeft = 347
+      ExplicitWidth = 114
     end
     inherited ToolButton7: TToolButton
-      Left = 509
-      ExplicitLeft = 509
+      Left = 461
+      ExplicitLeft = 461
     end
     inherited btnImprimir: TToolButton
-      Left = 514
+      Left = 466
       Cursor = crHandPoint
-      ExplicitLeft = 514
-      ExplicitWidth = 126
+      ExplicitLeft = 466
+      ExplicitWidth = 114
     end
   end
   inherited StatusBar: TStatusBar

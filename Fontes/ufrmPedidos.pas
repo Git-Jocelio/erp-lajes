@@ -187,11 +187,11 @@ begin
     // se abrir dentro no painel principal no funciona os edites
     //loform.Parent := form_principal.pnl_principal;
 
-    loform.top    := form_principal.pnl_Principal.Top;
+    loform.top    := form_principal.pnl_Principal.Top +20;
     loform.Left   := form_principal.pnl_menulateral.Width;
 
     loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
+    loForm.Height := form_principal.pnl_principal.Height -10;
   end;
     loForm.Showmodal;
     // loform.btnPesquisar.Click;

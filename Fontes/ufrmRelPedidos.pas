@@ -154,6 +154,7 @@ type
     {controla a ordem dos produtos }
     comprimento : integer;
     FCodigo: integer;
+    FsituacaoPedido: string;
 
     procedure addItem(tabela: string; id, codigo: integer; descricao: string;
                       qtde: double; unidade:string; grupo,itemLaje, altura, comprimento: integer);
@@ -184,6 +185,7 @@ type
   public
     {codigo = número do pedido}
     property Codigo: integer read FCodigo write FCodigo;
+    property situacaoPedido: string read FsituacaoPedido write FsituacaoPedido;
 
 
 end;
@@ -241,11 +243,23 @@ var
   opcao : string;
 begin
   inherited;
+
+  InputQuery('SITUAÇÃO DO PEDIDO','Informe uma opção: '  + SLINEBREAK +  SLINEBREAK +
+             '1 = Listar Itens em ABERTO' + SLINEBREAK + SLINEBREAK +
+             '2 = Listar Itens em AGUARDANDO' + SLINEBREAK + SLINEBREAK +
+             '3 = Listar TODOS', OPCAO );
+  if ((strtointdef( opcao, 0 ) <= 0) or (strtointdef( opcao, 0 ) > 3)) then
+  begin
+    CriarMensagem('AVISO', 'ESCOLHA UMA OPÇÃO DE 1 A 3');
+    EXIT;
+  end else
+    situacaoPedido := OPCAO;
+
   prc_carregar_local_entrega;
   ConfgQrys;
   carregarCds(false);
 (*
-  {desligo o detail caso não haja reforcos na viga}
+  //desligo o detail caso não haja reforcos na viga
   detailData := TfrxDetailData(frxReportOrdemEntrega.FindComponent('detaildata1'));
   if detailData<> nil then
   begin
@@ -311,6 +325,8 @@ begin
     loqry.Close;
     freeandnil(loqry);
   end;
+
+
 end;
 
 procedure TfrmRelPedidos.btnOrdemProducaoClick(Sender: TObject);
@@ -564,17 +580,26 @@ begin
   qryPedItens.SQL.Add(' P.CONCRETO = ' + QuotedStr('N') + ' and ');
   qryPedItens.SQL.Add(' P.BOMBA = ' + QuotedStr('N') + ' and ');
   qryPedItens.SQL.Add(' PEDIDO_ID  =:PEDIDO_ID and ');
-  qryPedItens.SQL.Add(' I.SITUACAO =:SITUACAO ');
-  qryPedItens.SQL.Add('order by I.LOCAL, I.ITEM');
+
+  //situação do pedido
+  if situacaoPedido = '1' then
+   qryPedItens.SQL.Add(' I.SITUACAO =' + QuotedStr('ABERTO'))
+  else if situacaoPedido = '2' then
+   qryPedItens.SQL.Add(' I.SITUACAO =' + QuotedStr('AGUARDANDO'))
+  else if situacaoPedido = '3' then
+   qryPedItens.SQL.Add(' I.SITUACAO <>' + QuotedStr(''));// todos
+
+
+  qryPedItens.SQL.Add(' order by I.LOCAL, I.ITEM');
 
   {carregar parametros}
   qryPedItens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
-  qryPedItens.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
-  qryPedItens.Open();
-
+  //qryPedItens.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
+  qryPedItens.Open;
+//ShowMessage('qryitenspedido ' + sLineBreak +  qryPedItens.SQL.Text) ;
   {Itens da laje}
   qryItensLaje.SQL.Clear;
-  qryItensLaje.SQL.Add('select '                             );
+  qryItensLaje.SQL.Add('select '                              );
   qryItensLaje.SQL.Add(' I.ID , '                             );
   qryItensLaje.SQL.Add(' I.ITEM , '                           );
   qryItensLaje.SQL.Add(' I.PRODUTO_ID AS CODIGO, '            );
@@ -592,16 +617,26 @@ begin
 
   qryItensLaje.SQL.Add(' P.ID = I.PRODUTO_ID and '            );
   qryItensLaje.SQL.Add(' I.PEDIDO_ID =:PEDIDO_ID and '        );
-  qryItensLaje.SQL.Add(' I.ITEM =:ITEM and '                  );
-  qryItensLaje.SQL.Add(' PI.SITUACAO =:SITUACAO  '            );
+  qryItensLaje.SQL.Add(' I.ITEM =:ITEM  and '                 );
+  //qryItensLaje.SQL.Add(' PI.SITUACAO =:SITUACAO  '          );
+
+  //situação do pedido
+  if situacaoPedido = '1' then
+   qryItensLaje.SQL.Add(' PI.SITUACAO =' + QuotedStr('ABERTO'))
+  else if situacaoPedido = '2' then
+   qryItensLaje.SQL.Add(' PI.SITUACAO =' + QuotedStr('AGUARDANDO'))
+  else if situacaoPedido = '3' then
+   qryItensLaje.SQL.Add(' PI.SITUACAO <>' + QuotedStr(''));// todos
+
   qryItensLaje.SQL.Add(' order by P.NOME_FANTASIA desc  '     );
 
-
+//ShowMessage('qryItensLaje ' + sLineBreak +  qryItensLaje.SQL.Text) ;
   {carregar parametros}
   qryItensLaje.ParamByName('PEDIDO_ID').AsInteger := Codigo;
   qryItensLaje.ParamByName('ITEM'     ).AsInteger := qryPedItens.FieldByName('ITEM').AsInteger;
-  qryItensLaje.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
-  //qryItensLaje.Open();
+  //qryItensLaje.ParamByName('SITUACAO' ).AsString  := 'ABERTO';
+  qryItensLaje.Open();
+
 
 
   {totaliza pedido}
@@ -1076,6 +1111,8 @@ var
   v_empresa: string;
 begin
   inherited;
+  // controla a situação dos itens da ordem de entrega
+  situacaoPedido := '';
 
   qry.Connection            := self.Conexao;
   qryPedidoItens.Connection := self.Conexao;
