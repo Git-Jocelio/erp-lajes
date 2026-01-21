@@ -1,11 +1,10 @@
 object dmPrincipal: TdmPrincipal
-  OldCreateOrder = False
   OnCreate = DataModuleCreate
   Height = 352
   Width = 486
   object qryProdutos: TFDQuery
     CachedUpdates = True
-    Left = 48
-    Top = 32
+    Left = 160
+    Top = 64
   end
 end

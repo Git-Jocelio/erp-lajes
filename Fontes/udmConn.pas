@@ -153,18 +153,19 @@ const
   //versao_app = 152;   //20/07/2025; retirada de bugs
   //versao_app = 153;   //24/07/2025; retirada de bugs
   //versao_app = 154;   //28/07/2025; pesquisa de cheques de clientes
-  // versao_app = 155;   // atualizador do sistema para pastas sislajes
+  //versao_app = 155;   // atualizador do sistema para pastas sislajes
   //versao_app = 156;   //
-  // versao_app = 157;  // contrato de concreto editavel
+  //versao_app = 157;   // contrato de concreto editavel
   //versao_app = 158;   // RET BUGS
   //versao_app = 159;   // RET BUGS no resumo de materiais vendidos por data de entrega
   //versao_app = 160;   // RET BUGS no resumo de materiais vendidos por data de entrega
   //versao_app = 161;   // consulta de concreto com detapedidolhes
   //versao_app = 162;   // ret de bugs no frmProdutosLajesE
-  //versao_app = 163;     // vigas diagonal e totais de vigas
-  //versao_app = 164;     // retirada de bugs vigas diagonal
-  //versao_app = 165;     // retirada de bugs pedido e ajuste de tela
-  versao_app = 166;     // liberação de impressão de itens pedido e itens laje na ordem de produção de pedidos liquidados e parceial
+  //versao_app = 163;   // vigas diagonal e totais de vigas
+  //versao_app = 164;   // retirada de bugs vigas diagonal
+  //versao_app = 165;   // retirada de bugs pedido e ajuste de tela
+  //versao_app = 166;   // 19/01/2026 - liberação de impressão de itens pedido e itens laje na ordem de produção de pedidos liquidados e parcial
+  versao_app = 167;     // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
 
 
 var

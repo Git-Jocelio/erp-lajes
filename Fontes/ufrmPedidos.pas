@@ -97,7 +97,6 @@ type
     qryCLIENTE_ID: TIntegerField;
     qryVENDEDOR_ID: TIntegerField;
     qryPAGO: TStringField;
-    rg_pesquisar_por: TRadioGroup;
     qryDATA_CONTABIL: TDateField;
     Label2: TLabel;
     cb_entrega: TCheckBox;
@@ -114,6 +113,8 @@ type
     frxPDFExport1: TfrxPDFExport;
     frxDBImagem: TfrxDBDataset;
     qryImagemRelatorio: TFDQuery;
+    Label4: TLabel;
+    Label3: TLabel;
 
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
@@ -806,6 +807,7 @@ end;
 
 procedure TfrmPedidos.Pesquisar;
 begin
+
   if ValidarPesquisa then
   begin
 
@@ -839,6 +841,9 @@ begin
 
   end;
 
+  // recolhe a pesquisa
+  btnPesquisar.Click;
+
   //ajustas as colunas do dbgrid
   prc_ajustar_colunas_grid( DBGrid1 );
 
@@ -865,29 +870,17 @@ var
  condicao : string;
 begin
   {filtra pelo número do Pedido}
-  //if rg_pesquisar_por.ItemIndex = 1 then
-  //  condicao := ' and P.NOSSO_NUMERO = :NOSSO_NUMERO ';
-  if rg_pesquisar_por.ItemIndex = 0 then
-    condicao := ' and P.ID = :ID ';
+  condicao := ' and P.ID = :ID ';
 
 
   {carrega a instrução}
   qry.close;
   qry.Sql.Clear;
   qry.Sql.Add( sqlPadrao + condicao );
+
   {passagem dos parametros}
   if condicao <> '' then
-  begin
-    {pesquisa campo NOSSO_NUMERO}
-    if rg_pesquisar_por.ItemIndex = 1 then
-      qry.ParamByName('NOSSO_NUMERO').AsString := edNumeroPedido.Text;
-
-    {pesquisa campo ID}
-    if rg_pesquisar_por.ItemIndex = 0 then
-      qry.ParamByName('ID').AsString := edNumeroPedido.Text;
-
-  end;
-  //ShowMessage(qry.SQL.Text);
+    qry.ParamByName('ID').AsString := edNumeroPedido.Text;
 
   {abre a pesquisa}
   qry.Open();
@@ -994,8 +987,7 @@ begin
   inherited;
   pesquisar;
 
-//  if qry.RecordCount = 1 then
-//    btnAlterar.Click;
+
 end;
 
 procedure TfrmPedidos.btnFiltrarDadosObraClick(Sender: TObject);

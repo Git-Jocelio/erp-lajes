@@ -21,15 +21,18 @@
       Height = 146
       ActivePage = tbs_numero_Pedido
       Align = alClient
+      DragCursor = crHandPoint
       TabOrder = 2
       object tbs_numero_Pedido: TTabSheet
         Caption = 'Pelo N'#250'mero'
         OnShow = tbs_numero_PedidoShow
         object btnFitrarNumero: TSpeedButton
-          Left = 386
-          Top = 38
+          Left = 235
+          Top = 30
           Width = 31
           Height = 29
+          Cursor = crHandPoint
+          Hint = 'clique para filtrar'
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -57,11 +60,13 @@
             FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
             6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
             00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+          ParentShowHint = False
+          ShowHint = True
           OnClick = btnFitrarNumeroClick
         end
         object Label2: TLabel
-          Left = 159
-          Top = 18
+          Left = 5
+          Top = 10
           Width = 217
           Height = 15
           Caption = 'Digite o n'#250'mero do pedido e tecle ENTER'
@@ -73,10 +78,11 @@
           ParentFont = False
         end
         object edNumeroPedido: TEdit
-          Left = 157
-          Top = 38
+          Left = 3
+          Top = 30
           Width = 226
           Height = 29
+          Hint = 'Informe o n'#250'mero do pedido'
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -16
@@ -84,24 +90,10 @@
           Font.Style = [fsBold]
           NumbersOnly = True
           ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
           OnKeyPress = edNumeroPedidoKeyPress
-        end
-        object rg_pesquisar_por: TRadioGroup
-          Left = 14
-          Top = 22
-          Width = 137
-          Height = 45
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Segoe UI'
-          Font.Style = []
-          ItemIndex = 0
-          Items.Strings = (
-            'Id do Pedido')
-          ParentFont = False
-          TabOrder = 1
         end
       end
       object tbs_endereco: TTabSheet
@@ -113,6 +105,7 @@
           Top = 26
           Width = 28
           Height = 26
+          Cursor = crHandPoint
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -142,12 +135,32 @@
             00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
           OnClick = btn_filtrar_endereço_clienteClick
         end
+        object Label3: TLabel
+          Left = 5
+          Top = 57
+          Width = 689
+          Height = 15
+          Caption = 
+            '1. Marque o checkbox a op'#231#227'o que deseja filtrar  2. Digite no ca' +
+            'mpo correspondente o texto '#224' pesquisar. 3. Clique no bot'#227'o (lupi' +
+            'nha)'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsItalic]
+          ParentFont = False
+        end
         object cb_endereco_cliente: TCheckBox
           Left = 195
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por endere'#231'o'
           Caption = 'Endere'#231'o'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
         end
         object edt_endereco_cliente: TEdit
@@ -163,7 +176,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por bairro'
           Caption = 'Bairro'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 2
         end
         object edt_bairro_cliente: TEdit
@@ -179,7 +196,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por cidade'
           Caption = 'Cidade'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 4
         end
         object edt_cidade_cliente: TEdit
@@ -195,7 +216,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por cep'
           Caption = 'CEP'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 6
         end
         object edt_cep_cliente: TEdit
@@ -220,7 +245,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por nome'
           Caption = 'Nome'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 9
         end
       end
@@ -231,14 +260,14 @@
         object Label1: TLabel
           Left = 2
           Top = 39
-          Width = 151
-          Height = 18
+          Width = 134
+          Height = 17
           Caption = 'Digite somente n'#250'meros'
           Font.Charset = ANSI_CHARSET
           Font.Color = clRed
-          Font.Height = -15
-          Font.Name = 'Times New Roman'
-          Font.Style = [fsBold, fsItalic]
+          Font.Height = -13
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsItalic]
           ParentFont = False
         end
         object btnFiltrarCPF_CNPJ: TSpeedButton
@@ -246,6 +275,7 @@
           Top = 14
           Width = 27
           Height = 27
+          Cursor = crHandPoint
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -280,7 +310,10 @@
           Top = 14
           Width = 177
           Height = 25
+          Hint = 'Informe o n'#250'mero do cpf ou cnpj'
           NumbersOnly = True
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
         end
       end
@@ -338,6 +371,7 @@
             Height = 17
             Cursor = crHandPoint
             Caption = 'Emiss'#227'o'
+            DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -385,6 +419,7 @@
             Width = 97
             Height = 17
             Caption = 'Data Cont'#225'bil'
+            DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -433,6 +468,7 @@
             Height = 17
             Cursor = crHandPoint
             Caption = 'Entrega'
+            DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -489,6 +525,7 @@
             Height = 17
             Cursor = crHandPoint
             Caption = 'Cliente'
+            DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -12
@@ -521,6 +558,7 @@
             Height = 17
             Cursor = crHandPoint
             Caption = 'Vendedor'
+            DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -12
@@ -625,6 +663,7 @@
           Top = 26
           Width = 27
           Height = 26
+          Cursor = crHandPoint
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -654,12 +693,32 @@
             00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
           OnClick = btnFiltrarDadosObraClick
         end
+        object Label4: TLabel
+          Left = 3
+          Top = 57
+          Width = 689
+          Height = 15
+          Caption = 
+            '1. Marque o checkbox a op'#231#227'o que deseja filtrar  2. Digite no ca' +
+            'mpo correspondente o texto '#224' pesquisar. 3. Clique no bot'#227'o (lupi' +
+            'nha)'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsItalic]
+          ParentFont = False
+        end
         object cbNome: TCheckBox
           Left = 5
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por nome'
           Caption = 'Nome'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
         end
         object edNome: TEdit
@@ -671,11 +730,15 @@
           TabOrder = 1
         end
         object cbEndereco: TCheckBox
-          Left = 195
+          Left = 193
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por endere'#231'o'
           Caption = 'Endere'#231'o'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 2
         end
         object edEndereco: TEdit
@@ -691,7 +754,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por bairro'
           Caption = 'Bairro'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 4
         end
         object edBairro: TEdit
@@ -707,7 +774,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por cidade'
           Caption = 'Cidade'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 6
         end
         object edCidade: TEdit
@@ -723,7 +794,11 @@
           Top = 8
           Width = 97
           Height = 17
+          Hint = 'Marque para filtrar por cep'
           Caption = 'CEP'
+          DragCursor = crHandPoint
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 8
         end
         object edCep: TEdit
@@ -899,6 +974,7 @@
     inherited btnAlterar: TToolButton
       Left = 114
       Cursor = crHandPoint
+      Hint = 'Visualizar ou alterar o registro selecionado'
       Caption = '&Visualizar / Alterar'
       ExplicitLeft = 114
       ExplicitWidth = 114
@@ -906,6 +982,7 @@
     inherited btnExcluir: TToolButton
       Left = 228
       Cursor = crHandPoint
+      Hint = 'Excluir o registro selecionado'
       ExplicitLeft = 228
       ExplicitWidth = 114
     end

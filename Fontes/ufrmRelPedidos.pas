@@ -243,11 +243,18 @@ var
   opcao : string;
 begin
   inherited;
-
-  InputQuery('SITUAÇÃO DO PEDIDO','Informe uma opção: '  + SLINEBREAK +  SLINEBREAK +
+  OPCAO := '1';
+  // captura a opção do usuário
+  if not InputQuery('SITUAÇÃO DOS ITENS DO PEDIDO','Informe uma opção: '  + SLINEBREAK +  SLINEBREAK +
              '1 = Listar Itens em ABERTO' + SLINEBREAK + SLINEBREAK +
              '2 = Listar Itens em AGUARDANDO' + SLINEBREAK + SLINEBREAK +
-             '3 = Listar TODOS', OPCAO );
+             '3 = Listar TODOS', OPCAO ) then
+  begin
+    // Usuário clicou em Cancelar
+    Exit;
+  end;
+
+  // válidação
   if ((strtointdef( opcao, 0 ) <= 0) or (strtointdef( opcao, 0 ) > 3)) then
   begin
     CriarMensagem('AVISO', 'ESCOLHA UMA OPÇÃO DE 1 A 3');
@@ -334,6 +341,9 @@ var
   detailData: TfrxDetailData;
 begin
   inherited;
+  // passo situação do pedido = 1( somento pedido ABERTO )
+  situacaoPedido := '1';
+
   prc_carregar_local_entrega;
   ConfgQrys;
   carregarCds(true);

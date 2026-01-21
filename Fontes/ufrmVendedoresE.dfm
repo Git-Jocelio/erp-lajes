@@ -1,384 +1,189 @@
 inherited frmVendedoresE: TfrmVendedoresE
+  BorderStyle = bsNone
+  BorderWidth = 3
   Caption = 'frmVendedoresE'
-  ClientHeight = 531
-  ClientWidth = 609
+  ClientHeight = 450
+  ClientWidth = 472
   Font.Height = -12
   ShowHint = True
-  ExplicitWidth = 621
-  ExplicitHeight = 569
+  ExplicitWidth = 478
+  ExplicitHeight = 456
   TextHeight = 15
   inherited pnTitulo: TPanel
-    Width = 609
-    ExplicitWidth = 590
+    Width = 472
+    Height = 65
+    ExplicitWidth = 472
+    ExplicitHeight = 65
     inherited lbl_titulo: TLabel
-      Width = 609
-      Height = 40
+      Width = 472
+      Height = 48
+      Layout = tlCenter
     end
     inherited lbl_sub_titulo: TLabel
-      Width = 609
+      Top = 48
+      Width = 472
+      Layout = tlCenter
+      ExplicitTop = 48
     end
   end
   inherited pnDados: TPanel
-    Width = 609
-    Height = 345
+    Top = 65
+    Width = 472
+    Height = 287
     Font.Height = -12
-    ExplicitWidth = 590
-    ExplicitHeight = 344
+    ExplicitTop = 65
+    ExplicitWidth = 472
+    ExplicitHeight = 287
     object Label1: TLabel
-      Left = 10
-      Top = 16
-      Width = 11
+      Left = 5
+      Top = 6
+      Width = 17
       Height = 15
-      Caption = 'ID'
-      FocusControl = edID
+      Caption = 'ID :'
     end
     object Label2: TLabel
-      Left = 10
-      Top = 165
-      Width = 33
+      Left = 91
+      Top = 6
+      Width = 53
       Height = 15
-      Caption = 'Nome'
-      FocusControl = edNome
+      Caption = 'Cadastro :'
     end
     object Label3: TLabel
-      Left = 10
-      Top = 69
+      Left = 257
+      Top = 6
+      Width = 56
+      Height = 15
+      Caption = 'Altera'#231#227'o :'
+    end
+    object Label6: TLabel
+      Left = 5
+      Top = 34
       Width = 59
       Height = 15
       Caption = 'CPF / CNPJ'
-      FocusControl = edCpfCnpj
     end
-    object Label4: TLabel
-      Left = 9
-      Top = 117
+    object Label7: TLabel
+      Left = 148
+      Top = 34
       Width = 35
       Height = 15
       Caption = 'RG / IE'
-      FocusControl = edRgIe
-    end
-    object Label5: TLabel
-      Left = 10
-      Top = 210
-      Width = 49
-      Height = 15
-      Caption = 'Endere'#231'o'
-      FocusControl = edEndereco
-    end
-    object Label6: TLabel
-      Left = 522
-      Top = 210
-      Width = 44
-      Height = 15
-      Caption = 'N'#250'mero'
-      FocusControl = edNumero
-    end
-    object Label7: TLabel
-      Left = 92
-      Top = 16
-      Width = 47
-      Height = 15
-      Caption = 'Cadastro'
-      FocusControl = eddataCad
     end
     object Label8: TLabel
-      Left = 219
-      Top = 16
-      Width = 86
-      Height = 15
-      Caption = #218'ltima altera'#231#227'o'
-      FocusControl = edDataAlt
-    end
-    object Label13: TLabel
-      Left = 278
-      Top = 117
-      Width = 37
-      Height = 15
-      Caption = 'Celular'
-      FocusControl = edCelular
-    end
-    object Label12: TLabel
-      Left = 133
-      Top = 117
+      Left = 365
+      Top = 31
       Width = 44
       Height = 15
       Caption = 'Telefone'
-      FocusControl = edTelefone
     end
-    object Label14: TLabel
-      Left = 10
-      Top = 258
+    object Label4: TLabel
+      Left = 251
+      Top = 34
+      Width = 37
+      Height = 15
+      Caption = 'Celular'
+    end
+    object Label5: TLabel
+      Left = 5
+      Top = 86
+      Width = 33
+      Height = 15
+      Caption = 'Nome'
+    end
+    object Label11: TLabel
+      Left = 5
+      Top = 136
+      Width = 49
+      Height = 15
+      Caption = 'Endere'#231'o'
+    end
+    object Label12: TLabel
+      Left = 398
+      Top = 136
+      Width = 44
+      Height = 15
+      Caption = 'N'#250'mero'
+    end
+    object Label13: TLabel
+      Left = 5
+      Top = 185
       Width = 31
       Height = 15
       Caption = 'Bairro'
-      FocusControl = edBairro
     end
-    object Label15: TLabel
-      Left = 219
-      Top = 258
+    object Label14: TLabel
+      Left = 177
+      Top = 185
       Width = 37
       Height = 15
       Caption = 'Cidade'
-      FocusControl = edCidade
     end
-    object Label16: TLabel
-      Left = 425
-      Top = 258
+    object Label15: TLabel
+      Left = 357
+      Top = 185
       Width = 14
       Height = 15
       Caption = 'UF'
     end
-    object Label17: TLabel
-      Left = 488
-      Top = 258
+    object Label16: TLabel
+      Left = 393
+      Top = 185
       Width = 21
       Height = 15
       Caption = 'CEP'
-      FocusControl = edCep
     end
-    object Label18: TLabel
-      Left = 10
-      Top = 302
+    object Label17: TLabel
+      Left = 5
+      Top = 233
       Width = 29
       Height = 15
       Caption = 'email'
-      FocusControl = edEmail
     end
-    object edID: TDBEdit
-      Left = 10
-      Top = 32
-      Width = 70
-      Height = 23
-      Color = clWhite
-      DataField = 'ID'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 0
-    end
-    object edNome: TDBEdit
-      Left = 10
-      Top = 180
-      Width = 585
-      Height = 25
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'NOME'
-      DataSource = ds
-      Enabled = False
+    object lbl_id: TLabel
+      Left = 25
+      Top = 6
+      Width = 21
+      Height = 15
+      Caption = '000'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold]
       ParentFont = False
-      ReadOnly = True
-      TabOrder = 1
     end
-    object edCpfCnpj: TDBEdit
-      Left = 10
-      Top = 85
-      Width = 111
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'CPF_CNPJ'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 2
+    object lbl_cadastrado_em: TLabel
+      Left = 148
+      Top = 6
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
-    object edRgIe: TDBEdit
-      Left = 9
-      Top = 133
-      Width = 118
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'RG_IE'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 3
+    object lbl_alterado_em: TLabel
+      Left = 316
+      Top = 6
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
-    object edEndereco: TDBEdit
-      Left = 10
-      Top = 227
-      Width = 500
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'ENDERECO'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 4
-    end
-    object edNumero: TDBEdit
-      Left = 522
-      Top = 227
-      Width = 73
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'NUMERO'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 5
-    end
-    object eddataCad: TDBEdit
-      Left = 92
-      Top = 32
-      Width = 103
-      Height = 23
-      Color = clWhite
-      DataField = 'DATA_CAD'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 6
-    end
-    object edDataAlt: TDBEdit
-      Left = 219
-      Top = 32
-      Width = 103
-      Height = 23
-      Color = clWhite
-      DataField = 'DATA_ALT'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 7
-    end
-    object edCelular: TDBEdit
-      Left = 278
-      Top = 133
-      Width = 107
-      Height = 23
-      Color = clWhite
-      DataField = 'CELULAR'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 8
-    end
-    object edTelefone: TDBEdit
-      Left = 133
-      Top = 133
-      Width = 127
-      Height = 23
-      Color = clWhite
-      DataField = 'TELEFONE'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 9
-    end
-    object edBairro: TDBEdit
-      Left = 10
-      Top = 274
-      Width = 200
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'BAIRRO'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 10
-    end
-    object edCidade: TDBEdit
-      Left = 219
-      Top = 274
-      Width = 200
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'CIDADE'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 11
-    end
-    object edCep: TDBEdit
-      Left = 490
-      Top = 274
-      Width = 105
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'CEP'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 12
-    end
-    object edEmail: TDBEdit
-      Left = 10
-      Top = 318
-      Width = 585
-      Height = 23
-      CharCase = ecLowerCase
-      Color = clWhite
-      DataField = 'EMAIL'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 13
-    end
-    object cbAtivo: TDBCheckBox
-      Left = 355
-      Top = 32
-      Width = 97
-      Height = 17
-      Caption = 'Ativo'
-      DataField = 'ATIVO'
-      DataSource = ds
-      Enabled = False
-      ReadOnly = True
-      TabOrder = 14
-      ValueChecked = 'S'
-      ValueUnchecked = 'N'
-    end
-    object rgPessoa: TDBRadioGroup
-      Left = 425
-      Top = 16
-      Width = 170
-      Height = 47
-      Caption = ' Pessoa '
-      Columns = 2
-      DataField = 'FIS_JUR'
-      DataSource = ds
-      Enabled = False
-      Items.Strings = (
-        'Fisica'
-        'Juridica')
-      ReadOnly = True
-      TabOrder = 15
-      Values.Strings = (
-        'F'
-        'J')
-    end
-    object edUF: TDBComboBox
-      Left = 425
-      Top = 274
-      Width = 54
-      Height = 23
-      CharCase = ecUpperCase
-      Color = clWhite
-      DataField = 'UF'
-      DataSource = ds
-      Enabled = False
-      Items.Strings = (
-        'SP')
-      ReadOnly = True
-      TabOrder = 16
-    end
-    object btnBuscaPessoa: TBitBtn
-      Left = 123
-      Top = 85
-      Width = 28
-      Height = 25
-      Hint = 'buscar uma pessoa j'#225' adastrada'
+    object btn_validar_cpf_cnpj: TSpeedButton
+      Left = 119
+      Top = 52
+      Width = 23
+      Height = 22
+      Hint = 'Validar CPF/CNPJ'
       Glyph.Data = {
         36030000424D3603000000000000360000002800000010000000100000000100
         1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -406,51 +211,134 @@ inherited frmVendedoresE: TfrmVendedoresE
         FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
         6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
-      TabOrder = 17
-      OnClick = btnBuscaPessoaClick
+      OnClick = btn_validar_cpf_cnpjClick
     end
-    object btnIncluirPessoa: TBitBtn
-      Left = 153
-      Top = 85
-      Width = 29
-      Height = 25
-      Hint = 'Cadastrar uma nova pessoa'
-      Glyph.Data = {
-        36030000424D3603000000000000360000002800000010000000100000000100
-        1800000000000003000000000000000000000000000000000000FF00FFFF00FF
-        A46769A46769A46769A46769A46769A46769A46769A46769A46769A46769A467
-        69A46769A46769FF00FFFF00FFFF00FFB79184FEE9C7F4DAB5F3D5AAF2D0A0EF
-        CB96EFC68BEDC182EBC17FEBC180EBC180F2C782A46769FF00FFFF00FFFF00FF
-        B79187FCEACEF3DABCF2D5B1F0D0A7EECB9EEDC793EDC28BE9BD81E9BD7FE9BD
-        7FEFC481A46769FF00FFFF00FFFF00FFB7938AFEEFDAF6E0C6F2DABCF2D5B2EF
-        D0A9EECB9EEDC796EBC28CE9BD82E9BD7FEFC481A46769FF00FFFF00FFFF00FF
-        BA978FFFF4E5F7E5CFF4E0C5F3DABBF2D5B1F0D0A6EECB9EEDC795EBC28AEABF
-        81EFC480A46769FF00FFFF00FFFF00FFC09E95FFFBF0F8EADCF6E3CFF4E0C6F2
-        D9BCF2D5B1F0D0A9EDCB9EEDC695EBC28AEFC583A46769FF00FFFF00FFFF00FF
-        C6A49AFFFFFCFAF0E6F8EADAF7E5CFF4E0C5F2DABAF2D5B1F0D0A7EECB9DEBC7
-        93F2C98CA46769FF00FFFF00FFFF00FFCBA99EFFFFFFFEF7F2FAEFE6F8EAD9F7
-        E3CFF6E0C5F2DABBF2D4B1F0D0A7EECC9EF3CE97A46769FF00FFFF00FFFF00FF
-        CFAC9FFFFFFFFFFEFCFCF6F0FAEFE6F7EADAF6E3CFF4E0C5F3D9BBF3D4B0F0D0
-        A6F6D3A0A46769FF00FFFF00FFFF00FFD4B0A1FFFFFFFFFFFFFFFEFCFEF7F0FA
-        EFE5F8EAD9F7E5CEF6DEC4F3D9B8F4D8B1EBCFA4A46769FF00FFFF00FFFF00FF
-        D9B5A1FFFFFFFFFFFFFFFFFFFFFEFCFCF7F0FAEFE5F8E9D9F8E7D1FBEACEDECE
-        B4B6AA93A46769FF00FFFF00FFFF00FFDDB7A4FFFFFFFFFFFFFFFFFFFFFFFFFF
-        FEFCFCF6EFFCF3E6EDD8C9B68A7BA17B6F9C7667A46769FF00FFFF00FFFF00FF
-        E2BCA5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFFFEF7DAC1BAAD735BE19E
-        55E68F31B56D4DFF00FFFF00FFFF00FFE6BFA7FFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFDCC7C5B88265F8B55CBF7A5CFF00FFFF00FFFF00FFFF00FF
-        E4BCA4FBF4F0FBF4EFFAF3EFFAF3EFF8F2EFF7F2EFF7F2EFD8C2C0B77F62C183
-        6CFF00FFFF00FFFF00FFFF00FFFF00FFE8C4ADEBCBB7EBCBB7EACBB7EACAB6EA
-        CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
-      TabOrder = 18
-      OnClick = btnIncluirPessoaClick
+    object cb_ativo: TCheckBox
+      Left = 414
+      Top = 6
+      Width = 51
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 0
+    end
+    object edt_cpf_cnpj: TEdit
+      Left = 4
+      Top = 52
+      Width = 109
+      Height = 23
+      Hint = 'digite somente n'#250'meros'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      MaxLength = 14
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 1
+    end
+    object edt_rg_ie: TEdit
+      Left = 148
+      Top = 52
+      Width = 96
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 15
+      TabOrder = 2
+    end
+    object edt_telefone: TEdit
+      Left = 361
+      Top = 52
+      Width = 102
+      Height = 23
+      MaxLength = 13
+      TabOrder = 3
+    end
+    object edt_celular: TEdit
+      Left = 251
+      Top = 52
+      Width = 101
+      Height = 23
+      MaxLength = 14
+      TabOrder = 4
+    end
+    object edt_nome: TEdit
+      Left = 5
+      Top = 105
+      Width = 458
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 100
+      TabOrder = 5
+    end
+    object edt_endereco: TEdit
+      Left = 5
+      Top = 155
+      Width = 385
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 100
+      TabOrder = 6
+    end
+    object edt_numero: TEdit
+      Left = 398
+      Top = 155
+      Width = 65
+      Height = 23
+      MaxLength = 10
+      TabOrder = 7
+    end
+    object edt_bairro: TEdit
+      Left = 4
+      Top = 204
+      Width = 167
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 30
+      TabOrder = 8
+    end
+    object edt_cidade: TEdit
+      Left = 177
+      Top = 203
+      Width = 177
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 30
+      TabOrder = 9
+    end
+    object edt_uf: TEdit
+      Left = 358
+      Top = 203
+      Width = 32
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 2
+      TabOrder = 10
+      Text = 'SP'
+    end
+    object edt_cep: TEdit
+      Left = 393
+      Top = 203
+      Width = 70
+      Height = 23
+      CharCase = ecUpperCase
+      MaxLength = 9
+      TabOrder = 11
+    end
+    object edt_email: TEdit
+      Left = 5
+      Top = 253
+      Width = 458
+      Height = 23
+      CharCase = ecLowerCase
+      TabOrder = 12
     end
   end
   inherited pnRodape: TPanel
-    Top = 494
-    Width = 609
-    ExplicitTop = 493
-    ExplicitWidth = 590
+    Top = 413
+    Width = 472
+    ExplicitTop = 413
+    ExplicitWidth = 472
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
@@ -459,33 +347,31 @@ inherited frmVendedoresE: TfrmVendedoresE
   end
   object pnVendedor: TPanel [3]
     Left = 0
-    Top = 402
-    Width = 609
-    Height = 92
+    Top = 352
+    Width = 472
+    Height = 61
     Align = alBottom
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 3
-    ExplicitTop = 401
-    ExplicitWidth = 590
     object Label9: TLabel
-      Left = 278
-      Top = 19
+      Left = 310
+      Top = 2
       Width = 153
       Height = 15
       Caption = 'Comiss'#227'o Administrativa (%)'
     end
     object Label10: TLabel
       Left = 10
-      Top = 19
+      Top = 2
       Width = 196
       Height = 15
       Caption = 'Comiss'#227'o sobre o lucro da venda (%)'
     end
     object edt_comissao_vendedor: TEdit
       Left = 10
-      Top = 40
+      Top = 23
       Width = 121
       Height = 23
       Color = clWhite
@@ -496,8 +382,8 @@ inherited frmVendedoresE: TfrmVendedoresE
       OnKeyPress = edt_comissao_vendedorKeyPress
     end
     object edt_comissao_adm: TEdit
-      Left = 278
-      Top = 40
+      Left = 310
+      Top = 23
       Width = 121
       Height = 23
       Color = clWhite
@@ -509,22 +395,11 @@ inherited frmVendedoresE: TfrmVendedoresE
     end
   end
   inherited qry: TFDQuery
-    Left = 400
-    Top = 156
-  end
-  object qryVendedor: TFDQuery [5]
-    CachedUpdates = True
-    Connection = dmConn.FDConnection
-    Left = 427
-    Top = 156
+    Left = 256
+    Top = 180
   end
   inherited ds: TDataSource
-    Left = 400
-    Top = 129
-  end
-  object dsVendedor: TDataSource
-    DataSet = qryVendedor
-    Left = 427
-    Top = 129
+    Left = 256
+    Top = 145
   end
 end

@@ -204,7 +204,7 @@ end;
 
 procedure TfrmDinheiroEntradaE.prc_salvar;
 begin
-  //variaveis para caso foe enviar ao contas a pagar
+  //variaveis caso for enviar ao contas a pagar
   pessoa_id       := -1;
   conta_id        := -1;
   pessoa_nome     := '';;

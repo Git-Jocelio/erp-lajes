@@ -18,6 +18,7 @@ type
     procedure rgTipoClick(Sender: TObject);
     procedure btnConfirmaClick(Sender: TObject);
     procedure edLocalizarChange(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
   private
     FCodigo: integer;
     FConfirmado: boolean;
@@ -42,6 +43,14 @@ begin
   inherited;
   confirmado := true;
   Codigo := qry.FieldByName('ID').AsInteger;
+  close;
+end;
+
+procedure TfrmPesquisaPessoa.btnFecharClick(Sender: TObject);
+begin
+  inherited;
+  confirmado := false;
+  codigo := -1;
   close;
 end;
 
