@@ -627,7 +627,7 @@ begin
       end;
     end
     else
-    // KEMEL
+    // KEMEL - DANIEL
     if cnpj = '14891635000130' then
     begin
       senha_vitalicia := cnpj + criptografia(senha_vitalicia);
@@ -671,6 +671,16 @@ begin
     begin
       senha_vitalicia := cnpj + criptografia(senha_vitalicia);
       if senha_vitalicia <> '46077049000143'+'J@cel1@_Autor1z@u' then
+      begin
+
+        prc_validar_sistema(memo_seguranca);
+      end;
+    end else
+    // LAJES PIOLI INSTALA EM 23/01/2026
+    if cnpj = '03458888000107' then
+    begin
+      senha_vitalicia := cnpj + criptografia(senha_vitalicia);
+      if senha_vitalicia <> '03458888000107'+'J@cel1@_Autor1z@u' then
       begin
 
         prc_validar_sistema(memo_seguranca);

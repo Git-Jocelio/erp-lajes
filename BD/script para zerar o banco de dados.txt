@@ -1,5 +1,6 @@
 script para zerao o banco de dados
 
+/* LIMPA DADOS DAS TABELAS */
 delete from cartao_vendas
 delete from cheques_clientes
 delete from clientes where pessoa_id > 3
@@ -68,3 +69,35 @@ delete from cartao_taxas
 delete from bancos
 delete from cartao_operadoras
 delete from pessoas where id > 3
+
+/* CONFIGURA IDS */
+UPDATE TABELAS SET ID_ATUAL = 3 where NOME_TABELA = 'PESSOAS' ;
+UPDATE TABELAS SET ID_ATUAL = 999 where NOME_TABELA = 'PEDIDOS' ;
+UPDATE clientes SET ID = 1 where PESSOA_ID = 1;/*consumidor*/
+UPDATE clientes SET ID = 2 where PESSOA_ID = 2;/*empresa*/
+UPDATE clientes SET ID = 3 where PESSOA_ID = 3;/*jocelio*/
+UPDATE TABELAS SET ID_ATUAL = 3 where NOME_TABELA = 'CLIENTES' ;
+UPDATE TABELAS SET ID_ATUAL = 1 where NOME_TABELA = 'USUARIOS';
+UPDATE PRODUTOS SET ESTOQUE_FISICO = 0, PEDIDO_ABERTO = 0, 
+
+/* ZERA SALDO ESTOQUES */
+ESTOQUE_DISPONIVEL = 0, PEDIDO_AGUARDANDO = 0, ESTOQUE_LIQUIDO = 0;
+
+/* DELETA CONTROLE DE IDS */
+DELETE FROM TABELAS
+WHERE NOME_TABELA IN (
+ 'VENDEDORES';
+ 'TRANSPORTADORAS';
+ 'PEDIDOS_ITENS';
+ 'PEDIDOS_ITENS_LAJE';
+ 'COMISSAO_ITEM';
+ 'COMISSAO';
+ 'CONTAS_RECEBER';
+ 'PEDIDOS_LOCAL_ENTREGA';
+ 'PEDIDOS_FERRAGENS';
+ 'CONTAS_RECEBER_BAIXA';
+ 'PEDIDOS_PAGAMENTOS';
+ 'FORNECEDORES';
+ 'CONTAS_PAGAR';
+ 'CONTAS_PAGAR_BAIXA'
+)

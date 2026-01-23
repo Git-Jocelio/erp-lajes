@@ -18,9 +18,6 @@ type
     Label10: TLabel;
     edt_comissao_adm: TEdit;
     Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
     Label4: TLabel;
@@ -33,8 +30,6 @@ type
     Label16: TLabel;
     Label17: TLabel;
     lbl_id: TLabel;
-    lbl_cadastrado_em: TLabel;
-    lbl_alterado_em: TLabel;
     btn_validar_cpf_cnpj: TSpeedButton;
     cb_ativo: TCheckBox;
     edt_cpf_cnpj: TEdit;
@@ -49,6 +44,11 @@ type
     edt_uf: TEdit;
     edt_cep: TEdit;
     edt_email: TEdit;
+    Label6: TLabel;
+    Label2: TLabel;
+    lbl_cadastrado_em: TLabel;
+    Label3: TLabel;
+    lbl_alterado_em: TLabel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -275,6 +275,7 @@ procedure TfrmVendedoresE.prc_carregar_pessoa;
 begin
   ActiveControl := edt_nome;
   edt_cpf_cnpj.Enabled := FALSE;
+  btn_validar_cpf_cnpj.Enabled := false;
 
   lbl_id.Caption            := qry.FieldByName('ID').AsString;
   lbl_cadastrado_em.Caption := qry.FieldByName('DATA_CAD').AsString;

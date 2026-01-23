@@ -737,7 +737,6 @@ type
     function  fnc_somar_custo_pedido: double;
 
     procedure prc_atualizar_Painel_comissao_triunfo;
-    procedure prc_atualizar_Painel_comissao_ferrari;
     procedure prc_calcular_painel_financeiro;
     procedure prc_recalcular_painel_financeiro;
     function fnc_incluir_alterar_concreto_realizado(
@@ -1853,7 +1852,6 @@ begin
   uBiblioteca.AtualizaQuery(qryComissoes);
 
   prc_atualizar_Painel_comissao_triunfo;
-  //prc_atualizar_Painel_comissao_ferrari;
 
   //uBiblioteca.FilterCds(qryComissao_itens, utipos.fsInteger, inttostr(self.Codigo));
 
@@ -2016,7 +2014,6 @@ begin
   uBiblioteca.AtualizaQuery(qryComissoes);
 
   prc_atualizar_Painel_comissao_triunfo;
- // prc_atualizar_Painel_comissao_ferrari;
 
   FreeAndNil( frmComissoesDespesasE );
 
@@ -4121,50 +4118,6 @@ begin
 
 end;
 
-procedure TfrmPedidosE.prc_atualizar_Painel_comissao_ferrari;
-var
-  tx_comissao_vendedor     : double;
-  tx_comissao_abono        : double;
-  tx_desconto_concedido    : double;
-  tx_comissao_real         : double;
-  valor_venda_ferrari      : double;
-  valor_venda_pedido       : double;
-  valor_desconto           : double;
-  valor_venda_com_desconto : double;
-  valor_comissao           : double;
-  outras_despesas          : double;
-  valor_comissao_vendedor  : double;
-
-begin
-  {COMISSAO LAJES FERRARI}
-  valor_venda_pedido       := strtofloatdef(edt_valor_total.caption,0);
-  valor_venda_ferrari      := fnc_somar_custo_pedido;
-  valor_desconto           := strtofloatdef(lbl_vr_pedido_ferrari.caption,0) - strtofloatdef(edt_valor_total.caption,0);
-  tx_comissao_vendedor     := 8; //p_comissao_vendedor; AQUI
-  tx_comissao_abono        := 50;//p_comissao_abono; // AQUI
-  tx_desconto_concedido    := valor_desconto * 100 / valor_venda_ferrari;
-  tx_comissao_real         := tx_comissao_vendedor - ( tx_desconto_concedido * tx_comissao_abono / 100 ) ;
-  valor_venda_com_desconto := strtofloatdef(edt_valor_total.Caption,0);;
-  valor_comissao           := valor_venda_pedido * tx_comissao_real / 100;
-  outras_despesas          := fnc_somar_despesas(codigo);
-  valor_comissao_vendedor  := valor_comissao + outras_despesas;
-
-  // carregar os labels
-  lbl_tx_comissao_vendedor_ferrari.Caption   := '( ' + formatfloat('0.00', tx_comissao_vendedor ) + ' % )';
-  lbl_tx_comissao_abono_ferrari.Caption      := '( ' + formatfloat('0.00', tx_comissao_abono ) + ' % )';
-  lbl_tx_comissao_real_ferrari.Caption       := '( ' + formatfloat('0.00', tx_comissao_real ) + ' % )';
-  lbl_vr_pedido_ferrari.Caption              := formatfloat('0.00', valor_venda_ferrari );
-  lbl_vr_desconto_concedido_ferrari.Caption  := formatfloat('0.00', valor_desconto );
-  lbl_tx_desconto_concedido_ferrari.Caption  := '( ' + formatfloat('0.00', tx_desconto_concedido ) + ' % )';
-  lbl_vr_pedido_com_desconto_ferrari.Caption := formatfloat('0.00', valor_venda_com_desconto );
-  lbl_vr_comissao_vendedor_ferrari.Caption   := formatfloat('0.00', valor_comissao );
-  lbl_vr_outros_lancamentos_ferrari.Caption  := formatfloat('0.00', outras_despesas );
-  lbl_vr_comissao_liquido_ferrari.Caption    := formatfloat('0.00', valor_comissao_vendedor );
-  // itens de comissao
-  uBiblioteca.FilterCds(qryComissao_itens, utipos.fsInteger, inttostr(self.Codigo));
-
-
-end;
 
 
 procedure TfrmPedidosE.CarregarItensPedido;
@@ -6194,7 +6147,6 @@ procedure TfrmPedidosE.tbs_comissao_ferrariShow(Sender: TObject);
 begin
   inherited;
 //  prc_atualizar_Painel_comissao_triunfo;
-//  prc_atualizar_Painel_comissao_ferrari;
 
 end;
 
@@ -6202,7 +6154,6 @@ procedure TfrmPedidosE.tbs_comissao_triunfoShow(Sender: TObject);
 begin
   inherited;
   prc_atualizar_Painel_comissao_triunfo;
- // prc_atualizar_Painel_comissao_ferrari;
 
 end;
 
@@ -6217,7 +6168,6 @@ begin
   inherited;
 
   prc_atualizar_Painel_comissao_triunfo;
- // prc_atualizar_Painel_comissao_ferrari;
 
 end;
 
@@ -7209,7 +7159,6 @@ begin
   uBiblioteca.AtualizaQuery(qryComissoes);
 
   prc_atualizar_Painel_comissao_triunfo;
-//  prc_atualizar_Painel_comissao_ferrari;
 
   //uBiblioteca.FilterCds(qryComissao_itens, utipos.fsInteger, inttostr(self.Codigo));
 
@@ -7287,7 +7236,8 @@ begin
       frmPesquisaProdutos.edItemPedido.Caption    := cdsPedidoItens.FieldByName('ITEM').AsString;
       frmPesquisaProdutos.cbxNivel.Text           := cdsPedidoItens.FieldByName('NIVEL').AsString;
       frmPesquisaProdutos.cbxLocal.text           := cdsPedidoItens.FieldByName('LOCAL').AsString;
-      frmPesquisaProdutos.cbxSituacao.Text        := cdsPedidoItens.FieldByName('SITUACAO').AsString;
+      //frmPesquisaProdutos.cbxSituacao.Text        := cdsPedidoItens.FieldByName('SITUACAO').AsString;
+      frmPesquisaProdutos.Situacao        := cdsPedidoItens.FieldByName('SITUACAO').AsString;
       frmPesquisaProdutos.p_forma_pagto_id        := p_forma_pagto_id;
       frmPesquisaProdutos.lbl_forma_pagamento.Caption := 'Forma de pagamento : ' + pnl_forma_pagto.Caption;
 
@@ -7496,7 +7446,7 @@ var
   tipo_produto : STRING;
 begin
   {guarda posições }
-  itemDoPedido := cdsPedidoItens.FieldByName('id').AsInteger;
+//  itemDoPedido := cdsPedidoItens.FieldByName('id').AsInteger;
   itemDaLaje   := cdsItensLaje.FieldByName('id').AsInteger;
 
   {edição do produto}

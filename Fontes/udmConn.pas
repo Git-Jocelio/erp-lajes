@@ -165,7 +165,8 @@ const
   //versao_app = 164;   // retirada de bugs vigas diagonal
   //versao_app = 165;   // retirada de bugs pedido e ajuste de tela
   //versao_app = 166;   // 19/01/2026 - liberação de impressão de itens pedido e itens laje na ordem de produção de pedidos liquidados e parcial
-  versao_app = 167;     // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
+  //versao_app = 167;     // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
+  versao_app = 168;     // 21/01/2026 -  correções de bugs
 
 
 var

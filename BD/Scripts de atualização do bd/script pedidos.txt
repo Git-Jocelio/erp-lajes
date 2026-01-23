@@ -1,0 +1,128 @@
+tabela de pedidos
+CREATE TABLE PEDIDOS (
+    ID                           INTEGER NOT NULL,
+    NOSSO_NUMERO                 VARCHAR(20),
+    ENTRADA_SAIDA                VARCHAR(1),
+    SERIE                        SMALLINT,
+    CHAVE_ACESSO                 VARCHAR(60),
+    PROTOCOLO_AUTORIZACAO        VARCHAR(100),
+    NAT_OPERACAO                 VARCHAR(10),
+    DATA_EMISSAO                 DATE,
+    DATA_ENTRADA_SAIDA           DATE,
+    HORA_ENTRADA_SAIDA           TIME,
+    DATA_CONTABIL                DATE,
+    ORCAMENTO                    VARCHAR(1),
+    SITUACAO                     VARCHAR(15),
+    FORMA_PAGTO_ID               SMALLINT,
+    CLIENTE_ID                   INTEGER,
+    VENDEDOR_ID                  INTEGER,
+    VALOR_PRODUTOS               DECIMAL(9,2),
+    FRETE_CLIENTE                DECIMAL(9,2),
+    FRETE_EMITENTE               DECIMAL(9,2),
+    DESCRICAO_ACRESCIMO          VARCHAR(20),
+    ACRESCIMO                    DECIMAL(9,2),
+    DESCONTO                     DECIMAL(9,2),
+    BASE_ICMS                    DECIMAL(9,2),
+    VALOR_ICMS                   DECIMAL(9,2),
+    BASE_ICMS_ST                 DECIMAL(9,2),
+    VALOR_ICMS_ST                DECIMAL(9,2),
+    VALOR_SEGURO                 DECIMAL(9,2),
+    VALOR_IPI                    DECIMAL(9,2),
+    VALOR_TOTAL_PEDIDO           DECIMAL(9,2),
+    TRANSPORTADORA_ID            INTEGER,
+    FRETE_POR_CONTA              INTEGER,
+    PRODUTOS_QTDE                DECIMAL(9,2),
+    ESPECIE                      VARCHAR(20),
+    MARCA                        VARCHAR(20),
+    NUMERACAO                    VARCHAR(20),
+    PESO_BRUTO                   VARCHAR(20),
+    PESO_LIQUIDO                 VARCHAR(20),
+    VALOR_PAGO                   DECIMAL(9,2),
+    PAGO                         VARCHAR(1),
+    OBS_ADM                      VARCHAR(240),
+    OBS_ENTREGA                  VARCHAR(240),
+    DATA_ENTREGA                 DATE,
+    DATA_ALTERACAO               DATE,
+    COMISSAO_VENDEDOR_INFORMADA  DECIMAL(18,2)
+);
+
+e pedidos_itens_laje
+
+CREATE TABLE PEDIDOS_ITENS_LAJE (
+    ID          INTEGER NOT NULL,
+    PEDIDO_ID   INTEGER NOT NULL,
+    ITEM        SMALLINT,
+    NIVEL       VARCHAR(15),
+    PRODUTO_ID  INTEGER NOT NULL,
+    QTDE        INTEGER,
+    CUSTO       DECIMAL(9,2),
+    LOCAL       VARCHAR(4),
+    SITUACAO    VARCHAR(15),
+    H_LAJE      INTEGER NOT NULL
+);
+
+produtos
+CREATE TABLE PRODUTOS (
+    ID                  INTEGER NOT NULL,
+    ATIVO               VARCHAR(1) NOT NULL,
+    DATA_CAD            DATE,
+    DATA_ALT            DATE,
+    DEPARTAMENTO_ID     INTEGER,
+    DESCRICAO           VARCHAR(100) NOT NULL,
+    NOME_FANTASIA       VARCHAR(100),
+    UNIDADE             VARCHAR(2) NOT NULL,
+    PRECO_CUSTO         DECIMAL(9,2),
+    PERCA               DECIMAL(6,2) DEFAULT 0,
+    CUSTO_LIQUIDO       DECIMAL(9,2) DEFAULT 0,
+    PRECO_VENDEDOR      DECIMAL(9,2) DEFAULT 0,
+    PRECO_VENDA         DECIMAL(9,2),
+    ESTOQUE_CONTROLADO  VARCHAR(1),
+    TEMPO_REPOSICAO     SMALLINT,
+    QTDE_MIN            DECIMAL(9,2),
+    QTDE_MAX            DECIMAL(9,2),
+    PONTO_PEDIDO        DECIMAL(9,2),
+    ESTOQUE_FISICO      DECIMAL(9,2),
+    PEDIDO_ABERTO       DECIMAL(9,2),
+    ESTOQUE_DISPONIVEL  DECIMAL(9,2),
+    PEDIDO_AGUARDANDO   DECIMAL(9,2),
+    ESTOQUE_LIQUIDO     DECIMAL(9,2),
+    CLASS_FIS           VARCHAR(2),
+    SIT_TRIB            VARCHAR(2),
+    TX_IPI              DECIMAL(6,2),
+    PESO                DECIMAL(9,2),
+    TX_ICMS             NUMERIC(6,2),
+    REVENDA             VARCHAR(1),
+    MATERIA_PRIMA       VARCHAR(1),
+    AGREGADO            VARCHAR(1),
+    LAJE                VARCHAR(1),
+    VIGA                VARCHAR(1),
+    LAJOTA              VARCHAR(1),
+    ISOPOR              VARCHAR(1),
+    CONCRETO            VARCHAR(1),
+    BOMBA               VARCHAR(1),
+    VERGALHAO           VARCHAR(1),
+    TRELICA             VARCHAR(1),
+    NEGATIVO_DE_LAJE    VARCHAR(1) DEFAULT 'N',
+    REFORCO_DE_VIGA     VARCHAR(1) DEFAULT 'N'
+);
+
+obs se o produto é uma viga o campo VIGA da tabela de produto 
+guarda = 'S' senão 'N'
+
+
+CREATE TABLE PRODUTOS_VIGAS (
+    ID              INTEGER NOT NULL,
+    PRODUTO_ID      INTEGER,
+    FORMA_MEDIDA    INTEGER,
+    TRELICA_ALTURA  INTEGER,
+    COMPRIMENTO     INTEGER,
+    CODIGO_INTERNO  VARCHAR(50)
+);
+ 
+
+quero crir uma instrução SQL(banco de dadados firebird 2.5) que:
+
+vou passar como parametro um periodo na tabela de pedido pelo 
+data_emissao inicio e fim
+
+quero que agrupe a tabela pedidos_itens_laje pelo produto_id no periodo informado

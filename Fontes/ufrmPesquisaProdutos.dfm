@@ -109,10 +109,12 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentBackground = False
       ParentColor = False
       TabOrder = 2
+      ExplicitLeft = 442
+      ExplicitTop = 3
       object lbNivel: TLabel
-        Left = 58
-        Top = 0
-        Width = 105
+        Left = 78
+        Top = 6
+        Width = 109
         Height = 15
         Caption = 'Nivel / Observa'#231#245'es'
         Font.Charset = ANSI_CHARSET
@@ -123,8 +125,8 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
         ParentFont = False
       end
       object lbLocal: TLabel
-        Left = 379
-        Top = 0
+        Left = 501
+        Top = 7
         Width = 28
         Height = 15
         Caption = 'Local'
@@ -135,22 +137,9 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object lbSituacao: TLabel
-        Left = 440
-        Top = 0
-        Width = 46
-        Height = 15
-        Caption = 'Situa'#231#227'o'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
       object Label1: TLabel
-        Left = 3
-        Top = 0
+        Left = 7
+        Top = 7
         Width = 25
         Height = 15
         Caption = 'Item'
@@ -162,9 +151,9 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
         ParentFont = False
       end
       object cbxLocal: TComboBox
-        Left = 378
+        Left = 501
         Top = 25
-        Width = 59
+        Width = 87
         Height = 23
         CharCase = ecUpperCase
         Font.Charset = ANSI_CHARSET
@@ -187,9 +176,9 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
           'L-10')
       end
       object cbxNivel: TComboBox
-        Left = 58
+        Left = 78
         Top = 25
-        Width = 314
+        Width = 419
         Height = 23
         CharCase = ecUpperCase
         Font.Charset = ANSI_CHARSET
@@ -214,32 +203,14 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
           '8'#186' PAVIMENTO')
       end
       object edItemPedido: TPanel
-        Left = 3
+        Left = 7
         Top = 25
-        Width = 52
-        Height = 29
+        Width = 63
+        Height = 33
         BevelInner = bvLowered
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-      end
-      object cbxSituacao: TComboBox
-        Left = 440
-        Top = 25
-        Width = 153
-        Height = 23
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ItemIndex = 0
-        ParentFont = False
-        TabOrder = 3
-        Text = 'ABERTO'
-        Items.Strings = (
-          'ABERTO'
-          'ENTREGUE')
       end
     end
     object gb_Preco_vendedor: TGroupBox
@@ -708,10 +679,10 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
           end
         end
         object btnBuscar: TBitBtn
-          Left = 486
-          Top = 0
-          Width = 111
-          Height = 89
+          Left = 490
+          Top = 38
+          Width = 94
+          Height = 46
           Caption = 'Buscar'
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100

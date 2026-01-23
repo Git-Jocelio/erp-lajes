@@ -28,8 +28,6 @@ type
     edItemPedido: TPanel;
     edt_unidade: TDBText;
     bv_unidade: TBevel;
-    lbSituacao: TLabel;
-    cbxSituacao: TComboBox;
     gb_Preco_vendedor: TGroupBox;
     edt_preco_vendedor: TEdit;
     Label1: TLabel;
@@ -303,7 +301,7 @@ begin
     Venda           := StrToFloatDef(edVenda.Text,0);
     Local           := cbxLocal.Text;
     Nivel           := cbxNivel.Text;
-    Situacao        := cbxSituacao.Text;
+    //Situacao        := cbxSituacao.Text;
     laje            := qry.FieldByName('LAJE').Asstring;
     Viga            := qry.FieldByName('VIGA').Asstring;
     Lajota          := qry.FieldByName('LAJOTA').Asstring;
@@ -479,10 +477,11 @@ begin
 
   {Situação do item, se concreto ou bomba, marca aguardando}
   if (qry.FieldByName('CONCRETO').AsString = 'S') or (qry.FieldByName('BOMBA').AsString = 'S') then
-    cbxSituacao.text := 'AGUARDANDO'
+    //cbxSituacao.text := 'AGUARDANDO'
+    Situacao := 'AGUARDANDO'
   else
-    cbxSituacao.text := 'ABERTO';
-
+    //cbxSituacao.text := 'ABERTO';
+    Situacao := 'ABERTO'
 end;
 
 
@@ -833,6 +832,9 @@ end;
 procedure TfrmPesquisaProdutos.FormShow(Sender: TObject);
 begin
   inherited;
+
+
+
   if rgTipoForma.Visible  then edTamanho.SetFocus;
 
   if cbxLocal.Text = ''  then

@@ -42,50 +42,57 @@ inherited frmClientesE: TfrmClientesE
       Caption = 'ID :'
     end
     object Label2: TLabel
-      Left = 91
+      Left = 148
       Top = 6
-      Width = 53
+      Width = 30
       Height = 15
-      Caption = 'Cadastro :'
+      Caption = 'Cad. :'
     end
     object Label3: TLabel
-      Left = 257
+      Left = 292
       Top = 6
-      Width = 56
+      Width = 18
       Height = 15
-      Caption = 'Altera'#231#227'o :'
+      Caption = 'Alt:'
     end
     object Label6: TLabel
-      Left = 5
-      Top = 34
-      Width = 59
-      Height = 15
-      Caption = 'CPF / CNPJ'
+      Left = 4
+      Top = 35
+      Width = 106
+      Height = 26
+      Caption = 'Informe CPF ou CNPJ e clique na lupinha'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
     end
     object Label7: TLabel
       Left = 148
-      Top = 34
+      Top = 49
       Width = 35
       Height = 15
       Caption = 'RG / IE'
     end
     object Label8: TLabel
       Left = 365
-      Top = 31
+      Top = 46
       Width = 44
       Height = 15
       Caption = 'Telefone'
     end
     object Label9: TLabel
-      Left = 251
-      Top = 34
+      Left = 256
+      Top = 49
       Width = 37
       Height = 15
       Caption = 'Celular'
     end
     object Label10: TLabel
-      Left = 5
-      Top = 86
+      Left = 4
+      Top = 108
       Width = 33
       Height = 15
       Caption = 'Nome'
@@ -153,7 +160,7 @@ inherited frmClientesE: TfrmClientesE
       ParentFont = False
     end
     object lbl_cadastrado_em: TLabel
-      Left = 148
+      Left = 182
       Top = 6
       Width = 66
       Height = 15
@@ -180,7 +187,7 @@ inherited frmClientesE: TfrmClientesE
     end
     object btn_validar_cpf_cnpj: TSpeedButton
       Left = 119
-      Top = 52
+      Top = 67
       Width = 23
       Height = 22
       Hint = 'Validar CPF/CNPJ'
@@ -223,7 +230,7 @@ inherited frmClientesE: TfrmClientesE
     end
     object edt_cpf_cnpj: TEdit
       Left = 4
-      Top = 52
+      Top = 67
       Width = 109
       Height = 23
       Hint = 'digite somente n'#250'meros'
@@ -239,7 +246,7 @@ inherited frmClientesE: TfrmClientesE
     end
     object edt_rg_ie: TEdit
       Left = 148
-      Top = 52
+      Top = 67
       Width = 96
       Height = 23
       CharCase = ecUpperCase
@@ -248,24 +255,24 @@ inherited frmClientesE: TfrmClientesE
     end
     object edt_telefone: TEdit
       Left = 361
-      Top = 52
+      Top = 67
       Width = 102
       Height = 23
       MaxLength = 13
       TabOrder = 4
     end
     object edt_celular: TEdit
-      Left = 251
-      Top = 52
-      Width = 101
+      Left = 250
+      Top = 67
+      Width = 98
       Height = 23
       MaxLength = 14
       TabOrder = 3
     end
     object edt_nome: TEdit
-      Left = 5
+      Left = 43
       Top = 105
-      Width = 458
+      Width = 420
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 100

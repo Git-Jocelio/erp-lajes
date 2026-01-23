@@ -31,7 +31,7 @@ inherited frmVendedoresE: TfrmVendedoresE
     Width = 472
     Height = 287
     Font.Height = -12
-    ExplicitTop = 65
+    ExplicitTop = 61
     ExplicitWidth = 472
     ExplicitHeight = 287
     object Label1: TLabel
@@ -41,51 +41,30 @@ inherited frmVendedoresE: TfrmVendedoresE
       Height = 15
       Caption = 'ID :'
     end
-    object Label2: TLabel
-      Left = 91
-      Top = 6
-      Width = 53
-      Height = 15
-      Caption = 'Cadastro :'
-    end
-    object Label3: TLabel
-      Left = 257
-      Top = 6
-      Width = 56
-      Height = 15
-      Caption = 'Altera'#231#227'o :'
-    end
-    object Label6: TLabel
-      Left = 5
-      Top = 34
-      Width = 59
-      Height = 15
-      Caption = 'CPF / CNPJ'
-    end
     object Label7: TLabel
       Left = 148
-      Top = 34
+      Top = 50
       Width = 35
       Height = 15
       Caption = 'RG / IE'
     end
     object Label8: TLabel
       Left = 365
-      Top = 31
+      Top = 50
       Width = 44
       Height = 15
       Caption = 'Telefone'
     end
     object Label4: TLabel
       Left = 251
-      Top = 34
+      Top = 50
       Width = 37
       Height = 15
       Caption = 'Celular'
     end
     object Label5: TLabel
-      Left = 5
-      Top = 86
+      Left = 4
+      Top = 108
       Width = 33
       Height = 15
       Caption = 'Nome'
@@ -152,35 +131,9 @@ inherited frmVendedoresE: TfrmVendedoresE
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lbl_cadastrado_em: TLabel
-      Left = 148
-      Top = 6
-      Width = 66
-      Height = 15
-      Caption = '00/00/0000'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI Semibold'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lbl_alterado_em: TLabel
-      Left = 316
-      Top = 6
-      Width = 66
-      Height = 15
-      Caption = '00/00/0000'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI Semibold'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object btn_validar_cpf_cnpj: TSpeedButton
       Left = 119
-      Top = 52
+      Top = 68
       Width = 23
       Height = 22
       Hint = 'Validar CPF/CNPJ'
@@ -213,6 +166,60 @@ inherited frmVendedoresE: TfrmVendedoresE
         00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
       OnClick = btn_validar_cpf_cnpjClick
     end
+    object Label6: TLabel
+      Left = 4
+      Top = 35
+      Width = 106
+      Height = 26
+      Caption = 'Informe CPF ou CNPJ e clique na lupinha'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+    end
+    object Label2: TLabel
+      Left = 148
+      Top = 6
+      Width = 30
+      Height = 15
+      Caption = 'Cad. :'
+    end
+    object lbl_cadastrado_em: TLabel
+      Left = 182
+      Top = 6
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 292
+      Top = 6
+      Width = 18
+      Height = 15
+      Caption = 'Alt:'
+    end
+    object lbl_alterado_em: TLabel
+      Left = 316
+      Top = 6
+      Width = 66
+      Height = 15
+      Caption = '00/00/0000'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object cb_ativo: TCheckBox
       Left = 414
       Top = 6
@@ -223,7 +230,7 @@ inherited frmVendedoresE: TfrmVendedoresE
     end
     object edt_cpf_cnpj: TEdit
       Left = 4
-      Top = 52
+      Top = 67
       Width = 109
       Height = 23
       Hint = 'digite somente n'#250'meros'
@@ -239,7 +246,7 @@ inherited frmVendedoresE: TfrmVendedoresE
     end
     object edt_rg_ie: TEdit
       Left = 148
-      Top = 52
+      Top = 67
       Width = 96
       Height = 23
       CharCase = ecUpperCase
@@ -248,7 +255,7 @@ inherited frmVendedoresE: TfrmVendedoresE
     end
     object edt_telefone: TEdit
       Left = 361
-      Top = 52
+      Top = 67
       Width = 102
       Height = 23
       MaxLength = 13
@@ -256,16 +263,16 @@ inherited frmVendedoresE: TfrmVendedoresE
     end
     object edt_celular: TEdit
       Left = 251
-      Top = 52
+      Top = 67
       Width = 101
       Height = 23
       MaxLength = 14
       TabOrder = 4
     end
     object edt_nome: TEdit
-      Left = 5
+      Left = 56
       Top = 105
-      Width = 458
+      Width = 407
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 100

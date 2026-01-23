@@ -91,8 +91,8 @@ type
 
     function fnc_validar: Boolean;
     procedure prc_validar_cpf_cnpj;
-
     procedure prc_salvar;
+
     function prc_incluir_alterar_pessoa(operacao: TOperacao):integer;
     procedure prc_incluir_alterar(operacao: TOperacao);
 
@@ -108,9 +108,9 @@ type
 
   public
     property Codigo   :integer read FCodigo write FCodigo;
-    property pessoa_id   :integer read Fpessoa_id write Fpessoa_id;
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
+    property pessoa_id   :integer read Fpessoa_id write Fpessoa_id;
     property p_cpf_cnpj :string read Fp_cpf_cnpj write Fp_cpf_cnpj;
 
   end;
@@ -440,6 +440,7 @@ procedure TfrmClientesE.prc_carregar_pessoa;
 begin
   ActiveControl := edt_nome;
   edt_cpf_cnpj.Enabled := FALSE;
+  btn_validar_cpf_cnpj.Enabled := false;
 
   lbl_id.Caption            := qry.FieldByName('ID').AsString;
   lbl_cadastrado_em.Caption := qry.FieldByName('DATA_CAD').AsString;
