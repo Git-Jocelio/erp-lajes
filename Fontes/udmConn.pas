@@ -116,7 +116,7 @@ const
   // 3. iniciar o controle de estoques
   //versao_app   = 100;
   versao_banco = 1;
-  //versao_app   = 101;// alterações no contas a receber, e atalho no pedido pra chamar o contas a receber
+  //versao_app = 101; // alterações no contas a receber, e atalho no pedido pra chamar o contas a receber
   //versao_app = 102; // retirada de bug no frmPedidoE
   //versao_app = 103; // retirada de bug no frmPedidoE e no calculo de qtde de laje painel
   //versao_app = 104; // totalizações no formPedidos
@@ -131,11 +131,11 @@ const
   //versao_app = 113; // retira de bugs no frmContasReceber_Baixa(atualização do valor pago do pedido errada)
   //versao_app = 114; // versão com controle de estoques para teste
   //versao_app = 115; // retirada de bugs tela de pedido, conf. tamanho fonte tela de mensagens,
-                    // implementado pesquisa na tela de compras, etc
+                      // implementado pesquisa na tela de compras, etc
 
   //versao_app = 116; // inclusao do campo data_entrega na tabela de pedidos_itens
   //versao_app = 117; // modifiquei o codido na procedure que baixa os estoques de vigas.
-                    // caso as vigas estiverem marcadas estoque_controlado = 'N', NÃO BAIXA
+                      // caso as vigas estiverem marcadas estoque_controlado = 'N', NÃO BAIXA
   //versao_app = 118; // finalizado o contas a pagar, lança os estoques e o contas a pagar, melhorei a pesquisa tambem.
   //versao_app = 119; // implementado controle de ordem de compra( notificações do sistema )
   //versao_app = 120; // retirada de bugs controle de ordem de compra( notificações do sistema )
@@ -145,14 +145,14 @@ const
   //versao_app = 124; // retirada de bugs no frmPedidos -> chamada do contas a receber
   //versao_app = 125; // retirada de bugs no frmPedidos -> calculo da metragem quadrada da trelifacil
   //versao_app = 126; // 01/01/2025 implementado aba financeira dentro frmPedidosE
-  //versao_app = 127; //23/01/2025; retirada de varios bugs no controle de estoques
-  //versao_app = 128; //13/05/2025; inicio da parte financeira
-  //versao_app = 129; //19/05/2025; retirada de bug no form PedidosE, erro exclusão de adicionais na viga
-  //versao_app = 150;   //15/07/2025; parte financeira finalizada para testes
-  //versao_app = 151;   //15/07/2025; retirada de bugs
-  //versao_app = 152;   //20/07/2025; retirada de bugs
-  //versao_app = 153;   //24/07/2025; retirada de bugs
-  //versao_app = 154;   //28/07/2025; pesquisa de cheques de clientes
+  //versao_app = 127; // 23/01/2025; retirada de varios bugs no controle de estoques
+  //versao_app = 128; // 13/05/2025; inicio da parte financeira
+  //versao_app = 129; // 19/05/2025; retirada de bug no form PedidosE, erro exclusão de adicionais na viga
+  //versao_app = 150;   // 15/07/2025; parte financeira finalizada para testes
+  //versao_app = 151;   // 15/07/2025; retirada de bugs
+  //versao_app = 152;   // 20/07/2025; retirada de bugs
+  //versao_app = 153;   // 24/07/2025; retirada de bugs
+  //versao_app = 154;   // 28/07/2025; pesquisa de cheques de clientes
   //versao_app = 155;   // atualizador do sistema para pastas sislajes
   //versao_app = 156;   //
   //versao_app = 157;   // contrato de concreto editavel
@@ -165,8 +165,10 @@ const
   //versao_app = 164;   // retirada de bugs vigas diagonal
   //versao_app = 165;   // retirada de bugs pedido e ajuste de tela
   //versao_app = 166;   // 19/01/2026 - liberação de impressão de itens pedido e itens laje na ordem de produção de pedidos liquidados e parcial
-  //versao_app = 167;     // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
-  versao_app = 168;     // 21/01/2026 -  correções de bugs
+  //versao_app = 167;   // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
+  //versao_app = 168;   // 21/01/2026 -  correções de bugs
+  //versao_app = 169;   // 23/01/2026 - atualização do cadastro de empresa
+  versao_app = 170;     // 26/01/2026 - ajuste do layout do contrato de venda de concreto
 
 
 var

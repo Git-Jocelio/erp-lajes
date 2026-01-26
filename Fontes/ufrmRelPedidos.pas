@@ -132,7 +132,7 @@ type
     qry_contrato: TFDQuery;
     qry_contratoID: TIntegerField;
     frxDBContratoEditavel: TfrxDBDataset;
-    brn_pedido_contrato: TBitBtn;
+    btn_pedido_contrato: TBitBtn;
     qry_contratoTEXTO: TMemoField;
 
     procedure FormCreate(Sender: TObject);
@@ -149,7 +149,7 @@ type
     procedure btn_fecharClick(Sender: TObject);
     procedure btn_imprimir_contratoClick(Sender: TObject);
     procedure btnConcretoClick(Sender: TObject);
-    procedure brn_pedido_contratoClick(Sender: TObject);
+    procedure btn_pedido_contratoClick(Sender: TObject);
   private
     {controla a ordem dos produtos }
     comprimento : integer;
@@ -407,7 +407,7 @@ begin
 
 end;
 
-procedure TfrmRelPedidos.brn_pedido_contratoClick(Sender: TObject);
+procedure TfrmRelPedidos.btn_pedido_contratoClick(Sender: TObject);
 begin
   inherited;
     prc_carregar_local_entrega;
@@ -1175,7 +1175,7 @@ begin
 
     // visualização do botão inprimir contrato
     btn_imprimir_contrato.visible := loQry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
-    brn_pedido_contrato.visible   := loQry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
+    btn_pedido_contrato.visible   := loQry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
     btn_comissao.visible          := loQry.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'S';
 
   finally

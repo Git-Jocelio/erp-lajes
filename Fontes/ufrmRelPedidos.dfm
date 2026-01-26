@@ -116,7 +116,7 @@
         TabOrder = 6
         OnClick = btnConcretoClick
       end
-      object brn_pedido_contrato: TBitBtn
+      object btn_pedido_contrato: TBitBtn
         Left = 1
         Top = 337
         Width = 177
@@ -124,7 +124,7 @@
         Align = alTop
         Caption = 'Pedido e contrato junto'
         TabOrder = 7
-        OnClick = brn_pedido_contratoClick
+        OnClick = btn_pedido_contratoClick
       end
     end
     object pnImage: TPanel
@@ -12262,7 +12262,7 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 18.897637795275590000
+        Height = 18.897637800000000000
         Top = 476.220780000000000000
         Width = 718.110700000000000000
         OnAfterPrint = 'MasterData1OnAfterPrint'
@@ -16540,50 +16540,15 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 93.708710240000000000
-        Top = 665.197280000000000000
+        Height = 34.015757800000000000
+        Top = 823.937540000000000000
         Width = 744.567410000000000000
-        PrintOnFirstPage = False
-        object Memo57: TfrxMemoView
-          AllowVectorExport = True
-          Left = 336.378170000000000000
-          Top = 7.559059999999994000
-          Width = 351.496290000000000000
-          Height = 22.677180000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = [ftTop]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Comprador : [Cliente."NOME"]')
-          ParentFont = False
-        end
-        object Memo59: TfrxMemoView
-          AllowVectorExport = True
-          Left = 56.692950000000000000
-          Top = 7.559059999999994000
-          Width = 268.346630000000000000
-          Height = 22.677180000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = [ftTop]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '[empresa."NOME_FANTASIA"]')
-          ParentFont = False
-        end
         object Memo2: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Left = 606.386210000000000000
-          Top = 70.031539999999990000
-          Width = 136.063080000000000000
+          Left = 651.740570000000000000
+          Top = 16.000000000000000000
+          Width = 90.708720000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -16598,7 +16563,7 @@
         object Memo1: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Top = 73.811069999999990000
+          Top = 16.000000000000000000
           Width = 234.330860000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -16615,7 +16580,7 @@
           IndexTag = 1
           AllowVectorExport = True
           Left = 265.008040000000000000
-          Top = 74.811069999999990000
+          Top = 16.000000000000000000
           Width = 268.346630000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -16644,7 +16609,7 @@
         ToNRowsMode = rmCount
         object Memo12: TfrxMemoView
           AllowVectorExport = True
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 22.677180000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -16702,7 +16667,7 @@
         object Memo27: TfrxMemoView
           AllowVectorExport = True
           Left = 649.299630000000000000
-          Width = 86.929190000000000000
+          Width = 90.708720000000000000
           Height = 26.078740160000000000
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -16809,7 +16774,7 @@
           IndexTag = 1
           AllowVectorExport = True
           Left = 649.079160000000000000
-          Width = 87.307084170000000000
+          Width = 91.086614170000000000
           Height = 26.456692910000000000
           DataSet = frxDBPedidoItens
           DataSetName = 'PedidoItens'
@@ -17090,7 +17055,7 @@
         object Memo53: TfrxMemoView
           AllowVectorExport = True
           Top = 4.220470000000000000
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 102.047300240000000000
           DataSet = frxDBPedidoItens
           DataSetName = 'PedidoItens'
@@ -17162,7 +17127,7 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 15.118110240000000000
+        Height = 18.897640240000000000
         Top = 589.606680000000000000
         Width = 744.567410000000000000
         DataSet = frxDBContratoEditavel
@@ -17172,18 +17137,21 @@
         object ContratoTEXTO1: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Width = 737.008350000000000000
-          Height = 15.118120000000000000
-          StretchMode = smMaxHeight
+          Width = 740.787880000000000000
+          Height = 18.897650000000000000
+          StretchMode = smActualHeight
           AllowHTMLTags = True
           DataSet = frxDBContratoEditavel
           DataSetName = 'Contrato'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Fill.BackColor = clWhite
+          GapX = 10.000000000000000000
+          GapY = 4.000000000000000000
           HAlign = haBlock
           Memo.UTF8W = (
             '[Contrato."TEXTO"]')
@@ -17486,7 +17454,7 @@
         object Memo6: TfrxMemoView
           AllowVectorExport = True
           Top = 164.637875830000000000
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 37.795275590000000000
           DataSet = frxDBPedido
           DataSetName = 'Pedido'
@@ -17507,7 +17475,7 @@
           IndexTag = 1
           AllowVectorExport = True
           Top = 86.929148500000000000
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 37.795290240000000000
           DataSet = frxDBPedido
           DataSetName = 'Pedido'
@@ -17525,7 +17493,7 @@
         object Memo28: TfrxMemoView
           AllowVectorExport = True
           Top = 60.472480000000000000
-          Width = 737.007874015748000000
+          Width = 740.787404020000000000
           Height = 18.897650000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -17558,7 +17526,7 @@
         object Memo33: TfrxMemoView
           AllowVectorExport = True
           Top = 201.008040000000000000
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 34.015770000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -17677,7 +17645,7 @@
           AllowVectorExport = True
           Left = 0.000002440000000000
           Top = 125.504020000000000000
-          Width = 737.007874020000000000
+          Width = 740.787404020000000000
           Height = 37.795290240000000000
           DataSet = frxDBPedido
           DataSetName = 'Pedido'
@@ -17771,6 +17739,63 @@
           Memo.UTF8W = (
             ' [Cliente."RG_IE"]')
           ParentFont = False
+        end
+      end
+      object ReportSummary1: TfrxReportSummary
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 132.283550000000000000
+        Top = 668.976810000000000000
+        Width = 744.567410000000000000
+        object Memo57: TfrxMemoView
+          AllowVectorExport = True
+          Left = 411.464750000000000000
+          Top = 112.015770000000000000
+          Width = 321.259842520000000000
+          Height = 15.118120000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftTop]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Comprador : [Cliente."NOME"]')
+          ParentFont = False
+        end
+        object Memo59: TfrxMemoView
+          AllowVectorExport = True
+          Left = 18.779530000000000000
+          Top = 112.015770000000000000
+          Width = 321.259842520000000000
+          Height = 15.118120000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftTop]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[empresa."NOME_FANTASIA"]')
+          ParentFont = False
+        end
+        object Memo40: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Top = 12.000000000000000000
+          Width = 638.740570000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              'As partes declaram que leram, compreenderam e concordam com toda' +
+              's as cl'#225'usulas do presente contrato.')
         end
       end
     end
