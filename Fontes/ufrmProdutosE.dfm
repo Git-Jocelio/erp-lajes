@@ -1,33 +1,34 @@
 inherited frmProdutosE: TfrmProdutosE
+  BorderStyle = bsNone
+  BorderWidth = 3
   Caption = 'frmProdutosE'
-  ClientHeight = 587
-  ClientWidth = 613
-  ExplicitTop = -61
-  ExplicitWidth = 625
-  ExplicitHeight = 625
+  ClientHeight = 520
+  ClientWidth = 615
+  ExplicitWidth = 621
+  ExplicitHeight = 526
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 613
+    Width = 615
     Height = 49
-    ExplicitWidth = 609
+    ExplicitWidth = 615
     ExplicitHeight = 49
     inherited lbl_titulo: TLabel
-      Width = 613
+      Width = 615
       Height = 32
     end
     inherited lbl_sub_titulo: TLabel
       Top = 32
-      Width = 613
+      Width = 615
       ExplicitTop = 32
     end
   end
   inherited pnDados: TPanel
     Top = 49
-    Width = 613
-    Height = 155
+    Width = 615
+    Height = 158
     ExplicitTop = 49
-    ExplicitWidth = 609
-    ExplicitHeight = 154
+    ExplicitWidth = 615
+    ExplicitHeight = 158
     object Bevel2: TBevel
       Left = 5
       Top = 25
@@ -305,96 +306,50 @@ inherited frmProdutosE: TfrmProdutosE
     end
   end
   inherited pnRodape: TPanel
-    Top = 550
-    Width = 613
-    ExplicitTop = 549
-    ExplicitWidth = 609
+    Top = 483
+    Width = 615
+    ExplicitTop = 483
+    ExplicitWidth = 615
     inherited pnl_botoes: TPanel
+      Width = 280
+      ExplicitWidth = 280
       inherited btnOk: TBitBtn
+        Width = 170
         OnClick = btnOkClick
+        ExplicitWidth = 170
+      end
+      inherited btnFechar: TBitBtn
+        Left = 170
+        Width = 110
       end
     end
   end
   object pc_precos: TPageControl [3]
     Left = 0
-    Top = 329
-    Width = 613
-    Height = 221
+    Top = 207
+    Width = 615
+    Height = 276
     ActivePage = tbs_precos
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 328
-    ExplicitWidth = 609
     object tbs_precos: TTabSheet
       Caption = 'Pre'#231'os'
-      object Bevel1: TBevel
-        Left = 235
-        Top = 21
-        Width = 102
-        Height = 23
-      end
-      object Bevel5: TBevel
-        Left = 346
-        Top = 21
-        Width = 102
-        Height = 23
-      end
       object Label7: TLabel
         Left = 1
-        Top = 3
+        Top = 15
         Width = 93
         Height = 15
         Caption = 'Pre'#231'o Fornecedor'
-        FocusControl = edCusto
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Style = []
-        ParentFont = False
-      end
-      object Label8: TLabel
-        Left = 346
-        Top = 3
-        Width = 81
-        Height = 15
-        Caption = 'Pre'#231'o de Venda'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 236
-        Top = 3
-        Width = 83
-        Height = 15
-        Caption = 'Pre'#231'o Vendedor'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label17: TLabel
-        Left = 509
-        Top = 19
-        Width = 79
-        Height = 15
-        Caption = '* pre'#231'o '#224' vista'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = [fsBold, fsItalic]
         ParentFont = False
       end
       object Label24: TLabel
-        Left = 108
-        Top = 3
+        Left = 265
+        Top = 15
         Width = 77
         Height = 15
         Caption = 'Custo Liquido '
@@ -405,41 +360,15 @@ inherited frmProdutosE: TfrmProdutosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        Visible = False
       end
-      object DBText1: TDBText
-        Left = 240
-        Top = 24
-        Width = 65
-        Height = 17
-        DataField = 'PRECO_VENDEDOR'
-        DataSource = ds
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object DBText2: TDBText
-        Left = 351
-        Top = 24
-        Width = 65
-        Height = 17
-        DataField = 'PRECO_VENDA'
-        DataSource = ds
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object edCusto: TDBEdit
-        Left = 3
-        Top = 21
-        Width = 83
+      object edt_custo_liquido: TDBEdit
+        Left = 348
+        Top = 12
+        Width = 102
         Height = 23
-        DataField = 'PRECO_CUSTO'
+        Hint = 'Custo liquido com a perdas'
+        DataField = 'CUSTO_LIQUIDO'
         DataSource = ds
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -447,31 +376,116 @@ inherited frmProdutosE: TfrmProdutosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 0
+        Visible = False
       end
       object gb_formas_pagto: TGroupBox
         Left = 0
-        Top = 54
-        Width = 605
-        Height = 135
+        Top = 41
+        Width = 607
+        Height = 203
         Align = alBottom
-        Caption = 'Formas de pagamento'
         TabOrder = 1
-        ExplicitWidth = 601
+        object btn_incluir: TSpeedButton
+          Left = 2
+          Top = 7
+          Width = 256
+          Height = 26
+          Cursor = crHandPoint
+          Margins.Left = 10
+          Caption = 'Incluir pre'#231'o e condi'#231#227'o de pagamento'
+          Flat = True
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          Glyph.Data = {
+            16080000424D160800000000000036000000280000001B000000180000000100
+            180000000000E0070000C30E0000C30E00000000000000000000BFBFBFBFBFBF
+            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+            7F7F7F7F7F7F7F7FBFBFBF000000BFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBF00
+            0000BFBFBF000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            000000000000000000007F7F7F7F7F7FBFBFBF000000BFBFBF000000FFFFFF00
+            FFFFFFFFFF00FFFF00000000000000000000FFFFFFFFFF00FFFFFFFFFF00FFFF
+            FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF0000007F7F
+            7F7F7F7FBFBFBF000000BFBFBF00000000FFFFFFFFFF00FFFF00000000000000
+            FF0000000000000000FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF
+            00FFFFFFFFFF00FFFFFFFFFF00FFFF0000007F7F7F7F7F7FBFBFBF000000BFBF
+            BF000000FFFFFF00FFFF00000000000000000000FF0000000000000000000000
+            FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF
+            FFFFFF0000007F7F7F7F7F7FBFBFBF000000BFBFBF00000000FFFF0000000000
+            0000000000FF0000FF0000FF0000000000000000000000FFFFFFFFFF00FFFFFF
+            FFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF0000007F7F7F7F7F7F
+            BFBFBF000000BFBFBF000000FFFFFF00000000000000FF0000FF0000FF0000FF
+            0000FF00000000000000FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00
+            FFFFFFFFFF00FFFFFFFFFF0000007F7F7F7F7F7FBFBFBF000000BFBFBF000000
+            00FFFF00000000FF0000FF0000000000FF0000000000FF0000FF0000000000FF
+            FFFFFFFF00FFFF00007F00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF00
+            00007F7F7F7F7F7FBFBFBF000000BFBFBF000000FFFFFF00000000FF0000FF00
+            00000000FF0000000000FF0000FF00000000FFFFFF00007F00007F0000FF0000
+            FF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF0000007F7F7F7F7F7FBFBFBF00
+            0000BFBFBF00000000FFFF00000000000000000000000000FF0000FF0000FF00
+            00FF0000000000007F0000FF0000FF0000FF0000FFFFFFFF00FFFFFFFFFF00FF
+            FFFFFFFF00FFFF0000007F7F7F7F7F7FBFBFBF000000BFBFBF000000FFFFFF00
+            FFFF00000000000000FF0000FF0000FF0000FF0000007F00007F0000FF0000FF
+            0000FF0000FF0000FF0000FFFFFFFF00FFFFFFFFFF00FFFFFFFFFF0000007F7F
+            7F7F7F7FBFBFBF000000BFBFBF00000000FFFF00000000000000FF0000FF0000
+            FF0000007F00007F0000FF0000FF0000FF0000FF0000FFFFFFFF0000FF0000FF
+            00FFFFFFFFFF00FFFFFFFFFF00FFFF0000007F7F7F7F7F7FBFBFBF000000BFBF
+            BF000000FFFFFF00000000FF0000FF0000FF0000FF000000000000FF0000FF00
+            00FF0000FF0000FFFFFFFF00FFFFFFFFFF0000FF0000FF00FFFFFFFFFF00FFFF
+            FFFFFF0000007F7F7F7F7F7FBFBFBF000000BFBFBF00000000FFFF00000000FF
+            0000FF0000000000FF000000000000000000000000FF0000FFFFFFFF00FFFFFF
+            FFFF00FFFF0000FF0000FFFFFFFF00FFFFFFFFFF00FFFF0000007F7F7F7F7F7F
+            BFBFBF000000BFBFBF000000FFFFFF00000000FF0000FF0000000000FF000000
+            0000FF0000FF00000000FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF0000FF00
+            00FFFFFFFF00FFFFFFFFFF0000007F7F7F7F7F7FBFBFBF000000BFBFBF000000
+            00FFFF00000000000000FF0000FF0000FF0000FF0000FF0000000000000000FF
+            FFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF0000FF0000FFFFFFFF00FFFF00
+            00007F7F7F7F7F7FBFBFBF000000BFBFBF000000FFFFFF00FFFF000000000000
+            00FF0000FF0000FF0000000000000000FFFFFFFFFF00FFFFFFFFFF00FFFFFFFF
+            FF00FFFFFFFFFF00FFFF0000FF0000FFFFFFFF0000007F7F7F7F7F7FBFBFBF00
+            0000BFBFBF00000000FFFFFFFFFF00FFFF00000000000000FF00000000000000
+            00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FF
+            FF0000FF0000FF0000007F7F7F7F7F7FBFBFBF000000BFBFBF000000FFFFFF00
+            FFFFFFFFFF00FFFF00000000FF0000000000FFFFFFFFFF00FFFFFFFFFF00FFFF
+            FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF0000FF0000FF7F7F
+            7F7F7F7FBFBFBF000000BFBFBF00000000FFFFFFFFFF00FFFFFFFFFF00000000
+            0000000000FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF
+            00FFFFFFFFFF00FFFFFFFFFF00FFFF0000FF0000FF7F7F7FBFBFBF000000BFBF
+            BF000000FFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00
+            FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFFFFFFFF00FFFF
+            FFFFFF0000007F7F7F0000FFBFBFBF000000BFBFBF0000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000BFBFBFBFBFBF
+            BFBFBF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF000000}
+          ParentFont = False
+          OnClick = btn_incluirClick
+        end
         object dbg_condicoes_pagto: TDBGrid
-          Left = 33
-          Top = 19
-          Width = 570
-          Height = 114
+          Left = 2
+          Top = 39
+          Width = 603
+          Height = 162
           Hint = 'Duplo click para alterar uma forma de pagamento j'#225' cadastrada'
-          Align = alClient
+          Align = alBottom
+          Color = clYellow
           DataSource = ds_lista_precos
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Style = []
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           ParentFont = False
           ParentShowHint = False
           ReadOnly = True
@@ -482,7 +496,9 @@ inherited frmProdutosE: TfrmProdutosE
           TitleFont.Height = -13
           TitleFont.Name = 'Segoe UI'
           TitleFont.Style = []
+          OnDrawColumnCell = dbg_condicoes_pagtoDrawColumnCell
           OnDblClick = dbg_condicoes_pagtoDblClick
+          OnMouseUp = dbg_condicoes_pagtoMouseUp
           Columns = <
             item
               Alignment = taCenter
@@ -577,77 +593,29 @@ inherited frmProdutosE: TfrmProdutosE
               Title.Font.Name = 'Segoe UI Semibold'
               Title.Font.Style = [fsBold]
               Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              Title.Alignment = taCenter
+              Title.Caption = 'A'#231#245'es'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 40
+              Visible = True
             end>
         end
-        object pnl_botoes_forma_pagto: TPanel
-          Left = 2
-          Top = 19
-          Width = 31
-          Height = 114
-          Align = alLeft
-          TabOrder = 1
-          object btn_icluir: TSpeedButton
-            Left = 1
-            Top = 1
-            Width = 29
-            Height = 28
-            Hint = 'Inclui uma nova forma de pagamento ao produto'
-            Align = alTop
-            Caption = '+'
-            ParentShowHint = False
-            ShowHint = True
-            OnClick = btn_icluirClick
-            ExplicitLeft = 0
-            ExplicitTop = 5
-            ExplicitWidth = 26
-          end
-          object btn_excluir: TSpeedButton
-            Left = 1
-            Top = 29
-            Width = 29
-            Height = 28
-            Hint = 'desabilita uma forma de pagamento ja cadastrada'
-            Align = alTop
-            Caption = '-'
-            Enabled = False
-            ParentShowHint = False
-            ShowHint = True
-            OnClick = btn_excluirClick
-            ExplicitLeft = 6
-            ExplicitTop = 47
-            ExplicitWidth = 28
-          end
-          object btn_alterar: TSpeedButton
-            Left = 1
-            Top = 57
-            Width = 29
-            Height = 28
-            Hint = 'Editar uma forma de pagamento'
-            Align = alTop
-            Caption = '...'
-            Enabled = False
-            ParentShowHint = False
-            ShowHint = True
-            OnClick = dbg_condicoes_pagtoDblClick
-          end
-        end
       end
-      object edt_custo_liquido: TDBEdit
-        Left = 108
-        Top = 21
-        Width = 102
-        Height = 23
-        Hint = 'Custo liquido com a perdas'
-        DataField = 'CUSTO_LIQUIDO'
+      object edCusto: TDBEdit
+        Left = 100
+        Top = 10
+        Width = 101
+        Height = 25
+        DataField = 'PRECO_CUSTO'
         DataSource = ds
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        ParentShowHint = False
-        ShowHint = True
         TabOrder = 2
       end
     end
@@ -657,8 +625,8 @@ inherited frmProdutosE: TfrmProdutosE
       object GroupBox2: TGroupBox
         Left = 0
         Top = 0
-        Width = 605
-        Height = 189
+        Width = 607
+        Height = 244
         Align = alClient
         Caption = ' Fiscal '
         TabOrder = 0
@@ -736,188 +704,190 @@ inherited frmProdutosE: TfrmProdutosE
         end
       end
     end
-  end
-  object gbx_estoques: TGroupBox [4]
-    Left = 0
-    Top = 204
-    Width = 613
-    Height = 125
-    Align = alBottom
-    Caption = ' Estoques '
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 4
-    ExplicitTop = 203
-    ExplicitWidth = 609
-    object Label14: TLabel
-      Left = 238
-      Top = 20
-      Width = 55
-      Height = 15
-      Caption = 'Disponivel'
-      FocusControl = edEstDisponivel
-    end
-    object Label18: TLabel
-      Left = 363
-      Top = 76
-      Width = 90
-      Height = 15
-      Caption = 'Tempo reposi'#231#227'o'
-      FocusControl = edTempoReposicao
-    end
-    object Label16: TLabel
-      Left = 509
-      Top = 20
-      Width = 85
-      Height = 15
-      Caption = 'Estoque Liquido'
-      FocusControl = edEstLiquido
-    end
-    object Label15: TLabel
-      Left = 364
-      Top = 20
-      Width = 106
-      Height = 15
-      Caption = 'Pedido Aguardando'
-      FocusControl = edPedAguardando
-    end
-    object Label13: TLabel
-      Left = 114
-      Top = 20
-      Width = 76
-      Height = 15
-      Caption = 'Pedido Aberto'
-      FocusControl = edPedAberto
-    end
-    object Label12: TLabel
-      Left = 5
-      Top = 20
-      Width = 30
-      Height = 15
-      Caption = 'Fisico'
-      FocusControl = edEstFisico
-    end
-    object Label11: TLabel
-      Left = 5
-      Top = 76
-      Width = 88
-      Height = 15
-      Caption = 'Ponto de pedido'
-      FocusControl = edPontoPedido
-    end
-    object Label10: TLabel
-      Left = 238
-      Top = 76
-      Width = 72
-      Height = 15
-      Caption = 'Qtde M'#225'xima'
-      FocusControl = edQtdeMax
-    end
-    object Label9: TLabel
-      Left = 120
-      Top = 76
-      Width = 70
-      Height = 15
-      Caption = 'Qtde Minima'
-      FocusControl = edQtdeMin
-    end
-    object edTempoReposicao: TDBEdit
-      Left = 364
-      Top = 93
-      Width = 81
-      Height = 23
-      DataField = 'TEMPO_REPOSICAO'
-      DataSource = ds
-      TabOrder = 8
-    end
-    object edEstLiquido: TDBEdit
-      Left = 509
-      Top = 38
-      Width = 97
-      Height = 23
-      DataField = 'ESTOQUE_LIQUIDO'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 4
-    end
-    object edPedAguardando: TDBEdit
-      Left = 364
-      Top = 38
-      Width = 117
-      Height = 23
-      DataField = 'PEDIDO_AGUARDANDO'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 3
-    end
-    object edEstDisponivel: TDBEdit
-      Left = 237
-      Top = 38
-      Width = 107
-      Height = 23
-      DataField = 'ESTOQUE_DISPONIVEL'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 2
-    end
-    object edPedAberto: TDBEdit
-      Left = 114
-      Top = 38
-      Width = 102
-      Height = 23
-      DataField = 'PEDIDO_ABERTO'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 1
-    end
-    object edEstFisico: TDBEdit
-      Left = 3
-      Top = 38
-      Width = 85
-      Height = 23
-      DataField = 'ESTOQUE_FISICO'
-      DataSource = ds
-      Enabled = False
-      TabOrder = 0
-    end
-    object edPontoPedido: TDBEdit
-      Left = 3
-      Top = 93
-      Width = 85
-      Height = 23
-      DataField = 'PONTO_PEDIDO'
-      DataSource = ds
-      TabOrder = 5
-    end
-    object edQtdeMax: TDBEdit
-      Left = 238
-      Top = 93
-      Width = 106
-      Height = 23
-      DataField = 'QTDE_MAX'
-      DataSource = ds
-      TabOrder = 7
-    end
-    object edQtdeMin: TDBEdit
-      Left = 114
-      Top = 93
-      Width = 102
-      Height = 23
-      DataField = 'QTDE_MIN'
-      DataSource = ds
-      TabOrder = 6
+    object tbs_estoques: TTabSheet
+      Caption = 'Estoques'
+      ImageIndex = 2
+      object gbx_estoques: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 607
+        Height = 244
+        Align = alClient
+        Caption = ' Estoques '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        object Label14: TLabel
+          Left = 238
+          Top = 20
+          Width = 55
+          Height = 15
+          Caption = 'Disponivel'
+          FocusControl = edEstDisponivel
+        end
+        object Label18: TLabel
+          Left = 363
+          Top = 76
+          Width = 90
+          Height = 15
+          Caption = 'Tempo reposi'#231#227'o'
+          FocusControl = edTempoReposicao
+        end
+        object Label16: TLabel
+          Left = 509
+          Top = 20
+          Width = 85
+          Height = 15
+          Caption = 'Estoque Liquido'
+          FocusControl = edEstLiquido
+        end
+        object Label15: TLabel
+          Left = 364
+          Top = 20
+          Width = 106
+          Height = 15
+          Caption = 'Pedido Aguardando'
+          FocusControl = edPedAguardando
+        end
+        object Label13: TLabel
+          Left = 114
+          Top = 20
+          Width = 76
+          Height = 15
+          Caption = 'Pedido Aberto'
+          FocusControl = edPedAberto
+        end
+        object Label12: TLabel
+          Left = 5
+          Top = 20
+          Width = 30
+          Height = 15
+          Caption = 'Fisico'
+          FocusControl = edEstFisico
+        end
+        object Label11: TLabel
+          Left = 5
+          Top = 76
+          Width = 88
+          Height = 15
+          Caption = 'Ponto de pedido'
+          FocusControl = edPontoPedido
+        end
+        object Label10: TLabel
+          Left = 238
+          Top = 76
+          Width = 72
+          Height = 15
+          Caption = 'Qtde M'#225'xima'
+          FocusControl = edQtdeMax
+        end
+        object Label9: TLabel
+          Left = 120
+          Top = 76
+          Width = 70
+          Height = 15
+          Caption = 'Qtde Minima'
+          FocusControl = edQtdeMin
+        end
+        object edTempoReposicao: TDBEdit
+          Left = 364
+          Top = 93
+          Width = 81
+          Height = 23
+          DataField = 'TEMPO_REPOSICAO'
+          DataSource = ds
+          TabOrder = 8
+        end
+        object edEstLiquido: TDBEdit
+          Left = 509
+          Top = 38
+          Width = 97
+          Height = 23
+          DataField = 'ESTOQUE_LIQUIDO'
+          DataSource = ds
+          Enabled = False
+          TabOrder = 4
+        end
+        object edPedAguardando: TDBEdit
+          Left = 364
+          Top = 38
+          Width = 117
+          Height = 23
+          DataField = 'PEDIDO_AGUARDANDO'
+          DataSource = ds
+          Enabled = False
+          TabOrder = 3
+        end
+        object edEstDisponivel: TDBEdit
+          Left = 237
+          Top = 38
+          Width = 107
+          Height = 23
+          DataField = 'ESTOQUE_DISPONIVEL'
+          DataSource = ds
+          Enabled = False
+          TabOrder = 2
+        end
+        object edPedAberto: TDBEdit
+          Left = 114
+          Top = 38
+          Width = 102
+          Height = 23
+          DataField = 'PEDIDO_ABERTO'
+          DataSource = ds
+          Enabled = False
+          TabOrder = 1
+        end
+        object edEstFisico: TDBEdit
+          Left = 3
+          Top = 38
+          Width = 85
+          Height = 23
+          DataField = 'ESTOQUE_FISICO'
+          DataSource = ds
+          Enabled = False
+          TabOrder = 0
+        end
+        object edPontoPedido: TDBEdit
+          Left = 3
+          Top = 93
+          Width = 85
+          Height = 23
+          DataField = 'PONTO_PEDIDO'
+          DataSource = ds
+          TabOrder = 5
+        end
+        object edQtdeMax: TDBEdit
+          Left = 238
+          Top = 93
+          Width = 106
+          Height = 23
+          DataField = 'QTDE_MAX'
+          DataSource = ds
+          TabOrder = 7
+        end
+        object edQtdeMin: TDBEdit
+          Left = 114
+          Top = 93
+          Width = 102
+          Height = 23
+          DataField = 'QTDE_MIN'
+          DataSource = ds
+          TabOrder = 6
+        end
+      end
     end
   end
   inherited qry: TFDQuery
     Connection = dmConn.FDConnection
     SQL.Strings = (
       'select * from produtos')
-    Left = 488
-    Top = 384
+    Left = 264
+    Top = 144
     object qryID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -1136,30 +1106,29 @@ inherited frmProdutosE: TfrmProdutosE
     end
   end
   inherited ds: TDataSource
-    Left = 488
-    Top = 353
+    Left = 264
   end
   object qryDeptos: TFDQuery
-    Left = 517
-    Top = 381
+    Left = 509
+    Top = 189
   end
   object dsDeptos: TDataSource
     DataSet = qryDeptos
-    Left = 520
-    Top = 353
+    Left = 512
+    Top = 161
   end
   object ds_lista_precos: TDataSource
     AutoEdit = False
     DataSet = mt_lista_precos
     OnDataChange = ds_lista_precosDataChange
-    Left = 548
-    Top = 361
+    Left = 308
+    Top = 329
   end
   object ds_precos_deletados: TDataSource
     AutoEdit = False
     DataSet = mt_precos_deletados
-    Left = 576
-    Top = 361
+    Left = 440
+    Top = 369
   end
   object mt_lista_precos: TFDMemTable
     Active = True
@@ -1208,8 +1177,8 @@ inherited frmProdutosE: TfrmProdutosE
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 548
-    Top = 389
+    Left = 308
+    Top = 357
     object mt_lista_precosID: TIntegerField
       FieldName = 'ID'
     end
@@ -1255,10 +1224,165 @@ inherited frmProdutosE: TfrmProdutosE
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 576
-    Top = 389
+    Left = 440
+    Top = 397
     object mt_precos_deletadosID: TIntegerField
       FieldName = 'ID'
+    end
+  end
+  object ImageList1: TImageList
+    Left = 488
+    Top = 209
+    Bitmap = {
+      494C010101000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFEFEFEFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0D0D0DFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF121212FF1212
+      12FF121212FF121212FF121212FF121212FF121212FF121212FF121212FF1212
+      12FF121212FF121212FF0C0C0CFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0E0E0EFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF121212FF1313
+      13FF131313FF131313FF131313FF131313FF131313FF131313FF131313FF1313
+      13FF131313FF131313FF0C0C0CFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0F0F0FFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF111111FF1212
+      12FF121212FF121212FF121212FF121212FF121212FF121212FF121212FF1212
+      12FF121212FF121212FF0D0D0DFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF0000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000}
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 412
+    Top = 368
+    object mn_alterar: TMenuItem
+      Caption = 'Alterar forma de pagamento'
+      OnClick = mn_alterarClick
+    end
+    object mn_excluir: TMenuItem
+      Caption = 'Excluir forma de pagamento'
+      OnClick = mn_excluirClick
     end
   end
 end

@@ -8,7 +8,8 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Grids, Vcl.DBGrids, uBiblioteca, Vcl.ComCtrls, Vcl.Buttons;
+  Vcl.Grids, Vcl.DBGrids, uBiblioteca, Vcl.ComCtrls, Vcl.Buttons, frxClass,
+  frxDBSet, frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmPedidosTotais = class(TfrmBaseConexao)
@@ -72,9 +73,15 @@ type
     Label1: TLabel;
     pnl_botoes: TPanel;
     sb_produtos: TSpeedButton;
-    SpeedButton1: TSpeedButton;
+    btn_total_itens: TSpeedButton;
     Label5: TLabel;
     lbl_qtde_pedidos_liquidado: TLabel;
+    btn_rel_prod_vendidos: TSpeedButton;
+    frx_rel_vendas: TfrxReport;
+    frxDBDataset: TfrxDBDataset;
+    frxDBEmpresa: TfrxDBDataset;
+    qryEmpresa: TFDQuery;
+    frxPDFExport1: TfrxPDFExport;
     procedure FormShow(Sender: TObject);
     procedure tbs_itens_lajeShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -82,7 +89,8 @@ type
     procedure dbg_produtos_vendidosTitleClick(Column: TColumn);
     procedure dbg_itens_lajeTitleClick(Column: TColumn);
     procedure sb_produtosClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btn_total_itensClick(Sender: TObject);
+    procedure btn_rel_prod_vendidosClick(Sender: TObject);
   private
     Fp_pago: string;
     Fp_emissao_fim: string;
@@ -616,13 +624,25 @@ procedure TfrmPedidosTotais.sb_produtosClick(Sender: TObject);
 begin
   inherited;
   PageControl1.ActivePageIndex := 0;
+  btn_rel_prod_vendidos.Enabled := true;
 end;
 
-procedure TfrmPedidosTotais.SpeedButton1Click(Sender: TObject);
+procedure TfrmPedidosTotais.btn_rel_prod_vendidosClick(Sender: TObject);
+begin
+  inherited;
+  qryempresa.Connection := conexao;
+  qryEmpresa.Active := TRUE;
+
+  frx_rel_vendas.Variables['DATA_INICIO'] := SeSenao(p_emissao_ini <> '-1', QuotedStr( p_emissao_ini ), QuotedStr( p_contabil_ini ));
+  frx_rel_vendas.Variables['DATA_FIM']    :=SeSenao(p_emissao_fim <> '-1', QuotedStr( p_emissao_fim ), QuotedStr( p_contabil_fim ));
+  frx_rel_vendas.ShowReport;
+end;
+
+procedure TfrmPedidosTotais.btn_total_itensClick(Sender: TObject);
 begin
   inherited;
   PageControl1.ActivePageIndex := 1;
-
+  btn_rel_prod_vendidos.Enabled := false;
 end;
 
 procedure TfrmPedidosTotais.tbs_itens_lajeShow(Sender: TObject);

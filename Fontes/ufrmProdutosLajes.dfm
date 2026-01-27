@@ -2,7 +2,6 @@ inherited frmProdutosLajes: TfrmProdutosLajes
   Caption = 'frmProdutosLajes'
   ClientHeight = 591
   ClientWidth = 1184
-  Position = poDesigned
   ExplicitWidth = 1184
   ExplicitHeight = 591
   TextHeight = 15
@@ -142,6 +141,9 @@ inherited frmProdutosLajes: TfrmProdutosLajes
         inherited pnl_resultado: TPanel
           Width = 1136
           ExplicitWidth = 1136
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -155,6 +157,7 @@ inherited frmProdutosLajes: TfrmProdutosLajes
     end
     inherited lbl_titulo: TLabel
       Width = 198
+      Height = 56
       Caption = 'CONSULTA DE LAJES'
       ExplicitWidth = 198
     end

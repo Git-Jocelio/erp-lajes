@@ -74,9 +74,18 @@ end;
 {$R *.dfm}
 
 procedure TfrmProdutosLajes.actAlterarExecute(Sender: TObject);
+var
+  id: integer;
 begin
-  ufrmProdutosLajesE.Alterar(qry.FieldByName('ID').AsInteger);
+
+  id := qry.fieldbyname('ID').AsInteger;
+
+  ufrmProdutosLajesE.Alterar(id);
   uBiblioteca.AtualizaQuery(qry);
+
+    {volta pro registro}
+  QRY.Locate('ID',id,[]);
+
   inherited;
 end;
 
@@ -84,6 +93,8 @@ procedure TfrmProdutosLajes.actExcluirExecute(Sender: TObject);
 begin
   ufrmProdutosLajesE.Excluir(qry.FieldByName('ID').AsInteger);
   uBiblioteca.AtualizaQuery(qry);
+
+
   inherited;
 
 end;

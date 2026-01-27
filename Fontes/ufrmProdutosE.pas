@@ -9,7 +9,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.ExtCtrls, uTipos, Vcl.ComCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.Grids,
-  Vcl.DBGrids, ufrmTabelaPrecosE ;
+  Vcl.DBGrids, ufrmTabelaPrecosE, unit_funcoes, System.ImageList, Vcl.ImgList,
+  Vcl.Menus ;
 
 type
   TfrmProdutosE = class(TfrmBaseEdicao)
@@ -52,11 +53,6 @@ type
     edTxICMS: TDBEdit;
     edTxIPI: TDBEdit;
     Label7: TLabel;
-    Label8: TLabel;
-    Label4: TLabel;
-    edCusto: TDBEdit;
-    gb_formas_pagto: TGroupBox;
-    dbg_condicoes_pagto: TDBGrid;
     ds_lista_precos: TDataSource;
     ds_precos_deletados: TDataSource;
     mt_lista_precos: TFDMemTable;
@@ -70,36 +66,8 @@ type
     mt_lista_precosATIVO: TStringField;
     mt_precos_deletados: TFDMemTable;
     mt_precos_deletadosID: TIntegerField;
-    Label17: TLabel;
     Label24: TLabel;
     edt_custo_liquido: TDBEdit;
-    DBText1: TDBText;
-    DBText2: TDBText;
-    Bevel1: TBevel;
-    Bevel5: TBevel;
-    pnl_botoes_forma_pagto: TPanel;
-    btn_icluir: TSpeedButton;
-    btn_excluir: TSpeedButton;
-    btn_alterar: TSpeedButton;
-    gbx_estoques: TGroupBox;
-    Label14: TLabel;
-    Label18: TLabel;
-    Label16: TLabel;
-    Label15: TLabel;
-    Label13: TLabel;
-    Label12: TLabel;
-    Label11: TLabel;
-    Label10: TLabel;
-    Label9: TLabel;
-    edTempoReposicao: TDBEdit;
-    edEstLiquido: TDBEdit;
-    edPedAguardando: TDBEdit;
-    edEstDisponivel: TDBEdit;
-    edPedAberto: TDBEdit;
-    edEstFisico: TDBEdit;
-    edPontoPedido: TDBEdit;
-    edQtdeMax: TDBEdit;
-    edQtdeMin: TDBEdit;
     qryID: TIntegerField;
     qryATIVO: TStringField;
     qryDATA_CAD: TDateField;
@@ -141,6 +109,34 @@ type
     qryTRELICA: TStringField;
     qryNEGATIVO_DE_LAJE: TStringField;
     qryREFORCO_DE_VIGA: TStringField;
+    tbs_estoques: TTabSheet;
+    gbx_estoques: TGroupBox;
+    Label14: TLabel;
+    Label18: TLabel;
+    Label16: TLabel;
+    Label15: TLabel;
+    Label13: TLabel;
+    Label12: TLabel;
+    Label11: TLabel;
+    Label10: TLabel;
+    Label9: TLabel;
+    edTempoReposicao: TDBEdit;
+    edEstLiquido: TDBEdit;
+    edPedAguardando: TDBEdit;
+    edEstDisponivel: TDBEdit;
+    edPedAberto: TDBEdit;
+    edEstFisico: TDBEdit;
+    edPontoPedido: TDBEdit;
+    edQtdeMax: TDBEdit;
+    edQtdeMin: TDBEdit;
+    ImageList1: TImageList;
+    PopupMenu1: TPopupMenu;
+    mn_alterar: TMenuItem;
+    mn_excluir: TMenuItem;
+    gb_formas_pagto: TGroupBox;
+    btn_incluir: TSpeedButton;
+    dbg_condicoes_pagto: TDBGrid;
+    edCusto: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -148,6 +144,14 @@ type
     procedure btn_icluirClick(Sender: TObject);
     procedure btn_excluirClick(Sender: TObject);
     procedure dbg_condicoes_pagtoDblClick(Sender: TObject);
+    procedure dbg_condicoes_pagtoDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure dbg_condicoes_pagtoMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure mn_alterarClick(Sender: TObject);
+    procedure mn_excluirClick(Sender: TObject);
+    procedure btn_incluirClick(Sender: TObject);
   private
     FOperacao: uTipos.TOperacao;
     FTitulo: string;
@@ -157,6 +161,7 @@ type
     procedure Salvar();
     procedure prc_incluir_alterar(operacao: TOperacao; v_tabela: string);
     procedure prc_atualiza_preco(v_preco_vendedor, v_preco_venda: double);
+    function fnc_buscar_novo_id: integer;
 
   protected
     procedure Componentes();
@@ -248,6 +253,7 @@ end;
 procedure TfrmProdutosE.btn_icluirClick(Sender: TObject);
 begin
   inherited;
+
   if frmTabelaPrecosE = nil then
   begin
     try
@@ -306,6 +312,7 @@ begin
 
   dbg_condicoes_pagto.Columns[1].Visible := false;
   dbg_condicoes_pagto.Columns[2].Visible := false;
+  dbg_condicoes_pagto.Columns[6].Visible := false;
 
 end;
 
@@ -353,6 +360,46 @@ begin
 
 end;
 
+procedure TfrmProdutosE.dbg_condicoes_pagtoDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  X, Y: Integer;
+begin
+  if Column.Title.Caption = 'Ações' then
+  begin
+    dbg_condicoes_pagto.Canvas.FillRect(Rect);
+
+    X := Rect.Left + (Rect.Width - ImageList1.Width) div 2;
+    Y := Rect.Top + (Rect.Height - ImageList1.Height) div 2;
+
+    ImageList1.Draw(dbg_condicoes_pagto.Canvas, X, Y, 0); // índice do ícone
+  end
+  else
+    dbg_condicoes_pagto.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmProdutosE.dbg_condicoes_pagtoMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  GC: TGridCoord;
+begin
+  if Button <> mbLeft then Exit;
+
+  GC := dbg_condicoes_pagto.MouseCoord(X, Y);
+
+  // Linha inválida ou cabeçalho
+  if (GC.X < 1) or (GC.Y < 1) then Exit;
+
+  // Verifica se clicou na coluna "Ações"
+  if dbg_condicoes_pagto.Columns[GC.X - 1].Title.Caption = 'Ações' then
+  begin
+    // Posiciona o dataset na linha correta
+    dbg_condicoes_pagto.DataSource.DataSet.RecNo := GC.Y;
+
+    PopupMenu1.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  end;
+end;
+
 procedure TfrmProdutosE.prc_atualiza_preco(v_preco_vendedor, v_preco_venda: double);
 begin
 
@@ -366,8 +413,8 @@ procedure TfrmProdutosE.ds_lista_precosDataChange(Sender: TObject;
   Field: TField);
 begin
   inherited;
-  btn_excluir.Enabled := not mt_lista_precos.IsEmpty;
-  btn_alterar.Enabled := not mt_lista_precos.IsEmpty;
+  mn_excluir.Enabled := not mt_lista_precos.IsEmpty;
+  mn_alterar.Enabled := not mt_lista_precos.IsEmpty;
 
 end;
 
@@ -395,7 +442,7 @@ begin
   uTipos.opIncluir: begin
                        pnTitulo.Caption := 'CADASTRO DE PRODUTOS';
                        lbl_sub_titulo.Caption := 'Incluir Novo';
-                       btnOk     .Caption := 'Incluir';
+                       btnOk.Caption := 'Salvar dados';
                        //
                        qry.Insert;
                        qry.FieldByName('ID').AsInteger := ubiblioteca.AutoIncremento(self.Conexao,self.Tabela);
@@ -404,7 +451,7 @@ begin
                        qry.FieldByName('ESTOQUE_CONTROLADO').AsString := 'N';
                        qry.FieldByName('PRECO_CUSTO').AsFloat := 0;
                        qry.FieldByName('PRECO_VENDA').AsFloat := 0;
-                       //ESTOQUE
+                        qry.FieldByName('DEPARTAMENTO_ID').AsInteger := 1; // REVENDA
                        qry.FieldByName('ESTOQUE_FISICO').AsFloat := 0;
                        qry.FieldByName('PEDIDO_ABERTO').AsFloat := 0;
                        qry.FieldByName('ESTOQUE_DISPONIVEL').AsFloat := 0;
@@ -438,7 +485,7 @@ begin
                       self.LerDados;
                       pnTitulo.Caption := 'CADASTRO DE PRODUTOS';
                       lbl_sub_titulo.Caption := 'Alterar';
-                      btnOk.Caption := 'Alterar';
+                      btnOk.Caption := 'Salvar Alterações';
                       //
                       qry.Edit;
                       qry.FieldByName('DATA_ALT').AsDateTime := Date;
@@ -461,6 +508,60 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmProdutosE.mn_alterarClick(Sender: TObject);
+begin
+  if frmTabelaPrecosE = nil then
+  begin
+    try
+      frmTabelaPrecosE := TfrmTabelaPrecosE.Create(self);
+      frmtabelaPrecosE.p_formaPagtoId := mt_lista_precosID.AsInteger;
+      frmTabelaPrecosE.p_operacao := opAlterar;
+      frmtabelaPrecosE.ShowModal;
+
+      if frmTabelaPrecosE.p_confirmado = true then
+      begin
+        // inserir na grid
+        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
+
+        mt_lista_precos.Edit;
+        //mt_lista_precosID.AsInteger := -1;
+        //mt_lista_precosPRODUTO_ID.AsInteger := qry.FieldByName('ID').AsInteger;
+        //mt_lista_precosFORMA_PAGTO_ID.AsInteger := frmTabelaPrecosE.FormaPagtoId;
+        //mt_lista_precosFORMA_PAGTO_DESCRICAO.AsString := frmTabelaPrecosE.DescricaoFormaPAgto;
+        mt_lista_precosPRECO_VENDEDOR.AsFloat := frmTabelaPrecosE.p_precoVendedor;
+        mt_lista_precosPRECO_VENDA.AsFloat := frmTabelaPrecosE.p_precoVenda;
+        mt_lista_precosTAXA_PARCELAMENTO.AsFloat := frmTabelaPrecosE.p_taxa;
+        mt_lista_precosATIVO.AsString := frmTabelaPrecosE.p_ativo;
+        mt_lista_precos.Post;
+
+
+        // atualiza preços a vista
+        if frmTabelaPrecosE.p_intervalo = 0 then
+          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
+
+      end;
+
+
+    finally
+       FreeAndNil(frmTabelaPrecosE);
+    end;
+
+
+  end;
+end;
+
+procedure TfrmProdutosE.mn_excluirClick(Sender: TObject);
+begin
+  if mt_lista_precosID.AsInteger > 0 then
+  begin
+    mt_precos_deletados.Insert;
+    mt_precos_deletadosID.AsInteger := mt_lista_precosID.AsInteger;
+    mt_precos_deletados.post;
+  end;
+
+  mt_lista_precos.Delete;
 end;
 
 procedure TfrmProdutosE.LerDados;
@@ -493,42 +594,40 @@ begin
 
 end;
 
+function  TfrmProdutosE.fnc_buscar_novo_id: integer;
+var
+  qry : TFDQuery;
+begin
+  try
+    qry := TFDQuery.Create(nil);
+    qry.Connection := conexao;
+    qry.SQL.Clear;
+    qry.SQL.Add('select max(id) as novo_id from produtos');
+    qry.Active:= true;
+    result := qry.FieldByName('novo_id').AsInteger;
+  finally
+    freeandnil(qry);
+  end;
+
+end;
+
 procedure TfrmProdutosE.Salvar;
 begin
-  case Self.Operacao of
 
-    // Inclusão
-    uTipos.opIncluir :
-    begin
-      if not Valida then Exit;
+    if not Valida then Exit;
 
-      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-      //***
-      try
-        {Próximo código}
-        qry.Post;
-        if Self.Conexao.InTransaction then Self.Conexao.Commit;
+    if operacao = opexcluir then
+      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrCancel then exit;
 
-        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
-          Self.Inicializar
-        else
-          ModalResult := mrOk;
-      except
-        ShowMessage('Não foi possível salvar o registro');
-      end;
-    end;
+    if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
+    //***
+    try
+      qry.Post;
+      if operacao = OpIncluir then p_codigo := fnc_buscar_novo_id;
 
-    // Alteração
-    uTipos.opAlterar :
-    begin
-      if not Valida then Exit;
-
-      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-      //***
-      try
-        qry.Post;
-
-        {exclui formas de pagameto. se houver}
+      {exclui formas de pagameto. se houver}
+      if not mt_precos_deletados.IsEmpty then
+      begin
         mt_precos_deletados.First;
         while not mt_precos_deletados.eof do
         begin
@@ -536,44 +635,81 @@ begin
           prc_incluir_alterar(opexcluir, 'PRODUTOS_FORMA_PAGAMENTO');
           mt_precos_deletados.Delete;
         end;
-
-        {inclui ou altera dados da grid}
-        mt_lista_precos.First;
-        while not mt_lista_precos.eof do
-        begin
-          if mt_lista_precosID.AsInteger < 0 then
-            prc_incluir_alterar(opincluir, 'PRODUTOS_FORMA_PAGAMENTO');
-          if mt_lista_precosID.AsInteger > 0 then
-            prc_incluir_alterar(opAlterar, 'PRODUTOS_FORMA_PAGAMENTO');
-
-
-          mt_lista_precos.Next;
-        end;
-
-        if Self.Conexao.InTransaction then Self.Conexao.Commit;
-        ModalResult := mrOk;
-      except
-        ShowMessage('Não foi possível alterar o registro');
       end;
+
+      {inclui ou altera dados da grid}
+      mt_lista_precos.First;
+      while not mt_lista_precos.eof do
+      begin
+        if mt_lista_precosID.AsInteger < 0 then
+          prc_incluir_alterar(opincluir, 'PRODUTOS_FORMA_PAGAMENTO');
+        if mt_lista_precosID.AsInteger > 0 then
+          prc_incluir_alterar(opAlterar, 'PRODUTOS_FORMA_PAGAMENTO');
+
+
+        mt_lista_precos.Next;
+      end;
+
+      if Self.Conexao.InTransaction then Self.Conexao.Commit;
+      ModalResult := mrOk;
+    except
+      {se der algum erro durante o processo de gravação desfaz tudo!}
+      on E : Exception do
+         begin
+           CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O PRODUTO.' + slinebreak + slinebreak + E.Message);
+           if Conexao.InTransaction then
+             Conexao.Rollback;;
+           //***
+           Raise;
+         end;
     end;
 
-    //Exclusão
-    uTipos.opExcluir :
-    begin
-      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
+end;
+
+procedure TfrmProdutosE.btn_incluirClick(Sender: TObject);
+begin
+    try
+      if frmTabelaPrecosE = nil then
+        frmTabelaPrecosE := TfrmTabelaPrecosE.Create(self);
+
+      frmTabelaPrecosE.p_codigo := qry.FieldByName('ID').AsInteger;
+      frmTabelaPrecosE.p_descricaoProduto := qry.FieldByName('DESCRICAO').AsString;
+      frmTabelaPrecosE.p_operacao := uTipos.OpIncluir;
+
+      frmTabelaPrecosE.ShowModal;
+
+      // verificar duplicidade
+      mt_lista_precos.First;
+      if mt_lista_precos.Locate( 'FORMA_PAGTO_ID',frmTabelaPrecosE.p_formaPagtoId,[] ) then
       begin
-        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-        try
-          //qryPessoas.Delete;
-          qry.Post;
-          if Self.Conexao.InTransaction then Self.Conexao.Commit;
-          ModalResult := mrOk;
-        except
-          ShowMessage('Não foi possível excluir o registro');
-        end;
-      end; // if
+        ShowMessage(' forma de pagamento : "' + frmTabelaPrecosE.p_descricaoFormaPagto + '" já foi selecionada para este produto');
+        exit;
+      end;
+
+      if frmTabelaPrecosE.p_confirmado = true then
+      begin
+        // inserir na grid
+        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
+
+        mt_lista_precos.Insert;
+        mt_lista_precosID.AsInteger := -1;
+        mt_lista_precosPRODUTO_ID.AsInteger := qry.FieldByName('ID').AsInteger;
+        mt_lista_precosFORMA_PAGTO_ID.AsInteger := frmTabelaPrecosE.p_formaPagtoId;
+        mt_lista_precosFORMA_PAGTO_DESCRICAO.AsString := frmTabelaPrecosE.p_descricaoFormaPagto;
+        mt_lista_precosPRECO_VENDEDOR.AsFloat := frmTabelaPrecosE.p_precoVendedor;
+        mt_lista_precosPRECO_VENDA.AsFloat := frmTabelaPrecosE.p_precoVenda;
+        mt_lista_precosTAXA_PARCELAMENTO.AsFloat := frmTabelaPrecosE.p_taxa;
+        mt_lista_precosATIVO.AsString := frmTabelaPrecosE.p_ativo;
+        mt_lista_precos.Post;
+
+        // atualiza preços a vista
+        if frmTabelaPrecosE.p_intervalo = 0 then
+          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
+      end;
+
+    finally
+       FreeAndNil(frmTabelaPrecosE);
     end;
-  end;// case
 
 end;
 
@@ -620,21 +756,13 @@ begin
   (qry.FieldByName('CUSTO_LIQUIDO').AsFloat < qry.FieldByName('PRECO_CUSTO').AsFloat))
    then
   begin
-   // qry.FieldByName('CUSTO_LIQUIDO').AsFloat := qry.FieldByName('PRECO_CUSTO').AsFloat;
     qry.FieldByName('PRECO_CUSTO').AsFloat := qry.FieldByName('CUSTO_LIQUIDO').AsFloat;
   end;
-(*
-  if qry.FieldByName('PRECO_VENDA').AsFloat < qry.FieldByName('CUSTO_LIQUIDO').AsFloat then
-  begin
-    ShowMessage('Preço de venda menor que o preço de custo! corrija os valores e tente novamente');
-    edVenda.SetFocus;
-    exit;
-  end;
-*)
+
   if mt_lista_precos.IsEmpty then
   begin
     ShowMessage('cadastre uma forma de pagamento');
-    btn_icluir.Click;
+    btn_incluir.Click;
     exit;
   end;
 
@@ -652,7 +780,7 @@ begin
     loQry.sql.clear;
     if operacao = opExcluir then
     begin
-      {não deleta do banco, marca ATIVO = N}
+      {não deleta do banco, marca ATIVO = N}  // v_tabela =PRODUTOS_FORMA_PAGAMENTO
       loQry.SQL.Add('update ' + v_tabela + ' set ATIVO = ''N'' where id =:id');
       loQry.ParamByName('id').AsInteger := mt_precos_deletadosID.AsInteger;
       loQry.ExecSQL;
@@ -707,7 +835,7 @@ begin
     loQry.ParamByName('PRECO_VENDEDOR').AsFloat    := mt_lista_precosPRECO_VENDEDOR.AsFloat;
     loQry.ParamByName('PRECO_VENDA').AsFloat       := mt_lista_precosPRECO_VENDA.AsFloat;
     loQry.ParamByName('TAXA_PARCELAMENTO').AsFloat := mt_lista_precosTAXA_PARCELAMENTO.AsFloat;
-    loQry.ParamByName('ATIVO').AsString   := mt_lista_precosATIVO.AsString;
+    loQry.ParamByName('ATIVO').AsString            := mt_lista_precosATIVO.AsString;
     //ShowMessage(loQry.SQL.Text);
     loQry.ExecSQL;
 

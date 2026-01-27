@@ -1,20 +1,20 @@
 inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
   Caption = 'frmProdutosTrelicaE'
-  ClientHeight = 518
-  ClientWidth = 753
+  ClientHeight = 517
+  ClientWidth = 749
   ShowHint = True
-  ExplicitWidth = 769
-  ExplicitHeight = 557
+  ExplicitWidth = 765
+  ExplicitHeight = 556
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 753
-    ExplicitWidth = 753
+    Width = 749
+    ExplicitWidth = 757
   end
   inherited pnDados: TPanel
-    Width = 753
-    Height = 424
-    ExplicitWidth = 753
-    ExplicitHeight = 424
+    Width = 749
+    Height = 423
+    ExplicitWidth = 757
+    ExplicitHeight = 425
     object GroupBox1: TGroupBox
       Left = 0
       Top = 0
@@ -23,7 +23,6 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
       Align = alTop
       Caption = ' Dimens'#245'es'
       TabOrder = 0
-      ExplicitWidth = 753
       object Label4: TLabel
         Left = 97
         Top = 115
@@ -1342,11 +1341,13 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     object PageControl1: TPageControl
       Left = 0
       Top = 305
-      Width = 753
-      Height = 119
+      Width = 749
+      Height = 118
       ActivePage = tbs_precos
       Align = alClient
       TabOrder = 1
+      ExplicitWidth = 757
+      ExplicitHeight = 120
       object tbs_precos: TTabSheet
         Caption = 'Pre'#231'os'
         object GroupBox3: TGroupBox
@@ -1356,8 +1357,6 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
           Height = 88
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 745
-          ExplicitHeight = 87
           object Label7: TLabel
             Left = 14
             Top = 20
@@ -1487,8 +1486,8 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         object gb_fiscal: TGroupBox
           Left = 0
           Top = 0
-          Width = 749
-          Height = 88
+          Width = 745
+          Height = 87
           Align = alClient
           TabOrder = 0
           object Label20: TLabel
@@ -1568,10 +1567,10 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     end
   end
   inherited pnRodape: TPanel
-    Top = 481
-    Width = 753
-    ExplicitTop = 481
-    ExplicitWidth = 753
+    Top = 480
+    Width = 749
+    ExplicitTop = 482
+    ExplicitWidth = 757
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
@@ -1597,10 +1596,11 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     Top = 37
   end
   object qryTrelica: TFDQuery
+    Connection = dmConn.FDConnection
     FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
     FormatOptions.FmtDisplayNumeric = '0.0'
     SQL.Strings = (
-      '')
+      'SELECT * FROM PRODUTOS_TRELICA')
     Left = 553
     Top = 42
     object qryTrelicaID: TIntegerField
@@ -1643,11 +1643,6 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     object qryTrelicaKGS_METRO: TCurrencyField
       FieldName = 'KGS_METRO'
       Origin = 'KGS_METRO'
-      DisplayFormat = '0.00'
-    end
-    object qryTrelicaPRECO_CUSTO: TCurrencyField
-      FieldName = 'PRECO_CUSTO'
-      Origin = 'PRECO_CUSTO'
       DisplayFormat = '0.00'
     end
     object qryTrelicaTIPO_TRELICA: TSmallintField

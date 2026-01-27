@@ -508,6 +508,8 @@ begin
   mn_totais.Enabled         := not ds.DataSet.IsEmpty;
   menu_imprimir.Enabled     := not ds.DataSet.IsEmpty;
 
+
+
 end;
 
 procedure TfrmPedidos.edNumeroPedidoKeyPress(Sender: TObject; var Key: Char);
@@ -520,7 +522,10 @@ end;
 procedure TfrmPedidos.FormActivate(Sender: TObject);
 begin
   inherited;
+  // busca pedido
   btnFiltrarCustomizado.Click;
+  // fecha opções de pesquisa
+  btnPesquisar.Click;
 end;
 
 procedure TfrmPedidos.FormClose(Sender: TObject; var Action: TCloseAction);

@@ -1,7 +1,7 @@
 inherited frmTabelaPrecos: TfrmTabelaPrecos
   Caption = 'frmTabelaPrecos'
   ClientWidth = 1034
-  ExplicitWidth = 1050
+  ExplicitWidth = 1034
   TextHeight = 15
   inherited GroupBoxPesquisa: TGroupBox
     Width = 1034
@@ -10,8 +10,11 @@ inherited frmTabelaPrecos: TfrmTabelaPrecos
       Left = 483
       ExplicitLeft = 483
     end
+    inherited edt_consulta: TEdit
+      TabOrder = 2
+    end
     object gbPessoa: TGroupBox
-      Left = 23
+      Left = 36
       Top = 14
       Width = 422
       Height = 80
@@ -32,9 +35,6 @@ inherited frmTabelaPrecos: TfrmTabelaPrecos
   inherited ToolBar1: TToolBar
     Width = 1034
     ExplicitWidth = 1034
-    inherited dbn_principal: TDBNavigator
-      Hints.Strings = ()
-    end
   end
   inherited StatusBar: TStatusBar
     Width = 1034
@@ -44,13 +44,12 @@ inherited frmTabelaPrecos: TfrmTabelaPrecos
     Width = 1034
     ExplicitWidth = 1034
     inherited TabSheet1: TTabSheet
-      ExplicitWidth = 1030
+      ExplicitWidth = 1026
       inherited Panel5: TPanel
-        Width = 1030
-        Height = 199
-        ExplicitWidth = 1030
+        Width = 1026
+        ExplicitWidth = 1026
         inherited DBGrid1: TDBGrid
-          Width = 1030
+          Width = 986
           Columns = <
             item
               Alignment = taCenter
@@ -172,37 +171,43 @@ inherited frmTabelaPrecos: TfrmTabelaPrecos
               Visible = True
             end>
         end
+        inherited pnl_resultado: TPanel
+          Width = 986
+          ExplicitWidth = 986
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
+        end
       end
     end
   end
+  inherited pnl_cabecalho: TPanel
+    Width = 1034
+    ExplicitWidth = 1034
+    inherited btn_fechar: TSpeedButton
+      Left = 964
+    end
+    inherited lbl_titulo: TLabel
+      Height = 56
+    end
+    inherited pnl_separa_topo: TPanel
+      Width = 1034
+      ExplicitWidth = 1034
+    end
+  end
   inherited ds: TDataSource
-    Left = 208
-    Top = 248
+    Left = 168
+    Top = 272
   end
   inherited qry: TFDQuery
-    Left = 208
-    Top = 280
-  end
-  inherited MainMenu1: TMainMenu
-    Left = 808
-    Top = 8
+    Left = 168
+    Top = 304
   end
   inherited ImageList1: TImageList
     Left = 872
-    Top = 8
   end
   inherited ActionList1: TActionList
     Left = 840
-    Top = 8
-    inherited actIncluir: TAction
-      OnExecute = actIncluirExecute
-    end
-    inherited actAlterar: TAction
-      OnExecute = actAlterarExecute
-    end
-    inherited actExcluir: TAction
-      OnExecute = actExcluirExecute
-    end
     inherited actLocalizar: TAction
       OnExecute = actLocalizarExecute
     end

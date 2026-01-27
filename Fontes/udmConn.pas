@@ -168,7 +168,8 @@ const
   //versao_app = 167;   // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
   //versao_app = 168;   // 21/01/2026 -  correções de bugs
   //versao_app = 169;   // 23/01/2026 - atualização do cadastro de empresa
-  versao_app = 170;     // 26/01/2026 - ajuste do layout do contrato de venda de concreto
+  //versao_app = 170;     // 26/01/2026 - ajuste do layout do contrato de venda de concreto
+  versao_app = 171;     // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
 
 
 var

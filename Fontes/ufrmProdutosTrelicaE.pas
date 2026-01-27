@@ -9,7 +9,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Mask, uTipos, Vcl.Imaging.pngimage,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, unit_funcoes, udmConn;
 
 type
   TfrmProdutosTrelicaE = class(TfrmBaseEdicao)
@@ -80,7 +80,6 @@ type
     qryTrelicaINFERIOR: TCurrencyField;
     qryTrelicaCOMPRIMENTO: TCurrencyField;
     qryTrelicaKGS_METRO: TCurrencyField;
-    qryTrelicaPRECO_CUSTO: TCurrencyField;
     qryTrelicaTIPO_TRELICA: TSmallintField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -338,7 +337,15 @@ begin
         else
           ModalResult := mrOk;
       except
-        ShowMessage('Não foi possível salvar o registro');
+        {se der algum erro durante o processo de gravação desfaz tudo!}
+        on E : Exception do
+           begin
+             CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O PRODUTO.' + slinebreak + slinebreak + E.Message);
+             if Conexao.InTransaction then
+               Conexao.Rollback;;
+             //***
+             Raise;
+           end;
       end;
     end;
 
@@ -355,7 +362,15 @@ begin
         if Self.Conexao.InTransaction then Self.Conexao.Commit;
         ModalResult := mrOk;
       except
-        ShowMessage('Não foi possível alterar o registro');
+        {se der algum erro durante o processo de gravação desfaz tudo!}
+        on E : Exception do
+           begin
+             CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O PRODUTO.' + slinebreak + slinebreak + E.Message);
+             if Conexao.InTransaction then
+               Conexao.Rollback;;
+             //***
+             Raise;
+           end;
       end;
     end;
 
@@ -371,7 +386,15 @@ begin
           if Self.Conexao.InTransaction then Self.Conexao.Commit;
           ModalResult := mrOk;
         except
-          ShowMessage('Não foi possível excluir o registro');
+         {se der algum erro durante o processo de gravação desfaz tudo!}
+        on E : Exception do
+           begin
+             CriarMensagem('AVISO','NÃO FOI POSSIVEL SALVAR O PRODUTO.' + slinebreak + slinebreak + E.Message);
+             if Conexao.InTransaction then
+               Conexao.Rollback;;
+             //***
+             Raise;
+           end;
         end;
       end; // if
     end;

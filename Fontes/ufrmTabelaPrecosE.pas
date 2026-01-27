@@ -243,6 +243,7 @@ begin
         Open;
 
       end;
+
       if not loQry.IsEmpty then
       begin
         //Carrega dados do produto

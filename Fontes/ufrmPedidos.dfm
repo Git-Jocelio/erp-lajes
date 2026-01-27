@@ -6,6 +6,7 @@
   ClientWidth = 1105
   Position = poDefault
   OnActivate = FormActivate
+  ExplicitLeft = -34
   ExplicitWidth = 1105
   ExplicitHeight = 541
   TextHeight = 15
@@ -19,7 +20,7 @@
       Top = 19
       Width = 1032
       Height = 146
-      ActivePage = tbs_numero_Pedido
+      ActivePage = tbs_customizado
       Align = alClient
       DragCursor = crHandPoint
       TabOrder = 2
@@ -1004,6 +1005,7 @@
     inherited btnImprimir: TToolButton
       Left = 466
       Cursor = crHandPoint
+      Caption = '&Imprimir...'
       ExplicitLeft = 466
       ExplicitWidth = 114
     end
@@ -2126,7 +2128,7 @@
           IndexTag = 1
           AllowVectorExport = True
           Left = 610.165740000000000000
-          Top = 3.779527559055120000
+          Top = 3.779527560000000000
           Width = 136.063080000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -2195,8 +2197,8 @@
     PdfA = False
     PDFStandard = psNone
     PDFVersion = pv17
-    Left = 752
-    Top = 8
+    Left = 560
+    Top = 16
   end
   object frxDBImagem: TfrxDBDataset
     UserName = 'Imagem'

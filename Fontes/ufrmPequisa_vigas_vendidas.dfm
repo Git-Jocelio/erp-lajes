@@ -3,6 +3,7 @@ inherited frmPequisa_vigas_vendidas: TfrmPequisa_vigas_vendidas
   Caption = 'frmPequisa_vigas_vendidas'
   ClientHeight = 600
   ClientWidth = 755
+  ExplicitTop = -36
   ExplicitWidth = 755
   ExplicitHeight = 600
   TextHeight = 17
