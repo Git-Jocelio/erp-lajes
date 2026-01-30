@@ -155,6 +155,8 @@ type
     comprimento : integer;
     FCodigo: integer;
     FsituacaoPedido: string;
+    FDataEntrega: string;
+    FOpcaoSituacao: string;
 
     procedure addItem(tabela: string; id, codigo: integer; descricao: string;
                       qtde: double; unidade:string; grupo,itemLaje, altura, comprimento: integer);
@@ -185,8 +187,11 @@ type
   public
     {codigo = número do pedido}
     property Codigo: integer read FCodigo write FCodigo;
-    property situacaoPedido: string read FsituacaoPedido write FsituacaoPedido;
 
+    property situacaoPedido: string read FsituacaoPedido write FsituacaoPedido;
+    property dataEntrega: string read FDataEntrega write FDataEntrega;
+
+    property opcaoSituacao: string read FOpcaoSituacao write FOpcaoSituacao;
 
 end;
 
@@ -241,6 +246,7 @@ var
   detailData: TfrxDetailData;
   loqry : TFDQuery;
   opcao : string;
+
 begin
   inherited;
   OPCAO := '1';
@@ -260,7 +266,7 @@ begin
     CriarMensagem('AVISO', 'ESCOLHA UMA OPÇÃO DE 1 A 3');
     EXIT;
   end else
-    situacaoPedido := OPCAO;
+    opcaoSituacao := OPCAO;
 
   prc_carregar_local_entrega;
   ConfgQrys;
@@ -342,7 +348,7 @@ var
 begin
   inherited;
   // passo situação do pedido = 1( somento pedido ABERTO )
-  situacaoPedido := '1';
+  opcaoSituacao := '1';
 
   prc_carregar_local_entrega;
   ConfgQrys;
@@ -412,6 +418,7 @@ begin
   inherited;
     prc_carregar_local_entrega;
     filtrarItensPedido(Codigo);
+
     frxContratoEditavel.ShowReport;
 
 end;
@@ -592,11 +599,11 @@ begin
   qryPedItens.SQL.Add(' PEDIDO_ID  =:PEDIDO_ID and ');
 
   //situação do pedido
-  if situacaoPedido = '1' then
+  if opcaoSituacao = '1' then
    qryPedItens.SQL.Add(' I.SITUACAO =' + QuotedStr('ABERTO'))
-  else if situacaoPedido = '2' then
+  else if opcaoSituacao = '2' then
    qryPedItens.SQL.Add(' I.SITUACAO =' + QuotedStr('AGUARDANDO'))
-  else if situacaoPedido = '3' then
+  else if opcaoSituacao = '3' then
    qryPedItens.SQL.Add(' I.SITUACAO <>' + QuotedStr(''));// todos
 
 
@@ -631,11 +638,11 @@ begin
   //qryItensLaje.SQL.Add(' PI.SITUACAO =:SITUACAO  '          );
 
   //situação do pedido
-  if situacaoPedido = '1' then
+  if opcaoSituacao = '1' then
    qryItensLaje.SQL.Add(' PI.SITUACAO =' + QuotedStr('ABERTO'))
-  else if situacaoPedido = '2' then
+  else if opcaoSituacao = '2' then
    qryItensLaje.SQL.Add(' PI.SITUACAO =' + QuotedStr('AGUARDANDO'))
-  else if situacaoPedido = '3' then
+  else if opcaoSituacao = '3' then
    qryItensLaje.SQL.Add(' PI.SITUACAO <>' + QuotedStr(''));// todos
 
   qryItensLaje.SQL.Add(' order by P.NOME_FANTASIA desc  '     );
@@ -988,12 +995,13 @@ procedure TfrmRelPedidos.btnImprimePedidoClick(Sender: TObject);
 var
   loqry: TFDQuery;
   opcao : string;
+
 begin
   inherited;
   prc_carregar_local_entrega;
   filtrarItensPedido(Codigo);
-  //frxReportPedido.ShowReport();
-  //frxReportPedidoSimples.ShowReport();
+
+
 
   {aqui decide-se se imprime a ordem de entrega com ou sem cabeçalho}
   try
@@ -1009,8 +1017,6 @@ begin
     if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO_PED').AsString = 'N' then
     begin
       {pedido simples sem cabeçalho}
-     // frxReportPedidoSimples.ShowReport();
-/////
       InputQuery('PEDIDO SIMPLIFICADO','DIGITE UMA OPÇÃO : '  + SLINEBREAK +  SLINEBREAK +
                  '1 = PARA PEDIDO SEM CABEÇALHO' + SLINEBREAK + SLINEBREAK +
                  '2 = PARA PEDIDO COM CABEÇALHO', OPCAO );
@@ -1030,7 +1036,6 @@ begin
         criarmensagem('ERRO','DIGITE UM OPÇÃO VÁLIDA. EX. "1" ou "2"');
       end;
 
-/////
     end;
   finally
     FreeAndNil(loqry);
@@ -1122,7 +1127,7 @@ var
 begin
   inherited;
   // controla a situação dos itens da ordem de entrega
-  situacaoPedido := '';
+  opcaoSituacao := '';
 
   qry.Connection            := self.Conexao;
   qryPedidoItens.Connection := self.Conexao;
@@ -1136,12 +1141,12 @@ begin
   qryPedItens.Connection    := self.Conexao;
   qryAux.Connection         := self.Conexao;
   qryComissoes.Connection   := self.Conexao;
-  qry_comissoes_despesas.Connection   := self.Conexao;
+  qry_comissoes_despesas.Connection := self.Conexao;
   qryItensLaje.Connection   := self.Conexao;
   //qryReforcoViga.Connection := self.Conexao;
   qryComissoesFerrari.Connection   := self.Conexao;
   qryConcreto.Connection := self.conexao;
-  qry_contrato.Connection            := self.Conexao;
+  qry_contrato.Connection := self.Conexao;
 
   criarCds(cdsItensPedido);
 
@@ -1219,6 +1224,21 @@ begin
   qry.ParamByName('ID').AsInteger := Codigo;
   qry.Open;
 
+  // customiza a data da entrega conforme situacao do pedido
+  situacaoPedido := qry.FieldByName('SITUACAO').AsString;
+  dataEntrega := qry.FieldByName('DATA_ENTREGA').AsString;
+
+  frxReportPedido.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportPedidoSimples.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportPedSimplesCabecalho.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportOrdemEntrega.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportOrdemProducao.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReport_pedido_contrado.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportContrato.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportConcreto.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportOESimplesSemCabecalho.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxReportOrdemEntregaSimples.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
+  frxContratoEditavel.Variables['DATA_ENTREGA'] := sesenao(situacaoPedido = 'AGUARDANDO', QuotedStr('À AGENDAR'), QuotedStr(dataEntrega));
 
   {Forma de pagamentos}
   qryFormaPagto.Close;

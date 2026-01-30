@@ -2206,7 +2206,7 @@
         object Memo14: TfrxMemoView
           AllowVectorExport = True
           Top = 26.456710000000000000
-          Width = 355.275820000000000000
+          Width = 389.291590000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -2221,7 +2221,7 @@
         object Memo16: TfrxMemoView
           AllowVectorExport = True
           Top = 47.133890000000000000
-          Width = 355.275820000000000000
+          Width = 389.291590000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -2230,7 +2230,7 @@
           Font.Style = []
           Frame.Typ = []
           Memo.UTF8W = (
-            'Data da Entrega           :   [Pedido."DATA_ENTREGA"]')
+            'Data da Entrega           :   [DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo15: TfrxMemoView
@@ -3950,7 +3950,7 @@
         object Memo16: TfrxMemoView
           AllowVectorExport = True
           Top = 22.456710000000000000
-          Width = 317.480520000000000000
+          Width = 487.559370000000000000
           Height = 22.677167800000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -3959,7 +3959,7 @@
           Font.Style = [fsBold]
           Frame.Typ = []
           Memo.UTF8W = (
-            'Data da Entrega :[Pedido."DATA_ENTREGA"]')
+            'Data da Entrega :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo15: TfrxMemoView
@@ -4505,8 +4505,8 @@
         '     child1.height := 72;                                       ' +
         '                            '
       '      '
-      '   end'
-      '   else'
+      '   end else '
+      '   if <Cliente."NOME"> <> '#39'CONSUMIDOR'#39' then'
       '   begin'
       
         '     {se n'#227'o for consumidor e o local de entrega for vazio, esco' +
@@ -4529,8 +4529,14 @@
       '       child1.height := 72;'
       '     end;'
       ''
-      '   end;             '
-      '  '
+      '   end else'
+      '   begin'
+      
+        '                                                                ' +
+        '                            '
+      '       local_entregaCELULAR.visible  := TRUE;'
+      '       '
+      '   end;          '
       'end;'
       ''
       'begin'
@@ -4540,36 +4546,36 @@
     Top = 345
     Datasets = <
       item
-        DataSet = frxFerragens
-        DataSetName = 'cdsFerragens'
-      end
-      item
-        DataSet = frxItensPedido
-        DataSetName = 'cdsItensPedido'
+        DataSet = frxDBPedido
+        DataSetName = 'Pedido'
       end
       item
         DataSet = frxDBCliente
         DataSetName = 'Cliente'
       end
       item
+        DataSet = frxDBVendedor
+        DataSetName = 'Vendedor'
+      end
+      item
         DataSet = frxDBEmpresa
         DataSetName = 'Empresa'
       end
       item
-        DataSet = frxDBDataset2
-        DataSetName = 'imagem_rel'
+        DataSet = frxItensPedido
+        DataSetName = 'cdsItensPedido'
+      end
+      item
+        DataSet = frxFerragens
+        DataSetName = 'cdsFerragens'
       end
       item
         DataSet = frx_local_entrega
         DataSetName = 'local_entrega'
       end
       item
-        DataSet = frxDBPedido
-        DataSetName = 'Pedido'
-      end
-      item
-        DataSet = frxDBVendedor
-        DataSetName = 'Vendedor'
+        DataSet = frxDBDataset2
+        DataSetName = 'imagem_rel'
       end>
     Variables = <>
     Style = <>
@@ -4981,7 +4987,7 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 151.559055118110200000
+        Height = 151.559055120000000000
         Top = 117.165430000000000000
         Width = 744.567410000000000000
         OnBeforePrint = 'Child1OnBeforePrint'
@@ -5057,7 +5063,7 @@
           AllowVectorExport = True
           Left = 74.456692910000000000
           Top = 2.007874020000000000
-          Width = 661.417750000000000000
+          Width = 445.984540000000000000
           Height = 15.118110240000000000
           DataSet = frxDBPedido
           DataSetName = 'Pedido'
@@ -5264,6 +5270,29 @@
             item
             end>
         end
+        object ClienteCELULAR: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 525.354670000000000000
+          Width = 215.433210000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBCliente
+          DataSetName = 'Cliente'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Verdana'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'Tel : [Cliente."CELULAR"] / [Cliente."TELEFONE"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
       end
       object Child2: TfrxChild
         FillType = ftBrush
@@ -5311,7 +5340,7 @@
         object Memo16: TfrxMemoView
           AllowVectorExport = True
           Top = 43.354360000000000000
-          Width = 321.260050000000000000
+          Width = 359.055350000000000000
           Height = 18.897637800000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -5320,7 +5349,7 @@
           Font.Style = [fsBold]
           Frame.Typ = []
           Memo.UTF8W = (
-            'Data da Entrega :[Pedido."DATA_ENTREGA"]')
+            'Data da Entrega :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo11: TfrxMemoView
@@ -10410,7 +10439,7 @@
         end
         object Memo53: TfrxMemoView
           AllowVectorExport = True
-          Left = 3.999997560000000000
+          Left = 2.881877560000000000
           Top = 4.220470000000000000
           Width = 737.007874020000000000
           Height = 102.047300240000000000
@@ -10436,9 +10465,9 @@
         end
         object Memo55: TfrxMemoView
           AllowVectorExport = True
-          Left = 15.118110236220470000
+          Left = 15.118110240000000000
           Top = 30.795300000000000000
-          Width = 94.488250000000000000
+          Width = 359.055350000000000000
           Height = 18.897650000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -10464,7 +10493,7 @@
           AllowVectorExport = True
           Left = 15.118120000000000000
           Top = 79.370130000000000000
-          Width = 204.094620000000000000
+          Width = 359.055350000000000000
           Height = 18.897650000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -10473,7 +10502,7 @@
           Font.Style = [fsBold]
           Frame.Typ = []
           Memo.UTF8W = (
-            '[Pedido."DATA_ENTREGA"]')
+            '[DATA_ENTREGA]')
           ParentFont = False
         end
       end
@@ -12103,7 +12132,7 @@
           Font.Style = [fsBold]
           Frame.Typ = []
           Memo.UTF8W = (
-            'Data da Entrega :[Pedido."DATA_ENTREGA"]')
+            'Data da Entrega :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo15: TfrxMemoView
@@ -13190,7 +13219,7 @@
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'DATA ENTREGA :[Pedido."DATA_ENTREGA"]')
+            'DATA ENTREGA :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo37: TfrxMemoView
@@ -13926,7 +13955,7 @@
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'DATA DA ENTREGA :[Pedido."DATA_ENTREGA"]')
+            'DATA DA ENTREGA :[DATA_ENTREGA]')
           ParentFont = False
         end
       end
@@ -14898,7 +14927,7 @@
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'DATA ENTREGA :[Pedido."DATA_ENTREGA"]')
+            'DATA ENTREGA :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo37: TfrxMemoView
@@ -15536,8 +15565,8 @@
       'begin'
       ''
       'end.')
-    Left = 202
-    Top = 379
+    Left = 218
+    Top = 371
     Datasets = <
       item
         DataSet = frxDBPedido
@@ -15883,7 +15912,7 @@
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'DATA ENTREGA :[Pedido."DATA_ENTREGA"]')
+            'DATA ENTREGA :[DATA_ENTREGA]')
           ParentFont = False
         end
         object Memo37: TfrxMemoView
@@ -17079,9 +17108,9 @@
         end
         object Memo55: TfrxMemoView
           AllowVectorExport = True
-          Left = 15.118110236220500000
+          Left = 15.118110240000000000
           Top = 30.795300000000000000
-          Width = 94.488250000000000000
+          Width = 359.055350000000000000
           Height = 18.897650000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -17103,11 +17132,11 @@
           Memo.UTF8W = (
             'Data da Entrega:')
         end
-        object Memo61: TfrxMemoView
+        object DATA_ENTREGA: TfrxMemoView
           AllowVectorExport = True
           Left = 15.118120000000000000
           Top = 79.370130000000000000
-          Width = 204.094620000000000000
+          Width = 359.055350000000000000
           Height = 18.897650000000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -17116,7 +17145,7 @@
           Font.Style = [fsBold]
           Frame.Typ = []
           Memo.UTF8W = (
-            '[Pedido."DATA_ENTREGA"]')
+            '[DATA_ENTREGA]')
           ParentFont = False
         end
       end

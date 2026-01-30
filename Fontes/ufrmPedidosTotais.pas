@@ -9,7 +9,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.StdCtrls,
   Vcl.Grids, Vcl.DBGrids, uBiblioteca, Vcl.ComCtrls, Vcl.Buttons, frxClass,
-  frxDBSet, frxExportBaseDialog, frxExportPDF;
+  frxDBSet, frxExportBaseDialog, frxExportPDF, udmConn;
 
 type
   TfrmPedidosTotais = class(TfrmBaseConexao)
@@ -82,6 +82,7 @@ type
     frxDBEmpresa: TfrxDBDataset;
     qryEmpresa: TFDQuery;
     frxPDFExport1: TfrxPDFExport;
+    qryVENDA: TBCDField;
     procedure FormShow(Sender: TObject);
     procedure tbs_itens_lajeShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -306,7 +307,8 @@ begin
   qry.SQL.Add('   pr.nome_fantasia,                        ');
   qry.SQL.Add('   pr.unidade,                              ');
   qry.SQL.Add('   sum(i.quantidade) as qtde,               ');
-  qry.SQL.Add('   sum(i.quantidade* i.custo_forn) as custo ');
+  qry.SQL.Add('   sum(i.quantidade* i.custo_forn) as custo, ');
+  qry.SQL.Add('   sum(i.quantidade* i.preco_venda) as venda ');
   qry.SQL.Add('from                                        ');
   qry.SQL.Add('    comissao_item i,                        ');
   qry.SQL.Add('    pedidos p,                              ');
@@ -375,13 +377,13 @@ begin
   qry.SQL.Add('    i.produto_id,     ');
   qry.SQL.Add('    pr.unidade,       ');
   qry.SQL.Add('    pr.nome_fantasia  ');
- // qry.SQL.Add('  order by pr.nome_fantasia  ');
+
   // sql padrão
   sSql := qry.SQL.Text;
-//ShowMessage(sSql);
+  //ShowMessage(sSql);
   qry.Open;
 
- //  ShowMessage( 'reg ' + inttostr(qry.RecordCount)) ;
+  //ShowMessage( 'reg ' + inttostr(qry.RecordCount)) ;
   {soma o campo custo da qry filtrada}
   lbl_custos_produtos.Caption := FormatFloat('###,##0.00', fnc_calcular_custos_produtos);
 

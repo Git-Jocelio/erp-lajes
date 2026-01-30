@@ -169,7 +169,9 @@ const
   //versao_app = 168;   // 21/01/2026 -  correções de bugs
   //versao_app = 169;   // 23/01/2026 - atualização do cadastro de empresa
   //versao_app = 170;     // 26/01/2026 - ajuste do layout do contrato de venda de concreto
-  versao_app = 171;     // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
+  //versao_app = 171;     // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
+  //versao_app = 172;     // 28/01/2026 valor de venda no rel totais
+  versao_app = 173;     // 29/01/2026 incluido no relatorio de produção telefones dos clientes
 
 
 var

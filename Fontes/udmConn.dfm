@@ -13,6 +13,7 @@ object dmConn: TdmConn
       'DriverID=FB')
     UpdateOptions.AssignedValues = [uvLockWait]
     ConnectedStoredUsage = []
+    Connected = True
     LoginPrompt = False
     BeforeConnect = FDConnectionBeforeConnect
     Left = 40

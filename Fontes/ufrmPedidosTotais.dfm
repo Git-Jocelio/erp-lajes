@@ -483,6 +483,13 @@ inherited frmPedidosTotais: TfrmPedidosTotais
               Title.Caption = 'Custo Total'
               Width = 100
               Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VENDA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Venda'
+              Visible = True
             end>
         end
         object pnl_resultado: TPanel
@@ -818,6 +825,28 @@ inherited frmPedidosTotais: TfrmPedidosTotais
     end
   end
   inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
+    SQL.Strings = (
+      '/*'
+      'select                                      '
+      '   i.produto_id,                            '
+      '   pr.nome_fantasia,                        '
+      '   pr.unidade,                              '
+      '   sum(i.quantidade) as qtde,               '
+      '   sum(i.quantidade* i.custo_forn) as custo, '
+      '   sum(i.quantidade* i.preco_venda) as venda'
+      'from                                        '
+      '    comissao_item i,                        '
+      '    pedidos p,                              '
+      '    produtos pr                             '
+      'where                                       '
+      '    p.id = i.pedido_id and                  '
+      '    i.produto_id = pr.id    '
+      '  group by           '
+      '    i.produto_id,    '
+      '    pr.unidade,      '
+      '    pr.nome_fantasia                 '
+      '*/')
     Left = 304
     Top = 96
     object qryPRODUTO_ID: TIntegerField
@@ -837,6 +866,15 @@ inherited frmPedidosTotais: TfrmPedidosTotais
     end
     object qryUNIDADE: TStringField
       FieldName = 'UNIDADE'
+    end
+    object qryVENDA: TBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'VENDA'
+      Origin = 'VENDA'
+      ProviderFlags = []
+      ReadOnly = True
+      DisplayFormat = '0.00'
+      Precision = 18
     end
   end
   object ds: TDataSource
@@ -1095,7 +1133,7 @@ inherited frmPedidosTotais: TfrmPedidosTotais
         object Memo13: TfrxMemoView
           AllowVectorExport = True
           Left = 413.086890000000000000
-          Top = 3.779527559055118000
+          Top = 3.779527560000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -1215,6 +1253,22 @@ inherited frmPedidosTotais: TfrmPedidosTotais
           Memo.UTF8W = (
             'Descri'#231#227'o')
         end
+        object Memo17: TfrxMemoView
+          AllowVectorExport = True
+          Left = 657.638220000000000000
+          Width = 45.354360000000000000
+          Height = 15.118110240000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Venda')
+          ParentFont = False
+        end
       end
       object MasterData1: TfrxMasterData
         FillType = ftBrush
@@ -1306,6 +1360,26 @@ inherited frmPedidosTotais: TfrmPedidosTotais
           HAlign = haRight
           Memo.UTF8W = (
             '[ProdutosVendidos."CUSTO"]')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 627.401980000000000000
+          Width = 79.370083620000000000
+          Height = 15.118110240000000000
+          DataField = 'VENDA'
+          DataSet = frxDBDataset
+          DataSetName = 'ProdutosVendidos'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[ProdutosVendidos."VENDA"]')
           ParentFont = False
         end
       end
