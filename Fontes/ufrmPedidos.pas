@@ -843,8 +843,10 @@ begin
       FiltarDadosObra;
     end;
 
-
   end;
+
+
+
 
   // recolhe a pesquisa
   btnPesquisar.Click;
@@ -1012,13 +1014,7 @@ end;
 procedure TfrmPedidos.btnFiltrarCPF_CNPJClick(Sender: TObject);
 begin
   inherited;
-
   pesquisar;
-
-//  if qry.RecordCount = 1 then
-//    btnAlterar.Click;
-
-
 end;
 
 procedure TfrmPedidos.TabSheet1Show(Sender: TObject);

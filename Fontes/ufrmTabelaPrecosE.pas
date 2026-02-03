@@ -33,10 +33,11 @@ type
     edt_taxa: TEdit;
     cbx_forma_pagto: TDBLookupComboBox;
     Label13: TLabel;
-    lbl_id_produto: TLabel;
     ds_produtos: TDataSource;
     qry_produtos: TFDQuery;
     cb_ativo: TCheckBox;
+    Label2: TLabel;
+    edt_preco_custo: TEdit;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -58,6 +59,7 @@ type
     Fp_descricaoFormaPagto: string;
     Fp_ativo: string;
     Fp_intervalo: integer;
+    Fp_precoCusto: double;
 
     procedure prc_calcula_mao_de_obra;
     procedure prc_salvar;
@@ -78,6 +80,7 @@ type
     property p_intervalo: integer read Fp_intervalo write Fp_intervalo;
     property p_formaPagtoId: integer read Fp_formaPagtoId write Fp_formaPagtoId;
     property p_descricaoFormaPagto: string read Fp_descricaoFormaPagto write Fp_descricaoFormaPagto;
+    property p_precoCusto: double read Fp_precoCusto write Fp_precoCusto;
     property p_precoVendedor: double read Fp_precoVendedor write Fp_precoVendedor;
     property p_precoVenda: double read Fp_precoVenda write Fp_precoVenda;
     property p_taxa: double read Fp_taxa write Fp_taxa;
@@ -143,13 +146,7 @@ end;
 
 procedure TfrmTabelaPrecosE.prc_componentes;
 begin
-  {qry de principal - tabela : PRODUTOS_FORMAS_PAGAMENTO}
-  (*
-  qry.Connection := SELF.Conexao;
-  qry.SQL.Clear;
-  qry.SQL.Add('select * from ' + tabela + ' where ID =:ID');
-  QRY.Params.ParamByName('ID').AsInteger := FormaPagtoId;
-   *)
+
   {qryforma_pagto}
   qry_forma_pagto.Connection := Conexao;
   qry_forma_pagto.SQL.Add('select * from FORMAS_PAGTO order by DESCRICAO');
@@ -161,12 +158,10 @@ begin
   qry_produtos.SQL.Add('select * from PRODUTOS where ID =:ID');
   qry_produtos.Params.ParamByName('ID').AsInteger := p_codigo;
   qry_produtos.Open;
+
   // confirgura os labels
-  lbl_id_produto.Caption := INTTOSTR(p_codigo);
+  //lbl_id_produto.Caption := INTTOSTR(p_codigo);
   lbl_descricao_produto.Caption := qry_produtos.FieldByName('DESCRICAO').AsString;
-
-
-
 
 end;
 
@@ -227,14 +222,11 @@ begin
     try
       with loQry, loQry.Sql do
       begin
-        Connection := Self.Conexao;
-        //Add('SELECT * FROM ' + Self.Tabela + ' WHERE ID =:ID');
-        //ParamByName('ID').AsInteger := FormaPagtoId;
-        //Open;
 
+        Connection := Self.Conexao;
         Add('select ');
         Add('  P.ID, P.PRODUTO_ID, PR.DESCRICAO, P.FORMA_PAGTO_ID, P.PRECO_VENDEDOR, ');
-        Add('P.PRECO_VENDA, P.TAXA_PARCELAMENTO, P.ATIVO ');
+        Add('  P.PRECO_CUSTO, P.PRECO_VENDA, P.TAXA_PARCELAMENTO, P.ATIVO ');
         Add('from ');
         Add('  PRODUTOS_FORMA_PAGAMENTO P, PRODUTOS PR ');
         Add('where ' );
@@ -248,20 +240,19 @@ begin
       begin
         //Carrega dados do produto
         lbl_Id.Caption                := loQry.FieldByName('ID').AsString;
-        lbl_id_produto.Caption        := loQry.FieldByName('PRODUTO_ID').AsString;
+        //lbl_id_produto.Caption        := loQry.FieldByName('PRODUTO_ID').AsString;
         lbl_descricao_produto.Caption := loQry.FieldByName('DESCRICAO').AsString;
         cbx_forma_pagto.KeyValue      := loQry.FieldByName('FORMA_PAGTO_ID').AsInteger;
         edt_taxa.Text                 := FormatFloat('0.00',loQry.FieldByName('TAXA_PARCELAMENTO').AsFloat);
+        edt_preco_custo.Text          := FormatFloat('0.00',  loQry.FieldByName('PRECO_CUSTO').AsFloat );
         edt_preco_vendedor.Text       := FormatFloat('0.00',  loQry.FieldByName('PRECO_VENDEDOR').AsFloat );
         edt_preco_venda.Text          := FormatFloat('0.00',  loQry.FieldByName('PRECO_VENDA').AsFloat );
         cb_ativo.Checked              := SeSenao(loQry.FieldByName('ATIVO').AsString = 'S',TRUE,FALSE);
-
-        cbx_forma_pagto.Enabled := FALSE;
+        cbx_forma_pagto.Enabled       := FALSE;
       end
       else
       begin
         ShowMessage('conta NÃO encontrada!');
-
       end;
     finally
       FreeAndNil(loQry);
@@ -279,6 +270,7 @@ begin
    p_intervalo := qry_forma_pagto.FieldByName('INTERVALO').AsInteger;
    p_formaPagtoId := cbx_forma_pagto.KeyValue;
    p_descricaoFormaPagto := cbx_forma_pagto.Text;
+   p_precoCusto := strtofloat(edt_preco_custo.Text);
    p_precoVendedor := strtofloat(edt_preco_vendedor.Text);
    p_precoVenda := strtofloat(edt_preco_venda.Text);
    p_taxa := strtofloat(edt_taxa.Text);
@@ -304,6 +296,14 @@ begin
    begin
      ShowMessage('informe um VALOR DE TAXA VÁLIDO');
      edt_taxa.SetFocus;
+     exit;
+
+   end;
+
+   if StrToFloatDef(edt_preco_custo.Text,0) <= 0 then
+   begin
+     ShowMessage('informe o PREÇO DE CUSTO');
+     edt_preco_custo.SetFocus;
      exit;
 
    end;

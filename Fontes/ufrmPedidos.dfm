@@ -6,7 +6,6 @@
   ClientWidth = 1105
   Position = poDefault
   OnActivate = FormActivate
-  ExplicitLeft = -34
   ExplicitWidth = 1105
   ExplicitHeight = 541
   TextHeight = 15

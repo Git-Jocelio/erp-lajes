@@ -40,6 +40,7 @@ const
 
 const
   {toda vez que sair uma nova versão incrementar aqui}
+  versao_banco = 1;
   //versao_neste_app = 70;
   //versao_neste_app = 71; // 09/05/22 frmPedidos mostra o local de entrega na barra de status sempre que houver
   //versao_neste_app = 72; // 10/05/22 frmPedidosE Emissão de pedidos com vigas Painel
@@ -115,7 +116,6 @@ const
   // 2. voltar ao compras
   // 3. iniciar o controle de estoques
   //versao_app   = 100;
-  versao_banco = 1;
   //versao_app = 101; // alterações no contas a receber, e atalho no pedido pra chamar o contas a receber
   //versao_app = 102; // retirada de bug no frmPedidoE
   //versao_app = 103; // retirada de bug no frmPedidoE e no calculo de qtde de laje painel
@@ -168,10 +168,11 @@ const
   //versao_app = 167;   // 21/01/2026 -  refaturamento telas de cad cliente e cad vendedores
   //versao_app = 168;   // 21/01/2026 -  correções de bugs
   //versao_app = 169;   // 23/01/2026 - atualização do cadastro de empresa
-  //versao_app = 170;     // 26/01/2026 - ajuste do layout do contrato de venda de concreto
-  //versao_app = 171;     // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
-  //versao_app = 172;     // 28/01/2026 valor de venda no rel totais
-  versao_app = 173;     // 29/01/2026 incluido no relatorio de produção telefones dos clientes
+  //versao_app = 170;   // 26/01/2026 - ajuste do layout do contrato de venda de concreto
+  //versao_app = 171;   // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
+  //versao_app = 172;   // 28/01/2026 valor de venda no rel totais
+  //versao_app = 173;   // 29/01/2026 incluido no relatorio de produção telefones dos clientes
+  versao_app = 174;     // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
 
 
 var

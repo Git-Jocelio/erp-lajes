@@ -2,30 +2,30 @@ inherited frmProdutosE: TfrmProdutosE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmProdutosE'
-  ClientHeight = 520
-  ClientWidth = 615
-  ExplicitWidth = 621
-  ExplicitHeight = 526
+  ClientHeight = 480
+  ClientWidth = 574
+  ExplicitWidth = 580
+  ExplicitHeight = 486
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 615
+    Width = 574
     Height = 49
     ExplicitWidth = 615
     ExplicitHeight = 49
     inherited lbl_titulo: TLabel
-      Width = 615
+      Width = 574
       Height = 32
     end
     inherited lbl_sub_titulo: TLabel
       Top = 32
-      Width = 615
+      Width = 574
       ExplicitTop = 32
     end
   end
   inherited pnDados: TPanel
     Top = 49
-    Width = 615
-    Height = 158
+    Width = 574
+    Height = 159
     ExplicitTop = 49
     ExplicitWidth = 615
     ExplicitHeight = 158
@@ -65,7 +65,7 @@ inherited frmProdutosE: TfrmProdutosE
       FocusControl = edDescricao
     end
     object Label6: TLabel
-      Left = 472
+      Left = 431
       Top = 56
       Width = 65
       Height = 17
@@ -129,7 +129,7 @@ inherited frmProdutosE: TfrmProdutosE
       ParentFont = False
     end
     object Label28: TLabel
-      Left = 559
+      Left = 518
       Top = 56
       Width = 28
       Height = 17
@@ -151,7 +151,7 @@ inherited frmProdutosE: TfrmProdutosE
     object edDescricao: TDBEdit
       Left = 5
       Top = 73
-      Width = 460
+      Width = 419
       Height = 30
       CharCase = ecUpperCase
       DataField = 'DESCRICAO'
@@ -179,6 +179,7 @@ inherited frmProdutosE: TfrmProdutosE
       Top = 10
       Width = 97
       Height = 17
+      Cursor = crHandPoint
       Caption = 'Ativo'
       DataField = 'ATIVO'
       DataSource = ds
@@ -191,12 +192,14 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 5
       ValueChecked = 'S'
       ValueUnchecked = 'N'
+      Visible = False
     end
     object cbEstoqueControlado: TDBCheckBox
       Left = 281
       Top = 31
       Width = 143
       Height = 17
+      Cursor = crHandPoint
       Caption = 'Estoque controlado'
       DataField = 'ESTOQUE_CONTROLADO'
       DataSource = ds
@@ -209,9 +212,10 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 6
       ValueChecked = 'S'
       ValueUnchecked = 'N'
+      Visible = False
     end
     object cbxUnidade: TDBComboBox
-      Left = 471
+      Left = 430
       Top = 73
       Width = 65
       Height = 25
@@ -230,7 +234,7 @@ inherited frmProdutosE: TfrmProdutosE
     object cbxDepartamento: TDBLookupComboBox
       Left = 352
       Top = 127
-      Width = 258
+      Width = 215
       Height = 25
       DataField = 'DEPARTAMENTO_ID'
       DataSource = ds
@@ -240,7 +244,7 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 4
     end
     object edPeso: TDBEdit
-      Left = 543
+      Left = 502
       Top = 73
       Width = 65
       Height = 25
@@ -249,10 +253,11 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 3
     end
     object DBCheckBox1: TDBCheckBox
-      Left = 472
-      Top = 10
+      Left = 352
+      Top = 8
       Width = 94
       Height = 17
+      Cursor = crHandPoint
       Caption = 'Mat'#233'ria Prima'
       DataField = 'MATERIA_PRIMA'
       DataSource = ds
@@ -265,12 +270,14 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 7
       ValueChecked = 'S'
       ValueUnchecked = 'N'
+      Visible = False
     end
     object DBCheckBox2: TDBCheckBox
-      Left = 383
-      Top = 10
+      Left = 460
+      Top = 6
       Width = 77
       Height = 17
+      Cursor = crHandPoint
       Caption = 'Agregado'
       DataField = 'AGREGADO'
       DataSource = ds
@@ -283,12 +290,14 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 8
       ValueChecked = 'S'
       ValueUnchecked = 'N'
+      Visible = False
     end
     object cbRevenda: TDBCheckBox
-      Left = 472
-      Top = 31
+      Left = 416
+      Top = 29
       Width = 131
       Height = 17
+      Cursor = crHandPoint
       Caption = 'Material de revenda'
       DataField = 'REVENDA'
       DataSource = ds
@@ -303,11 +312,12 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 9
       ValueChecked = 'S'
       ValueUnchecked = 'N'
+      Visible = False
     end
   end
   inherited pnRodape: TPanel
-    Top = 483
-    Width = 615
+    Top = 443
+    Width = 574
     ExplicitTop = 483
     ExplicitWidth = 615
     inherited pnl_botoes: TPanel
@@ -321,80 +331,40 @@ inherited frmProdutosE: TfrmProdutosE
       inherited btnFechar: TBitBtn
         Left = 170
         Width = 110
+        ExplicitLeft = 170
+        ExplicitWidth = 110
       end
     end
   end
   object pc_precos: TPageControl [3]
     Left = 0
-    Top = 207
-    Width = 615
-    Height = 276
+    Top = 208
+    Width = 574
+    Height = 235
     ActivePage = tbs_precos
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 248
+    ExplicitWidth = 615
     object tbs_precos: TTabSheet
       Caption = 'Pre'#231'os'
-      object Label7: TLabel
-        Left = 1
-        Top = 15
-        Width = 93
-        Height = 15
-        Caption = 'Pre'#231'o Fornecedor'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label24: TLabel
-        Left = 265
-        Top = 15
-        Width = 77
-        Height = 15
-        Caption = 'Custo Liquido '
-        FocusControl = edt_custo_liquido
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        Visible = False
-      end
-      object edt_custo_liquido: TDBEdit
-        Left = 348
-        Top = 12
-        Width = 102
-        Height = 23
-        Hint = 'Custo liquido com a perdas'
-        DataField = 'CUSTO_LIQUIDO'
-        DataSource = ds
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 0
-        Visible = False
-      end
       object gb_formas_pagto: TGroupBox
         Left = 0
-        Top = 41
-        Width = 607
+        Top = 0
+        Width = 566
         Height = 203
-        Align = alBottom
-        TabOrder = 1
+        Align = alClient
+        TabOrder = 0
+        ExplicitWidth = 607
+        ExplicitHeight = 209
         object btn_incluir: TSpeedButton
-          Left = 2
-          Top = 7
+          Left = 7
+          Top = 5
           Width = 256
-          Height = 26
+          Height = 29
           Cursor = crHandPoint
           Margins.Left = 10
+          Align = alCustom
           Caption = 'Incluir pre'#231'o e condi'#231#227'o de pagamento'
           Flat = True
           Font.Charset = ANSI_CHARSET
@@ -474,7 +444,7 @@ inherited frmProdutosE: TfrmProdutosE
         object dbg_condicoes_pagto: TDBGrid
           Left = 2
           Top = 39
-          Width = 603
+          Width = 562
           Height = 162
           Hint = 'Duplo click para alterar uma forma de pagamento j'#225' cadastrada'
           Align = alBottom
@@ -539,8 +509,28 @@ inherited frmProdutosE: TfrmProdutosE
             item
               Expanded = False
               FieldName = 'FORMA_PAGTO_DESCRICAO'
+              Title.Alignment = taCenter
               Title.Caption = 'Forma de Pagamento'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
               Width = 159
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'PRECO_CUSTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Pre'#231'o Custo'
+              Title.Font.Charset = ANSI_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -12
+              Title.Font.Name = 'Segoe UI Semibold'
+              Title.Font.Style = [fsBold]
+              Width = 100
               Visible = True
             end
             item
@@ -580,18 +570,21 @@ inherited frmProdutosE: TfrmProdutosE
               Title.Font.Height = -12
               Title.Font.Name = 'Segoe UI Semibold'
               Title.Font.Style = [fsBold]
+              Width = 70
               Visible = True
             end
             item
               Alignment = taCenter
               Expanded = False
               FieldName = 'ATIVO'
+              Title.Alignment = taCenter
               Title.Caption = 'Ativo'
               Title.Font.Charset = ANSI_CHARSET
               Title.Font.Color = clWindowText
               Title.Font.Height = -12
               Title.Font.Name = 'Segoe UI Semibold'
               Title.Font.Style = [fsBold]
+              Width = 40
               Visible = True
             end
             item
@@ -604,19 +597,10 @@ inherited frmProdutosE: TfrmProdutosE
               Title.Font.Height = -12
               Title.Font.Name = 'Segoe UI Semibold'
               Title.Font.Style = [fsBold]
-              Width = 40
+              Width = 45
               Visible = True
             end>
         end
-      end
-      object edCusto: TDBEdit
-        Left = 100
-        Top = 10
-        Width = 101
-        Height = 25
-        DataField = 'PRECO_CUSTO'
-        DataSource = ds
-        TabOrder = 2
       end
     end
     object tbs_fiscal: TTabSheet
@@ -625,11 +609,13 @@ inherited frmProdutosE: TfrmProdutosE
       object GroupBox2: TGroupBox
         Left = 0
         Top = 0
-        Width = 607
-        Height = 244
+        Width = 566
+        Height = 203
         Align = alClient
         Caption = ' Fiscal '
         TabOrder = 0
+        ExplicitWidth = 607
+        ExplicitHeight = 244
         object Label20: TLabel
           Left = 5
           Top = 22
@@ -710,8 +696,8 @@ inherited frmProdutosE: TfrmProdutosE
       object gbx_estoques: TGroupBox
         Left = 0
         Top = 0
-        Width = 607
-        Height = 244
+        Width = 566
+        Height = 203
         Align = alClient
         Caption = ' Estoques '
         Font.Charset = ANSI_CHARSET
@@ -721,6 +707,8 @@ inherited frmProdutosE: TfrmProdutosE
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 607
+        ExplicitHeight = 244
         object Label14: TLabel
           Left = 238
           Top = 20
@@ -1151,6 +1139,10 @@ inherited frmProdutosE: TfrmProdutosE
         Size = 20
       end
       item
+        Name = 'PRECO_CUSTO'
+        DataType = ftFloat
+      end
+      item
         Name = 'PRECO_VENDEDOR'
         DataType = ftFloat
       end
@@ -1190,6 +1182,10 @@ inherited frmProdutosE: TfrmProdutosE
     end
     object mt_lista_precosFORMA_PAGTO_DESCRICAO: TStringField
       FieldName = 'FORMA_PAGTO_DESCRICAO'
+    end
+    object mt_lista_precosPRECO_CUSTO: TFloatField
+      FieldName = 'PRECO_CUSTO'
+      DisplayFormat = '0.00'
     end
     object mt_lista_precosPRECO_VENDEDOR: TFloatField
       FieldName = 'PRECO_VENDEDOR'

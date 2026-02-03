@@ -2847,16 +2847,26 @@ begin
       loqry.Open('select TIPO_TRELICA from PRODUTOS_TRELICA ');
       loqry.Close;
     Except
-
       loqry.SQL.Clear;
       loqry.SQL.Add(' ALTER TABLE PRODUTOS_TRELICA ADD TIPO_TRELICA SMALLINT ') ;
       loqry.ExecSQL;
       cria_mensagem_no_memo( memo,'criado campo " TIPO_TRELICA " com sucesso na tabela PRODUTOS_TRELICA');
       prc_atualiza_versao_do_banco('2026.98.171');
-
-
-
     end;
+
+    // 02/02/2026 PRODUTOS_FORMA_PAGAMENTO
+    try
+      loqry.SQL.Clear;
+      loqry.Open('select PRECO_CUSTO from PRODUTOS_FORMA_PAGAMENTO ');
+      loqry.Close;
+    Except
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' ALTER TABLE PRODUTOS_FORMA_PAGAMENTO ADD PRECO_CUSTO DECIMAL(15,2) ') ;
+      loqry.ExecSQL;
+      cria_mensagem_no_memo( memo,'criado campo " PRECO_CUSTO " com sucesso na tabela PRODUTOS_FORMA_PAGAMENTO');
+      prc_atualiza_versao_do_banco('2026.98.175');
+    end;
+
 
 
   finally

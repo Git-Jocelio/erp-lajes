@@ -1939,6 +1939,7 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 7
+        Visible = False
         OnClick = pnl_submenu_cadastros_botao_pessoasClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_cadastros_botao_pessoas: TImage

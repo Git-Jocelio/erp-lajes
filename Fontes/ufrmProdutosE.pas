@@ -52,7 +52,6 @@ type
     edSitTrib: TDBEdit;
     edTxICMS: TDBEdit;
     edTxIPI: TDBEdit;
-    Label7: TLabel;
     ds_lista_precos: TDataSource;
     ds_precos_deletados: TDataSource;
     mt_lista_precos: TFDMemTable;
@@ -66,8 +65,6 @@ type
     mt_lista_precosATIVO: TStringField;
     mt_precos_deletados: TFDMemTable;
     mt_precos_deletadosID: TIntegerField;
-    Label24: TLabel;
-    edt_custo_liquido: TDBEdit;
     qryID: TIntegerField;
     qryATIVO: TStringField;
     qryDATA_CAD: TDateField;
@@ -136,7 +133,7 @@ type
     gb_formas_pagto: TGroupBox;
     btn_incluir: TSpeedButton;
     dbg_condicoes_pagto: TDBGrid;
-    edCusto: TDBEdit;
+    mt_lista_precosPRECO_CUSTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -160,7 +157,7 @@ type
 
     procedure Salvar();
     procedure prc_incluir_alterar(operacao: TOperacao; v_tabela: string);
-    procedure prc_atualiza_preco(v_preco_vendedor, v_preco_venda: double);
+    procedure prc_atualiza_preco(v_preco_custo, v_preco_vendedor, v_preco_venda: double);
     function fnc_buscar_novo_id: integer;
 
   protected
@@ -274,8 +271,6 @@ begin
 
       if frmTabelaPrecosE.p_confirmado = true then
       begin
-        // inserir na grid
-        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
 
         mt_lista_precos.Insert;
         mt_lista_precosID.AsInteger := -1;
@@ -290,13 +285,14 @@ begin
 
         // atualiza preços a vista
         if frmTabelaPrecosE.p_intervalo = 0 then
-          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
+          prc_atualiza_preco( frmTabelaPrecosE.p_precoCusto,
+                              frmTabelaPrecosE.p_precoVendedor,
+                              frmTabelaPrecosE.p_precoVenda) ;
       end;
 
     finally
        FreeAndNil(frmTabelaPrecosE);
     end;
-
 
   end;
 
@@ -310,9 +306,9 @@ begin
   //
   qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
 
-  dbg_condicoes_pagto.Columns[1].Visible := false;
-  dbg_condicoes_pagto.Columns[2].Visible := false;
-  dbg_condicoes_pagto.Columns[6].Visible := false;
+  dbg_condicoes_pagto.Columns[1].Visible := false; // produto_id
+  dbg_condicoes_pagto.Columns[2].Visible := false; // forma_pagto_id
+  dbg_condicoes_pagto.Columns[7].Visible := false; // taxa_parcelamento
 
 end;
 
@@ -329,32 +325,23 @@ begin
 
       if frmTabelaPrecosE.p_confirmado = true then
       begin
-        // inserir na grid
-        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
-
         mt_lista_precos.Edit;
-        //mt_lista_precosID.AsInteger := -1;
-        //mt_lista_precosPRODUTO_ID.AsInteger := qry.FieldByName('ID').AsInteger;
-        //mt_lista_precosFORMA_PAGTO_ID.AsInteger := frmTabelaPrecosE.FormaPagtoId;
-        //mt_lista_precosFORMA_PAGTO_DESCRICAO.AsString := frmTabelaPrecosE.DescricaoFormaPAgto;
         mt_lista_precosPRECO_VENDEDOR.AsFloat := frmTabelaPrecosE.p_precoVendedor;
         mt_lista_precosPRECO_VENDA.AsFloat := frmTabelaPrecosE.p_precoVenda;
         mt_lista_precosTAXA_PARCELAMENTO.AsFloat := frmTabelaPrecosE.p_taxa;
         mt_lista_precosATIVO.AsString := frmTabelaPrecosE.p_ativo;
         mt_lista_precos.Post;
-
-
         // atualiza preços a vista
         if frmTabelaPrecosE.p_intervalo = 0 then
-          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
+          prc_atualiza_preco(frmTabelaPrecosE.p_precoCusto,
+                             frmTabelaPrecosE.p_precoVendedor,
+                             frmTabelaPrecosE.p_precoVenda) ;
 
       end;
-
 
     finally
        FreeAndNil(frmTabelaPrecosE);
     end;
-
 
   end;
 
@@ -400,11 +387,12 @@ begin
   end;
 end;
 
-procedure TfrmProdutosE.prc_atualiza_preco(v_preco_vendedor, v_preco_venda: double);
+procedure TfrmProdutosE.prc_atualiza_preco(v_preco_custo, v_preco_vendedor, v_preco_venda: double);
 begin
 
-  qry.FieldByName('PRECO_VENDEDOR').AsFloat := ( v_preco_vendedor );
-  qry.FieldByName('PRECO_VENDA').AsFloat := ( v_preco_venda );
+  qry.FieldByName('PRECO_CUSTO').AsFloat := v_preco_custo;
+  qry.FieldByName('PRECO_VENDEDOR').AsFloat := v_preco_vendedor;
+  qry.FieldByName('PRECO_VENDA').AsFloat := v_preco_venda;
 
 end;
 
@@ -441,7 +429,7 @@ begin
   case self.Operacao of
   uTipos.opIncluir: begin
                        pnTitulo.Caption := 'CADASTRO DE PRODUTOS';
-                       lbl_sub_titulo.Caption := 'Incluir Novo';
+                       lbl_sub_titulo.Caption := 'Incluir novo produto';
                        btnOk.Caption := 'Salvar dados';
                        //
                        qry.Insert;
@@ -484,7 +472,7 @@ begin
   uTipos.opAlterar: begin
                       self.LerDados;
                       pnTitulo.Caption := 'CADASTRO DE PRODUTOS';
-                      lbl_sub_titulo.Caption := 'Alterar';
+                      lbl_sub_titulo.Caption := 'Alterar dados do produto';
                       btnOk.Caption := 'Salvar Alterações';
                       //
                       qry.Edit;
@@ -522,33 +510,24 @@ begin
 
       if frmTabelaPrecosE.p_confirmado = true then
       begin
-        // inserir na grid
-        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
 
         mt_lista_precos.Edit;
-        //mt_lista_precosID.AsInteger := -1;
-        //mt_lista_precosPRODUTO_ID.AsInteger := qry.FieldByName('ID').AsInteger;
-        //mt_lista_precosFORMA_PAGTO_ID.AsInteger := frmTabelaPrecosE.FormaPagtoId;
-        //mt_lista_precosFORMA_PAGTO_DESCRICAO.AsString := frmTabelaPrecosE.DescricaoFormaPAgto;
+        mt_lista_precosPRECO_CUSTO.AsFloat := frmTabelaPrecosE.p_precoCusto;
         mt_lista_precosPRECO_VENDEDOR.AsFloat := frmTabelaPrecosE.p_precoVendedor;
         mt_lista_precosPRECO_VENDA.AsFloat := frmTabelaPrecosE.p_precoVenda;
         mt_lista_precosTAXA_PARCELAMENTO.AsFloat := frmTabelaPrecosE.p_taxa;
         mt_lista_precosATIVO.AsString := frmTabelaPrecosE.p_ativo;
         mt_lista_precos.Post;
 
-
         // atualiza preços a vista
         if frmTabelaPrecosE.p_intervalo = 0 then
-          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
-
+          prc_atualiza_preco(frmTabelaPrecosE.p_precoCusto,
+                             frmTabelaPrecosE.p_precoVendedor,
+                             frmTabelaPrecosE.p_precoVenda) ;
       end;
-
-
     finally
        FreeAndNil(frmTabelaPrecosE);
     end;
-
-
   end;
 end;
 
@@ -575,8 +554,8 @@ begin
     loqry.Connection := conexao;
 
     loqry.SQL.Add('select ');
-    loqry.SQL.Add('  P.ID, P.PRODUTO_ID, P.FORMA_PAGTO_ID, F.DESCRICAO AS FORMA_PAGTO_DESCRICAO, P.PRECO_VENDEDOR, ');
-    loqry.SQL.Add('P.PRECO_VENDA, P.TAXA_PARCELAMENTO, P.ATIVO ');
+    loqry.SQL.Add('  P.ID, P.PRODUTO_ID, P.FORMA_PAGTO_ID, F.DESCRICAO AS FORMA_PAGTO_DESCRICAO,  ');
+    loqry.SQL.Add('  P.PRECO_CUSTO, P.PRECO_VENDEDOR, P.PRECO_VENDA, P.TAXA_PARCELAMENTO, P.ATIVO ');
     loqry.SQL.Add('from ');
     loqry.SQL.Add('  PRODUTOS_FORMA_PAGAMENTO P, FORMAS_PAGTO F ');
     loqry.SQL.Add('where ' );
@@ -625,7 +604,7 @@ begin
       qry.Post;
       if operacao = OpIncluir then p_codigo := fnc_buscar_novo_id;
 
-      {exclui formas de pagameto. se houver}
+      {exclui formas de pagamento se houver}
       if not mt_precos_deletados.IsEmpty then
       begin
         mt_precos_deletados.First;
@@ -688,14 +667,13 @@ begin
 
       if frmTabelaPrecosE.p_confirmado = true then
       begin
-        // inserir na grid
-        //ShowMessage(frmTabelaPrecosE.DescricaoFormaPAgto) ;
 
         mt_lista_precos.Insert;
         mt_lista_precosID.AsInteger := -1;
         mt_lista_precosPRODUTO_ID.AsInteger := qry.FieldByName('ID').AsInteger;
         mt_lista_precosFORMA_PAGTO_ID.AsInteger := frmTabelaPrecosE.p_formaPagtoId;
         mt_lista_precosFORMA_PAGTO_DESCRICAO.AsString := frmTabelaPrecosE.p_descricaoFormaPagto;
+        mt_lista_precosPRECO_CUSTO.AsFloat := frmTabelaPrecosE.p_precoCusto;
         mt_lista_precosPRECO_VENDEDOR.AsFloat := frmTabelaPrecosE.p_precoVendedor;
         mt_lista_precosPRECO_VENDA.AsFloat := frmTabelaPrecosE.p_precoVenda;
         mt_lista_precosTAXA_PARCELAMENTO.AsFloat := frmTabelaPrecosE.p_taxa;
@@ -704,7 +682,9 @@ begin
 
         // atualiza preços a vista
         if frmTabelaPrecosE.p_intervalo = 0 then
-          prc_atualiza_preco(frmTabelaPrecosE.p_precoVendedor,frmTabelaPrecosE.p_precoVenda) ;
+          prc_atualiza_preco(frmTabelaPrecosE.p_precoCusto,
+                             frmTabelaPrecosE.p_precoVendedor,
+                             frmTabelaPrecosE.p_precoVenda) ;
       end;
 
     finally
@@ -745,12 +725,6 @@ begin
     exit;
   end;
 
-  if qry.FieldByName('PRECO_CUSTO').AsFloat <= 0 then
-  begin
-    ShowMessage('Informe um valor válido');
-    edCusto.SetFocus;
-    exit;
-  end;
 
   if ((qry.FieldByName('CUSTO_LIQUIDO').AsFloat <= 0) or
   (qry.FieldByName('CUSTO_LIQUIDO').AsFloat < qry.FieldByName('PRECO_CUSTO').AsFloat))
@@ -780,7 +754,7 @@ begin
     loQry.sql.clear;
     if operacao = opExcluir then
     begin
-      {não deleta do banco, marca ATIVO = N}  // v_tabela =PRODUTOS_FORMA_PAGAMENTO
+      {não deleta do banco, marca ATIVO = N}  // v_tabela = PRODUTOS_FORMA_PAGAMENTO
       loQry.SQL.Add('update ' + v_tabela + ' set ATIVO = ''N'' where id =:id');
       loQry.ParamByName('id').AsInteger := mt_precos_deletadosID.AsInteger;
       loQry.ExecSQL;
@@ -791,36 +765,37 @@ begin
     if operacao = OpIncluir then
     begin
       loQry.SQL.Add('insert into ' + v_tabela  );
-      loQry.SQL.Add('(');
-      loQry.SQL.Add('  ID, ');
-      loQry.SQL.Add('  PRODUTO_ID, ');
-      loQry.SQL.Add('  FORMA_PAGTO_ID, ');
-      loQry.SQL.Add('  PRECO_VENDEDOR, ');
-      loQry.SQL.Add('  PRECO_VENDA, ');
+      loQry.SQL.Add('(                    ');
+      loQry.SQL.Add('  ID,                ');
+      loQry.SQL.Add('  PRODUTO_ID,        ');
+      loQry.SQL.Add('  FORMA_PAGTO_ID,    ');
+      loQry.SQL.Add('  PRECO_CUSTO,       ');
+      loQry.SQL.Add('  PRECO_VENDEDOR,    ');
+      loQry.SQL.Add('  PRECO_VENDA,       ');
       loQry.SQL.Add('  TAXA_PARCELAMENTO, ');
-      loQry.SQL.Add('  ATIVO ');
-      loQry.SQL.Add(') ');
-      loQry.SQL.Add('VALUES ');
-      loQry.SQL.Add('(');
-      loQry.SQL.Add('  :ID, ');
-      loQry.SQL.Add('  :PRODUTO_ID, ');
-      loQry.SQL.Add('  :FORMA_PAGTO_ID, ');
-      loQry.SQL.Add('  :PRECO_VENDEDOR, ');
-      loQry.SQL.Add('  :PRECO_VENDA, ');
-      loQry.SQL.Add('  :TAXA_PARCELAMENTO, ');
-      loQry.SQL.Add('  :ATIVO ');
-      loQry.SQL.Add(') ');
-      //ShowMessage(loQry.SQL.Text)    ;
-      //Codigo := uBiblioteca.AutoIncremento(conexao, v_tabela);
+      loQry.SQL.Add('  ATIVO              ');
+      loQry.SQL.Add(')                    ');
+      loQry.SQL.Add('VALUES               ');
+      loQry.SQL.Add('(                    ');
+      loQry.SQL.Add('  :ID,               ');
+      loQry.SQL.Add('  :PRODUTO_ID,       ');
+      loQry.SQL.Add('  :FORMA_PAGTO_ID,   ');
+      loQry.SQL.Add('  :PRECO_CUSTO,      ');
+      loQry.SQL.Add('  :PRECO_VENDEDOR,   ');
+      loQry.SQL.Add('  :PRECO_VENDA,      ');
+      loQry.SQL.Add('  :TAXA_PARCELAMENTO,');
+      loQry.SQL.Add('  :ATIVO             ');
+      loQry.SQL.Add(')                    ');
       loQry.ParamByName('ID').AsInteger := uBiblioteca.AutoIncremento(conexao, v_tabela);
       loQry.ParamByName('PRODUTO_ID').AsInteger := p_codigo;
       loQry.ParamByName('FORMA_PAGTO_ID').AsInteger := mt_lista_precosFORMA_PAGTO_ID.AsInteger;
     end
     else
     begin
-      loQry.SQL.Add('UPDATE                          ');
+      loQry.SQL.Add('UPDATE                                   ');
       loQry.SQL.Add(v_tabela + ' ');
       loQry.SQL.Add('SET                                      ');
+      loQry.SQL.Add('  PRECO_CUSTO       = :PRECO_CUSTO,      ');
       loQry.SQL.Add('  PRECO_VENDEDOR    = :PRECO_VENDEDOR,   ');
       loQry.SQL.Add('  PRECO_VENDA       = :PRECO_VENDA,      ');
       loQry.SQL.Add('  TAXA_PARCELAMENTO = :TAXA_PARCELAMENTO,');
@@ -828,10 +803,11 @@ begin
       loQry.SQL.Add('WHERE                                    ');
       loQry.SQL.Add('  ID = :ID                               ');
       //
-      loQry.ParamByName('ID').AsInteger       := mt_lista_precosID.AsInteger;
+      loQry.ParamByName('ID').AsInteger := mt_lista_precosID.AsInteger;
 
     end;
 
+    loQry.ParamByName('PRECO_CUSTO').AsFloat       := mt_lista_precosPRECO_CUSTO.AsFloat;
     loQry.ParamByName('PRECO_VENDEDOR').AsFloat    := mt_lista_precosPRECO_VENDEDOR.AsFloat;
     loQry.ParamByName('PRECO_VENDA').AsFloat       := mt_lista_precosPRECO_VENDA.AsFloat;
     loQry.ParamByName('TAXA_PARCELAMENTO').AsFloat := mt_lista_precosTAXA_PARCELAMENTO.AsFloat;
