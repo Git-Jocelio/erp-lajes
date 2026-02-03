@@ -8,11 +8,10 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask;
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask, Vcl.ComCtrls;
 
 type
   TfrmProdutosBombaE = class(TfrmBaseEdicao)
-    Bevel1: TBevel;
     Bevel2: TBevel;
     Label1: TLabel;
     Label2: TLabel;
@@ -21,7 +20,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
@@ -30,16 +28,21 @@ type
     Label4: TLabel;
     Bevel3: TBevel;
     Bevel4: TBevel;
-    DBText1: TDBText;
     edDescricao: TDBEdit;
     edCusto: TDBEdit;
     edVenda: TDBEdit;
     edFantasia: TDBEdit;
     cbAtivo: TDBCheckBox;
-    cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamento: TDBLookupComboBox;
     edPeso: TDBEdit;
+    edt_preco_vendedor: TDBEdit;
+    dsConcreto: TDataSource;
+    qryBomba: TFDQuery;
+    dsDeptos: TDataSource;
+    qryDeptos: TFDQuery;
+    PageControl1: TPageControl;
+    tbs_bomba: TTabSheet;
+    tbs_fiscal: TTabSheet;
     gbx_Fical: TGroupBox;
     Label20: TLabel;
     Label21: TLabel;
@@ -49,17 +52,7 @@ type
     edSitTrib: TDBEdit;
     edTxICMS: TDBEdit;
     edTxIPI: TDBEdit;
-    DBCheckBox1: TDBCheckBox;
-    DBCheckBox2: TDBCheckBox;
-    edt_preco_vendedor: TDBEdit;
-    cbRevenda: TDBCheckBox;
-    gbx_tipo_bomba: TGroupBox;
-    Label12: TLabel;
     DBEdit5: TDBEdit;
-    dsConcreto: TDataSource;
-    qryBomba: TFDQuery;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -172,12 +165,6 @@ begin
     exit;
   end;
 
-  if cbxDepartamento.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
-    edFantasia.SetFocus;
-    exit;
-  end;
 
   if qry.FieldByName('PRECO_CUSTO').AsFloat <= 0 then
   begin
@@ -238,6 +225,7 @@ begin
                        qry.FieldByName('DATA_CAD').AsDateTime := Date;
                        qry.FieldByName('ATIVO').AsString              := 'S';
                        qry.FieldByName('ESTOQUE_CONTROLADO').AsString := 'N';
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := 4;// BOMBA DE CONCRETO;
                        qry.FieldByName('PRECO_CUSTO').AsFloat         := 0;
                        qry.FieldByName('PRECO_VENDEDOR').AsFloat      := 0;
                        qry.FieldByName('PRECO_VENDA').AsFloat         := 0;
@@ -272,7 +260,7 @@ begin
                        qry.FieldByName('VERGALHAO').AsString          := 'N';
                        qry.FieldByName('TRELICA').AsString            := 'N';
 
-                       // insert em trelica
+                       // insert em bomba
                        qryBomba.Insert;
                        qryBomba.FieldByName('ID').AsInteger := ubiblioteca.AutoIncremento(self.Conexao,'PRODUTOS_CONCRETO');
                        qryBomba.FieldByName('PRODUTO_ID').AsInteger := qry.FieldByName('ID').AsInteger;

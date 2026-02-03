@@ -10,7 +10,7 @@ inherited frmProdutosE: TfrmProdutosE
   inherited pnTitulo: TPanel
     Width = 574
     Height = 49
-    ExplicitWidth = 615
+    ExplicitWidth = 574
     ExplicitHeight = 49
     inherited lbl_titulo: TLabel
       Width = 574
@@ -27,8 +27,8 @@ inherited frmProdutosE: TfrmProdutosE
     Width = 574
     Height = 159
     ExplicitTop = 49
-    ExplicitWidth = 615
-    ExplicitHeight = 158
+    ExplicitWidth = 574
+    ExplicitHeight = 159
     object Bevel2: TBevel
       Left = 5
       Top = 25
@@ -318,8 +318,8 @@ inherited frmProdutosE: TfrmProdutosE
   inherited pnRodape: TPanel
     Top = 443
     Width = 574
-    ExplicitTop = 483
-    ExplicitWidth = 615
+    ExplicitTop = 443
+    ExplicitWidth = 574
     inherited pnl_botoes: TPanel
       Width = 280
       ExplicitWidth = 280
@@ -344,8 +344,6 @@ inherited frmProdutosE: TfrmProdutosE
     ActivePage = tbs_precos
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 248
-    ExplicitWidth = 615
     object tbs_precos: TTabSheet
       Caption = 'Pre'#231'os'
       object gb_formas_pagto: TGroupBox
@@ -355,8 +353,6 @@ inherited frmProdutosE: TfrmProdutosE
         Height = 203
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 607
-        ExplicitHeight = 209
         object btn_incluir: TSpeedButton
           Left = 7
           Top = 5
@@ -455,7 +451,7 @@ inherited frmProdutosE: TfrmProdutosE
           Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Style = []
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           ParentFont = False
           ParentShowHint = False
           ReadOnly = True
@@ -614,8 +610,6 @@ inherited frmProdutosE: TfrmProdutosE
         Align = alClient
         Caption = ' Fiscal '
         TabOrder = 0
-        ExplicitWidth = 607
-        ExplicitHeight = 244
         object Label20: TLabel
           Left = 5
           Top = 22
@@ -707,8 +701,6 @@ inherited frmProdutosE: TfrmProdutosE
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 607
-        ExplicitHeight = 244
         object Label14: TLabel
           Left = 238
           Top = 20
@@ -874,8 +866,8 @@ inherited frmProdutosE: TfrmProdutosE
     Connection = dmConn.FDConnection
     SQL.Strings = (
       'select * from produtos')
-    Left = 264
-    Top = 144
+    Left = 232
+    Top = 136
     object qryID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -1094,16 +1086,17 @@ inherited frmProdutosE: TfrmProdutosE
     end
   end
   inherited ds: TDataSource
-    Left = 264
+    Left = 232
+    Top = 105
   end
   object qryDeptos: TFDQuery
-    Left = 509
-    Top = 189
+    Left = 261
+    Top = 133
   end
   object dsDeptos: TDataSource
     DataSet = qryDeptos
-    Left = 512
-    Top = 161
+    Left = 264
+    Top = 105
   end
   object ds_lista_precos: TDataSource
     AutoEdit = False

@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask;
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask, Vcl.ComCtrls;
 
 type
   TfrmProdutosEpsE = class(TfrmBaseEdicao)
@@ -39,6 +39,19 @@ type
     cbxUnidade: TDBComboBox;
     cbxDepartamentos: TDBLookupComboBox;
     edPeso: TDBEdit;
+    Label9: TLabel;
+    edPrecoVendedor: TDBEdit;
+    PageControl1: TPageControl;
+    tbs_dimensoes: TTabSheet;
+    tbs_fiscal: TTabSheet;
+    gbDimensoes: TGroupBox;
+    Label4: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    edLargura: TDBEdit;
+    edComprimento: TDBEdit;
+    edAltura: TDBComboBox;
     GroupBox2: TGroupBox;
     Label20: TLabel;
     Label21: TLabel;
@@ -48,16 +61,6 @@ type
     edSitTrib: TDBEdit;
     edTxICMS: TDBEdit;
     edTxIPI: TDBEdit;
-    gbDimensoes: TGroupBox;
-    Label4: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    edLargura: TDBEdit;
-    edComprimento: TDBEdit;
-    edAltura: TDBComboBox;
-    Label9: TLabel;
-    edPrecoVendedor: TDBEdit;
-    Label13: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);

@@ -1,17 +1,28 @@
 inherited frmProdutosLajotasE: TfrmProdutosLajotasE
+  BorderStyle = bsNone
+  BorderWidth = 3
   Caption = 'frmProdutosLajotasE'
-  ClientHeight = 535
-  ClientWidth = 625
-  ExplicitWidth = 641
-  ExplicitHeight = 574
+  ClientHeight = 474
+  ClientWidth = 493
+  ExplicitWidth = 499
+  ExplicitHeight = 480
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 625
-    ExplicitWidth = 625
+    Width = 493
+    ExplicitWidth = 621
+    inherited lbl_titulo: TLabel
+      Width = 493
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 493
+    end
   end
   inherited pnDados: TPanel
-    Width = 625
-    Height = 441
+    Width = 493
+    Height = 380
+    Caption = #39#39
+    ExplicitTop = 52
     ExplicitWidth = 625
     ExplicitHeight = 441
     object Label1: TLabel
@@ -22,14 +33,14 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       Caption = 'ID'
     end
     object Label2: TLabel
-      Left = 114
+      Left = 92
       Top = 10
       Width = 53
       Height = 17
       Caption = 'Cadastro'
     end
     object Label3: TLabel
-      Left = 242
+      Left = 197
       Top = 10
       Width = 55
       Height = 17
@@ -44,7 +55,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       FocusControl = edDescricao
     end
     object Label6: TLabel
-      Left = 543
+      Left = 412
       Top = 56
       Width = 65
       Height = 17
@@ -97,9 +108,9 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       ParentFont = False
     end
     object edCadastro: TDBText
-      Left = 112
+      Left = 90
       Top = 32
-      Width = 73
+      Width = 79
       Height = 17
       DataField = 'DATA_CAD'
       DataSource = ds
@@ -111,7 +122,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       ParentFont = False
     end
     object edAlteracao: TDBText
-      Left = 240
+      Left = 195
       Top = 32
       Width = 79
       Height = 17
@@ -143,7 +154,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
     object edDescricao: TDBEdit
       Left = 10
       Top = 73
-      Width = 527
+      Width = 397
       Height = 30
       CharCase = ecUpperCase
       DataField = 'DESCRICAO'
@@ -186,7 +197,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
     object edFantasia: TDBEdit
       Left = 10
       Top = 124
-      Width = 527
+      Width = 468
       Height = 25
       CharCase = ecUpperCase
       DataField = 'NOME_FANTASIA'
@@ -194,8 +205,8 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       TabOrder = 4
     end
     object cbAtivo: TDBCheckBox
-      Left = 339
-      Top = 33
+      Left = 340
+      Top = 10
       Width = 97
       Height = 17
       Caption = 'Ativo'
@@ -206,7 +217,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       ValueUnchecked = 'N'
     end
     object cbEstoqueControlado: TDBCheckBox
-      Left = 442
+      Left = 340
       Top = 33
       Width = 143
       Height = 17
@@ -218,7 +229,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       ValueUnchecked = 'N'
     end
     object cbxUnidade: TDBComboBox
-      Left = 543
+      Left = 413
       Top = 73
       Width = 65
       Height = 25
@@ -237,7 +248,7 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
     object cbxDepartamento: TDBLookupComboBox
       Left = 60
       Top = 171
-      Width = 477
+      Width = 418
       Height = 25
       DataField = 'DEPARTAMENTO_ID'
       DataSource = ds
@@ -255,168 +266,6 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       DataSource = ds
       TabOrder = 9
     end
-    object GroupBox2: TGroupBox
-      Left = 0
-      Top = 260
-      Width = 625
-      Height = 76
-      Align = alBottom
-      Caption = ' Fiscal '
-      TabOrder = 10
-      object Label20: TLabel
-        Left = 11
-        Top = 22
-        Width = 107
-        Height = 17
-        Caption = 'Classifica'#231#227'o fiscal'
-        FocusControl = edClassFis
-      end
-      object Label21: TLabel
-        Left = 171
-        Top = 22
-        Width = 108
-        Height = 17
-        Caption = 'Situa'#231#227'o Tribut'#225'ria'
-        FocusControl = edSitTrib
-      end
-      object Label22: TLabel
-        Left = 295
-        Top = 22
-        Width = 60
-        Height = 17
-        Caption = 'Taxa ICMS'
-        FocusControl = edTxICMS
-      end
-      object Label23: TLabel
-        Left = 425
-        Top = 22
-        Width = 43
-        Height = 17
-        Caption = 'Taxa IPI'
-        FocusControl = edTxIPI
-      end
-      object edClassFis: TDBEdit
-        Left = 11
-        Top = 45
-        Width = 81
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'CLASS_FIS'
-        DataSource = ds
-        TabOrder = 0
-      end
-      object edSitTrib: TDBEdit
-        Left = 171
-        Top = 45
-        Width = 83
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'SIT_TRIB'
-        DataSource = ds
-        TabOrder = 1
-      end
-      object edTxICMS: TDBEdit
-        Left = 295
-        Top = 45
-        Width = 77
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'TX_ICMS'
-        DataSource = ds
-        TabOrder = 2
-      end
-      object edTxIPI: TDBEdit
-        Left = 425
-        Top = 45
-        Width = 81
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'TX_IPI'
-        DataSource = ds
-        TabOrder = 3
-      end
-    end
-    object GroupBox1: TGroupBox
-      Left = 0
-      Top = 336
-      Width = 625
-      Height = 105
-      Align = alBottom
-      Caption = ' Dimens'#245'es'
-      TabOrder = 11
-      object Label4: TLabel
-        Left = 113
-        Top = 44
-        Width = 45
-        Height = 17
-        Caption = 'Largura'
-        FocusControl = edLargura
-      end
-      object Label11: TLabel
-        Left = 215
-        Top = 44
-        Width = 80
-        Height = 17
-        Caption = 'Comprimento'
-        FocusControl = edComprimento
-      end
-      object Label12: TLabel
-        Left = 11
-        Top = 44
-        Width = 34
-        Height = 17
-        Caption = 'Altura'
-      end
-      object Label13: TLabel
-        Left = 11
-        Top = 19
-        Width = 221
-        Height = 17
-        Caption = '* cadastrar as medidas em milimetros'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -15
-        Font.Name = 'Times New Roman'
-        Font.Style = []
-        ParentFont = False
-      end
-      object edLargura: TDBEdit
-        Left = 111
-        Top = 67
-        Width = 81
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'LARGURA'
-        DataSource = dsLajotas
-        TabOrder = 0
-      end
-      object edComprimento: TDBEdit
-        Left = 215
-        Top = 67
-        Width = 81
-        Height = 25
-        CharCase = ecUpperCase
-        DataField = 'COMPRIMENTO'
-        DataSource = dsLajotas
-        TabOrder = 1
-      end
-      object edAltura: TDBComboBox
-        Left = 11
-        Top = 67
-        Width = 94
-        Height = 25
-        DataField = 'ALTURA'
-        DataSource = dsLajotas
-        Items.Strings = (
-          '80'
-          '120'
-          '160'
-          '200'
-          '250'
-          '300')
-        TabOrder = 2
-      end
-    end
     object edPrecoVendedor: TDBEdit
       Left = 141
       Top = 219
@@ -425,15 +274,192 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
       DataField = 'PRECO_VENDEDOR'
       DataSource = ds
       ImeName = 'CUSTO_BRUTO'
-      TabOrder = 12
+      TabOrder = 10
+    end
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 253
+      Width = 493
+      Height = 127
+      ActivePage = tbs_fiscal
+      Align = alBottom
+      TabOrder = 11
+      ExplicitTop = 336
+      ExplicitWidth = 488
+      object tbs_dimensoes: TTabSheet
+        Caption = ' Dimens'#245'es'
+        object Label4: TLabel
+          Left = 121
+          Top = 14
+          Width = 45
+          Height = 17
+          Caption = 'Largura'
+          FocusControl = edLargura
+        end
+        object Label11: TLabel
+          Left = 214
+          Top = 14
+          Width = 80
+          Height = 17
+          Caption = 'Comprimento'
+          FocusControl = edComprimento
+        end
+        object Label12: TLabel
+          Left = 12
+          Top = 14
+          Width = 34
+          Height = 17
+          Caption = 'Altura'
+        end
+        object Label13: TLabel
+          Left = 12
+          Top = 72
+          Width = 221
+          Height = 17
+          Caption = '* cadastrar as medidas em milimetros'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -15
+          Font.Name = 'Times New Roman'
+          Font.Style = []
+          ParentFont = False
+        end
+        object edLargura: TDBEdit
+          Left = 119
+          Top = 35
+          Width = 81
+          Height = 25
+          CharCase = ecUpperCase
+          DataField = 'LARGURA'
+          DataSource = dsLajotas
+          TabOrder = 0
+        end
+        object edComprimento: TDBEdit
+          Left = 214
+          Top = 35
+          Width = 81
+          Height = 25
+          CharCase = ecUpperCase
+          DataField = 'COMPRIMENTO'
+          DataSource = dsLajotas
+          TabOrder = 1
+        end
+        object edAltura: TDBComboBox
+          Left = 12
+          Top = 35
+          Width = 94
+          Height = 25
+          DataField = 'ALTURA'
+          DataSource = dsLajotas
+          Items.Strings = (
+            '80'
+            '120'
+            '160'
+            '200'
+            '250'
+            '300')
+          TabOrder = 2
+        end
+      end
+      object tbs_fiscal: TTabSheet
+        Caption = 'Fiscal'
+        ImageIndex = 1
+        object GroupBox2: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 485
+          Height = 95
+          Align = alClient
+          TabOrder = 0
+          ExplicitLeft = -266
+          ExplicitTop = 85
+          ExplicitWidth = 547
+          ExplicitHeight = 76
+          object Label20: TLabel
+            Left = 12
+            Top = 14
+            Width = 107
+            Height = 17
+            Caption = 'Classifica'#231#227'o fiscal'
+            FocusControl = edClassFis
+          end
+          object Label21: TLabel
+            Left = 150
+            Top = 14
+            Width = 108
+            Height = 17
+            Caption = 'Situa'#231#227'o Tribut'#225'ria'
+            FocusControl = edSitTrib
+          end
+          object Label22: TLabel
+            Left = 279
+            Top = 14
+            Width = 60
+            Height = 17
+            Caption = 'Taxa ICMS'
+            FocusControl = edTxICMS
+          end
+          object Label23: TLabel
+            Left = 397
+            Top = 14
+            Width = 43
+            Height = 17
+            Caption = 'Taxa IPI'
+            FocusControl = edTxIPI
+          end
+          object edClassFis: TDBEdit
+            Left = 12
+            Top = 37
+            Width = 81
+            Height = 25
+            CharCase = ecUpperCase
+            DataField = 'CLASS_FIS'
+            DataSource = ds
+            TabOrder = 0
+          end
+          object edSitTrib: TDBEdit
+            Left = 151
+            Top = 37
+            Width = 83
+            Height = 25
+            CharCase = ecUpperCase
+            DataField = 'SIT_TRIB'
+            DataSource = ds
+            TabOrder = 1
+          end
+          object edTxICMS: TDBEdit
+            Left = 279
+            Top = 37
+            Width = 77
+            Height = 25
+            CharCase = ecUpperCase
+            DataField = 'TX_ICMS'
+            DataSource = ds
+            TabOrder = 2
+          end
+          object edTxIPI: TDBEdit
+            Left = 392
+            Top = 37
+            Width = 81
+            Height = 25
+            CharCase = ecUpperCase
+            DataField = 'TX_IPI'
+            DataSource = ds
+            TabOrder = 3
+          end
+        end
+      end
     end
   end
   inherited pnRodape: TPanel
-    Top = 498
-    Width = 625
-    ExplicitTop = 498
-    ExplicitWidth = 625
+    Top = 437
+    Width = 493
+    ExplicitLeft = -8
+    ExplicitTop = 442
+    ExplicitWidth = 488
     inherited pnl_botoes: TPanel
+      Left = 118
+      ExplicitLeft = 118
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
       end
@@ -441,20 +467,20 @@ inherited frmProdutosLajotasE: TfrmProdutosLajotasE
   end
   object dsLajotas: TDataSource
     DataSet = qryLajotas
-    Left = 576
+    Left = 408
     Top = 49
   end
   object qryLajotas: TFDQuery
-    Left = 576
-    Top = 97
+    Left = 408
+    Top = 89
   end
   object dsDeptos: TDataSource
     DataSet = qryDeptos
-    Left = 568
-    Top = 177
+    Left = 328
+    Top = 161
   end
   object qryDeptos: TFDQuery
-    Left = 573
-    Top = 221
+    Left = 333
+    Top = 197
   end
 end

@@ -12614,7 +12614,7 @@
       
         '       memo50.top    := 134;                                    ' +
         '                                                  '
-      '       ReportTitle1.Height := 135;'
+      '       ReportTitle1.Height := 145;'
       '     end;'
       '  '
       '   end;             '
@@ -12680,7 +12680,7 @@
         FillGap.Right = 0
         Frame.Typ = []
         Height = 0.000002440000000000
-        Top = 260.787570000000000000
+        Top = 287.244280000000000000
         Width = 718.110700000000000000
         Condition = 'cdsItensPedido."TABELA_ID"'
       end
@@ -12692,19 +12692,19 @@
         FillGap.Right = 0
         Frame.Typ = []
         Height = 15.118110240000000000
-        Top = 283.464750000000000000
+        Top = 309.921460000000000000
         Width = 718.110700000000000000
         object Memo21: TfrxMemoView
           AllowVectorExport = True
           Width = 740.787880000000000000
           Height = 17.007874020000000000
           Frame.Typ = []
-          Fill.BackColor = clSilver
+          Fill.BackColor = clWhite
         end
         object Memo25: TfrxMemoView
           AllowVectorExport = True
           Left = 132.283464570000000000
-          Width = 419.527830000000000000
+          Width = 438.425480000000000000
           Height = 17.007874020000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -12733,8 +12733,8 @@
         end
         object Memo35: TfrxMemoView
           AllowVectorExport = True
-          Left = 551.811380000000000000
-          Width = 188.976500000000000000
+          Left = 578.268090000000000000
+          Width = 136.063080000000000000
           Height = 17.007874020000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -12756,7 +12756,7 @@
         FillGap.Right = 0
         Frame.Typ = []
         Height = 18.897637800000000000
-        Top = 359.055350000000000000
+        Top = 385.512060000000000000
         Width = 718.110700000000000000
         DataSet = frxFerragens
         DataSetName = 'cdsFerragens'
@@ -12841,7 +12841,7 @@
         FillGap.Right = 0
         Frame.Typ = []
         Height = 15.496062990000000000
-        Top = 321.260050000000000000
+        Top = 347.716760000000000000
         Width = 718.110700000000000000
         OnBeforePrint = 'MasterData1OnBeforePrint'
         DataSet = frxItensPedido
@@ -12921,7 +12921,7 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 181.417354570000000000
+        Height = 207.874064570000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         OnBeforePrint = 'ReportTitle1OnBeforePrint'
@@ -12966,19 +12966,19 @@
           AllowVectorExport = True
           Top = 146.244135980000000000
           Width = 714.330691570000000000
-          Height = 26.456697800000000000
+          Height = 52.913407800000000000
           DataSet = frx_local_entrega
           DataSetName = 'local_entrega'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -11
+          Font.Height = -15
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Frame.Typ = []
           Memo.UTF8W = (
             
-              'Entrega      : [local_entrega."ENDERECO"], [local_entrega."NUMER' +
-              'O"], [local_entrega."BAIRRO"], [local_entrega."CIDADE"]'
+              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"], ' +
+              '[local_entrega."BAIRRO"], [local_entrega."CIDADE"]'
             'OBS : [local_entrega."COMPLEMENTO"]')
           ParentFont = False
           Formats = <
@@ -13023,7 +13023,7 @@
           IndexTag = 1
           AllowVectorExport = True
           Top = 128.464605980000000000
-          Width = 423.307360000000000000
+          Width = 411.968770000000000000
           Height = 15.118107800000000000
           DataSet = frx_local_entrega
           DataSetName = 'local_entrega'
@@ -13159,7 +13159,7 @@
         end
         object Memo50: TfrxMemoView
           AllowVectorExport = True
-          Top = 179.283550000000000000
+          Top = 205.283550000000000000
           Width = 714.330708660000000000
           Height = 0.377952760000000000
           Font.Charset = DEFAULT_CHARSET
@@ -13286,7 +13286,7 @@
         FillGap.Right = 0
         Frame.Typ = []
         Height = 145.858380000000000000
-        Top = 438.425480000000000000
+        Top = 464.882190000000000000
         Width = 718.110700000000000000
         object ClienteNOME: TfrxMemoView
           IndexTag = 1
@@ -15001,7 +15001,7 @@
           Width = 740.787880000000000000
           Height = 17.007874020000000000
           Frame.Typ = []
-          Fill.BackColor = clSilver
+          Fill.BackColor = clWhite
         end
         object Memo25: TfrxMemoView
           AllowVectorExport = True
@@ -15035,8 +15035,8 @@
         end
         object Memo35: TfrxMemoView
           AllowVectorExport = True
-          Left = 551.811380000000000000
-          Width = 188.976500000000000000
+          Left = 555.590910000000000000
+          Width = 158.740260000000000000
           Height = 17.007874020000000000
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -15236,7 +15236,7 @@
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 187.433210000000000000
+        Height = 145.889763779527600000
         Top = 411.968770000000000000
         Width = 718.110700000000000000
         object ClienteNOME: TfrxMemoView

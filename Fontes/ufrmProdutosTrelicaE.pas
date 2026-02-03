@@ -78,9 +78,10 @@ type
     qryTrelicaSUPERIOR: TCurrencyField;
     qryTrelicaSINOZOIDE: TCurrencyField;
     qryTrelicaINFERIOR: TCurrencyField;
-    qryTrelicaCOMPRIMENTO: TCurrencyField;
     qryTrelicaKGS_METRO: TCurrencyField;
     qryTrelicaTIPO_TRELICA: TSmallintField;
+    qryTrelicaCOMPRIMENTO: TFMTBCDField;
+    qryTrelicaPRECO_CUSTO_12MT: TCurrencyField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);

@@ -211,8 +211,6 @@ implementation
 uses uBiblioteca, unit_principal, unit_funcoes;
 
 procedure executa(pedido: integer);
-//var
-//  loForm :TfrmRelPedidos;
 begin
 
   if loForm = nil then
@@ -236,8 +234,6 @@ begin
   end;
 
   loForm.Show;
-
-
 end;
 
 
@@ -300,7 +296,7 @@ begin
     end else
     if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO').AsString = 'N' then
     begin
-
+      OPCAO := '2';
       InputQuery('ORDEM DE ENTREGA SIMPLIFICADA','DIGITE UMA OPÇÃO : '  + SLINEBREAK +  SLINEBREAK +
                  '1 = PARA ORDEM DE ENTREGA SEM CABEÇALHO' + SLINEBREAK + SLINEBREAK +
                  '2 = PARA ORDEM DE ENTREGA COM CABEÇALHO', OPCAO );
