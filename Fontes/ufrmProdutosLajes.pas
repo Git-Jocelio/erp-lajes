@@ -34,39 +34,27 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
+    FDepartamento_id: integer;
     procedure ASql();
   public
-    { Public declarations }
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 
 var
  loForm : TfrmProdutosLajes;
 
-  procedure executa;
+  procedure executa(departamento_id: integer);
 
 implementation
 
-uses uBiblioteca, ufrmProdutosLajesE, unit_principal;
+uses uBiblioteca, ufrmProdutosLajesE;
 
-procedure executa;
+procedure executa(departamento_id: integer);
 begin
 
   if loForm = nil then
-  begin
-
     loForm := TfrmProdutosLajes.Create(Application);
-    form_principal.prc_controla_menu(false);
-
-    // se abrir dentro no painel principal não funciona os edites :(
-    //loform.Parent := form_principal.pnl_principal;
-
-    loform.top    :=  form_principal.pnl_Principal.Top;
-    loform.Left   := form_principal.pnl_menulateral.Width;
-
-    loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
-
-  end;
+  loform.departamento_id := departamento_id;
   loForm.Show;
 
 end;
@@ -101,7 +89,7 @@ end;
 
 procedure TfrmProdutosLajes.actIncluirExecute(Sender: TObject);
 begin
-  ufrmProdutosLajesE.Incluir;
+  ufrmProdutosLajesE.Incluir(departamento_id);
   uBiblioteca.AtualizaQuery(qry);
   inherited;
 
@@ -141,7 +129,6 @@ begin
   inherited;
 
   // LIBERA O FORMULARIO DA MEMORIA
-  form_principal.prc_controla_menu(true);
   FreeAndNil(loForm);
 
 end;

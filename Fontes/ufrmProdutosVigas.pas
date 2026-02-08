@@ -167,6 +167,7 @@ type
     Fp_largura_forma: integer;
     Fp_percentual_vendedor: double;
     Fp_percentual_venda_final: double;
+    FDepartamento_id: integer;
     //FCimentoQtde: double;
     function ValidarVolume: boolean;
     function ValidarComposicaoConcreto: boolean;
@@ -208,37 +209,14 @@ type
     property p_percentual_vendedor: double read Fp_percentual_vendedor write Fp_percentual_vendedor;
     property p_percentual_venda_final: double read Fp_percentual_venda_final write Fp_percentual_venda_final;
 
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
+
     procedure GravarCusto( forma: integer );
 
   end;
 
 var
   frmProdutosVigas: TfrmProdutosVigas;
-(*
-  // outros custos de laje;
-  perc_vendedor,
-  perc_balcao,
-  custo_producao_h8,
-  custo_producao_h12,
-  custo_producao_h16,
-  custo_producao_h20,
-  custo_producao_h25,
-  custo_producao_h30,
-  custo_painel_h8,
-  custo_painel_h12,
-  custo_painel_h16,
-  custo_painel_h20,
-  custo_painel_h25,
-  custo_painel_h30,
-  custo_frete_h8,
-  custo_frete_h12,
-  custo_frete_h16,
-  custo_frete_h20,
-  custo_frete_h25,
-  custo_frete_h30,
-  custo_adm
-    : double;
-*)
 implementation
 
 {$R *.dfm}
@@ -599,7 +577,7 @@ begin
     qryAux.FieldByName('ATIVO'          ).AsString   := 'S';
     qryAux.FieldByName('DATA_CAD'       ).AsDateTime := Date;;
     qryAux.FieldByName('DATA_ALT'       ).AsDateTime := Date;
-    qryAux.FieldByName('DEPARTAMENTO_ID').AsInteger  := 1;
+    qryAux.FieldByName('DEPARTAMENTO_ID').AsInteger  := departamento_id;
     qryAux.FieldByName('DESCRICAO').AsString         := LabelDescricaoViga.Caption + ' x ' + formatfloat('0.00',(viga/1000)) + ' MT(s)';
 
     {nome fantasia mais formal}

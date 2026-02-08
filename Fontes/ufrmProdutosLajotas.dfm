@@ -2,7 +2,7 @@ inherited frmProdutosLajotas: TfrmProdutosLajotas
   Caption = 'frmProdutosLajotas'
   ClientHeight = 441
   ClientWidth = 984
-  Position = poDesigned
+  Position = poMainFormCenter
   ExplicitWidth = 984
   ExplicitHeight = 441
   TextHeight = 15
@@ -193,6 +193,9 @@ inherited frmProdutosLajotas: TfrmProdutosLajotas
         inherited pnl_resultado: TPanel
           Width = 936
           ExplicitWidth = 936
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -206,6 +209,7 @@ inherited frmProdutosLajotas: TfrmProdutosLajotas
     end
     inherited lbl_titulo: TLabel
       Width = 226
+      Height = 56
       Caption = 'CONSULTA DE LAJOTAS'
       ExplicitWidth = 226
     end

@@ -32,37 +32,32 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
+    FDepartamento_id: integer;
     procedure ASql();
   public
-    { Public declarations }
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 var
   loForm : TfrmProdutos;
 
-procedure executa;
+procedure executa(departamento_id: integer);
 
 implementation
 
-uses uBiblioteca, ufrmProdutosE, ufrmProdutosTrelicaE, unit_principal;
+uses uBiblioteca, ufrmProdutosE, ufrmProdutosTrelicaE;
 
-procedure executa;
+procedure executa(departamento_id: integer);
 
 begin
 
   if loForm = nil then
-  begin
     loForm := TfrmProdutos.Create(Application);
-    form_principal.prc_controla_menu(false);
+  loForm.departamento_id := departamento_id;
+  loform.top := 90;
+  loform.Left:= 185;
 
-    // se abrir dentro no painel principal não funciona os edites :(
-    //loform.Parent := form_principal.pnl_principal;
-
-    loform.top    :=  form_principal.pnl_Principal.Top;
-    loform.Left   := form_principal.pnl_menulateral.Width;
-
-    loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
-  end;
+  loform.Height := 600;
+  loform.Width := 1000;
   loForm.Show;
 
 end;
@@ -99,7 +94,7 @@ end;
 
 procedure TfrmProdutos.actIncluirExecute(Sender: TObject);
 begin
-  ufrmProdutosE.Incluir;
+  ufrmProdutosE.Incluir(departamento_id);
   uBiblioteca.AtualizaQuery(qry);
   inherited;
 
@@ -133,7 +128,6 @@ begin
 
   inherited;
 
-  form_principal.prc_controla_menu(true);
   FreeAndNil(loForm);
 
 end;

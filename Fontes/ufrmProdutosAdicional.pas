@@ -31,38 +31,27 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
+    FDepartamento: integer;
     procedure ASql();
   public
-    { Public declarations }
+    property departamento_id: integer read FDepartamento write FDepartamento;
   end;
 
   var
   loForm :TfrmProdutosAdicional;
-  procedure executa;
+  procedure executa(departamento_id: integer);
 
 implementation
 
-uses uBiblioteca, ufrmProdutosAdicionalE, unit_principal;
+uses uBiblioteca, ufrmProdutosAdicionalE;
 
-procedure executa;
+procedure executa(departamento_id: integer);
 begin
 
   if loForm = nil then
-  begin
-
     loForm := TfrmProdutosAdicional.Create(Application);
-    form_principal.prc_controla_menu(false);
 
-    // se abrir dentro no painel principal não funciona os edites :(
-    //loform.Parent := form_principal.pnl_principal;
-
-    loform.top    :=  form_principal.pnl_Principal.Top;
-    loform.Left   := form_principal.pnl_menulateral.Width;
-
-    loForm.Width  := form_principal.pnl_principal.Width;
-    loForm.Height := form_principal.pnl_principal.Height;
-
-  end;
+  departamento_id := loForm.departamento_id;
   loForm.Show;
 
 end;
@@ -92,7 +81,7 @@ end;
 
 procedure TfrmProdutosAdicional.actIncluirExecute(Sender: TObject);
 begin
-  ufrmProdutosAdicionalE.Incluir;
+  ufrmProdutosAdicionalE.Incluir(departamento_id);
   uBiblioteca.AtualizaQuery(qry);
   inherited;
 
@@ -135,7 +124,6 @@ procedure TfrmProdutosAdicional.FormClose(Sender: TObject;
 begin
   inherited;
 
-  form_principal.prc_controla_menu(true);
   FreeAndNil(loForm);
 
 end;

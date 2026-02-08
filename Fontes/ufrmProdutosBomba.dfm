@@ -2,7 +2,7 @@ inherited frmProdutosBomba: TfrmProdutosBomba
   Caption = 'frmProdutosBomba'
   ClientHeight = 436
   ClientWidth = 913
-  Position = poDesigned
+  Position = poMainFormCenter
   ExplicitWidth = 913
   ExplicitHeight = 436
   TextHeight = 15
@@ -121,6 +121,9 @@ inherited frmProdutosBomba: TfrmProdutosBomba
         inherited pnl_resultado: TPanel
           Width = 865
           ExplicitWidth = 865
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -134,6 +137,7 @@ inherited frmProdutosBomba: TfrmProdutosBomba
     end
     inherited lbl_titulo: TLabel
       Width = 364
+      Height = 56
       Caption = 'CONSULTA DE BOMBA DE CONCRETO'
       ExplicitWidth = 364
     end

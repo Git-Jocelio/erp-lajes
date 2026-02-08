@@ -14,8 +14,6 @@ type
   TfrmProdutosLajotasE = class(TfrmBaseEdicao)
     dsLajotas: TDataSource;
     qryLajotas: TFDQuery;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -23,8 +21,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label19: TLabel;
-    Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
     edAlteracao: TDBText;
@@ -32,12 +28,9 @@ type
     edDescricao: TDBEdit;
     edCusto: TDBEdit;
     edVenda: TDBEdit;
-    DBEdit19: TDBEdit;
-    edFantasia: TDBEdit;
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamento: TDBLookupComboBox;
     edPeso: TDBEdit;
     Label9: TLabel;
     edPrecoVendedor: TDBEdit;
@@ -60,6 +53,8 @@ type
     edLargura: TDBEdit;
     edComprimento: TDBEdit;
     edAltura: TDBComboBox;
+    edFantasia: TDBEdit;
+    Label10: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -68,6 +63,7 @@ type
     FOperacao: uTipos.TOperacao;
     FTitulo: string;
     FTabela: string;
+    FDepartamento_id: integer;
 
     procedure salvar;
 
@@ -83,9 +79,10 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo: integer);
   procedure Excluir(ACodigo: integer);
 
@@ -93,7 +90,7 @@ type
 
 uses uBiblioteca;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm :TfrmProdutosLajotasE;
 begin
@@ -101,6 +98,7 @@ begin
   try
     loForm.Operacao := uTipos.OpIncluir;
     loForm.Codigo := 0;
+    loForm.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -154,9 +152,6 @@ end;
 procedure TfrmProdutosLajotasE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-  //
   qryLajotas.Open('select * from PRODUTOS_LAJOTAS where PRODUTO_ID =:ID');
 
 end;
@@ -166,9 +161,6 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.Tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
   qryLajotas.Connection := self.Conexao;
 
 end;
@@ -213,6 +205,7 @@ begin
                        qry.FieldByName('SIT_TRIB').AsString  := '';
                        qry.FieldByName('TX_ICMS').AsFloat    := 0;
                        // identificação do produto
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger:= departamento_id;
                        qry.FieldByName('REVENDA').AsString       := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'S';
                        qry.FieldByName('AGREGADO').AsString      := 'N';
@@ -358,13 +351,6 @@ begin
   if qry.FieldByName('NOME_FANTASIA').AsString = '' then
   begin
     ShowMessage('Informe um nome de fantasia');
-    edFantasia.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamento.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
     edFantasia.SetFocus;
     exit;
   end;

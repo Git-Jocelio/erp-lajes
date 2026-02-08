@@ -21,17 +21,12 @@ type
     edt_sinozoide: TDBEdit;
     edt_inferior: TDBEdit;
     Label12: TLabel;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     qryTrelica: TFDQuery;
     dsTrelica: TDataSource;
     Label13: TLabel;
     cbx_altura: TDBComboBox;
     Label5: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
-    edt_id_departamento: TDBEdit;
-    cbxDepartamento: TDBLookupComboBox;
     Label6: TLabel;
     edt_comprimento: TDBEdit;
     Image1: TImage;
@@ -93,6 +88,7 @@ type
     FTitulo: string;
     FTabela: string;
     FCodigo: integer;
+    FDepartamento_id: integer;
 
     procedure Salvar();
     procedure prc_descricao_trelica;
@@ -109,9 +105,10 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+    property departamento_id :integer read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo :integer);
   procedure Excluir(ACodigo :integer);
 
@@ -121,7 +118,7 @@ implementation
 uses uBiblioteca;
 
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm : TfrmProdutosTrelicaE;
 begin
@@ -129,6 +126,7 @@ begin
   try
     loForm.Operacao := uTipos.opIncluir;
     loForm.Codigo   := 0;
+    loForm.departamento_id:= departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -178,9 +176,6 @@ end;
 procedure TfrmProdutosTrelicaE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-  //
   qryTrelica.Open('select * from PRODUTOS_TRELICA where PRODUTO_ID =:ID');
 end;
 
@@ -201,9 +196,6 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.Tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
   qryTrelica.Connection := self.Conexao;
 
 end;
@@ -250,6 +242,7 @@ begin
                        qry.FieldByName('TX_IPI').AsFloat     := 0;
 
                        //**
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;
                        qry.FieldByName('REVENDA').AsString := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'S';
                        qry.FieldByName('AGREGADO').AsString := 'N';
@@ -457,13 +450,6 @@ begin
   begin
     ShowMessage('Informe o PESO DA TRELIÇA');
     edt_peso.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamento.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
-    cbxDepartamento.SetFocus;
     exit;
   end;
 

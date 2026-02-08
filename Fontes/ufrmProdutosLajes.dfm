@@ -2,6 +2,7 @@ inherited frmProdutosLajes: TfrmProdutosLajes
   Caption = 'frmProdutosLajes'
   ClientHeight = 591
   ClientWidth = 1184
+  Position = poDesktopCenter
   ExplicitWidth = 1184
   ExplicitHeight = 591
   TextHeight = 15

@@ -228,7 +228,6 @@ type
     edTotVendaRerforco: TEdit;
     edTotCustoRerforco: TEdit;
     pmIncluirFerroNegativo: TMenuItem;
-    Label107: TLabel;
     qryNOSSO_NUMERO: TStringField;
     qryTotalLaje: TFDQuery;
     pnl_itens_laje: TPanel;
@@ -494,7 +493,6 @@ type
     ds_tipo_bomba: TDataSource;
     qry_tipo_bomba: TFDQuery;
     lbl_obs_custo_laje: TLabel;
-    edt_nosso_numero: TEdit;
     mtb_concreto_utilizadoTOTAL: TFloatField;
     mtb_concreto_utilizadoTOTAL_CONCRETO: TAggregateField;
     Label30: TLabel;
@@ -594,6 +592,8 @@ type
     procedure dgb_recibosDblClick(Sender: TObject);
     procedure edt_total_bombaExit(Sender: TObject);
     procedure edt_total_bombaKeyPress(Sender: TObject; var Key: Char);
+    procedure dbg_itens_vendaDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
 
   private
@@ -741,6 +741,7 @@ type
     procedure prc_recalcular_painel_financeiro;
     function fnc_incluir_alterar_concreto_realizado(
       operacao: TOperacao): boolean;
+    procedure prc_visibilidade_situacao_itensPedido;
 
   protected
     procedure Componentes;
@@ -3691,6 +3692,28 @@ begin
 
 end;
 
+procedure TfrmPedidosE.prc_visibilidade_situacao_itensPedido;
+begin
+  // orcamento não mostras a sit dos itens nem data da entrega
+  if cb_orcamento.Checked then
+  begin
+    dbg_itens_venda.Columns[11].Visible := false; //situacao
+    dbg_itens_venda.Columns[27].Visible := false; //data
+  end else
+  if ((not cb_orcamento.Checked) and ((cbx_situacao.text = 'ABERTO') or (cbx_situacao.text = 'AGUARDANDO')) ) then
+  begin
+    dbg_itens_venda.Columns[11].Visible := false;
+    dbg_itens_venda.Columns[27].Visible := false;
+  end else
+  //if ((not cb_orcamento.Checked) and (cbx_situacao.text <> 'ABERTO') and ) then
+  begin
+    dbg_itens_venda.Columns[11].Visible := true;
+    dbg_itens_venda.Columns[27].Visible := true;
+
+  end;
+
+end;
+
 procedure TfrmPedidosE.Inicializar;
 //var ano, mes, dia : word;
 //    hora : string;
@@ -3747,7 +3770,8 @@ begin
                        tbs_comissao_triunfo.TabVisible := false;
                        tbs_comissao_ferrari.TabVisible := false;
                        FilterCds(qry_recibos, fsInteger, '-1');
-
+                       // visibilidade da situacao dos itens do pedido
+                       prc_visibilidade_situacao_itensPedido;
                      end;
 
   uTipos.opAlterar: begin
@@ -3896,7 +3920,7 @@ begin
 
   //***
   edt_nr_pedido.Caption    := qry.FieldByName('ID').AsString;
-  edt_nosso_numero.Text    := qry.FieldByName('NOSSO_NUMERO').AsString;
+  //edt_nosso_numero.Text    := qry.FieldByName('NOSSO_NUMERO').AsString;
   edt_emissao.Caption      := qry.FieldByName('DATA_EMISSAO').AsString;
   edt_alteracao.Caption    := qry.FieldByName('DATA_ALTERACAO').AsString;
   dtpDataContabil.Date     := qry.FieldByName('DATA_CONTABIL').AsDateTime;
@@ -4164,6 +4188,9 @@ begin
     //***
      qryPedidoItens.Next;
   end;
+
+  prc_visibilidade_situacao_itensPedido;
+
 end;
 
 
@@ -4492,7 +4519,7 @@ begin
 
         end;
 
-        ParamByName('NOSSO_NUMERO').AsString          := edt_nosso_numero.text;
+        ParamByName('NOSSO_NUMERO').AsString          := '';//edt_nosso_numero.text;
         ParamByName('ENTRADA_SAIDA').AsString         := 'S';
         ParamByName('SERIE').AsInteger                := 1;
         ParamByName('CHAVE_ACESSO').AsString          := '';
@@ -7608,6 +7635,13 @@ begin
 
   end;
 *)
+end;
+
+procedure TfrmPedidosE.dbg_itens_vendaDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var  ValorParaExibir : string;
+begin
+  inherited;
 end;
 
 procedure TfrmPedidosE.dsItensLajeDataChange(Sender: TObject; Field: TField);

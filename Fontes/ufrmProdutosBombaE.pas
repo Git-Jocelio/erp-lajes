@@ -38,8 +38,6 @@ type
     edt_preco_vendedor: TDBEdit;
     dsConcreto: TDataSource;
     qryBomba: TFDQuery;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     PageControl1: TPageControl;
     tbs_bomba: TTabSheet;
     tbs_fiscal: TTabSheet;
@@ -62,6 +60,7 @@ type
     FTitulo  : string;
     FTabela  : string;
     FCodigo  : integer;
+    FDepartamento_id: integer;
 
     procedure prc_Salvar;
 
@@ -79,9 +78,10 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string           read FTabela   write FTabela;
     property Titulo   :string           read FTitulo   write FTitulo;
+    property departamento_id: integer   read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo: integer);
   procedure Excluir(ACodigo: integer);
 
@@ -89,7 +89,7 @@ implementation
 
 uses uBiblioteca;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm :TfrmProdutosBombaE;
 begin
@@ -97,6 +97,7 @@ begin
   try
     loForm.Operacao := uTipos.OpIncluir;
     loForm.codigo   := 0;
+    loForm.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -191,7 +192,6 @@ begin
   inherited;
 
   self.Tabela := 'PRODUTOS';
-  qryDeptos.Connection := self.Conexao;
   qryBomba.Connection  := self.Conexao;
 
 end;
@@ -207,7 +207,6 @@ end;
 procedure TfrmProdutosBombaE.prc_Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
   qryBomba.Open('select * from PRODUTOS_BOMBA where PRODUTO_ID =:ID');
 
 end;
@@ -225,7 +224,6 @@ begin
                        qry.FieldByName('DATA_CAD').AsDateTime := Date;
                        qry.FieldByName('ATIVO').AsString              := 'S';
                        qry.FieldByName('ESTOQUE_CONTROLADO').AsString := 'N';
-                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := 4;// BOMBA DE CONCRETO;
                        qry.FieldByName('PRECO_CUSTO').AsFloat         := 0;
                        qry.FieldByName('PRECO_VENDEDOR').AsFloat      := 0;
                        qry.FieldByName('PRECO_VENDA').AsFloat         := 0;
@@ -248,6 +246,7 @@ begin
                        qry.FieldByName('TX_IPI').AsFloat              := 0;
 
                        // identifiação do produto
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;
                        qry.FieldByName('REVENDA').AsString            := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString      := 'N';
                        qry.FieldByName('AGREGADO').AsString           := 'N';

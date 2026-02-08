@@ -172,7 +172,8 @@ uses
   ufrmCortesCRUD in 'ufrmCortesCRUD.pas' {frmCortesCRUD},
   ufrmCortesProcessamento in 'ufrmCortesProcessamento.pas' {frmCortesProcessamento},
   ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas},
-  ufrmPedidosVigaVao in 'ufrmPedidosVigaVao.pas' {frmPedidosVigaVao};
+  ufrmPedidosVigaVao in 'ufrmPedidosVigaVao.pas' {frmPedidosVigaVao},
+  ufrmCategorias in 'ufrmCategorias.pas' {frmCategorias};
 
 {$R *.res}
 

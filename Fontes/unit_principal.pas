@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Vcl.Buttons, Vcl.AppEvnts, ufrmEstoquesConsulta,
   ufrmProducoesVigas, unit_atualizacao_banco_de_dados, unit_seguranca_sistema,
   Vcl.ExtDlgs,  System.DateUtils, ufrmRecibos, Vcl.Menus, ufrmProducaoVigas,
-  ufrmCortes, ufrmPequisa_vigas_vendidas;
+  ufrmCortes, ufrmPequisa_vigas_vendidas, ufrmCategorias, Vcl.ComCtrls;
 
 type
   Tform_principal = class(TForm)
@@ -254,6 +254,7 @@ type
     GerarCortes1: TMenuItem;
     N6: TMenuItem;
     N7: TMenuItem;
+    ListView1: TListView;
     procedure img_botao_sairClick(Sender: TObject);
     procedure pnl_menulateralMouseEnter(Sender: TObject);
     procedure pnl_PrincipalMouseEnter(Sender: TObject);
@@ -273,15 +274,6 @@ type
     procedure pnl_submenu_cadastros_botao_empresaClick(Sender: TObject);
     procedure pnl_submenu_cadastros_botao_transportadorasClick(Sender: TObject);
     procedure pnl_submenu_cadastros_botao_fornecedoresClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_revendaClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_lajotasClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_isoporClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_trelicasClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_vergalhoesClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_lajesClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_concretoClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_bombaClick(Sender: TObject);
-    procedure pnl_submenu_produtos_botao_vigasClick(Sender: TObject);
     procedure pnl_submenu_finaceiro_botao_apagarClick(Sender: TObject);
     procedure pnl_submenu_finaceiro_botao_areceberClick(Sender: TObject);
     procedure pnl_submenu_cadastros_botao_pessoasClick(Sender: TObject);
@@ -336,6 +328,8 @@ type
     procedure prc_componentes;
     procedure prc_EscondeMenus;
     procedure prc_esconde_sub_menus;
+    procedure prc_executar_button1;
+    procedure prc_abrir_menu_produtos_categoria;
     { Private declarations }
   public
     { Public declarations }
@@ -357,9 +351,7 @@ implementation
 
 uses unit_funcoes,unit_fundo_esmaecer, ufrmVendedores,ufrmClientes,ufrmPedidos,
      ufrmUsuarios, ufrmEmpresa, ufrmTransportadoras, ufrmFornecedores,
-     ufrmProdutos, ufrmProdutosLajotas, ufrmProdutosEps, ufrmProdutoTrelica,
-     ufrmProdutosAdicional, ufrmProdutosLajes, ufrmProdutosConcreto,
-     ufrmProdutosBomba, ufrmProdutosVigas, ufrmContasPagar, ufrmContasReceber,
+     ufrmContasPagar, ufrmContasReceber,
      ufrmPessoas, uBiblioteca, Winapi.ShellAPI, udmConn, FireDAC.Comp.Client,
      Classe.Conexao, ufrmCompras, ufrmEstoquesMovimentacao, ufrmPedidosBaixa,
      ufrmConfiguracoesSistema, ufrmConfiguracaoServidor, ufrmEstoquesProducao,
@@ -421,6 +413,20 @@ begin
   finally
     freeandnil(loqry);
     freeandnil(Q1);
+  end;
+end;
+
+procedure Tform_principal.prc_abrir_menu_produtos_categoria;
+begin
+  try
+  if frmCategorias = nil then
+     frmCategorias := TfrmCategorias.create(Application);
+     frmCategorias.Left := 185;
+     frmCategorias.top := 150;
+     frmCategorias.Show;
+
+  finally
+    //FreeAndNil(frmCategorias);
   end;
 end;
 
@@ -529,6 +535,7 @@ end;
 
 procedure Tform_principal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FreeAndNil(frmCategorias);
   //liberando o form da memoria
   FreeandNil ( form_principal );
 
@@ -767,10 +774,13 @@ begin
     loqry.ExecSQL;
     *)
 
+
+
   end;
 
 
-
+    // jocelio depois excluir essa procedure
+    prc_executar_button1;
 
 end;
 
@@ -861,6 +871,26 @@ end;
 procedure Tform_principal.lbl_tituloDblClick(Sender: TObject);
 begin
   Button1.Visible := true;
+end;
+
+procedure Tform_principal.prc_executar_button1;
+var
+  qry : TFDQuery;
+begin
+// verifica se a tabela pedido_itens_laje esta atualizada
+// conforme código do Button1
+  qry := TFDQuery.Create(nil);
+  qry.Connection := dmConn.FDConnection;
+  qry.SQL.Add('select * from pedidos_itens_laje where nivel = :nivel');
+  qry.ParamByName('nivel').AsString := '';
+  qry.Active := true;
+
+  if qry.RecordCount > 0 then Button1.Click;
+
+  qry.Active := false;
+  FreeAndNil(qry);
+
+
 end;
 
 procedure Tform_principal.mm_atualicao_bancoDblClick(Sender: TObject);
@@ -975,9 +1005,12 @@ begin
   prc_EscondeMenus;
 
   //Posicionando e mostrando o SubMenu COnfigurações
+  {
   pnl_submenu_produtos.Visible := True;
   pnl_submenu_produtos.Top :=  pnl_botao_produtos.Top;
   pnl_submenu_produtos.Left:= 0;
+  }
+  prc_abrir_menu_produtos_categoria;
 
 end;
 
@@ -1190,77 +1223,6 @@ begin
 
 end;
 
-procedure Tform_principal.pnl_submenu_produtos_botao_bombaClick(
-  Sender: TObject);
-begin
- ufrmProdutosBomba.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_concretoClick(
-  Sender: TObject);
-begin
-  ufrmProdutosConcreto.execute;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_isoporClick(
-  Sender: TObject);
-begin
-  ufrmProdutosEps.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_lajesClick(
-  Sender: TObject);
-begin
-  ufrmProdutosLajes.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_lajotasClick(
-  Sender: TObject);
-begin
-  ufrmProdutosLajotas.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_revendaClick(
-  Sender: TObject);
-begin
-  ufrmProdutos.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_trelicasClick(
-  Sender: TObject);
-begin
-  ufrmProdutoTrelica.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_vergalhoesClick(
-  Sender: TObject);
-begin
-  ufrmProdutosAdicional.executa;
-end;
-
-procedure Tform_principal.pnl_submenu_produtos_botao_vigasClick(
-  Sender: TObject);
-begin
-
-  if frmProdutosVigas = nil then
-  begin
-
-    frmProdutosVigas := TfrmProdutosVigas.Create(Application);
-    form_principal.prc_controla_menu(false);
-
-    frmProdutosVigas.top    :=  form_principal.pnl_Principal.Top;
-    frmProdutosVigas.Left   := form_principal.pnl_menulateral.Width;
-
-    frmProdutosVigas.Width  := form_principal.pnl_principal.Width;
-    frmProdutosVigas.Height := form_principal.pnl_principal.Height;
-
-  end;
-
-  frmProdutosVigas.Show;
-
-
-end;
-
 procedure Tform_principal.pnl_submenu_sistema_botao_servidorClick(
   Sender: TObject);
 begin
@@ -1348,6 +1310,7 @@ begin
   //Funcao que esconde qualquer submenu que esteja aberto
   pnl_submenu_pessoas.Visible     := False;
   pnl_submenu_produtos.Visible    := False;
+  if Assigned(frmCategorias) then frmCategorias.hide;
   pnl_submenu_faturamento.Visible := False;
   pnl_submenu_compras.Visible     := False;
   pnl_submenu_estoques.Visible    := False;

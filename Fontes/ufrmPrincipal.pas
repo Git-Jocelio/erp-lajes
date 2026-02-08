@@ -93,11 +93,6 @@ type
     procedure actArquivo_DepartamentosExecute(Sender: TObject);
     procedure actArquivo_ProdutosExecute(Sender: TObject);
     procedure actArquino_ProdutosTrelicaExecute(Sender: TObject);
-    procedure actArquivo_ProdutosEpsExecute(Sender: TObject);
-    procedure actArquivo_ProdutosAdicionaisExecute(Sender: TObject);
-    procedure actArquivo_ProdutosLajotasExecute(Sender: TObject);
-    procedure actArquivo_ConcretoExecute(Sender: TObject);
-    procedure actArquivo_ProdutosLajesExecute(Sender: TObject);
     procedure actFaturamento_PedidosExecute(Sender: TObject);
     procedure actArquivo_ProdutosVigasExecute(Sender: TObject);
     procedure actArquivo_TransportadorasExecute(Sender: TObject);
@@ -109,7 +104,6 @@ type
     procedure btn_opcoes_sistemaMouseEnter(Sender: TObject);
     procedure pnl_fundoMouseEnter(Sender: TObject);
     procedure actSistema_ConfiguracoesExecute(Sender: TObject);
-    procedure actArquivo_BombaExecute(Sender: TObject);
     procedure btn_cadastrosMouseEnter(Sender: TObject);
     procedure pnl_opcoesMouseEnter(Sender: TObject);
     procedure btn_opcoes_sistemaClick(Sender: TObject);
@@ -162,22 +156,12 @@ uses udmConn, ufrmPessoas, ufrmVendedores, ufrmClientes, ufrmFormaPagto,
 
 procedure TfrmPrincipal.actArquino_ProdutosTrelicaExecute(Sender: TObject);
 begin
-  ufrmProdutoTrelica.executa;
-end;
-
-procedure TfrmPrincipal.actArquivo_BombaExecute(Sender: TObject);
-begin
-   ufrmProdutosBomba.executa;
+  //ufrmProdutoTrelica.executa;
 end;
 
 procedure TfrmPrincipal.actArquivo_ClientesExecute(Sender: TObject);
 begin
   ufrmClientes.executa();
-end;
-
-procedure TfrmPrincipal.actArquivo_ConcretoExecute(Sender: TObject);
-begin
-  ufrmProdutosConcreto.execute;
 end;
 
 procedure TfrmPrincipal.actArquivo_DepartamentosExecute(Sender: TObject);
@@ -191,30 +175,10 @@ begin
   //ufrmPessoas.executa(); mudei
 end;
 
-procedure TfrmPrincipal.actArquivo_ProdutosAdicionaisExecute(Sender: TObject);
-begin
-  ufrmProdutosAdicional.executa;
-end;
-
-procedure TfrmPrincipal.actArquivo_ProdutosEpsExecute(Sender: TObject);
-begin
-  ufrmProdutosEps.executa;
-end;
-
 procedure TfrmPrincipal.actArquivo_ProdutosExecute(Sender: TObject);
 begin
-  ufrmProdutos.executa;
+//  ufrmProdutos.executa;
 
-end;
-
-procedure TfrmPrincipal.actArquivo_ProdutosLajesExecute(Sender: TObject);
-begin
-  ufrmProdutosLajes.executa;
-end;
-
-procedure TfrmPrincipal.actArquivo_ProdutosLajotasExecute(Sender: TObject);
-begin
-  ufrmProdutosLajotas.executa;
 end;
 
 procedure TfrmPrincipal.actArquivo_ProdutosVigasExecute(Sender: TObject);
@@ -424,9 +388,6 @@ end;
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 var
   versao_app_banco : integer;
-  loQry : TFDQuery;
-  script: string;
-
 begin
   b_expandido := true;
   qryEmpresa.Connection := dmConn.FDConnection;
@@ -732,18 +693,18 @@ begin
   {chamadas dos formularios}
   {obs. incluir a descrição no memtable mtb_opcoes_sistema}
   {menu cadastros}
-//  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Pessoas' ) then ufrmPessoas.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Pessoas' ) then ufrmPessoas.executa;
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Vendedores' ) then ufrmVendedores.executa;
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Clientes' ) then ufrmClientes.executa;
   //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Fornecedores' ) then ufrmFornecedores.prc_executa;
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Transportadoras' ) then ufrmTransportadoras.executa;
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Departamentos' ) then ufrmDepartamentos.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cad Produtos de Revenda' ) then ufrmProdutos.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Lajotas' ) then ufrmProdutosLajotas.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de EPS' ) then ufrmProdutosEps.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Treliças' ) then ufrmProdutoTrelica.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Vergalhões' ) then ufrmProdutosAdicional.executa;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Lajes' ) then ufrmProdutosLajes.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cad Produtos de Revenda' ) then ufrmProdutos.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Lajotas' ) then ufrmProdutosLajotas.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de EPS' ) then ufrmProdutosEps.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Treliças' ) then ufrmProdutoTrelica.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Vergalhões' ) then ufrmProdutosAdicional.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Lajes' ) then ufrmProdutosLajes.executa;
 
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Vigas' ) then
   begin
@@ -769,8 +730,8 @@ begin
      end;
   end;
 
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Concreto Usinado' ) then ufrmProdutosConcreto.execute;
-  if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Bomba de Concreto' ) then ufrmProdutosBomba.executa;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Concreto Usinado' ) then ufrmProdutosConcreto.execute;
+  //if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Bomba de Concreto' ) then ufrmProdutosBomba.executa;
 
   {menu faturamento}
   if uppercase((TComponent(sender) as TLabel).Caption) = uppercase('Cadastro de Pedidos' ) then ufrmPedidos.executa;

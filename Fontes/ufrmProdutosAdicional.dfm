@@ -2,7 +2,6 @@ inherited frmProdutosAdicional: TfrmProdutosAdicional
   Caption = 'frmProdutosAdicional'
   ClientHeight = 441
   ClientWidth = 1055
-  Position = poDesigned
   ExplicitWidth = 1055
   ExplicitHeight = 441
   TextHeight = 15
@@ -161,6 +160,9 @@ inherited frmProdutosAdicional: TfrmProdutosAdicional
         inherited pnl_resultado: TPanel
           Width = 1007
           ExplicitWidth = 1007
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -174,6 +176,7 @@ inherited frmProdutosAdicional: TfrmProdutosAdicional
     end
     inherited lbl_titulo: TLabel
       Width = 271
+      Height = 56
       Caption = 'CONSULTA DE VERGALH'#213'ES'
       ExplicitWidth = 271
     end

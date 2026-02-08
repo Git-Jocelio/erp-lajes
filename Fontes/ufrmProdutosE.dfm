@@ -4,6 +4,7 @@ inherited frmProdutosE: TfrmProdutosE
   Caption = 'frmProdutosE'
   ClientHeight = 480
   ClientWidth = 574
+  Position = poMainFormCenter
   ExplicitWidth = 580
   ExplicitHeight = 486
   TextHeight = 17
@@ -70,13 +71,6 @@ inherited frmProdutosE: TfrmProdutosE
       Width = 65
       Height = 17
       Caption = 'Un Medida'
-    end
-    object Label19: TLabel
-      Left = 352
-      Top = 109
-      Width = 84
-      Height = 17
-      Caption = 'Departamento'
     end
     object Label29: TLabel
       Left = 5
@@ -167,7 +161,7 @@ inherited frmProdutosE: TfrmProdutosE
     object edFantasia: TDBEdit
       Left = 5
       Top = 127
-      Width = 341
+      Width = 562
       Height = 25
       CharCase = ecUpperCase
       DataField = 'NOME_FANTASIA'
@@ -177,7 +171,7 @@ inherited frmProdutosE: TfrmProdutosE
     object cbAtivo: TDBCheckBox
       Left = 281
       Top = 10
-      Width = 97
+      Width = 65
       Height = 17
       Cursor = crHandPoint
       Caption = 'Ativo'
@@ -189,7 +183,7 @@ inherited frmProdutosE: TfrmProdutosE
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 4
       ValueChecked = 'S'
       ValueUnchecked = 'N'
       Visible = False
@@ -209,7 +203,7 @@ inherited frmProdutosE: TfrmProdutosE
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 5
       ValueChecked = 'S'
       ValueUnchecked = 'N'
       Visible = False
@@ -231,18 +225,6 @@ inherited frmProdutosE: TfrmProdutosE
         'UN')
       TabOrder = 1
     end
-    object cbxDepartamento: TDBLookupComboBox
-      Left = 352
-      Top = 127
-      Width = 215
-      Height = 25
-      DataField = 'DEPARTAMENTO_ID'
-      DataSource = ds
-      KeyField = 'ID'
-      ListField = 'NOME'
-      ListSource = dsDeptos
-      TabOrder = 4
-    end
     object edPeso: TDBEdit
       Left = 502
       Top = 73
@@ -253,8 +235,8 @@ inherited frmProdutosE: TfrmProdutosE
       TabOrder = 3
     end
     object DBCheckBox1: TDBCheckBox
-      Left = 352
-      Top = 8
+      Left = 368
+      Top = 10
       Width = 94
       Height = 17
       Cursor = crHandPoint
@@ -267,14 +249,14 @@ inherited frmProdutosE: TfrmProdutosE
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 6
       ValueChecked = 'S'
       ValueUnchecked = 'N'
       Visible = False
     end
     object DBCheckBox2: TDBCheckBox
-      Left = 460
-      Top = 6
+      Left = 490
+      Top = 10
       Width = 77
       Height = 17
       Cursor = crHandPoint
@@ -287,14 +269,14 @@ inherited frmProdutosE: TfrmProdutosE
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 7
       ValueChecked = 'S'
       ValueUnchecked = 'N'
       Visible = False
     end
     object cbRevenda: TDBCheckBox
-      Left = 416
-      Top = 29
+      Left = 439
+      Top = 31
       Width = 131
       Height = 17
       Cursor = crHandPoint
@@ -309,7 +291,7 @@ inherited frmProdutosE: TfrmProdutosE
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 9
+      TabOrder = 8
       ValueChecked = 'S'
       ValueUnchecked = 'N'
       Visible = False
@@ -1087,15 +1069,6 @@ inherited frmProdutosE: TfrmProdutosE
   end
   inherited ds: TDataSource
     Left = 232
-    Top = 105
-  end
-  object qryDeptos: TFDQuery
-    Left = 261
-    Top = 133
-  end
-  object dsDeptos: TDataSource
-    DataSet = qryDeptos
-    Left = 264
     Top = 105
   end
   object ds_lista_precos: TDataSource

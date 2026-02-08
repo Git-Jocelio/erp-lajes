@@ -14,8 +14,6 @@ type
   TfrmProdutosConcretoE = class(TfrmBaseEdicao)
     dsConcreto: TDataSource;
     qryConcreto: TFDQuery;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -23,7 +21,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
@@ -32,12 +29,10 @@ type
     edDescricao: TDBEdit;
     edCusto: TDBEdit;
     edVenda: TDBEdit;
-    DBEdit19: TDBEdit;
     edFantasia: TDBEdit;
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamentos: TDBLookupComboBox;
     edPeso: TDBEdit;
     Label9: TLabel;
     edPrecoVendedor: TDBEdit;
@@ -58,6 +53,7 @@ type
     FOperacao: uTipos.TOperacao;
     FTitulo  : string;
     FTabela  : string;
+    FDepartamento_id: integer;
     procedure salvar;
 
   protected
@@ -72,9 +68,12 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
+
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo: integer);
   procedure Excluir(ACodigo: integer);
 
@@ -83,7 +82,7 @@ implementation
 
 uses uBiblioteca;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm :TfrmProdutosConcretoE;
 begin
@@ -91,6 +90,7 @@ begin
   try
     loForm.Operacao := uTipos.OpIncluir;
     loForm.codigo := 0;
+    loForm.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -138,7 +138,6 @@ end;
 procedure TfrmProdutosConcretoE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
   qryConcreto.Open('select * from PRODUTOS_CONCRETO where PRODUTO_ID =:ID');
 
 end;
@@ -148,7 +147,6 @@ begin
   inherited;
 
   self.Tabela := 'PRODUTOS';
-  qryDeptos.Connection   := self.Conexao;
   qryConcreto.Connection := self.Conexao;
 
 end;
@@ -195,6 +193,7 @@ begin
                        qry.FieldByName('TX_IPI').AsFloat              := 0;
 
                        // identifiação do produto
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger   := departamento_id;
                        qry.FieldByName('REVENDA').AsString            := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString      := 'N';
                        qry.FieldByName('AGREGADO').AsString           := 'N';
@@ -335,13 +334,6 @@ begin
   if qry.FieldByName('NOME_FANTASIA').AsString = '' then
   begin
     ShowMessage('Informe um nome de fantasia');
-    edFantasia.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamentos.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
     edFantasia.SetFocus;
     exit;
   end;

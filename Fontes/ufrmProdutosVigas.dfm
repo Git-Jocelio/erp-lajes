@@ -13,7 +13,7 @@ inherited frmProdutosVigas: TfrmProdutosVigas
     Top = 57
     Width = 892
     Height = 499
-    ActivePage = tbResultado
+    ActivePage = tbs_mao_obra
     Align = alClient
     TabOrder = 0
     object tbConfiguracoes: TTabSheet
@@ -945,7 +945,6 @@ inherited frmProdutosVigas: TfrmProdutosVigas
     Top = 408
   end
   object qryTrelicas: TFDQuery
-    Active = True
     Connection = dmConn.FDConnection
     FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
     SQL.Strings = (

@@ -12,8 +12,6 @@ uses
 
 type
   TfrmProdutosAdicionalE = class(TfrmBaseEdicao)
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     qryAdicional: TFDQuery;
     dsAdicional: TDataSource;
     Label1: TLabel;
@@ -21,19 +19,16 @@ type
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
     edAlteracao: TDBText;
     Label28: TLabel;
     edDescricao: TDBEdit;
-    DBEdit19: TDBEdit;
     edFantasia: TDBEdit;
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamento: TDBLookupComboBox;
     edPeso: TDBEdit;
     PageControl1: TPageControl;
     tbs_dimensoes: TTabSheet;
@@ -78,8 +73,9 @@ type
     FOperacao: uTipos.TOperacao;
     FTitulo: string;
     FTabela: string;
+    FDepartamento_id: integer;
 
-    procedure Salvar();
+    procedure Salvar;
     function CalcularPrecoBruto(custo, percentual: double): double;
     procedure Custos;
 
@@ -95,11 +91,12 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
 
   end;
 
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo: integer);
   procedure Excluir(ACodigo: integer);
 
@@ -107,7 +104,7 @@ implementation
 
 uses uBiblioteca;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm :TfrmProdutosAdicionalE;
 begin
@@ -115,6 +112,7 @@ begin
   try
     loForm.Operacao := uTipos.OpIncluir;
     loForm.Codigo := 0;
+    loform.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -181,6 +179,7 @@ begin
     exit;
   end;
 *)
+  result := 0;
   if ((percentual<0) or (percentual>100)) then
   begin
     ShowMessage('informe um percentual entre 0 e 100');
@@ -197,73 +196,12 @@ end;
 procedure TfrmProdutosAdicionalE.btnOkClick(Sender: TObject);
 begin
   inherited;
-  case Self.Operacao of
-
-    // Inclusão
-    uTipos.opIncluir :
-    begin
-      if not Valida then Exit;
-
-      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-      //***
-      try
-        {Próximo código}
-        qry.Post;
-        qryAdicional.Post;
-        if Self.Conexao.InTransaction then Self.Conexao.Commit;
-
-        if Application.MessageBox('Deseja continuar incluindo?','Inclusão...',MB_YESNO) = mrYES then
-          Self.Inicializar
-        else
-          ModalResult := mrOk;
-      except
-        ShowMessage('Não foi possível salvar o registro');
-      end;
-    end;
-
-    // Alteração
-    uTipos.opAlterar :
-    begin
-      if not Valida then Exit;
-
-      if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-      //***
-      try
-        qry.Post;
-        qryAdicional.Post;
-        if Self.Conexao.InTransaction then Self.Conexao.Commit;
-        ModalResult := mrOk;
-      except
-        ShowMessage('Não foi possível alterar o registro');
-      end;
-    end;
-
-    //Exclusão
-    uTipos.opExcluir :
-    begin
-      if Application.MessageBox('Deseja excluir este registro?','Atenção',MB_OKCANCEL) = mrOK then
-      begin
-        if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
-        try
-          //qryPessoas.Delete;
-          qry.Post;
-          if Self.Conexao.InTransaction then Self.Conexao.Commit;
-          ModalResult := mrOk;
-        except
-          ShowMessage('Não foi possível excluir o registro');
-        end;
-      end; // if
-    end;
-  end;// case
-
+  Salvar;
 end;
 
 procedure TfrmProdutosAdicionalE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-  //
   qryAdicional.Open('select * from PRODUTOS_ADICIONAL where PRODUTO_ID =:ID');
 
 end;
@@ -286,9 +224,6 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.Tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
   qryAdicional.Connection := self.Conexao;
 
 end;
@@ -334,7 +269,8 @@ begin
                        qry.FieldByName('TX_IPI').AsFloat     := 0;
                        //**
                        // identifiação do produto
-                       qry.FieldByName('REVENDA').AsString   := 'N';
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;;
+                       qry.FieldByName('REVENDA').AsString   := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'S';
                        qry.FieldByName('AGREGADO').AsString  := 'N';
                        qry.FieldByName('LAJE').AsString      := 'N';
@@ -476,13 +412,6 @@ begin
   if qry.FieldByName('NOME_FANTASIA').AsString = '' then
   begin
     ShowMessage('Informe um nome de fantasia');
-    edFantasia.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamento.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
     edFantasia.SetFocus;
     exit;
   end;

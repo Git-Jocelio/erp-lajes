@@ -2,6 +2,7 @@ inherited frmProdutosEps: TfrmProdutosEps
   Caption = 'frmProdutosEps'
   ClientHeight = 441
   ClientWidth = 984
+  Position = poMainFormCenter
   ExplicitWidth = 984
   ExplicitHeight = 441
   TextHeight = 15

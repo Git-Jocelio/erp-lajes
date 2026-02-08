@@ -4,7 +4,6 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
   Caption = 'frmProdutosLajesE'
   ClientHeight = 587
   ClientWidth = 645
-  ExplicitTop = -29
   ExplicitWidth = 651
   ExplicitHeight = 593
   TextHeight = 17
@@ -32,7 +31,7 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
     ExplicitWidth = 645
     ExplicitHeight = 240
     object Label1: TLabel
-      Left = 10
+      Left = 12
       Top = 10
       Width = 12
       Height = 17
@@ -61,18 +60,11 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       FocusControl = edDescricao
     end
     object Label6: TLabel
-      Left = 572
+      Left = 567
       Top = 49
       Width = 49
       Height = 17
       Caption = 'Unidade'
-    end
-    object Label19: TLabel
-      Left = 361
-      Top = 100
-      Width = 84
-      Height = 17
-      Caption = 'Departamento'
     end
     object Label29: TLabel
       Left = 10
@@ -125,9 +117,9 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       ParentFont = False
     end
     object edDescricao: TDBEdit
-      Left = 10
+      Left = 12
       Top = 66
-      Width = 556
+      Width = 548
       Height = 30
       CharCase = ecUpperCase
       DataField = 'DESCRICAO'
@@ -141,9 +133,9 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       TabOrder = 0
     end
     object edFantasia: TDBEdit
-      Left = 10
-      Top = 118
-      Width = 345
+      Left = 12
+      Top = 117
+      Width = 620
       Height = 25
       CharCase = ecUpperCase
       DataField = 'NOME_FANTASIA'
@@ -151,8 +143,8 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       TabOrder = 1
     end
     object cbAtivo: TDBCheckBox
-      Left = 378
-      Top = 22
+      Left = 391
+      Top = 26
       Width = 97
       Height = 17
       Cursor = crHandPoint
@@ -164,8 +156,8 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       ValueUnchecked = 'N'
     end
     object cbEstoqueControlado: TDBCheckBox
-      Left = 510
-      Top = 22
+      Left = 471
+      Top = 26
       Width = 127
       Height = 17
       Cursor = crHandPoint
@@ -177,8 +169,8 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       ValueUnchecked = 'N'
     end
     object cbxUnidade: TDBComboBox
-      Left = 572
-      Top = 66
+      Left = 567
+      Top = 72
       Width = 65
       Height = 25
       Cursor = crHandPoint
@@ -189,18 +181,6 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
         '')
       TabOrder = 4
     end
-    object cbxDepartamentos: TDBLookupComboBox
-      Left = 361
-      Top = 118
-      Width = 277
-      Height = 25
-      DataField = 'DEPARTAMENTO_ID'
-      DataSource = ds
-      KeyField = 'ID'
-      ListField = 'NOME'
-      ListSource = dsDeptos
-      TabOrder = 5
-    end
     object GroupBox1: TGroupBox
       Left = 0
       Top = 148
@@ -208,7 +188,7 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
       Height = 92
       Align = alBottom
       Caption = ' Dimens'#245'es em milimetros'
-      TabOrder = 6
+      TabOrder = 5
       object Label12: TLabel
         Left = 12
         Top = 26
@@ -250,9 +230,9 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
         ParentFont = False
       end
       object rgEnchimento: TRadioGroup
-        Left = 363
+        Left = 360
         Top = 19
-        Width = 140
+        Width = 141
         Height = 71
         Cursor = crHandPoint
         Align = alRight
@@ -269,6 +249,7 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
         ParentFont = False
         TabOrder = 0
         OnClick = rgEnchimentoClick
+        ExplicitLeft = 384
       end
       object edCarga: TDBEdit
         Left = 128
@@ -287,9 +268,9 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
         TabOrder = 1
       end
       object rgForma: TDBRadioGroup
-        Left = 503
+        Left = 501
         Top = 19
-        Width = 140
+        Width = 142
         Height = 71
         Cursor = crHandPoint
         Align = alRight
@@ -371,7 +352,7 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
         Left = 170
         Width = 110
         Cursor = crHandPoint
-        ExplicitLeft = 169
+        ExplicitLeft = 170
         ExplicitWidth = 110
       end
     end
@@ -795,15 +776,6 @@ inherited frmProdutosLajesE: TfrmProdutosLajesE
   end
   object qryLajes: TFDQuery
     Left = 388
-    Top = 53
-  end
-  object dsDeptos: TDataSource
-    DataSet = qryDeptos
-    Left = 416
-    Top = 25
-  end
-  object qryDeptos: TFDQuery
-    Left = 416
     Top = 53
   end
   object ds_lista_precos: TDataSource

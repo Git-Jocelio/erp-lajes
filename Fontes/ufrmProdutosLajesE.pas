@@ -16,14 +16,11 @@ type
   TfrmProdutosLajesE = class(TfrmBaseEdicao)
     dsLajes: TDataSource;
     qryLajes: TFDQuery;
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
@@ -33,7 +30,6 @@ type
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamentos: TDBLookupComboBox;
     GroupBox1: TGroupBox;
     Label12: TLabel;
     Label10: TLabel;
@@ -101,6 +97,7 @@ type
     Fp_operacao: uTipos.TOperacao;
     Fp_titulo: string;
     Fp_tabela: string;
+    FDepartamento_id: integer;
 
     procedure salvar;
     function calcularValorDeCusto(largura_forma, altura: integer): double;
@@ -121,9 +118,11 @@ type
     property p_operacao :uTipos.TOperacao read Fp_operacao write Fp_operacao;
     property p_tabela   :string read Fp_tabela write Fp_tabela;
     property p_titulo   :string read Fp_titulo write Fp_titulo;
+
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo: integer);
   procedure Excluir(ACodigo: integer);
 
@@ -131,7 +130,7 @@ implementation
 
 uses uBiblioteca, udmConn;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm: TfrmProdutosLajesE;
 begin
@@ -139,6 +138,7 @@ begin
   try
     loform.p_operacao := uTipos.OpIncluir;
     loForm.p_codigo := 0;
+    loForm.departamento_id := departamento_id;
     loForm.ShowModal
   finally
     FreeAndNil(loForm);
@@ -374,17 +374,11 @@ end;
 procedure TfrmProdutosLajesE.Componentes;
 begin
   qry.Open('select * from '+ self.p_tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-  //
   qryLajes.Open('select * from PRODUTOS_LAJES where PRODUTO_ID =:ID');
 
   dbg_condicoes_pagto.Columns[0].Visible := false;
   dbg_condicoes_pagto.Columns[1].Visible := false;
   dbg_condicoes_pagto.Columns[2].Visible := false;
-//  dbg_condicoes_pagto.Columns[7].Visible := false;
-
-
 end;
 
 procedure TfrmProdutosLajesE.dbg_condicoes_pagtoDrawColumnCell(Sender: TObject;
@@ -455,9 +449,6 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.p_tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
   qryLajes.Connection := self.Conexao;
 
 end;
@@ -487,7 +478,6 @@ begin
                        qry.FieldByName('ESTOQUE_CONTROLADO').AsString := 'N';
                        qry.FieldByName('PRECO_CUSTO').AsFloat := 0;
                        qry.FieldByName('PRECO_VENDA').AsFloat := 0;
-                        qry.FieldByName('DEPARTAMENTO_ID').AsInteger := 7; // LAJES
                        //ESTOQUE
                        qry.FieldByName('ESTOQUE_FISICO').AsFloat := 0;
                        qry.FieldByName('PEDIDO_ABERTO').AsFloat := 0;
@@ -505,6 +495,7 @@ begin
                        qry.FieldByName('TX_ICMS').AsFloat := 0;
                        qry.FieldByName('TX_IPI').AsFloat := 0;
                        // identifiação do produto
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;
                        qry.FieldByName('REVENDA').AsString := 'N';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'N';
                        qry.FieldByName('AGREGADO').AsString := 'N';
@@ -516,9 +507,6 @@ begin
                        qry.FieldByName('BOMBA').AsString := 'N';
                        qry.FieldByName('VERGALHAO').AsString := 'N';
                        qry.FieldByName('TRELICA').AsString := 'N';
-
-
-
                        // insert em lajes
                        qryLajes.Insert;
                        qryLajes.FieldByName('ID').AsInteger := ubiblioteca.AutoIncremento(self.Conexao,'PRODUTOS_LAJES');
@@ -791,13 +779,6 @@ begin
   begin
     ShowMessage('Informe um nome de fantasia');
     edFantasia.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamentos.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
-    cbxDepartamentos.SetFocus;
     exit;
   end;
 

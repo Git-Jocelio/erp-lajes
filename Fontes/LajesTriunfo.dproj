@@ -767,6 +767,10 @@
             <Form>frmPedidosVigaVao</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ufrmCategorias.pas">
+            <Form>frmCategorias</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

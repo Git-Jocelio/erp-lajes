@@ -217,11 +217,11 @@ object form_principal: Tform_principal
       TabOrder = 0
     end
     object Button1: TButton
-      Left = 987
+      Left = 903
       Top = 11
-      Width = 75
+      Width = 133
       Height = 25
-      Caption = 'Button1'
+      Caption = 'Atualizar Tab ItensLaje'
       TabOrder = 1
       Visible = False
       OnClick = Button1Click
@@ -2045,7 +2045,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 0
-        OnClick = pnl_submenu_produtos_botao_vigasClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_vigas: TImage
           Tag = 26
@@ -2101,7 +2100,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_vigasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2118,7 +2116,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_vigasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2136,7 +2133,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 1
-        OnClick = pnl_submenu_produtos_botao_trelicasClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_trelicas: TImage
           Tag = 24
@@ -2192,7 +2188,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_trelicasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2209,8 +2204,15 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_trelicasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
+        end
+        object ListView1: TListView
+          Left = 184
+          Top = 16
+          Width = 250
+          Height = 150
+          Columns = <>
+          TabOrder = 0
         end
       end
       object pnl_submenu_produtos_botao_isopor: TPanel
@@ -2227,7 +2229,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 2
-        OnClick = pnl_submenu_produtos_botao_isoporClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_isopor: TImage
           Tag = 23
@@ -2283,7 +2284,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_isoporClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2300,7 +2300,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_isoporClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2318,7 +2317,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 3
-        OnClick = pnl_submenu_produtos_botao_lajotasClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_lajotas: TImage
           Tag = 22
@@ -2374,7 +2372,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_lajotasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2391,7 +2388,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_lajotasClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2409,7 +2405,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 4
-        OnClick = pnl_submenu_produtos_botao_concretoClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_concreto: TImage
           Tag = 28
@@ -2465,7 +2460,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_concretoClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2482,7 +2476,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_concretoClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2500,7 +2493,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 5
-        OnClick = pnl_submenu_produtos_botao_vergalhoesClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_vergalhoes: TImage
           Tag = 25
@@ -2556,7 +2548,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_vergalhoesClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2573,7 +2564,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_vergalhoesClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2591,7 +2581,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 6
-        OnClick = pnl_submenu_produtos_botao_lajesClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_lajes: TImage
           Tag = 27
@@ -2647,7 +2636,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_lajesClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2664,7 +2652,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_lajesClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2682,7 +2669,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 7
-        OnClick = pnl_submenu_produtos_botao_bombaClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_bomba: TImage
           Tag = 29
@@ -2738,7 +2724,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_bombaClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2755,7 +2740,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_bombaClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -2773,7 +2757,6 @@ object form_principal: Tform_principal
         Color = 1644825
         ParentBackground = False
         TabOrder = 8
-        OnClick = pnl_submenu_produtos_botao_revendaClick
         OnMouseEnter = pnl_botao_notasMouseEnter
         object img_submenu_produtos_botao_revenda: TImage
           Tag = 21
@@ -2829,7 +2812,6 @@ object form_principal: Tform_principal
             52C2BFBFFFFEA878BB28333C3CBEF62A0B1333137A02FBF385C190E1DC7F5E56
             ECA9EFFF37062E462AA75B2C0000363394D9520C5BBA0000000049454E44AE42
             6082}
-          OnClick = pnl_submenu_produtos_botao_revendaClick
           OnMouseEnter = pnl_botao_notasMouseEnter
           ExplicitHeight = 28
         end
@@ -2846,7 +2828,6 @@ object form_principal: Tform_principal
           Font.Name = 'Segoe UI'
           Font.Style = []
           ParentFont = False
-          OnClick = pnl_submenu_produtos_botao_revendaClick
           OnMouseEnter = pnl_botao_notasMouseEnter
         end
       end
@@ -4461,39 +4442,30 @@ object form_principal: Tform_principal
       Caption = 'Produtos'
       object Revenda1: TMenuItem
         Caption = 'Revenda'
-        OnClick = pnl_submenu_produtos_botao_revendaClick
       end
       object Lajotas1: TMenuItem
         Caption = 'Lajotas'
-        OnClick = pnl_submenu_produtos_botao_lajotasClick
       end
       object Isopor1: TMenuItem
         Caption = 'Isopor'
-        OnClick = pnl_submenu_produtos_botao_isoporClick
       end
       object relias1: TMenuItem
         Caption = 'Treli'#231'as'
-        OnClick = pnl_submenu_produtos_botao_trelicasClick
       end
       object Vergalhes1: TMenuItem
         Caption = 'Vergalh'#245'es'
-        OnClick = pnl_submenu_produtos_botao_vergalhoesClick
       end
       object VigasdeLaje1: TMenuItem
         Caption = 'Vigas de Laje'
-        OnClick = pnl_submenu_produtos_botao_vigasClick
       end
       object Lajes1: TMenuItem
         Caption = 'Lajes'
-        OnClick = pnl_submenu_produtos_botao_lajesClick
       end
       object ConcretoUsinado1: TMenuItem
         Caption = 'Concreto Usinado'
-        OnClick = pnl_submenu_produtos_botao_concretoClick
       end
       object BombadeConcreto1: TMenuItem
         Caption = 'Bomba de Concreto'
-        OnClick = pnl_submenu_produtos_botao_bombaClick
       end
     end
     object Fatutamento1: TMenuItem

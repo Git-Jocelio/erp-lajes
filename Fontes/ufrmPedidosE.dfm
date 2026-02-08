@@ -155,7 +155,7 @@ inherited frmPedidosE: TfrmPedidosE
         Caption = 'Venda'
         OnShow = tbVendaShow
         object Label2: TLabel
-          Left = 281
+          Left = 118
           Top = 6
           Width = 43
           Height = 15
@@ -194,7 +194,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
         end
         object Label10: TLabel
-          Left = 409
+          Left = 253
           Top = 6
           Width = 88
           Height = 15
@@ -207,7 +207,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
         end
         object Label4: TLabel
-          Left = 144
+          Left = 139
           Top = 63
           Width = 103
           Height = 15
@@ -219,21 +219,8 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object Label107: TLabel
-          Left = 108
-          Top = 6
-          Width = 80
-          Height = 15
-          Caption = 'Nosso N'#250'mero'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clSilver
-          Font.Height = -12
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
         object btn_busca_forma_pagto: TSpeedButton
-          Left = 503
+          Left = 529
           Top = 80
           Width = 25
           Height = 25
@@ -267,8 +254,8 @@ inherited frmPedidosE: TfrmPedidosE
           OnClick = btn_busca_forma_pagtoClick
         end
         object lbl_comissao_vendedor_informada: TLabel
-          Left = 534
-          Top = 6
+          Left = 384
+          Top = 8
           Width = 122
           Height = 15
           Caption = 'Comiss'#227'o do Vendedor'
@@ -295,7 +282,7 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 4
         end
         object dtpDataEntrega: TDateTimePicker
-          Left = 143
+          Left = 138
           Top = 82
           Width = 132
           Height = 23
@@ -325,7 +312,7 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 1
         end
         object edt_emissao: TPanel
-          Left = 281
+          Left = 118
           Top = 25
           Width = 122
           Height = 24
@@ -340,7 +327,7 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 2
         end
         object edt_alteracao: TPanel
-          Left = 409
+          Left = 253
           Top = 25
           Width = 120
           Height = 24
@@ -371,8 +358,8 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object pnl_forma_pagto: TPanel
           Left = 281
-          Top = 81
-          Width = 217
+          Top = 82
+          Width = 242
           Height = 24
           BevelKind = bkTile
           BevelOuter = bvNone
@@ -384,22 +371,13 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
           TabOrder = 6
         end
-        object edt_nosso_numero: TEdit
-          Left = 109
-          Top = 25
-          Width = 166
-          Height = 25
-          MaxLength = 20
-          NumbersOnly = True
-          TabOrder = 7
-        end
         object edt_comissao_vendedor_informada: TEdit
-          Left = 535
+          Left = 384
           Top = 25
           Width = 139
           Height = 25
           NumbersOnly = True
-          TabOrder = 8
+          TabOrder = 7
         end
       end
       object tbDestinatario: TTabSheet
@@ -986,7 +964,7 @@ inherited frmPedidosE: TfrmPedidosE
       Width = 1297
       Height = 398
       Cursor = crHandPoint
-      ActivePage = tbs_itens_pedido
+      ActivePage = tbs_comissao_ferrari
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
@@ -1018,6 +996,7 @@ inherited frmPedidosE: TfrmPedidosE
             TitleFont.Height = -13
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            OnDrawColumnCell = dbg_itens_vendaDrawColumnCell
             OnDblClick = pmAlterarItemPedidoClick
             Columns = <
               item

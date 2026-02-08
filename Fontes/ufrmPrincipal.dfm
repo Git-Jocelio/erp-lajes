@@ -416,7 +416,7 @@ object frmPrincipal: TfrmPrincipal
         Left = 76
         Top = 3
         Width = 431
-        Height = 29
+        Height = 25
         Align = alLeft
         Caption = 'IND'#218'STRIA E COM'#201'RCIO DE LAJES TRIUNFO S/A'
         Color = 11711154
@@ -428,7 +428,6 @@ object frmPrincipal: TfrmPrincipal
         ParentColor = False
         ParentFont = False
         Layout = tlCenter
-        ExplicitHeight = 25
       end
       object pnl_barra: TPanel
         Left = 0
@@ -1146,7 +1145,7 @@ object frmPrincipal: TfrmPrincipal
       object Label1: TLabel
         Left = 0
         Top = 429
-        Width = 189
+        Width = 88
         Height = 11
         Align = alBottom
         Alignment = taCenter
@@ -1157,12 +1156,11 @@ object frmPrincipal: TfrmPrincipal
         Font.Name = 'SimSun-ExtB'
         Font.Style = [fsItalic]
         ParentFont = False
-        ExplicitWidth = 88
       end
       object Label2: TLabel
         Left = 0
         Top = 395
-        Width = 189
+        Width = 41
         Height = 17
         Align = alBottom
         Caption = 'IP local'
@@ -1172,12 +1170,11 @@ object frmPrincipal: TfrmPrincipal
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitWidth = 41
       end
       object lbl_ip_local: TLabel
         Left = 0
         Top = 412
-        Width = 189
+        Width = 86
         Height = 17
         Align = alBottom
         Caption = '000.000.000.00'
@@ -1187,7 +1184,6 @@ object frmPrincipal: TfrmPrincipal
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitWidth = 86
       end
       object SpeedButton2: TSpeedButton
         Tag = 7
@@ -1516,12 +1512,10 @@ object frmPrincipal: TfrmPrincipal
     object actArquivo_ProdutosEps: TAction
       Category = 'Arquivo'
       Caption = 'Isopor'
-      OnExecute = actArquivo_ProdutosEpsExecute
     end
     object actArquivo_ProdutosLajotas: TAction
       Category = 'Arquivo'
       Caption = 'Lajotas'
-      OnExecute = actArquivo_ProdutosLajotasExecute
     end
     object actArquino_ProdutosTrelica: TAction
       Category = 'Arquivo'
@@ -1541,7 +1535,6 @@ object frmPrincipal: TfrmPrincipal
     object actArquivo_ProdutosAdicionais: TAction
       Category = 'Arquivo'
       Caption = 'Adicionais'
-      OnExecute = actArquivo_ProdutosAdicionaisExecute
     end
     object actArquivo_ProdutosVigas: TAction
       Category = 'Arquivo'
@@ -1551,7 +1544,6 @@ object frmPrincipal: TfrmPrincipal
     object actArquivo_ProdutosLajes: TAction
       Category = 'Arquivo'
       Caption = 'Lajes'
-      OnExecute = actArquivo_ProdutosLajesExecute
     end
     object actArquivo_Transportadoras: TAction
       Category = 'Arquivo'
@@ -1561,12 +1553,10 @@ object frmPrincipal: TfrmPrincipal
     object actArquivo_Bomba: TAction
       Category = 'Arquivo'
       Caption = 'Bomba de Concreto'
-      OnExecute = actArquivo_BombaExecute
     end
     object actArquivo_Concreto: TAction
       Category = 'Arquivo'
       Caption = 'Concreto Usinado'
-      OnExecute = actArquivo_ConcretoExecute
     end
     object actArquivo_Sair: TAction
       Category = 'Arquivo'

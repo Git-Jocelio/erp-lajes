@@ -9,7 +9,7 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 423
-    ExplicitWidth = 615
+    ExplicitWidth = 423
     inherited lbl_titulo: TLabel
       Width = 423
       Height = 40
@@ -21,10 +21,8 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
   inherited pnDados: TPanel
     Width = 423
     Height = 319
-    ExplicitLeft = -40
-    ExplicitTop = 8
-    ExplicitWidth = 536
-    ExplicitHeight = 317
+    ExplicitWidth = 423
+    ExplicitHeight = 319
     object Bevel2: TBevel
       Left = 5
       Top = 24
@@ -262,8 +260,6 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
       ActivePage = tbs_bomba
       Align = alBottom
       TabOrder = 8
-      ExplicitTop = 224
-      ExplicitWidth = 536
       object tbs_bomba: TTabSheet
         Caption = 'Tipo de Bomba'
         object DBEdit5: TDBEdit
@@ -287,9 +283,6 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
           Height = 71
           Align = alClient
           TabOrder = 0
-          ExplicitTop = 30
-          ExplicitWidth = 281
-          ExplicitHeight = 83
           object Label20: TLabel
             Left = 7
             Top = 9
@@ -369,8 +362,8 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
   inherited pnRodape: TPanel
     Top = 376
     Width = 423
-    ExplicitTop = 488
-    ExplicitWidth = 615
+    ExplicitTop = 376
+    ExplicitWidth = 423
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
@@ -383,16 +376,7 @@ inherited frmProdutosBombaE: TfrmProdutosBombaE
     Top = 121
   end
   object qryBomba: TFDQuery
-    Left = 312
-    Top = 161
-  end
-  object dsDeptos: TDataSource
-    DataSet = qryDeptos
-    Left = 360
-    Top = 129
-  end
-  object qryDeptos: TFDQuery
-    Left = 365
-    Top = 173
+    Left = 240
+    Top = 153
   end
 end

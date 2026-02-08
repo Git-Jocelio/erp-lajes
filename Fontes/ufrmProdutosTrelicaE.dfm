@@ -2,37 +2,37 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmProdutosTrelicaE'
-  ClientHeight = 549
-  ClientWidth = 755
+  ClientHeight = 507
+  ClientWidth = 638
   ShowHint = True
-  ExplicitWidth = 761
-  ExplicitHeight = 555
+  ExplicitWidth = 644
+  ExplicitHeight = 513
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 755
-    ExplicitWidth = 745
+    Width = 638
+    ExplicitWidth = 755
     inherited lbl_titulo: TLabel
-      Width = 755
+      Width = 638
       Height = 40
     end
     inherited lbl_sub_titulo: TLabel
-      Width = 755
+      Width = 638
     end
   end
   inherited pnDados: TPanel
-    Width = 755
-    Height = 455
-    ExplicitWidth = 745
-    ExplicitHeight = 422
+    Width = 638
+    Height = 413
+    ExplicitWidth = 755
+    ExplicitHeight = 455
     object GroupBox1: TGroupBox
       Left = 0
       Top = 0
-      Width = 755
+      Width = 638
       Height = 305
       Align = alTop
       Caption = ' Dimens'#245'es'
       TabOrder = 0
-      ExplicitWidth = 745
+      ExplicitWidth = 755
       object Label4: TLabel
         Left = 97
         Top = 115
@@ -50,7 +50,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         FocusControl = edt_sinozoide
       end
       object Label10: TLabel
-        Left = 243
+        Left = 228
         Top = 115
         Width = 42
         Height = 17
@@ -79,39 +79,31 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
       end
       object Label5: TLabel
         Left = 14
-        Top = 170
+        Top = 213
         Width = 103
         Height = 17
         Caption = 'Descri'#231#227'o T'#233'cnica'
       end
-      object Label19: TLabel
-        Left = 11
-        Top = 249
-        Width = 84
-        Height = 17
-        Caption = 'Departamento'
-        FocusControl = edt_id_departamento
-      end
       object Label29: TLabel
         Left = 14
-        Top = 207
+        Top = 250
         Width = 87
         Height = 17
         Caption = 'Nome Fantasia'
       end
       object Label6: TLabel
-        Left = 320
-        Top = 115
+        Left = 228
+        Top = 167
         Width = 128
         Height = 17
         Caption = 'Comprimento em Mts'
         FocusControl = edt_comprimento
       end
       object Image1: TImage
-        Left = 481
-        Top = 164
-        Width = 267
-        Height = 139
+        Left = 374
+        Top = 115
+        Width = 244
+        Height = 158
         Picture.Data = {
           0954506E67496D61676589504E470D0A1A0A0000000D49484452000000DB0000
           007B080200000072FD62F9000000017352474200AECE1CE90000000467414D41
@@ -1071,15 +1063,15 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         Stretch = True
       end
       object Label11: TLabel
-        Left = 481
-        Top = 115
+        Left = 15
+        Top = 167
         Width = 84
         Height = 17
         Caption = 'Tipo de treli'#231'a'
       end
       object DBText1: TDBText
         Left = 15
-        Top = 188
+        Top = 231
         Width = 60
         Height = 17
         AutoSize = True
@@ -1094,7 +1086,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
       end
       object DBText2: TDBText
         Left = 15
-        Top = 230
+        Top = 273
         Width = 60
         Height = 17
         AutoSize = True
@@ -1171,7 +1163,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         ParentFont = False
       end
       object Label18: TLabel
-        Left = 632
+        Left = 288
         Top = 115
         Width = 62
         Height = 17
@@ -1211,7 +1203,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         TabOrder = 4
       end
       object edt_inferior: TDBEdit
-        Left = 243
+        Left = 228
         Top = 133
         Width = 44
         Height = 23
@@ -1249,33 +1241,10 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         ParentFont = False
         TabOrder = 2
       end
-      object edt_id_departamento: TDBEdit
-        Left = 11
-        Top = 265
-        Width = 47
-        Height = 25
-        DataField = 'DEPARTAMENTO_ID'
-        DataSource = ds
-        Enabled = False
-        ReadOnly = True
-        TabOrder = 9
-      end
-      object cbxDepartamento: TDBLookupComboBox
-        Left = 59
-        Top = 265
-        Width = 387
-        Height = 25
-        DataField = 'DEPARTAMENTO_ID'
-        DataSource = ds
-        KeyField = 'ID'
-        ListField = 'NOME'
-        ListSource = dsDeptos
-        TabOrder = 10
-      end
       object edt_comprimento: TDBEdit
-        Left = 320
-        Top = 133
-        Width = 80
+        Left = 228
+        Top = 185
+        Width = 140
         Height = 23
         CharCase = ecUpperCase
         DataField = 'COMPRIMENTO'
@@ -1289,9 +1258,9 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         TabOrder = 6
       end
       object cbx_tipo_trelica: TComboBox
-        Left = 481
-        Top = 133
-        Width = 145
+        Left = 15
+        Top = 185
+        Width = 201
         Height = 22
         Style = csOwnerDrawFixed
         Font.Charset = ANSI_CHARSET
@@ -1320,7 +1289,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         ValueUnchecked = 'N'
       end
       object cbEstoqueControlado: TDBCheckBox
-        Left = 445
+        Left = 475
         Top = 49
         Width = 143
         Height = 17
@@ -1332,7 +1301,7 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         ValueUnchecked = 'N'
       end
       object edt_peso: TDBEdit
-        Left = 632
+        Left = 288
         Top = 133
         Width = 80
         Height = 23
@@ -1351,24 +1320,24 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     object PageControl1: TPageControl
       Left = 0
       Top = 305
-      Width = 755
-      Height = 150
+      Width = 638
+      Height = 108
       ActivePage = tbs_precos
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 745
-      ExplicitHeight = 117
+      ExplicitWidth = 755
+      ExplicitHeight = 150
       object tbs_precos: TTabSheet
         Caption = 'Pre'#231'os'
         object GroupBox3: TGroupBox
           Left = 0
           Top = 0
-          Width = 747
-          Height = 118
+          Width = 630
+          Height = 76
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 737
-          ExplicitHeight = 85
+          ExplicitWidth = 747
+          ExplicitHeight = 118
           object Label7: TLabel
             Left = 14
             Top = 20
@@ -1498,12 +1467,12 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
         object gb_fiscal: TGroupBox
           Left = 0
           Top = 0
-          Width = 747
-          Height = 118
+          Width = 630
+          Height = 76
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 741
-          ExplicitHeight = 86
+          ExplicitWidth = 747
+          ExplicitHeight = 118
           object Label20: TLabel
             Left = 11
             Top = 22
@@ -1581,10 +1550,10 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
     end
   end
   inherited pnRodape: TPanel
-    Top = 512
-    Width = 755
-    ExplicitTop = 479
-    ExplicitWidth = 745
+    Top = 470
+    Width = 638
+    ExplicitTop = 512
+    ExplicitWidth = 755
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
@@ -1599,15 +1568,6 @@ inherited frmProdutosTrelicaE: TfrmProdutosTrelicaE
   inherited ds: TDataSource
     Left = 488
     Top = 9
-  end
-  object dsDeptos: TDataSource
-    DataSet = qryDeptos
-    Left = 520
-    Top = 9
-  end
-  object qryDeptos: TFDQuery
-    Left = 521
-    Top = 37
   end
   object qryTrelica: TFDQuery
     Connection = dmConn.FDConnection

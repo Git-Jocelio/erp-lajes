@@ -12,8 +12,6 @@ uses
 
 type
   TfrmProdutosEpsE = class(TfrmBaseEdicao)
-    dsDeptos: TDataSource;
-    qryDeptos: TFDQuery;
     qryEps: TFDQuery;
     dsEps: TDataSource;
     Label1: TLabel;
@@ -23,7 +21,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edID: TDBText;
     edCadastro: TDBText;
@@ -32,12 +29,10 @@ type
     edDescricao: TDBEdit;
     edCusto: TDBEdit;
     edVenda: TDBEdit;
-    DBEdit19: TDBEdit;
     edFantasia: TDBEdit;
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    cbxDepartamentos: TDBLookupComboBox;
     edPeso: TDBEdit;
     Label9: TLabel;
     edPrecoVendedor: TDBEdit;
@@ -69,6 +64,7 @@ type
     FTitulo: string;
     FTabela: string;
     FCodigo: integer;
+    FDepartamento_id: integer;
 
     procedure Salvar();
 
@@ -84,9 +80,10 @@ type
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo :integer);
   procedure Excluir(ACodigo :integer);
 
@@ -95,7 +92,7 @@ implementation
 
 uses uBiblioteca;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm : TfrmProdutosEpsE;
 begin
@@ -103,6 +100,7 @@ begin
   try
     loForm.Operacao := uTipos.opIncluir;
     loForm.Codigo   := 0;
+    loform.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -150,11 +148,7 @@ end;
 procedure TfrmProdutosEpsE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-  //
   qryEps.Open('select * from PRODUTOS_EPS where PRODUTO_ID =:ID');
-
 end;
 
 procedure TfrmProdutosEpsE.FormCreate(Sender: TObject);
@@ -162,11 +156,7 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.Tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
   qryEps.Connection := self.Conexao;
-
 end;
 
 procedure TfrmProdutosEpsE.FormShow(Sender: TObject);
@@ -209,6 +199,7 @@ begin
                        qry.FieldByName('TX_ICMS').AsFloat := 0;
                        qry.FieldByName('TX_IPI').AsFloat := 0;
                        // identifiação do produto
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;
                        qry.FieldByName('REVENDA').AsString := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'S';
                        qry.FieldByName('AGREGADO').AsString := 'N';
@@ -353,13 +344,6 @@ begin
   begin
     ShowMessage('Informe um nome de fantasia');
     edFantasia.SetFocus;
-    exit;
-  end;
-
-  if cbxDepartamentos.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
-    cbxDepartamentos.SetFocus;
     exit;
   end;
 

@@ -2867,6 +2867,39 @@ begin
       prc_atualiza_versao_do_banco('2026.98.175');
     end;
 
+    // 07/02/2026 PRODUTOS_VIGA_CONFIG_MAO_OBRA
+    try
+      loqry.SQL.Clear;
+      loqry.Open('select ID from PRODUTOS_VIGA_CONFIG_MAO_OBRA ');
+      loqry.Close;
+    Except
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' CREATE TABLE PRODUTOS_VIGA_CONFIG_MAO_OBRA (   ') ;
+      loqry.SQL.Add('     ID                       INTEGER NOT NULL, ') ;
+      loqry.SQL.Add('     PRODUTOS_VIGA_CONFIG_ID  INTEGER, ') ;
+      loqry.SQL.Add('     MAO_OBRA_ID              INTEGER, ') ;
+      loqry.SQL.Add('     VALOR                    DECIMAL(15,2), ') ;
+      loqry.SQL.Add('     CADASTRADO_EM            DATE ') ;
+      loqry.SQL.Add('  );') ;
+      loqry.ExecSQL;
+      cria_mensagem_no_memo( memo,'tabela " PRODUTOS_VIGA_CONFIG_MAO_OBRA " ');
+
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' ALTER TABLE PRODUTOS_VIGA_CONFIG_MAO_OBRA ADD CONSTRAINT PK_PRODUTOS_VIGA_CONFIG_MAO_OBR PRIMARY KEY (ID); ') ;
+      loqry.ExecSQL;
+
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' ALTER TABLE PRODUTOS_VIGA_CONFIG_MAO_OBRA ADD CONSTRAINT FK_PROD_VIGA_CONFIG FOREIGN KEY (PRODUTOS_VIGA_CONFIG_ID) REFERENCES PRODUTOS_VIGA_CONFIG (ID); ') ;
+      loqry.ExecSQL;
+
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' ALTER TABLE PRODUTOS_VIGA_CONFIG_MAO_OBRA ADD CONSTRAINT FK_PROD_VIGA_MAO_OBR FOREIGN KEY (MAO_OBRA_ID) REFERENCES MAO_OBRA (ID); ') ;
+      loqry.ExecSQL;
+
+      cria_mensagem_no_memo( memo,'tabela " PRODUTOS_VIGA_CONFIG_MAO_OBRA " ');
+      prc_atualiza_versao_do_banco('2026.99.175');
+    end;
+
 
 
   finally

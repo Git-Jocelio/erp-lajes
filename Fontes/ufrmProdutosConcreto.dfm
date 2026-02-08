@@ -2,7 +2,7 @@ inherited frmProdutosConcreto: TfrmProdutosConcreto
   Caption = 'frmProdutosConcreto'
   ClientHeight = 441
   ClientWidth = 984
-  Position = poDesigned
+  Position = poMainFormCenter
   ExplicitWidth = 984
   ExplicitHeight = 441
   TextHeight = 15
@@ -137,6 +137,9 @@ inherited frmProdutosConcreto: TfrmProdutosConcreto
         inherited pnl_resultado: TPanel
           Width = 936
           ExplicitWidth = 936
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -150,6 +153,7 @@ inherited frmProdutosConcreto: TfrmProdutosConcreto
     end
     inherited lbl_titulo: TLabel
       Width = 318
+      Height = 56
       Caption = 'CONSULTA CONCRETO USINADO'
       ExplicitWidth = 318
     end

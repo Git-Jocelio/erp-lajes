@@ -20,7 +20,6 @@ type
     Label5: TLabel;
     edDescricao: TDBEdit;
     Label6: TLabel;
-    Label19: TLabel;
     Label29: TLabel;
     edFantasia: TDBEdit;
     edID: TDBText;
@@ -29,9 +28,6 @@ type
     cbAtivo: TDBCheckBox;
     cbEstoqueControlado: TDBCheckBox;
     cbxUnidade: TDBComboBox;
-    qryDeptos: TFDQuery;
-    cbxDepartamento: TDBLookupComboBox;
-    dsDeptos: TDataSource;
     Label28: TLabel;
     edPeso: TDBEdit;
     DBCheckBox1: TDBCheckBox;
@@ -154,6 +150,7 @@ type
     FTitulo: string;
     FTabela: string;
     Fp_codigo: integer;
+    FDepartamento_id: integer;
 
     procedure Salvar();
     procedure prc_incluir_alterar(operacao: TOperacao; v_tabela: string);
@@ -168,13 +165,14 @@ type
     function valida: boolean;
 
   public
-    property p_codigo   :integer read Fp_codigo write Fp_codigo;
+    property p_codigo :integer read Fp_codigo write Fp_codigo;
     property Operacao :uTipos.TOperacao read FOperacao write FOperacao;
     property Tabela   :string read FTabela write FTabela;
     property Titulo   :string read FTitulo write FTitulo;
+    property departamento_id: integer read FDepartamento_id write FDepartamento_id;
   end;
 
-  procedure Incluir;
+  procedure Incluir(departamento_id: integer);
   procedure Alterar(ACodigo :integer);
   procedure Excluir(ACodigo :integer);
 
@@ -182,14 +180,15 @@ implementation
 
 uses uBiblioteca, udmConn;
 
-procedure Incluir;
+procedure Incluir(departamento_id: integer);
 var
   loForm : TfrmProdutosE;
 begin
   loForm := TfrmProdutosE.Create(Application);
   try
     loForm.Operacao := uTipos.opIncluir;
-    loForm.p_codigo   := 0;
+    loForm.p_codigo := 0;
+    loForm.departamento_id := departamento_id;
     loForm.ShowModal;
   finally
     FreeAndNil(loForm);
@@ -303,9 +302,6 @@ end;
 procedure TfrmProdutosE.Componentes;
 begin
   qry.Open('select * from '+ self.Tabela +' where ID = :ID');
-  //
-  qryDeptos.Open('select * from DEPARTAMENTOS order by NOME');
-
   dbg_condicoes_pagto.Columns[1].Visible := false; // produto_id
   dbg_condicoes_pagto.Columns[2].Visible := false; // forma_pagto_id
   dbg_condicoes_pagto.Columns[7].Visible := false; // taxa_parcelamento
@@ -411,9 +407,6 @@ begin
   inherited;
   qry.Connection := self.Conexao;
   self.Tabela := 'PRODUTOS';
-
-  qryDeptos.Connection := self.Conexao;
-
 end;
 
 procedure TfrmProdutosE.FormShow(Sender: TObject);
@@ -439,7 +432,6 @@ begin
                        qry.FieldByName('ESTOQUE_CONTROLADO').AsString := 'N';
                        qry.FieldByName('PRECO_CUSTO').AsFloat := 0;
                        qry.FieldByName('PRECO_VENDA').AsFloat := 0;
-                        qry.FieldByName('DEPARTAMENTO_ID').AsInteger := 1; // REVENDA
                        qry.FieldByName('ESTOQUE_FISICO').AsFloat := 0;
                        qry.FieldByName('PEDIDO_ABERTO').AsFloat := 0;
                        qry.FieldByName('ESTOQUE_DISPONIVEL').AsFloat := 0;
@@ -456,6 +448,7 @@ begin
                        qry.FieldByName('TX_ICMS').AsFloat := 0;
                        qry.FieldByName('TX_IPI').AsFloat := 0;
 
+                       qry.FieldByName('DEPARTAMENTO_ID').AsInteger := departamento_id;
                        qry.FieldByName('REVENDA').AsString := 'S';
                        qry.FieldByName('MATERIA_PRIMA').AsString := 'N';// pega pelo checkBox
                        qry.FieldByName('AGREGADO').AsString := 'N';// pega pelo checkBox
@@ -717,14 +710,6 @@ begin
     edFantasia.SetFocus;
     exit;
   end;
-
-  if cbxDepartamento.Text = '' then
-  begin
-    ShowMessage('Informe um Departamento');
-    edFantasia.SetFocus;
-    exit;
-  end;
-
 
   if ((qry.FieldByName('CUSTO_LIQUIDO').AsFloat <= 0) or
   (qry.FieldByName('CUSTO_LIQUIDO').AsFloat < qry.FieldByName('PRECO_CUSTO').AsFloat))
