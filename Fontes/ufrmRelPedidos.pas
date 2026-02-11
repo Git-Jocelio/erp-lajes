@@ -10,7 +10,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, frxClass, frxDBSet,
   Vcl.StdCtrls, frxExportBaseDialog, frxExportPDF, Vcl.Buttons, Vcl.ExtCtrls,
   Vcl.Imaging.jpeg, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids, Vcl.ExtDlgs,
-  udmConn;
+  udmConn, Vcl.Imaging.pngimage;
 
 type
   TfrmRelPedidos = class(TfrmBaseConexao)
@@ -105,7 +105,7 @@ type
     btn_fechar: TSpeedButton;
     lbl_titulo: TLabel;
     pnl_separa_topo: TPanel;
-    img_relatório: TImage;
+    img_relatorio: TImage;
     btn_imprimir_contrato: TBitBtn;
     frxReport_pedido_contrado: TfrxReport;
     frxDBContrato: TfrxDBDataset;
@@ -144,7 +144,7 @@ type
     procedure btnOrdemProducaoClick(Sender: TObject);
     procedure dsPedido_ItensDataChange(Sender: TObject; Field: TField);
     procedure btn_comissaoClick(Sender: TObject);
-    procedure img_relatórioClick(Sender: TObject);
+    procedure img_relatorioClick(Sender: TObject);
     procedure btn_comissao_ferrariClick(Sender: TObject);
     procedure btn_fecharClick(Sender: TObject);
     procedure btn_imprimir_contratoClick(Sender: TObject);
@@ -181,6 +181,7 @@ type
     procedure changeCdsItensPedido;
     procedure prc_carregar_local_entrega;
     procedure filtrarConcreto(idPedido: integer);
+    procedure prc_buscar_foto;
 
 
     { Private declarations }
@@ -1193,8 +1194,14 @@ begin
   dbg_detalhes.Visible := false;
   img_principal.Align  := alClient;
   qryImagemRelatorio.Open;
-  img_relatório.Picture.LoadFromFile(qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString);
-  //img_principal.Visible  := false;
+
+  if (qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString <> '') then
+    img_relatorio.Picture.LoadFromFile(qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString)
+  else
+  begin
+    ShowMessage('Selecione uma imagem a ser usada no pedido da empresa.');
+    prc_buscar_foto;
+  end;
 
   {Empresa}
   qryEmpresa.Close;
@@ -1268,18 +1275,21 @@ begin
 end;
 
 
-procedure TfrmRelPedidos.img_relatórioClick(Sender: TObject);
+procedure TfrmRelPedidos.img_relatorioClick(Sender: TObject);
 var
   var_endereco: string;
 begin
+  prc_buscar_foto;
+end;
 
+procedure TfrmRelPedidos.prc_buscar_foto;
+var
+  var_endereco: string;
+begin
   if OpenPictureDialog1.Execute then
      begin
        qryImagemRelatorio.Open;
-
        var_endereco := OpenPictureDialog1.FileName;
-
-
 
        {edita a tabela onde contem o endereço da última imagem selecionada}
        qryImagemRelatorio.edit;
@@ -1289,11 +1299,14 @@ begin
        qryImagemRelatorio.post;
 
        {o componente image1 recebe e mostra a nova imagem}
-       img_relatório.Picture.LoadFromFile(var_endereco);
+       if not qryImagemRelatorio.IsEmpty then
+         img_relatorio.Picture.LoadFromFile(var_endereco);
 
        qryImagemRelatorio.Close;
      end;
+
 end;
+
 
 procedure TfrmRelPedidos.limpaCds(cds: TFDMemTable);
 begin

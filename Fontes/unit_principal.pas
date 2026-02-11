@@ -1285,7 +1285,8 @@ begin
     loqry.SQL.Add('select IMG_LOGO from EMPRESA');
     loQry.Open;
 
-    img_logo_empresa.Picture.LoadFromFile(loqry.FieldByName('IMG_LOGO').AsString);
+    if not loqry.IsEmpty then
+      img_logo_empresa.Picture.LoadFromFile(loqry.FieldByName('IMG_LOGO').AsString);
 
   finally
     loqry.close;

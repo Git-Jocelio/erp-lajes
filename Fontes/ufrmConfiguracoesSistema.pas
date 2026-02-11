@@ -12,7 +12,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.DBCtrls, uTipos, Vcl.ExtDlgs, uBiblioteca, IniFiles,
-  ufrmContratoVenda ;
+  ufrmContratoVenda, Vcl.Imaging.pngimage ;
 
 type
   TfrmConfiguracoesSistema = class(TfrmBaseEdicao)
@@ -34,7 +34,7 @@ type
     edt_empresa: TEdit;
     Label7: TLabel;
     edt_pedido_relatorios_img_pedido: TEdit;
-    Image1: TImage;
+    img_logo: TImage;
     SpeedButton1: TSpeedButton;
     OpenPictureDialog1: TOpenPictureDialog;
     TabSheet1: TTabSheet;
@@ -243,7 +243,10 @@ begin
 
   {pedido-relatório}
   edt_pedido_relatorios_img_pedido.Text := qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString;
-  Image1.Picture.LoadFromFile(qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString);
+
+  if (qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString <> '') then
+    img_logo.Picture.LoadFromFile(qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString);
+
   cb_mostrar_botao_contrato.Checked := qry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
   cb_mostrar_botao_comissao.Checked := qry.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'S';
   cb_mostrar_qtde_laje_ordem_entrega.Checked := qry.FieldByName('PED_REL_MOSTRAR_QTDE_LAJE').AsString = 'S';
@@ -404,7 +407,7 @@ begin
    if OpenPictureDialog1.Execute then
    begin
      v_endereco := OpenPictureDialog1.FileName;
-     Image1.Picture.loadfromfile( v_endereco);
+     img_logo.Picture.loadfromfile( v_endereco);
      edt_pedido_relatorios_img_pedido.Text := v_endereco ;
    end;
 end;

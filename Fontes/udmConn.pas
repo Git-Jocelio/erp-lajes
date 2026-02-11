@@ -172,7 +172,9 @@ const
   //versao_app = 171;   // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
   //versao_app = 172;   // 28/01/2026 valor de venda no rel totais
   //versao_app = 173;   // 29/01/2026 incluido no relatorio de produção telefones dos clientes
-  versao_app = 174;     // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
+  //versao_app = 174;     // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
+  //versao_app = 175;     // 07/02/2026 menu categoria
+  versao_app = 176;     // 11/02/2026 retirada no bugs ao carregar foto
 
 
 var
