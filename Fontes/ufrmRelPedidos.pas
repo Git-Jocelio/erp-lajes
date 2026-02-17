@@ -105,7 +105,6 @@ type
     btn_fechar: TSpeedButton;
     lbl_titulo: TLabel;
     pnl_separa_topo: TPanel;
-    img_relatorio: TImage;
     btn_imprimir_contrato: TBitBtn;
     frxReport_pedido_contrado: TfrxReport;
     frxDBContrato: TfrxDBDataset;
@@ -144,7 +143,6 @@ type
     procedure btnOrdemProducaoClick(Sender: TObject);
     procedure dsPedido_ItensDataChange(Sender: TObject; Field: TField);
     procedure btn_comissaoClick(Sender: TObject);
-    procedure img_relatorioClick(Sender: TObject);
     procedure btn_comissao_ferrariClick(Sender: TObject);
     procedure btn_fecharClick(Sender: TObject);
     procedure btn_imprimir_contratoClick(Sender: TObject);
@@ -157,6 +155,7 @@ type
     FsituacaoPedido: string;
     FDataEntrega: string;
     FOpcaoSituacao: string;
+    FLogoTipo: string;
 
     procedure addItem(tabela: string; id, codigo: integer; descricao: string;
                       qtde: double; unidade:string; grupo,itemLaje, altura, comprimento: integer);
@@ -181,7 +180,6 @@ type
     procedure changeCdsItensPedido;
     procedure prc_carregar_local_entrega;
     procedure filtrarConcreto(idPedido: integer);
-    procedure prc_buscar_foto;
 
 
     { Private declarations }
@@ -193,6 +191,7 @@ type
     property dataEntrega: string read FDataEntrega write FDataEntrega;
 
     property opcaoSituacao: string read FOpcaoSituacao write FOpcaoSituacao;
+    property logoTipo: string read FLogoTipo write FLogoTipo;
 
 end;
 
@@ -243,7 +242,7 @@ var
   detailData: TfrxDetailData;
   loqry : TFDQuery;
   opcao : string;
-
+  Picture: TfrxPictureView;
 begin
   inherited;
   OPCAO := '1';
@@ -268,15 +267,7 @@ begin
   prc_carregar_local_entrega;
   ConfgQrys;
   carregarCds(false);
-(*
-  //desligo o detail caso não haja reforcos na viga
-  detailData := TfrxDetailData(frxReportOrdemEntrega.FindComponent('detaildata1'));
-  if detailData<> nil then
-  begin
-    if cdsFerragens.IsEmpty then
-      detailData.DataSet := nil;
-  end;
-*)
+
   {aqui decide-se se imprime a ordem de entrega com ou sem cabeçalho}
   try
     loqry := TFDQuery.Create(application);
@@ -292,8 +283,16 @@ begin
         if cdsFerragens.IsEmpty then
           detailData.DataSet := nil;
       end;
+
+      //carregar imagem
+      Picture := TfrxPictureView(frxReportOrdemEntrega.FindObject('Picture1'));
+      if FileExists(logoTipo) then
+        Picture.Picture.LoadFromFile(logoTipo)
+      else
+        Picture.Picture := nil;
+
       {exibe o formulario}
-      frxReportOrdemEntrega.ShowReport()
+      frxReportOrdemEntrega.ShowReport;
     end else
     if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO').AsString = 'N' then
     begin
@@ -342,6 +341,7 @@ end;
 procedure TfrmRelPedidos.btnOrdemProducaoClick(Sender: TObject);
 var
   detailData: TfrxDetailData;
+  Picture: TfrxPictureView;
 begin
   inherited;
   // passo situação do pedido = 1( somento pedido ABERTO )
@@ -366,6 +366,14 @@ begin
     // detailData.DataSet := cdsFerragens;
 
   end;
+
+  // carregar imagem
+  Picture := TfrxPictureView(frxReportOrdemProducao.FindObject('Picture1'));
+  if FileExists(logoTipo) then
+    Picture.Picture.LoadFromFile(logoTipo)
+  else
+    Picture.Picture := nil;
+
   {Imprime ordem de produção vigas SEM adicionais}
   frxReportOrdemProducao.ShowReport();
 
@@ -411,25 +419,46 @@ begin
 end;
 
 procedure TfrmRelPedidos.btn_pedido_contratoClick(Sender: TObject);
+  var
+    Picture: TfrxPictureView;
 begin
   inherited;
     prc_carregar_local_entrega;
     filtrarItensPedido(Codigo);
+
+    // carregar imagem
+    Picture := TfrxPictureView(frxContratoEditavel.FindObject('Picture1'));
+    if FileExists(logoTipo) then
+      Picture.Picture.LoadFromFile(logoTipo)
+    else
+      Picture.Picture := nil;
 
     frxContratoEditavel.ShowReport;
 
 end;
 
 procedure TfrmRelPedidos.btnConcretoClick(Sender: TObject);
+  var
+    Picture: TfrxPictureView;
 begin
   inherited;
   prc_carregar_local_entrega;
   filtrarConcreto(Codigo);
+
+  // carregar imagem
+  Picture := TfrxPictureView(frxReportConcreto.FindObject('Picture1'));
+  if FileExists(logoTipo) then
+    Picture.Picture.LoadFromFile(logoTipo)
+  else
+    Picture.Picture := nil;
+
   frxReportConcreto.ShowReport();
 
 end;
 
 procedure TfrmRelPedidos.btn_comissaoClick(Sender: TObject);
+  var
+    Picture: TfrxPictureView;
 begin
   inherited;
   prc_carregar_local_entrega;
@@ -443,7 +472,13 @@ begin
   qry_comissoes_despesas.ParamByName('PEDIDO_ID').AsInteger := Codigo;
   qry_comissoes_despesas.Open();
 
- // ShowMessage('COMISSAO_VENDEDOR ' + FormatFloat('0.00', qry.FieldByName('COMISSAO_VENDEDOR').AsFloat));
+  // carregar imagem
+  Picture := TfrxPictureView(frxReportComissoes.FindObject('Picture1'));
+  if FileExists(logoTipo) then
+    Picture.Picture.LoadFromFile(logoTipo)
+  else
+    Picture.Picture := nil;
+
   frxReportComissoes.ShowReport;
 end;
 
@@ -472,8 +507,9 @@ begin
 end;
 
 procedure TfrmRelPedidos.btn_imprimir_contratoClick(Sender: TObject);
-var
- opcao : string;
+  var
+    opcao : string;
+    Picture: TfrxPictureView;
 begin
   inherited;
 
@@ -485,10 +521,25 @@ begin
   begin
     prc_carregar_local_entrega;
     filtrarItensPedido(Codigo);
+
+    // carregar imagem
+    Picture := TfrxPictureView(frxReport_pedido_contrado.FindObject('Picture1'));
+    if FileExists(logoTipo) then
+      Picture.Picture.LoadFromFile(logoTipo)
+    else
+      Picture.Picture := nil;
+
     frxReport_pedido_contrado.ShowReport();
   end
   else if opcao = '2' then
   begin
+    // carregar imagem
+    Picture := TfrxPictureView(frxReportContrato.FindObject('Picture1'));
+    if FileExists(logoTipo) then
+      Picture.Picture.LoadFromFile(logoTipo)
+    else
+      Picture.Picture := nil;
+
     frxReportContrato.ShowReport();
   end else
     criarmensagem('ERRO','DIGITE UM OPÇÃO VÁLIDA. EX. "1" ou "2"');
@@ -902,7 +953,6 @@ procedure TfrmRelPedidos.BuscarItensDaLaje(item: integer);
 var
   grupo,item_de_laje, altura: integer;
 begin
-    //ShowMessage('é uma laje, buscar pedido : ' + inttostr(codigo) + ' item : ' + inttostr(item) );
     {ITENS DA LAJE E ADICIONAIS DAS VIGAS SE HOUVER}
 
     grupo        := 0;
@@ -919,19 +969,16 @@ begin
       if eViga(qryItensLaje.FieldByName('CODIGO').AsInteger) then
       begin
         altura := qryAux.FieldByName('TRELICA_ALTURA').AsInteger;
-        //comprimento := qryAux.FieldByName('COMPRIMENTO').AsInteger * -1;
       end;
 
       if eLajota(qryItensLaje.FieldByName('CODIGO').AsInteger) then
       begin
         altura := qryAux.FieldByName('ALTURA').AsInteger +1;
-        //comprimento := -1;
       end;
 
       if eIsopor(qryItensLaje.FieldByName('CODIGO').AsInteger) then
       begin
         altura := qryAux.FieldByName('ALTURA').AsInteger +1;
-        //comprimento := -1;
       end;
 
       addItem(
@@ -955,13 +1002,11 @@ begin
         qryFerragens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
         qryFerragens.ParamByName('TABELA').AsString     := 'PEDIDOS_ITENS_LAJE';
         qryFerragens.ParamByName('TABELA_ID').AsInteger := qryItensLaje.FieldByName('ID').AsInteger;
-        //ShowMessage(qryReforcoViga.SQL.Text);
         qryFerragens.open;
         qryFerragens.First;
         while not qryFerragens.Eof do
         begin
           addCds(
-               //cdsReforcoViga,
                cdsFerragens,
                qryFerragens.FieldByName('TABELA_ID').AsInteger,
                Codigo,
@@ -992,13 +1037,11 @@ procedure TfrmRelPedidos.btnImprimePedidoClick(Sender: TObject);
 var
   loqry: TFDQuery;
   opcao : string;
-
+  Picture: TfrxPictureView;
 begin
   inherited;
   prc_carregar_local_entrega;
   filtrarItensPedido(Codigo);
-
-
 
   {aqui decide-se se imprime a ordem de entrega com ou sem cabeçalho}
   try
@@ -1008,6 +1051,13 @@ begin
     loqry.Open;
     if loqry.FieldByName('PED_REL_MOSTRAR_CABECALHO_PED').AsString = 'S' then
     begin
+      // carregar imagem
+      Picture := TfrxPictureView(frxReportPedido.FindObject('Picture1'));
+      if FileExists(logoTipo) then
+        Picture.Picture.LoadFromFile(logoTipo)
+      else
+        Picture.Picture := nil;
+
       frxReportPedido.ShowReport();
 
     end else
@@ -1195,13 +1245,6 @@ begin
   img_principal.Align  := alClient;
   qryImagemRelatorio.Open;
 
-  if (qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString <> '') then
-    img_relatorio.Picture.LoadFromFile(qryImagemRelatorio.FieldByName('rel_pedido_img_topo').AsString)
-  else
-  begin
-    ShowMessage('Selecione uma imagem a ser usada no pedido da empresa.');
-    prc_buscar_foto;
-  end;
 
   {Empresa}
   qryEmpresa.Close;
@@ -1209,11 +1252,11 @@ begin
   qryEmpresa.SQL.Add('select P.*, E.*  from PESSOAS P, EMPRESA E where E.PESSOA_ID = P.ID');
   qryEmpresa.Open;
 
+  logoTipo := qryEmpresa.FieldByName('img_logo').AsString;
+
   {Pedido}
   qry.Close;
   qry.SQL.Clear;
-  //qry.SQL.Add('select P.*, P.VALOR_TOTAL_PEDIDO * 0.5 /100 AS COMISSAO_ADM  from PEDIDOS P where P.ID = :ID');
-  //qry.SQL.Add('select P.*, P.VALOR_TOTAL_PEDIDO * V.COMISSAO_ADM /100 AS COMISSAO_ADM, V.COMISSAO_VENDEDOR  from PEDIDOS P, VENDEDORES V where P.VENDEDOR_ID = V.PESSOA_ID and P.ID = :ID');
   qry.SQL.Add('select                                                     ');
   qry.SQL.Add('P.*,F.DESCRICAO,                                           ');
   qry.SQL.Add('P.VALOR_TOTAL_PEDIDO * V.COMISSAO_ADM /100 AS COMISSAO_ADM,');
@@ -1275,70 +1318,12 @@ begin
 end;
 
 
-procedure TfrmRelPedidos.img_relatorioClick(Sender: TObject);
-var
-  var_endereco: string;
-begin
-  prc_buscar_foto;
-end;
-
-procedure TfrmRelPedidos.prc_buscar_foto;
-var
-  var_endereco: string;
-begin
-  if OpenPictureDialog1.Execute then
-     begin
-       qryImagemRelatorio.Open;
-       var_endereco := OpenPictureDialog1.FileName;
-
-       {edita a tabela onde contem o endereço da última imagem selecionada}
-       qryImagemRelatorio.edit;
-       {recebe o novo endereço}
-       qryImagemRelatorio.FieldByName('rel_pedido_img_topo').asstring:= var_endereco;
-       {grava a alteração}
-       qryImagemRelatorio.post;
-
-       {o componente image1 recebe e mostra a nova imagem}
-       if not qryImagemRelatorio.IsEmpty then
-         img_relatorio.Picture.LoadFromFile(var_endereco);
-
-       qryImagemRelatorio.Close;
-     end;
-
-end;
-
-
 procedure TfrmRelPedidos.limpaCds(cds: TFDMemTable);
 begin
   cds.First;
   while not cds.Eof do cds.Delete;
 end;
 
-(*
-procedure TfrmRelPedidos.configurarQrys;
-begin
-  qryPedido_Itens.Connection := Conexao;
-  {Itens do pedido}
-  qryPedido_itens.SQL.Clear;
-  qryPedido_itens.SQL.Add('select ');
-  qryPedido_itens.SQL.Add(' PI.ID , ');
-  qryPedido_itens.SQL.Add(' PED.NOSSO_NUMERO , ');
-  qryPedido_itens.SQL.Add(' PI.PRODUTO_ID, ');
-  qryPedido_itens.SQL.Add(' P.NOME_FANTASIA, ');
-  qryPedido_itens.SQL.Add(' P.UNIDADE, ');
-  qryPedido_itens.SQL.Add(' PI.QTDE ');
-  qryPedido_itens.SQL.Add('from ');
-  qryPedido_itens.SQL.Add( ' PEDIDOS_ITENS PI, PEDIDOS PED, ');
-  qryPedido_itens.SQL.Add(' PRODUTOS P ');
-  qryPedido_itens.SQL.Add('where ');
-  qryPedido_itens.SQL.Add(' P.ID = PI.PRODUTO_ID and ');
-  qryPedido_itens.SQL.Add(' P.ID = PI.PRODUTO_ID and PI.PEDIDO_ID = PED.ID and ');
-  qryPedido_itens.SQL.Add(' P.REFORCO_DE_VIGA = ' + QuotedStr('N') + ' and ');
-  qryPedido_itens.SQL.Add(' PED.ID =:PEDIDO_ID');
-  qryPedido_itens.ParamByName('PEDIDO_ID').AsInteger := Codigo;
-  qryPedido_itens.Open();
-end;
-*)
 procedure TfrmRelPedidos.criarCds(cds: TFDMemTable);
 var
   Campos : TField;

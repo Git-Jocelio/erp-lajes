@@ -36,7 +36,6 @@ object form_principal: Tform_principal
       Top = 3
       Width = 89
       Height = 58
-      Hint = 'Selecione uma imagem a ser usada como logo tipo da empresa'
       Margins.Left = 10
       Align = alLeft
       Center = True
@@ -161,9 +160,7 @@ object form_principal: Tform_principal
         FEFA5F9A028CFE9B2AE0611254EBBEEABFA9FA35CC084028D8E83F32337940C2
         74A89421CED430A8AF92347A55C7FF15807C0D2D0E10A7C501E2B438409C1607
         88D3FE032A9FA5F8F466C19C0000000049454E44AE426082}
-      ShowHint = True
-      Stretch = True
-      OnDblClick = img_logo_empresaDblClick
+      ShowHint = False
       ExplicitLeft = 18
       ExplicitTop = 4
     end

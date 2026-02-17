@@ -1429,9 +1429,7 @@
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
-      
-        '  picture1.Picture.LoadFromFile ( <imagem."PEDIDO_RELATORIOS_LOG' +
-        'O_PEDIDO">  );  '
+      '   '
       'end.')
     Left = 656
     Top = 8

@@ -630,13 +630,25 @@ begin
 end;
 
 procedure TfrmPedidosTotais.btn_rel_prod_vendidosClick(Sender: TObject);
+  var
+    Picture: TfrxPictureView;
+    logoTipo : string;
 begin
   inherited;
   qryempresa.Connection := conexao;
   qryEmpresa.Active := TRUE;
+  logoTipo := qryEmpresa.FieldByName('img_logo').AsString;
 
   frx_rel_vendas.Variables['DATA_INICIO'] := SeSenao(p_emissao_ini <> '-1', QuotedStr( p_emissao_ini ), QuotedStr( p_contabil_ini ));
   frx_rel_vendas.Variables['DATA_FIM']    :=SeSenao(p_emissao_fim <> '-1', QuotedStr( p_emissao_fim ), QuotedStr( p_contabil_fim ));
+
+  // carregar imagem
+  Picture := TfrxPictureView(frx_rel_vendas.FindObject('Picture1'));
+  if FileExists(logoTipo) then
+    Picture.Picture.LoadFromFile(logoTipo)
+  else
+    Picture.Picture := nil;
+
   frx_rel_vendas.ShowReport;
 end;
 

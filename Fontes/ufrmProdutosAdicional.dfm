@@ -2,6 +2,7 @@ inherited frmProdutosAdicional: TfrmProdutosAdicional
   Caption = 'frmProdutosAdicional'
   ClientHeight = 441
   ClientWidth = 1055
+  Position = poMainFormCenter
   ExplicitWidth = 1055
   ExplicitHeight = 441
   TextHeight = 15

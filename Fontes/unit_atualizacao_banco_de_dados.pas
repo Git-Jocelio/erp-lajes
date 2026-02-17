@@ -2900,7 +2900,74 @@ begin
       prc_atualiza_versao_do_banco('2026.99.175');
     end;
 
+    // DEPARTAMENTOS
+    try
+      loqry.SQL.Clear;
+      loqry.Open('select DESCRICAO from DEPARTAMENTOS ');
+    except
+      // add descricao
+      loqry.SQL.Clear;
+      loqry.SQL.ADD('alter table departamentos add DESCRICAO VARCHAR(150) ');
+      loqry.ExecSQL;
 
+      // add FORMULARIO
+      loqry.SQL.Clear;
+      loqry.SQL.ADD('alter table departamentos add FORMULARIO VARCHAR(100) ');
+      loqry.ExecSQL;
+
+      // inserir conteudo em descricao e formulario
+      loqry.SQL.Clear;
+      loqry.SQL.ADD('update departamentos set descricao = :descricao, formulario =:formulario where id =:id');
+
+      loqry.ParamByName('descricao').AsString := 'Produtos comprados para revenda. Ex. Telas de aço, Caixa de Luz, Conduites, etc';
+      loqry.ParamByName('formulario').AsString := 'REVENDA';
+      loqry.ParamByName('id').AsInteger := 1;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Barras de ferro usado para reforço de viga e ferragem positiva e negativa';
+      loqry.ParamByName('formulario').AsString := 'ADICIONAL';
+      loqry.ParamByName('id').AsInteger := 2;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Vigas de laje fabricadas na empresa';
+      loqry.ParamByName('formulario').AsString := 'VIGA';
+      loqry.ParamByName('id').AsInteger := 3;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Tipos de bombas de concreto alugadas';
+      loqry.ParamByName('formulario').AsString := 'BOMBA';
+      loqry.ParamByName('id').AsInteger := 4;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Tipos de concreto usinado vendidos';
+      loqry.ParamByName('formulario').AsString := 'CONCRETO';
+      loqry.ParamByName('id').AsInteger := 5;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Isopor que compõe as lajes fabricadas pela empresa';
+      loqry.ParamByName('formulario').AsString := 'ISOPOR';
+      loqry.ParamByName('id').AsInteger := 6;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Tipos de Lajes fabricadas pela empresa';
+      loqry.ParamByName('formulario').AsString := 'LAJE';
+      loqry.ParamByName('id').AsInteger := 7;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Lajotas que compõe as lajes fabricadas pela empresa';
+      loqry.ParamByName('formulario').AsString := 'LAJOTA';
+      loqry.ParamByName('id').AsInteger := 8;
+      loqry.ExecSQL;
+
+      loqry.ParamByName('descricao').AsString := 'Tipos de treliças usadas para a fabricação de lajes  pela empresa';
+      loqry.ParamByName('formulario').AsString := 'TRELICA';
+      loqry.ParamByName('id').AsInteger := 9;
+      loqry.ExecSQL;
+
+      cria_mensagem_no_memo( memo,'tabela " departamentos alterada com sucesso " ');
+      prc_atualiza_versao_do_banco('2026.99.176');
+
+    end;
 
   finally
     freeandNil( loQry );

@@ -319,7 +319,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
                 88D3FE032A9FA5F8F466C19C0000000049454E44AE426082}
               Stretch = True
             end
-            object SpeedButton1: TSpeedButton
+            object btn_buscar_imagem: TSpeedButton
               Left = 558
               Top = 32
               Width = 23
@@ -351,7 +351,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
                 FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
                 6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
                 00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
-              OnClick = SpeedButton1Click
+              OnClick = btn_buscar_imagemClick
             end
             object Label11: TLabel
               Left = 36

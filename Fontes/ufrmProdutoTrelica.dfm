@@ -2,6 +2,7 @@ inherited frmProdutoTrelica: TfrmProdutoTrelica
   Caption = 'frmProdutoTrelica'
   ClientHeight = 441
   ClientWidth = 984
+  Position = poDesktopCenter
   ExplicitWidth = 984
   ExplicitHeight = 441
   TextHeight = 15
@@ -140,6 +141,9 @@ inherited frmProdutoTrelica: TfrmProdutoTrelica
         inherited pnl_resultado: TPanel
           Width = 936
           ExplicitWidth = 936
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -153,6 +157,7 @@ inherited frmProdutoTrelica: TfrmProdutoTrelica
     end
     inherited lbl_titulo: TLabel
       Width = 200
+      Height = 56
       Caption = 'CONSULTA TRELI'#199'AS'
       ExplicitWidth = 200
     end

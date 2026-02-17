@@ -35,7 +35,7 @@ type
     Label7: TLabel;
     edt_pedido_relatorios_img_pedido: TEdit;
     img_logo: TImage;
-    SpeedButton1: TSpeedButton;
+    btn_buscar_imagem: TSpeedButton;
     OpenPictureDialog1: TOpenPictureDialog;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -88,7 +88,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btn_buscar_imagemClick(Sender: TObject);
     procedure edt_custos_lajes_vendedorKeyPress(Sender: TObject; var Key: Char);
     procedure edt_custos_lajes_vendedorExit(Sender: TObject);
     procedure lbl_tituloDblClick(Sender: TObject);
@@ -242,10 +242,25 @@ begin
   cbx_bomba_concreto.KeyValue    := qry.FieldByName('PEDIDO_BOMBA_CONCRETO').AsInteger;
 
   {pedido-relatório}
-  edt_pedido_relatorios_img_pedido.Text := qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString;
+  // centralizar o logotipo usado no projeto na tabela empresa
+  //edt_pedido_relatorios_img_pedido.Text := qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString;
+  //if (qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString <> '') then
+  //  img_logo.Picture.LoadFromFile(qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString);
+  try
+    loqry := TFDQuery.Create(nil);
+    loqry.Connection := conexao;
+    loqry.Open('select IMG_LOGO from empresa');
 
-  if (qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString <> '') then
-    img_logo.Picture.LoadFromFile(qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString);
+    if (loqry.FieldByName('IMG_LOGO').AsString <> '') then
+    begin
+      edt_pedido_relatorios_img_pedido.Text := loqry.FieldByName('IMG_LOGO').AsString;
+      img_logo.Picture.LoadFromFile(loqry.FieldByName('IMG_LOGO').AsString);
+    end;
+
+  finally
+     freeandnil(loqry);
+  end;
+
 
   cb_mostrar_botao_contrato.Checked := qry.FieldByName('PED_REL_MOSTRAR_BTN_CONTRATO').AsString = 'S';
   cb_mostrar_botao_comissao.Checked := qry.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'S';
@@ -398,7 +413,7 @@ begin
   result := true;
 end;
 
-procedure TfrmConfiguracoesSistema.SpeedButton1Click(Sender: TObject);
+procedure TfrmConfiguracoesSistema.btn_buscar_imagemClick(Sender: TObject);
 var
  v_endereco: string;
 begin
@@ -413,6 +428,8 @@ begin
 end;
 
 procedure TfrmConfiguracoesSistema.prc_incluir_alterar;
+var
+  loqry : TFDQuery;
 begin
   try
     qry.sql.clear;
@@ -500,40 +517,21 @@ begin
 
     qry.ExecSQL;
 
-    (*
-    if edt_empresa.Text = 'TRIUNFO' then
-    begin
-      qry.sql.clear;
+    criarMensagem('AVISO','INFORMAÇÕES ALTERADAS COM SUCESSO.');
 
-      qry.SQL.Add('UPDATE                    ');
-      qry.SQL.Add('  COMISSAO_TRIUNFO_CONFIG ');
-      qry.SQL.Add('SET                       ');
-      qry.SQL.Add('  COMISSAO_VENDEDOR = :COMISSAO_VENDEDOR, ');
-      qry.SQL.Add('  COMISSAO_ADM      = :COMISSAO_ADM       ');
-
-      qry.ParamByName('COMISSAO_VENDEDOR').AsFloat := strtofloatdef(edt_comissão_vendedor.Text,0);
-      qry.ParamByName('COMISSAO_ADM').AsFloat      := strtofloatdef(edt_comissão_adm.Text,0);
-      qry.ExecSQL;
-
+    // salvar endereço da imagem na tabela empresa,
+    // onde decidi centralizar somente nessa tabela
+    try
+      loqry := TFDQuery.Create(nil);
+      loqry.Connection := conexao;
+      loQry.SQl.add('update empresa set img_logo =:img_logo');
+      loQry.ParamByName('img_logo').AsString := edt_pedido_relatorios_img_pedido.Text;
+      loqry.ExecSQL
+    finally
+      FreeAndNil(loqry);
     end;
 
-    if edt_empresa.Text = 'FERRARI' then
-    begin
-      qry.sql.clear;
 
-      qry.SQL.Add('UPDATE                    ');
-      qry.SQL.Add('  COMISSAO_FERRARI_CONFIG ');
-      qry.SQL.Add('SET                       ');
-      qry.SQL.Add('  COMISSAO_VENDEDOR = :COMISSAO_VENDEDOR, ');
-      qry.SQL.Add('  COMISSAO_ABONO    = :COMISSAO_ABONO     ');
-
-      qry.ParamByName('COMISSAO_VENDEDOR').AsFloat := strtofloatdef(edt_comissão_vendedor.Text,0);
-      qry.ParamByName('COMISSAO_ABONO').AsFloat    := strtofloatdef(edt_comissao_abono.Text,0);
-      qry.ExecSQL;
-
-    end;
-    *)
-    criarMensagem('AVISO','INFORMAÇÕES ALTERADAS COM SUCESSO.')
   except
     on E : Exception do
       raise Exception.Create(e.Message + sLineBreak +  sLineBreak + 'ERRO AS SALVAR AS CONFIGURAÇÕES' );

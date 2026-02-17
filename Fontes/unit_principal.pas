@@ -289,8 +289,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-
-    procedure img_logo_empresaDblClick(Sender: TObject);
     procedure pnl_botao_utilitariosClick(Sender: TObject);
     procedure pnl_submenu_utilitarios_botao_notificacoesClick(Sender: TObject);
     procedure Panel1Click(Sender: TObject);
@@ -803,38 +801,6 @@ begin
   form_principal.Close;
 end;
 
-procedure Tform_principal.img_logo_empresaDblClick(Sender: TObject);
-var
-  var_endereco: string;
-  loqry: TFDQuery ;
-begin
-
-  if OpenPictureDialog1.Execute then
-   begin
-     try
-
-       {seleciona uma imagem}
-       var_endereco := OpenPictureDialog1.FileName;
-
-       loqry := TFDQuery.Create(application);
-       loqry.Connection := dmConn.FDConnection;
-       loqry.SQL.Add('update EMPRESA set IMG_LOGO =:img_logo');
-       {recebe o novo endereço}
-       loQry.ParamByName('img_logo').asstring := var_endereco;
-
-       {grava a alteração}
-       loQry.ExecSQL;
-
-       {o componente image1 recebe e mostra a nova imagem}
-       img_logo_empresa.Picture.LoadFromFile(var_endereco);
-     finally
-       loqry.Close;
-       freeandnil( loqry );
-     end;
-
-   end;
-end;
-
 procedure Tform_principal.img_submenu_cadastros_botao_prestadoresClick(
   Sender: TObject);
 begin
@@ -1239,6 +1205,9 @@ procedure Tform_principal.pnl_submenu_sistema_botao_sistemaClick(
   Sender: TObject);
 begin
   ufrmConfiguracoesSistema.prc_executa;
+  { executar prc_componentes, pode ser que o
+   usuario alterou o logotipo da empresa}
+  prc_componentes;
 end;
 
 procedure Tform_principal.pnl_submenu_utilitarios_botao_notificacoesClick(

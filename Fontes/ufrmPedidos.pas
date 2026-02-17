@@ -616,8 +616,20 @@ begin
 end;
 
 procedure TfrmPedidos.menu_imprimirClick(Sender: TObject);
+var
+  Picture: TfrxPictureView;
+  logoTipo : string;
 begin
   inherited;
+  // carregar imagem
+  logoTipo := qryEmpresa.FieldByName('img_logo').AsString;
+  Picture := TfrxPictureView(frx_rel_pedidos.FindObject('Picture1'));
+  if FileExists(logoTipo) then
+    Picture.Picture.LoadFromFile(logoTipo)
+  else
+    Picture.Picture := nil;
+
+
   frx_rel_pedidos.ShowReport;
 end;
 
