@@ -2966,7 +2966,25 @@ begin
 
       cria_mensagem_no_memo( memo,'tabela " departamentos alterada com sucesso " ');
       prc_atualiza_versao_do_banco('2026.99.176');
+    end;
 
+    // 07/03/2026 CONFIGURACOES_SISTEMA
+    try
+      loqry.SQL.Clear;
+      loqry.Open('select QTDE_LAJOTA_M2 from CONFIGURACOES_SISTEMA ');
+      loqry.Close;
+    Except
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' ALTER TABLE CONFIGURACOES_SISTEMA ADD QTDE_LAJOTA_M2 DECIMAL(6,2) ') ;
+      loqry.ExecSQL;
+
+      loqry.SQL.Clear;
+      loqry.SQL.Add(' UPDATE CONFIGURACOES_SISTEMA SET QTDE_LAJOTA_M2 =:QTDE_LAJOTA_M2 ') ;
+      loQry.ParamByName('QTDE_LAJOTA_M2').AsFloat;
+      loqry.ExecSQL;
+
+      cria_mensagem_no_memo( memo,'criado campo " QTDE_LAJOTA_M2 " com sucesso na tabela CONFIGURACOES_SISTEMA');
+      prc_atualiza_versao_do_banco('2026.98.176');
     end;
 
   finally

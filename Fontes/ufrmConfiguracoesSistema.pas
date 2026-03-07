@@ -85,14 +85,21 @@ type
     cb_calculo_laje: TCheckBox;
     cb_pedido_preco_vendedor: TCheckBox;
     BitBtn1: TBitBtn;
-    procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    Label15: TLabel;
+    edt_qtde_lajotas: TEdit;
+
     procedure btnOkClick(Sender: TObject);
     procedure btn_buscar_imagemClick(Sender: TObject);
     procedure edt_custos_lajes_vendedorKeyPress(Sender: TObject; var Key: Char);
     procedure edt_custos_lajes_vendedorExit(Sender: TObject);
     procedure lbl_tituloDblClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure edt_qtde_lajotasExit(Sender: TObject);
+    procedure edt_qtde_lajotasKeyPress(Sender: TObject; var Key: Char);
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
   private
     Fp_tabela: string;
     Fp_eixo_laje: integer;
@@ -215,7 +222,7 @@ begin
 
   lbl_titulo.Caption := 'CONFIGURAÇÕES DO SISTEMA';
   lbl_sub_titulo.Caption := 'Configurações padrões de campos usados no sistema';
-  // cofigurações da maquina local
+  //cofigurações da maquina local
   prc_ler_arquivo_ini;
 end;
 
@@ -243,9 +250,6 @@ begin
 
   {pedido-relatório}
   // centralizar o logotipo usado no projeto na tabela empresa
-  //edt_pedido_relatorios_img_pedido.Text := qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString;
-  //if (qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString <> '') then
-  //  img_logo.Picture.LoadFromFile(qry.FieldByName('PEDIDO_RELATORIOS_LOGO_PEDIDO').AsString);
   try
     loqry := TFDQuery.Create(nil);
     loqry.Connection := conexao;
@@ -281,7 +285,7 @@ begin
 
   cbx_eixo_laje.Text := FormatFloat( '0.00', ( qry.FieldByName('EIXO_LAJE').AsFloat / 1000 ));
   p_eixo_laje :=  qry.FieldByName('EIXO_LAJE').AsInteger;
-
+  edt_qtde_lajotas.Text := FormatFloat( '0.00', (qry.FieldByName('QTDE_LAJOTA_M2').AsFloat));
 
 end;
 
@@ -410,6 +414,14 @@ begin
     exit;
   end;
 
+  if strtointdef(edt_qtde_lajotas.text,0) < 0 then
+  begin
+    criarMensagem('AVISO','INFORME A QUANTIDADE DE LAJOTAS POR METROS QUADRADO.  ');
+    edt_qtde_lajotas.SetFocus;
+    exit;
+  end;
+
+
   result := true;
 end;
 
@@ -427,6 +439,21 @@ begin
    end;
 end;
 
+procedure TfrmConfiguracoesSistema.edt_qtde_lajotasExit(Sender: TObject);
+begin
+  inherited;
+  uBiblioteca.prc_formata_dinheiro(sender);
+
+end;
+
+procedure TfrmConfiguracoesSistema.edt_qtde_lajotasKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  uBiblioteca.prc_somente_numeros(sender, key);
+
+end;
+
 procedure TfrmConfiguracoesSistema.prc_incluir_alterar;
 var
   loqry : TFDQuery;
@@ -435,7 +462,7 @@ begin
     qry.sql.clear;
 
     qry.SQL.Add('UPDATE ');
-    qry.SQL.Add(p_tabela);  // CONFIGURACOES_SISTEMA
+    qry.SQL.Add(p_tabela);  //CONFIGURACOES_SISTEMA
     qry.SQL.Add('SET   ');
 
     {aba geral}
@@ -469,13 +496,14 @@ begin
     {aba custos de laje}
     qry.SQL.Add('  CUSTOS_PERC_VENDEDOR  = :CUSTOS_PERC_VENDEDOR, ');
     qry.SQL.Add('  CUSTOS_PERC_BALCAO    = :CUSTOS_PERC_BALCAO,   ');
-    qry.SQL.Add('  EIXO_LAJE = :EIXO_LAJE ');
+    qry.SQL.Add('  EIXO_LAJE             = :EIXO_LAJE,            ');
+    qry.SQL.Add('  QTDE_LAJOTA_M2        = :QTDE_LAJOTA_M2        ');
 
-    qry.ParamByName('GERAL_EMPRESA').AsString                  := edt_empresa.Text;
-    qry.ParamByName('GERAL_LIBERAR_SISTEMA').AsString          := criptografia(edt_senha_uso_vitalicio.Text);
+    qry.ParamByName('GERAL_EMPRESA').AsString         := edt_empresa.Text;
+    qry.ParamByName('GERAL_LIBERAR_SISTEMA').AsString := criptografia(edt_senha_uso_vitalicio.Text);
 
-    qry.ParamByName('QTDE_FORMA_130').AsInteger                := strtoint( edt_qtde_130.Text );
-    qry.ParamByName('QTDE_FORMA_250').AsInteger                := strtoint( edt_qtde_250.Text );
+    qry.ParamByName('QTDE_FORMA_130').AsInteger       := strtoint( edt_qtde_130.Text );
+    qry.ParamByName('QTDE_FORMA_250').AsInteger       := strtoint( edt_qtde_250.Text );
 
     qry.ParamByName('PEDIDO_CONTA_COMISSAO_VEND').AsInteger := cbx_comissao_vendedor.KeyValue;
     qry.ParamByName('PEDIDO_CONTA_COMISSAO_ADM').AsInteger  := cbx_comissao_adm.KeyValue;
@@ -498,6 +526,8 @@ begin
 
     qry.ParamByName('CUSTOS_PERC_VENDEDOR').AsFloat            := strtofloat(edt_custos_lajes_vendedor.Text);
     qry.ParamByName('CUSTOS_PERC_BALCAO').AsFloat              := strtofloat(edt_custos_lajes_balcao.Text);
+    qry.ParamByName('CUSTOS_PERC_VENDEDOR').AsFloat            := strtofloat(edt_custos_lajes_vendedor.Text);
+    qry.ParamByName('QTDE_LAJOTA_M2').AsFloat                  := strtofloat(edt_qtde_lajotas.Text);
 
     //salva o eixo em milimetros
     if cbx_eixo_laje.ItemIndex = 0 then
@@ -514,7 +544,6 @@ begin
       p_eixo_laje := 500;
 
     qry.ParamByName('EIXO_LAJE').AsInteger := p_eixo_laje;
-
     qry.ExecSQL;
 
     criarMensagem('AVISO','INFORMAÇÕES ALTERADAS COM SUCESSO.');

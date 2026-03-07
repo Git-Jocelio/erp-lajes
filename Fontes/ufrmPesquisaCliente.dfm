@@ -17,9 +17,9 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
     ExplicitWidth = 889
     ExplicitHeight = 73
     object btn_incluir_novo_cliente: TSpeedButton [0]
-      Left = 520
+      Left = 513
       Top = 49
-      Width = 155
+      Width = 154
       Height = 23
       Cursor = crHandPoint
       Caption = 'Cadastrar novo cliente'
@@ -322,14 +322,14 @@ inherited frmPesquisaCliente: TfrmPesquisaCliente
       AlignWithMargins = True
       Left = 15
       Top = 0
-      Width = 224
+      Width = 246
       Height = 56
       Margins.Left = 15
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alLeft
-      Caption = 'PESQUISA DE CLIENTES'
+      Caption = 'SELECIONAR UM CLIENTE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 8404992
       Font.Height = -21

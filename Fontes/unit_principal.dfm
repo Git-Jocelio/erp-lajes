@@ -34,7 +34,7 @@ object form_principal: Tform_principal
       AlignWithMargins = True
       Left = 10
       Top = 3
-      Width = 89
+      Width = 68
       Height = 58
       Margins.Left = 10
       Align = alLeft
@@ -161,8 +161,7 @@ object form_principal: Tform_principal
         74A89421CED430A8AF92347A55C7FF15807C0D2D0E10A7C501E2B438409C1607
         88D3FE032A9FA5F8F466C19C0000000049454E44AE426082}
       ShowHint = False
-      ExplicitLeft = 18
-      ExplicitTop = 4
+      Stretch = True
     end
     object lbl_titulo: TLabel
       Left = 113

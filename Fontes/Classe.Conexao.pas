@@ -59,44 +59,6 @@ end;
 
 function Tconexao.fnc_conectar_banco_dados: boolean;
 begin
-
-
-(*
-
-   Result := false;
-   Fconexao.Params.Clear;
-
-   if fnc_ler_arquivo_ini then
-   begin
-     Result := false;
-     FmsgErro := 'Arquivo INI de configuração não foi encontrado !';
-   end
-   else
-   begin
-
-     Fconexao.Params.Add('server='    + Fservidor);
-     Fconexao.Params.Add('user_Name=' + Flogin);
-     Fconexao.Params.Add('password='  + Fsenha);
-     Fconexao.Params.Add('port='      + Fporta);
-     Fconexao.Params.Add('DataBase='  + Fbase);
-     Fconexao.Params.Add('DriverID='  + 'FB');
-
-     try
-       Fconexao.Connected := True;
-       result := true;
-     except
-       on E: Exception do
-       begin
-         FmsgErro := e.Message + 'Não foi possivel conectar ao banco de dados!';
-         //Result := false;
-       end;
-     end;
-
-   end;
-
-*)
-
-
    Result := false;
    Fconexao.Params.Clear;
 

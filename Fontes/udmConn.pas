@@ -172,9 +172,10 @@ const
   //versao_app = 171;   // 27/01/2026 - retirada de bugs frmProdutosE e frmProdutosLajesE
   //versao_app = 172;   // 28/01/2026 valor de venda no rel totais
   //versao_app = 173;   // 29/01/2026 incluido no relatorio de produção telefones dos clientes
-  //versao_app = 174;     // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
-  //versao_app = 175;     // 07/02/2026 menu categoria
-  versao_app = 176;     // 11/02/2026 retirada no bugs ao carregar foto
+  //versao_app = 174;   // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
+  //versao_app = 175;   // 07/02/2026 menu categoria
+  //versao_app = 176;   // 11/02/2026 retirada no bugs ao carregar foto
+  versao_app = 177;     // 17/02/2026 inclusão do menu categorias
 
 
 var
@@ -217,13 +218,6 @@ end;
 procedure TdmConn.lerIni;
 begin
   try
-    Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'config.ini');
-(*  Conn.Params.Values['database']        := Ini.ReadString(parametros,'database','lajes');
-    Conn.Params.Values['user_name']       := Ini.ReadString(parametros, 'user_name','sysdba');
-    Conn.Params.Values['password']        := Ini.ReadString(parametros, 'password','masterkey');
-    Conn.Params.Add('server=' +           Ini.ReadString(parametros, 'server','127.0.0.1'));
-    Conn.Params.Add('port=' +             Ini.ReadString(parametros, 'port','3050'));
-*)
 
     Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'config.ini');
     FDConnection.Params.Values['database']  := Ini.ReadString(parametros,'database','');
@@ -232,9 +226,8 @@ begin
     FDConnection.Params.Add('server=' + Ini.ReadString(parametros, 'server',''));
     FDConnection.Params.Add('port=' + Ini.ReadString(parametros, 'port','3050'));
 
-
   finally
-   FreeAndNil(ini);
+    FreeAndNil(ini);
   end;
 end;
 

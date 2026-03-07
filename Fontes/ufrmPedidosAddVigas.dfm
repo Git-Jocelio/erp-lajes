@@ -8,7 +8,6 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
   Position = poDesigned
   OnShow = FormShow
   ExplicitLeft = -284
-  ExplicitTop = -213
   ExplicitWidth = 1338
   ExplicitHeight = 760
   TextHeight = 15
@@ -35,7 +34,6 @@ inherited frmPedidosAddVigas: TfrmPedidosAddVigas
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 8
     object pnl_titulo: TPanel
       AlignWithMargins = True
       Left = 3

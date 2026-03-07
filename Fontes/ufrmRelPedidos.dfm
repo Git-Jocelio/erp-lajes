@@ -409,7 +409,6 @@ inherited frmRelPedidos: TfrmRelPedidos
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitLeft = 96
       ExplicitHeight = 30
     end
     object pnl_separa_topo: TPanel
@@ -3773,13 +3772,12 @@ inherited frmRelPedidos: TfrmRelPedidos
           Frame.Typ = []
           Memo.UTF8W = (
             
-              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"], ' +
-              '[local_entrega."BAIRRO"], [local_entrega."CIDADE"]'
+              'Entrega : [local_entrega."ENDERECO"] [local_entrega."NUMERO"] [l' +
+              'ocal_entrega."BAIRRO"] [local_entrega."CIDADE"] CEP. [local_entr' +
+              'ega."CEP"]'
             'OBS : [local_entrega."COMPLEMENTO"]')
           ParentFont = False
           Formats = <
-            item
-            end
             item
             end
             item
@@ -3868,9 +3866,13 @@ inherited frmRelPedidos: TfrmRelPedidos
           Memo.UTF8W = (
             
               '[Cliente."ENDERECO"]  N. [Cliente."NUMERO"] Bairro  : [Cliente."' +
-              'BAIRRO"] Cidade : [Cliente."CIDADE"]')
+              'BAIRRO"] Cidade : [Cliente."CIDADE"] CEP: [Cliente."CEP"]')
           ParentFont = False
           Formats = <
+            item
+            end
+            item
+            end
             item
             end
             item
@@ -12958,11 +12960,14 @@ inherited frmRelPedidos: TfrmRelPedidos
           Frame.Typ = []
           Memo.UTF8W = (
             
-              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"], ' +
-              '[local_entrega."BAIRRO"], [local_entrega."CIDADE"]'
+              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"]  ' +
+              '[local_entrega."BAIRRO"]  [local_entrega."CIDADE"] CEP.:[local_e' +
+              'ntrega."CEP"]'
             'OBS : [local_entrega."COMPLEMENTO"]')
           ParentFont = False
           Formats = <
+            item
+            end
             item
             end
             item
@@ -13051,9 +13056,16 @@ inherited frmRelPedidos: TfrmRelPedidos
           Memo.UTF8W = (
             
               '[Cliente."ENDERECO"]  N. [Cliente."NUMERO"] Bairro  : [Cliente."' +
-              'BAIRRO"] Cidade : [Cliente."CIDADE"]')
+              'BAIRRO"] Cidade : [Cliente."CIDADE"] CEP: [Cliente."CEP"]'
+            '')
           ParentFont = False
           Formats = <
+            item
+            end
+            item
+            end
+            item
+            end
             item
             end
             item
@@ -14699,11 +14711,14 @@ inherited frmRelPedidos: TfrmRelPedidos
           Frame.Typ = []
           Memo.UTF8W = (
             
-              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"], ' +
-              '[local_entrega."BAIRRO"], [local_entrega."CIDADE"]'
+              'Entrega : [local_entrega."ENDERECO"] [local_entrega."NUMERO"] [l' +
+              'ocal_entrega."BAIRRO"] [local_entrega."CIDADE"] CEP. [local_entr' +
+              'ega."CEP"]'
             'OBS : [local_entrega."COMPLEMENTO"]')
           ParentFont = False
           Formats = <
+            item
+            end
             item
             end
             item
@@ -14790,9 +14805,14 @@ inherited frmRelPedidos: TfrmRelPedidos
           Memo.UTF8W = (
             
               '[Cliente."ENDERECO"]  N. [Cliente."NUMERO"] Bairro  : [Cliente."' +
-              'BAIRRO"] Cidade : [Cliente."CIDADE"]')
+              'BAIRRO"] Cidade : [Cliente."CIDADE"] CEP : [Cliente."CEP"]'
+            '')
           ParentFont = False
           Formats = <
+            item
+            end
+            item
+            end
             item
             end
             item

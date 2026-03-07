@@ -93,10 +93,10 @@ type
     Fp_metros_lineares_total: double;
     Fp_qtde_vigas           : integer;
     Fp_metros_quadrados     : double;
-    Fp_qtde_lajotas         : integer;
     Fp_qtde_eps             : integer;
     Fp_total_linear_42      : double;
     Fp_confirmado           : boolean;
+    Fp_qtde_lajota_por_m2: double;
 
     procedure prc_carregar_ferragens;
     procedure prc_totalizar_reforcos;
@@ -110,12 +110,10 @@ type
     property p_qtde_vigas           : integer read Fp_qtde_vigas            write Fp_qtde_vigas;
     property p_metros_lineares_total: double  read Fp_metros_lineares_total write Fp_metros_lineares_total;
     property p_metros_quadrados     : double  read Fp_metros_quadrados      write Fp_metros_quadrados;
-    property p_qtde_lajotas         : integer read Fp_qtde_lajotas          write Fp_qtde_lajotas;
     property p_qtde_eps             : integer read Fp_qtde_eps              write Fp_qtde_eps;
     property P_confirmado           : boolean read Fp_confirmado            write FP_confirmado;
-
     property p_total_linear_42: double read Fp_total_linear_42 write Fp_total_linear_42;
-
+    property p_qtde_lajota_por_m2: double read Fp_qtde_lajota_por_m2 write Fp_qtde_lajota_por_m2;
     procedure prc_componentes;
   end;
 
@@ -286,16 +284,14 @@ begin
     edt_metros_lineares.Caption := FormatFloat('0.00', p_metros_lineares_total) ;
 
     {metros quadrados}
-    //p_metros_quadrados           := p_metros_lineares_total * 0.42;
     p_metros_quadrados           := p_metros_lineares_total * eixo_laje;
     edt_metros_quadrados.Caption := FormatFloat('0.00', p_metros_quadrados) ;
 
     {quantidade de lajotas}
-    p_qtde_lajotas               := trunc( p_metros_quadrados * 12 );
-    edt_qtde_lajotas.Caption := inttostr( p_qtde_lajotas ) ;
+    edt_qtde_lajotas.Caption := inttostr( trunc( p_metros_quadrados * p_qtde_lajota_por_m2 ) +1 ) ;
 
     {quantidade de eps}
-    p_qtde_eps               := trunc( p_metros_lineares_total);
+    p_qtde_eps           := trunc( p_metros_lineares_total);
     edt_qtde_eps.Caption := inttostr( p_qtde_eps ) ;
 
   finally
@@ -411,7 +407,18 @@ begin
 end;
 
 procedure TfrmPedidosAddVigas.prc_componentes;
+var
+  qry : TFDQuery;
 begin
+   try
+     qry := TFDQuery.Create(nil);
+     qry.Connection := conexao;
+     qry.Open('select QTDE_LAJOTA_M2 from CONFIGURACOES_SISTEMA');
+     p_qtde_lajota_por_m2 := qry.FieldByName('QTDE_LAJOTA_M2').AsFloat;
+   finally
+     freeandnil(qry);
+   end;
+
 
   qry_ferragens.Connection := self.Conexao;
   qry_ferragens.close;

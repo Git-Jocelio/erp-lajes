@@ -6,6 +6,8 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
+  ExplicitLeft = -249
+  ExplicitTop = -188
   ExplicitWidth = 1303
   ExplicitHeight = 735
   TextHeight = 17
@@ -32,7 +34,7 @@ inherited frmPedidosE: TfrmPedidosE
       Height = 37
       Caption = ''
       ExplicitLeft = 247
-      ExplicitWidth = 980
+      ExplicitWidth = 6
     end
     inherited lbl_sub_titulo: TLabel
       Top = 37
@@ -964,7 +966,7 @@ inherited frmPedidosE: TfrmPedidosE
       Width = 1297
       Height = 398
       Cursor = crHandPoint
-      ActivePage = tbs_comissao_ferrari
+      ActivePage = tbs_itens_laje
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
@@ -976,7 +978,6 @@ inherited frmPedidosE: TfrmPedidosE
           Top = 0
           Width = 1289
           Height = 363
-          Align = alClient
           TabOrder = 0
           object dbg_itens_venda: TDBGrid
             Left = 1
@@ -5954,7 +5955,7 @@ inherited frmPedidosE: TfrmPedidosE
       end
     end
     object gbReforcosVigas: TGroupBox
-      Left = 943
+      Left = 708
       Top = 350
       Width = 317
       Height = 232

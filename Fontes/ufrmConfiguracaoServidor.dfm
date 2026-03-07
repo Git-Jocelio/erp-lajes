@@ -2,7 +2,7 @@ object frmConfiguracaoServidor: TfrmConfiguracaoServidor
   Left = 0
   Top = 0
   BorderStyle = bsNone
-  ClientHeight = 406
+  ClientHeight = 217
   ClientWidth = 682
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,7 +17,7 @@ object frmConfiguracaoServidor: TfrmConfiguracaoServidor
     Left = 0
     Top = 0
     Width = 682
-    Height = 406
+    Height = 217
     Align = alClient
     ExplicitLeft = 200
     ExplicitTop = 88
@@ -28,10 +28,11 @@ object frmConfiguracaoServidor: TfrmConfiguracaoServidor
     Left = 0
     Top = 0
     Width = 682
-    Height = 406
+    Height = 217
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitHeight = 406
     object Panel1: TPanel
       AlignWithMargins = True
       Left = 3
@@ -331,9 +332,9 @@ object frmConfiguracaoServidor: TfrmConfiguracaoServidor
       object Label3: TLabel
         Left = 8
         Top = 3
-        Width = 194
+        Width = 162
         Height = 17
-        Caption = 'Nova Configura'#231#227'o do Servidor'
+        Caption = ' Configura'#231#227'o do Servidor'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGray
         Font.Height = -13
@@ -549,242 +550,6 @@ object frmConfiguracaoServidor: TfrmConfiguracaoServidor
           Text = 'masterkey'
           ExplicitHeight = 21
         end
-      end
-    end
-    object Panel3: TPanel
-      AlignWithMargins = True
-      Left = 3
-      Top = 234
-      Width = 676
-      Height = 197
-      Margins.Top = 10
-      Margins.Bottom = 0
-      Align = alTop
-      BevelOuter = bvNone
-      Enabled = False
-      TabOrder = 2
-      object Label10: TLabel
-        Left = 10
-        Top = 64
-        Width = 162
-        Height = 15
-        Caption = 'Caminho do Banco de Dados *'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label11: TLabel
-        Left = 493
-        Top = 64
-        Width = 36
-        Height = 15
-        Caption = 'Porta *'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label12: TLabel
-        Left = 12
-        Top = 112
-        Width = 78
-        Height = 15
-        Caption = 'Nome servidor'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label13: TLabel
-        Left = 307
-        Top = 112
-        Width = 43
-        Height = 15
-        Caption = 'LOGIN *'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label14: TLabel
-        Left = 493
-        Top = 112
-        Width = 46
-        Height = 15
-        Caption = 'SENHA *'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 16
-        Top = 11
-        Width = 123
-        Height = 17
-        Caption = ' Configura'#231#227'o Atual'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Panel9: TPanel
-        Left = 10
-        Top = 80
-        Width = 465
-        Height = 25
-        BevelOuter = bvNone
-        Color = clGray
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentBackground = False
-        ParentFont = False
-        TabOrder = 0
-        object edt_caminho_atual_banco: TEdit
-          Left = 0
-          Top = 0
-          Width = 465
-          Height = 25
-          TabStop = False
-          Align = alClient
-          ReadOnly = True
-          TabOrder = 0
-          ExplicitHeight = 21
-        end
-      end
-      object Panel10: TPanel
-        Left = 493
-        Top = 80
-        Width = 168
-        Height = 25
-        BevelOuter = bvNone
-        Color = clGray
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentBackground = False
-        ParentFont = False
-        TabOrder = 1
-        object edt_porta_atual: TEdit
-          Left = 0
-          Top = 0
-          Width = 168
-          Height = 25
-          TabStop = False
-          Align = alClient
-          ReadOnly = True
-          TabOrder = 0
-          ExplicitHeight = 21
-        end
-      end
-      object Panel11: TPanel
-        Left = 12
-        Top = 128
-        Width = 271
-        Height = 25
-        BevelOuter = bvNone
-        Color = clGray
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentBackground = False
-        ParentFont = False
-        TabOrder = 2
-        object edt_servidor_atual: TEdit
-          Left = 0
-          Top = 0
-          Width = 271
-          Height = 25
-          TabStop = False
-          Align = alClient
-          ReadOnly = True
-          TabOrder = 0
-          ExplicitHeight = 21
-        end
-      end
-      object Panel12: TPanel
-        Left = 307
-        Top = 128
-        Width = 168
-        Height = 25
-        BevelOuter = bvNone
-        Color = clGray
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentBackground = False
-        ParentFont = False
-        TabOrder = 3
-        object edt_login_atual: TEdit
-          Left = 0
-          Top = 0
-          Width = 168
-          Height = 25
-          TabStop = False
-          Align = alClient
-          ReadOnly = True
-          TabOrder = 0
-          ExplicitHeight = 21
-        end
-      end
-      object Panel13: TPanel
-        Left = 493
-        Top = 128
-        Width = 168
-        Height = 25
-        BevelOuter = bvNone
-        Color = clGray
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentBackground = False
-        ParentFont = False
-        TabOrder = 4
-        object edt_senha_atual: TEdit
-          Left = 0
-          Top = 0
-          Width = 168
-          Height = 25
-          TabStop = False
-          Align = alClient
-          ReadOnly = True
-          TabOrder = 0
-          ExplicitHeight = 21
-        end
-      end
-      object Panel14: TPanel
-        Left = 16
-        Top = 32
-        Width = 650
-        Height = 1
-        BevelOuter = bvNone
-        Color = 11711154
-        ParentBackground = False
-        TabOrder = 5
       end
     end
   end

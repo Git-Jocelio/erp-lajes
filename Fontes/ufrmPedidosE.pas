@@ -545,11 +545,6 @@ type
     procedure btn_incluir_lancamentoClick(Sender: TObject);
     procedure tbs_comissoesShow(Sender: TObject);
 
-
-    procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-
     procedure edt_frete_clienteExit(Sender: TObject);
     procedure cbxVendedoresCloseUp(Sender: TObject);
     procedure cbxTransportadorasCloseUp(Sender: TObject);
@@ -595,6 +590,9 @@ type
     procedure dbg_itens_vendaDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
 
   private
 
@@ -623,6 +621,7 @@ type
     Fp_comissao_adm: double;
     Fp_empresa: string;
     Fp_eixo_laje: double;
+    Fp_qtde_lajota_por_m2: double;
 
    {criar cds's}
     procedure CriarTabelaTemporaria(cds: TFDMemTable);         // Itens de Pedido
@@ -749,7 +748,6 @@ type
 
     procedure LerDados;
     function  validar: boolean;
-    //function  validarConcretoRealizado: boolean; // estava no private
 
   public
 
@@ -785,6 +783,7 @@ type
     property p_lajota        : string read Fp_lajota write Fp_lajota;
     property p_isopor        : string read Fp_isopor write Fp_isopor;
     property p_eixo_laje     : double read Fp_eixo_laje write Fp_eixo_laje;
+    property p_qtde_lajota_por_m2 : double read Fp_qtde_lajota_por_m2 write Fp_qtde_lajota_por_m2;
 
     property p_executar_dataChange_ds_pedidoItes : boolean read Fp_executar_dataChange_ds_pedidoItes write Fp_executar_dataChange_ds_pedidoItes;
 
@@ -1454,42 +1453,8 @@ begin
 end;
 
 function TfrmPedidosE.SomarQtdeLajotas(metroslineares: double; qtdeVigas: integer): integer;
-//var
-//  loqry : TFDQuery;
- // eixo_laje : double;
-//  cnpj : string;
 begin
-  try
-(*    loqry := TFDQuery.Create(application);
-    loqry.Connection := conexao;
-    loqry.Close;
-
-    {eixo da laje}
-    loqry.SQL.Clear;
-    loqry.SQL.Add('select EIXO_LAJE from CONFIGURACOES_SISTEMA');
-    loqry.Open;
-    p_eixo_laje := loqry.FieldByName('EIXO_LAJE').AsInteger /1000;
-
-    {laje triunfo faz um calculo diferenciado para lajota, demais uso minha
-    formula}
-    loqry.SQL.Clear;
-    loqry.SQL.Add('select p.cpf_cnpj from pessoas p, empresa e where p.id = e.pessoa_id');
-    loqry.Open;
-    cnpj := loqry.FieldByName('cpf_cnpj').AsString;
-*)
-
-    {calculo lajes triunfo}
-    //if cnpj = '17936070000159' then
-    if p_empresa = 'TRIUNFO' then
-       result := trunc(metroslineares * p_eixo_laje * 12)
-    else
-      result := trunc(((metroslineares * 5) - qtdeVigas)* 1.02 );
-
-  finally
-//    loqry.close;
-//    FREEANDNIL(loqry);
-  end;
-
+  result := trunc(metroslineares * p_eixo_laje * p_qtde_lajota_por_m2) +1;
 end;
 
 procedure TfrmPedidosE.SomarValorProdutos;
@@ -1669,7 +1634,8 @@ begin
 
 
   //ShowMessage(floattostr(custo_produtos));
-  edt_financeiro_custos_produtos.Text := floattostr(custo_produtos);
+  //edt_financeiro_custos_produtos.Text := floattostr(custo_produtos);
+  edt_financeiro_custos_produtos.Text := formatfloat('0.00',custo_produtos);
 
   prc_recalcular_painel_financeiro;
 
@@ -1700,11 +1666,14 @@ begin
   edt_financeiro_total_custos.Text := FormatFloat('0.00',custos_produtos+desp_frete+comissoes+desp_cartao+outras_desp);
 
   {margem}
-  margem := strtofloat(edt_financeiro_vr_venda.Text)-strtofloat(edt_financeiro_total_custos.Text);
+  margem := strtofloat(edt_financeiro_vr_venda.Text) - strtofloat(edt_financeiro_total_custos.Text);
   edt_financeiro_margem_contribuicao.Text := FormatFloat('0.00',margem );
-  margem_percentual := (margem*100) / vr_venda;
-  edt_financeiro_margem_percentual.Text := FormatFloat('0.00',margem_percentual );
-
+  if margem > 0 then
+  begin
+    margem_percentual := (margem*100) / vr_venda;
+    edt_financeiro_margem_percentual.Text := FormatFloat('0.00',margem_percentual );
+  end else
+    edt_financeiro_margem_percentual.Text := '0,00';
 end;
 
 
@@ -2702,14 +2671,14 @@ begin
   qry_sistema.SQL.Add('PED_REL_MOSTRAR_QTDE_LAJE, ');
   qry_sistema.SQL.Add('PED_REL_MOSTRAR_CABECALHO, ');
   qry_sistema.SQL.Add('PED_REL_MOSTRAR_CABECALHO_PED, ');
-  qry_sistema.SQL.Add('PEDIDO_COLUNA_PRECO_VEND ');
+  qry_sistema.SQL.Add('PEDIDO_COLUNA_PRECO_VEND, ');
+  qry_sistema.SQL.Add('QTDE_LAJOTA_M2 ');
   qry_sistema.SQL.Add('from CONFIGURACOES_SISTEMA');
   qry_sistema.Open;
 
-
-
   p_empresa   := qry_sistema.FieldByName('GERAL_EMPRESA').AsString;
   p_eixo_laje := qry_sistema.FieldByName('EIXO_LAJE').AsInteger/1000;
+  p_qtde_lajota_por_m2 := qry_sistema.FieldByName('QTDE_LAJOTA_M2').AsFloat;
 
   gbReforcosVigas.Height := 180 ;
   gbReforcosVigas.Width  := 638 ;
@@ -2740,15 +2709,15 @@ begin
   dbg_itens_venda.Columns[16].Visible := false; // lajota
   dbg_itens_venda.Columns[17].Visible := false; // isopor
   dbg_itens_venda.Columns[18].Visible := false; // vergalhão
-  dbg_itens_venda.Columns[19].Visible := FALSE;  // concreto
+  dbg_itens_venda.Columns[19].Visible := FALSE; // concreto
   dbg_itens_venda.Columns[20].Visible := false; // bomba
   dbg_itens_venda.Columns[21].Visible := false; // negativo_de_laje
   dbg_itens_venda.Columns[22].Visible := false; // reforco_de_viga
-  dbg_itens_venda.Columns[23].Visible := FALSE;  // qtde_de_vigas
-  dbg_itens_venda.Columns[24].Visible := FALSE;  // qtde_real_laje
+  dbg_itens_venda.Columns[23].Visible := FALSE; // qtde_de_vigas
+  dbg_itens_venda.Columns[24].Visible := FALSE; // qtde_real_laje
   dbg_itens_venda.Columns[25].Visible := false; // custo_vendedor
   dbg_itens_venda.Columns[26].Visible := false; // estoque_controlado
-  dbg_itens_venda.Columns[27].Visible := true; // data_entrega
+  dbg_itens_venda.Columns[27].Visible := true;  // data_entrega
 
   {aba itens de laje h8}
   dbg_itens_laje.Columns[0].Visible := false; // id itens pedido
@@ -2757,11 +2726,10 @@ begin
   dbg_itens_laje.Columns[3].Visible := false; // id produto
   dbg_itens_laje.Columns[4].Visible := true;  // descricao
   dbg_itens_laje.Columns[5].Visible := true;  // qtde
-  dbg_itens_laje.Columns[6].Visible := TRUE; // custo
+  dbg_itens_laje.Columns[6].Visible := TRUE;  // custo
   dbg_itens_laje.Columns[7].Visible := false; // nivel
   dbg_itens_laje.Columns[8].Visible := true;  // local
   dbg_itens_laje.Columns[9].Visible := TRUE;  // situacao
-
 
   dbg_reforco_viga.Columns[0].Visible  := false;  // id
   dbg_reforco_viga.Columns[1].Visible  := false;  // id_tabela
@@ -2793,9 +2761,15 @@ begin
   tbsImpostos.TabVisible          := false;
   tbs_financeiro.TabVisible       := qry_sistema.FieldByName('PEDIDO_MOSTRAR_ABA_FINANCEIRO').AsString ='S';
   dbg_itens_venda.Columns[6].Visible := qry_sistema.FieldByName('PEDIDO_COLUNA_PRECO_VEND').AsString ='S';
-  tbs_contas_pagar.TabVisible     := true;
-  //tbs_recibos.TabVisible        := true;
-  tbs_contas_receber.TabVisible   := true;
+  if Operacao = OpIncluir then
+  begin
+    tbs_contas_pagar.TabVisible     := false;
+    tbs_contas_receber.TabVisible   := false;
+  end else
+  begin
+    tbs_contas_pagar.TabVisible     := true;
+    tbs_contas_receber.TabVisible   := true;
+  end;
   tbs_reforco_viga.TabVisible     := False;
   tbs_concreto.TabVisible := false ;
 
@@ -2844,10 +2818,7 @@ begin
 
   qry_recibos.Connection := Conexao;
   qry_recibos.SQL.Clear;
-  //qry_recibos.SQL.Add('select * from PEDIDOS_PAGAMENTOS where PEDIDO_ID =:PEDIDO_ID');
-  //
 
-  //qry_recibos.SQL.Add('SELECT I.* FROM contas_receber R, contas_receber_baixa I, pedidos P ');
   qry_recibos.SQL.Add('select                                                ');
   qry_recibos.SQL.Add(' I.ID, I.CADASTRADO_EM, I.ALTERADO_EM, I.CONTAS_RECEBER_ID, I.RECIBO_ID, I.PESSOA_ID, I.HISTORICO, I.VALOR, USUARIO_ID ');
   qry_recibos.SQL.Add('from                                                  ');
@@ -2867,7 +2838,7 @@ begin
   comissao estiver visivel é pq a lajes triunfo que esta usando o sistema,
   então quando eu for gerar o contas a pagar das comissões se for triunfo guardo
   o valor calculado pelo sistema, senão guardo o valor digitado pelo usuario na
-   tela de pedidos }
+  tela de pedidos }
   edt_comissao_vendedor_informada.Visible := qry_sistema.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'N';
   lbl_comissao_vendedor_informada.Visible := qry_sistema.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'N';
 end;
@@ -2899,7 +2870,7 @@ procedure TfrmPedidosE.FormCreate(Sender: TObject);
 begin
 
   inherited;
-  i :=  0; // var usada para inclusao de um novo concreto utilizado
+  i := 0; // var usada para inclusao de um novo concreto utilizado
   p_executar_dataChange_ds_pedidoItes  := true;
 
   qryAux.Connection:= self.Conexao;
@@ -2909,7 +2880,7 @@ begin
   qryLocalEntrega.Connection     := Self.Conexao;
   qryFormaPagto.Connection       := Self.Conexao;
   qryTransportadoras.Connection  := Self.Conexao;
-  qryPrestadorServico.Connection := Self .Conexao;
+  qryPrestadorServico.Connection := Self.Conexao;
   qryTotalLaje.Connection        := self.conexao;
 
   {cabeça do pedido}
@@ -2930,8 +2901,6 @@ begin
 
   p_tabela := 'PEDIDOS';
 
-//  ShowMessage('criar cds');
-
   CriarTabelaTemporaria(cdsPedidoItens);
   CriarCdsAdicionais(cdsPedidoFerragens);
   CriarTabelaTemporariaItensLaje(cdsItensLaje);
@@ -2944,10 +2913,8 @@ end;
 procedure TfrmPedidosE.FormShow(Sender: TObject);
 begin
   inherited;
-
   Componentes;
   Inicializar;
-
 end;
 
 procedure TfrmPedidosE.gbReforcosVigasMouseDown(Sender: TObject;

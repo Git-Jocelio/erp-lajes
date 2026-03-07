@@ -13,7 +13,6 @@ type
     pnl_panels: TPanel;
     Panel1: TPanel;
     Panel2: TPanel;
-    Panel3: TPanel;
     Image1: TImage;
     Label1: TLabel;
     Label2: TLabel;
@@ -39,23 +38,6 @@ type
     Panel8: TPanel;
     edt_senha: TEdit;
     Label9: TLabel;
-    Panel9: TPanel;
-    edt_caminho_atual_banco: TEdit;
-    Label10: TLabel;
-    Panel10: TPanel;
-    edt_porta_atual: TEdit;
-    Label11: TLabel;
-    Panel11: TPanel;
-    edt_servidor_atual: TEdit;
-    Label12: TLabel;
-    Panel12: TPanel;
-    edt_login_atual: TEdit;
-    Label13: TLabel;
-    Panel13: TPanel;
-    edt_senha_atual: TEdit;
-    Label14: TLabel;
-    Panel14: TPanel;
-    Label4: TLabel;
     procedure btn_simClick(Sender: TObject);
     procedure btn_naoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -164,12 +146,21 @@ begin
   //if not dmConn.conexao.fnc_ler_arquivo_ini then
   if dmConn.conexao.fnc_ler_arquivo_ini then
   begin
-
-    edt_servidor_atual.Text      := dmConn.conexao.servidor;
+    // dados da última conexão
+{    edt_servidor_atual.Text      := dmConn.conexao.servidor;
     edt_caminho_atual_banco.Text := dmConn.conexao.base;
     edt_login_atual.Text         := dmConn.conexao.login;
     edt_senha_atual.Text         := dmConn.conexao.senha;
     edt_porta_atual.Text         := dmConn.conexao.porta;
+
+}
+    // sugestão para configurar
+    edt_servidor.Text      := dmConn.conexao.servidor;
+    edt_caminho_banco.Text := dmConn.conexao.base;
+    edt_login.Text         := dmConn.conexao.login;
+    edt_senha.Text         := dmConn.conexao.senha;
+    edt_porta.Text         := dmConn.conexao.porta;
+
 
   end;
 

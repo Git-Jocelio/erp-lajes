@@ -1,9 +1,9 @@
 inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
   Caption = 'frmConfiguracoesSistema'
-  ClientHeight = 513
+  ClientHeight = 538
   ClientWidth = 836
   ExplicitWidth = 848
-  ExplicitHeight = 551
+  ExplicitHeight = 576
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 836
@@ -19,14 +19,14 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
   end
   inherited pnDados: TPanel
     Width = 836
-    Height = 419
+    Height = 444
     ExplicitWidth = 832
     ExplicitHeight = 418
     object PageControl1: TPageControl
       Left = 0
       Top = 0
       Width = 836
-      Height = 419
+      Height = 444
       ActivePage = tbs_pedido
       Align = alClient
       TabOrder = 0
@@ -105,7 +105,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
           Left = 0
           Top = 0
           Width = 828
-          Height = 387
+          Height = 412
           ActivePage = tbs_pedido_relatorios
           Align = alClient
           TabOrder = 0
@@ -188,9 +188,9 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
             object Label7: TLabel
               Left = 95
               Top = 14
-              Width = 125
+              Width = 370
               Height = 17
-              Caption = 'Imagem topo pedido'
+              Caption = 'Endere'#231'o da Imagem para ser usada no topo pedido'
             end
             object img_logo: TImage
               Left = 16
@@ -320,7 +320,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               Stretch = True
             end
             object btn_buscar_imagem: TSpeedButton
-              Left = 558
+              Left = 529
               Top = 32
               Width = 23
               Height = 22
@@ -354,13 +354,13 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               OnClick = btn_buscar_imagemClick
             end
             object Label11: TLabel
-              Left = 36
-              Top = 291
-              Width = 418
+              Left = 34
+              Top = 262
+              Width = 415
               Height = 15
               Caption = 
-                '1 -  quando desmarcado oculta a aba comiss'#245'es da tela de emissao' +
-                ' de pedidos.'
+                '1 - quando desmarcado oculta a aba comiss'#245'es da tela de emissao ' +
+                'de pedidos.'
               Font.Charset = ANSI_CHARSET
               Font.Color = clNavy
               Font.Height = -12
@@ -369,8 +369,8 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               ParentFont = False
             end
             object Label12: TLabel
-              Left = 36
-              Top = 314
+              Left = 34
+              Top = 278
               Width = 527
               Height = 30
               Caption = 
@@ -388,7 +388,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
             object edt_pedido_relatorios_img_pedido: TEdit
               Left = 95
               Top = 32
-              Width = 457
+              Width = 420
               Height = 25
               Enabled = False
               ReadOnly = True
@@ -405,7 +405,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
             object cb_mostrar_botao_comissao: TCheckBox
               Left = 16
               Top = 235
-              Width = 753
+              Width = 257
               Height = 25
               Caption = 'Mostrar BOT'#195'O IMPRIMIR COMISS'#195'O'
               TabOrder = 2
@@ -440,9 +440,9 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               TabOrder = 5
             end
             object BitBtn1: TBitBtn
-              Left = 292
-              Top = 203
-              Width = 289
+              Left = 265
+              Top = 199
+              Width = 287
               Height = 25
               Caption = 'Editar contrato de presta'#231#227'o de servi'#231'o ...'
               TabOrder = 6
@@ -456,10 +456,11 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               Left = 0
               Top = 0
               Width = 820
-              Height = 355
+              Height = 380
               Align = alClient
               Caption = 'Configura'#231#227'o da Tela de Pedidos'
               TabOrder = 0
+              ExplicitHeight = 355
               object GroupBox4: TGroupBox
                 Left = 16
                 Top = 20
@@ -540,7 +541,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
                 Caption = 'Tela de emiss'#227'o de pedidos'
                 TabOrder = 1
                 object cb_pedir_forma_pagto: TCheckBox
-                  Left = 3
+                  Left = 14
                   Top = 72
                   Width = 250
                   Height = 17
@@ -548,16 +549,16 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
                   TabOrder = 0
                 end
                 object cb_pedido_mostrar_aba_financeiro: TCheckBox
-                  Left = 3
-                  Top = 29
+                  Left = 14
+                  Top = 40
                   Width = 250
                   Height = 17
                   Caption = 'mostrar aba "Financeiro"'
                   TabOrder = 1
                 end
                 object cb_calculo_laje: TCheckBox
-                  Left = 3
-                  Top = 104
+                  Left = 14
+                  Top = 110
                   Width = 342
                   Height = 57
                   BiDiMode = bdLeftToRight
@@ -571,8 +572,8 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
                   WordWrap = True
                 end
                 object cb_pedido_preco_vendedor: TCheckBox
-                  Left = 3
-                  Top = 184
+                  Left = 14
+                  Top = 190
                   Width = 446
                   Height = 17
                   Caption = 'mostrar coluna "Pre'#231'o Vendedor" na grade de itens no pedido'
@@ -595,21 +596,21 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
           Caption = 'Rejuste de pre'#231'os'
           TabOrder = 0
           object Label8: TLabel
-            Left = 16
+            Left = 14
             Top = 84
             Width = 152
             Height = 17
             Caption = 'percentual para vendedor'
           end
           object Label9: TLabel
-            Left = 16
+            Left = 14
             Top = 127
             Width = 143
             Height = 17
             Caption = 'percentual venda bal'#231#227'o'
           end
           object Label2: TLabel
-            Left = 16
+            Left = 14
             Top = 50
             Width = 685
             Height = 17
@@ -629,6 +630,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
             Width = 57
             Height = 25
             TabOrder = 0
+            Text = '50'
             OnExit = edt_custos_lajes_vendedorExit
             OnKeyPress = edt_custos_lajes_vendedorKeyPress
           end
@@ -638,6 +640,7 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
             Width = 57
             Height = 25
             TabOrder = 1
+            Text = '5'
             OnExit = edt_custos_lajes_vendedorExit
             OnKeyPress = edt_custos_lajes_vendedorKeyPress
           end
@@ -646,26 +649,37 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
           Left = 0
           Top = 201
           Width = 828
-          Height = 186
+          Height = 211
           Align = alClient
           Caption = ' Configura'#231#245'es de Lajes '
           TabOrder = 1
+          ExplicitHeight = 186
           object Label1: TLabel
-            Left = 16
+            Left = 14
             Top = 44
-            Width = 190
-            Height = 51
+            Width = 473
+            Height = 29
             Caption = 
               'Eixo a ser considerado em lajes ( Viga + Lajota ou Isopor) Ex.: ' +
               '0.42 , 0.43 etc'
             WordWrap = True
           end
+          object Label15: TLabel
+            Left = 14
+            Top = 79
+            Width = 265
+            Height = 17
+            Caption = 'Quantidade de Lajotas por metro quadrado :'
+            WordWrap = True
+          end
           object cbx_eixo_laje: TComboBox
-            Left = 215
-            Top = 48
-            Width = 145
+            Left = 471
+            Top = 40
+            Width = 114
             Height = 25
+            ItemIndex = 2
             TabOrder = 0
+            Text = '0.42'
             Items.Strings = (
               '0.37'
               '0,38'
@@ -674,12 +688,22 @@ inherited frmConfiguracoesSistema: TfrmConfiguracoesSistema
               '0.49'
               '0.50')
           end
+          object edt_qtde_lajotas: TEdit
+            Left = 288
+            Top = 77
+            Width = 89
+            Height = 25
+            TabOrder = 1
+            Text = '12'
+            OnExit = edt_qtde_lajotasExit
+            OnKeyPress = edt_qtde_lajotasKeyPress
+          end
         end
       end
     end
   end
   inherited pnRodape: TPanel
-    Top = 476
+    Top = 501
     Width = 836
     ExplicitTop = 475
     ExplicitWidth = 832
