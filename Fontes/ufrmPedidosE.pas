@@ -7,20 +7,6 @@
 //  DEUS seja louvado!
 //
 //****************************************************************************//
-// Histórico de desenvolvimento
-// 16/02/21 iniciei fiz a chamada dos formPedidos e PedidosE,
-// vou dar uma pausa pra criar a tabela de pedidos, mas agora que percebi que
-// não criei o cadastro de vigas que alias é um dos cadastros mais complexos :/
-// volto depois aqui...
-// vou recapitular na minha cabeça como criar... até...
-// 16/03/21 ufa! voltei rsss
-// criei o cadastro de vigas deu trabalho, acredito que há ainda que melhorar,
-// ficou algumas coisas pra tras tipo recalcular os custos das vigas... mas
-// ficar pra depois, preciso dar continuidade no pedido ai da pra perceber o
-// que faltou no cadastro de vigas
-// 27/04/21 pedido bem adiantada... cabeca do pedido
-// 12/0521 Terminei o pedido ate o ponto de incluir alterar e excluir itens e adiconais h8...
-// prox passo implementar a h12...
 unit ufrmPedidosE;
 
 interface
@@ -36,7 +22,7 @@ uses
   FireDAC.Stan.StorageBin, udmConn, ufrmMensagens, ufrmPedidosAddVigas,
   ufrmPessoasE, ufrmComissoesE, ufrmComissoesDespesaE, midas, ufrmVendedoresE,
   ufrmPesquisaFormaPagamento, ufrmContasReceber_Baixa, unit_movimenta_estoques,
-  ufrmRecibosE;
+  ufrmRecibosE, System.ImageList, Vcl.ImgList;
 
 type
   TfrmPedidosE = class(TfrmBaseEdicao)
@@ -198,7 +184,6 @@ type
     pmIncluirIsopor: TMenuItem;
     N1: TMenuItem;
     pmCRUItensPedido: TPopupMenu;
-    pmIncluirItemPedido: TMenuItem;
     pmAlterarItemPedido: TMenuItem;
     pmExcluirItemPedido: TMenuItem;
     N2: TMenuItem;
@@ -362,9 +347,7 @@ type
     edt_desconto: TEdit;
     edt_valor_total: TPanel;
     edt_valor_pago: TPanel;
-    lbl_cliente_id: TLabel;
     lbl_cliente_nome: TLabel;
-    lbl_vendedor_id: TPanel;
     lbl_situacao_pedido: TLabel;
     edt_complemento: TMemo;
     btn_incluir_vendedor: TBitBtn;
@@ -413,8 +396,6 @@ type
     gb_recibos: TGroupBox;
     dgb_recibos: TDBGrid;
     gbReforcosVigas: TGroupBox;
-    dbg_reforco_viga: TDBGrid;
-    lbl_titulo_topo: TLabel;
     btn_fechar: TSpeedButton;
     cbx_situacao: TComboBox;
     tbs_financeiro: TTabSheet;
@@ -502,6 +483,15 @@ type
     qryCOMISSAO_VENDEDOR_INFORMADA: TFMTBCDField;
     DBGrid3: TDBGrid;
     DataSource1: TDataSource;
+    lbl_titulo_topo: TLabel;
+    Panel4: TPanel;
+    btn_incluir: TSpeedButton;
+    ImageList1: TImageList;
+    lbl_descricao_laje: TLabel;
+    Panel5: TPanel;
+    Label49: TLabel;
+    SpeedButton1: TSpeedButton;
+    dbg_reforco_viga: TDBGrid;
     procedure btnNovoClienteClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
 
@@ -522,7 +512,6 @@ type
     procedure pmIncluirLajotaClick(Sender: TObject);
     procedure pmIncluirIsoporClick(Sender: TObject);
     procedure pmExcluirItemPedidoClick(Sender: TObject);
-    procedure pmIncluirItemPedidoClick(Sender: TObject);
     procedure pmAlterarItemPedidoClick(Sender: TObject);
     procedure pmIncluirReforcoAdicionalClick(Sender: TObject);
     procedure pmIncluirFerroNegativoClick(Sender: TObject);
@@ -557,7 +546,6 @@ type
     procedure ds_comissao_despesasDataChange(Sender: TObject; Field: TField);
     procedure btn_busca_forma_pagtoClick(Sender: TObject);
     procedure tbs_comissao_ferrariShow(Sender: TObject);
-    procedure dbg_contas_receberDblClick(Sender: TObject);
     procedure tbs_recibosShow(Sender: TObject);
     procedure gbReforcosVigasMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -587,12 +575,20 @@ type
     procedure dgb_recibosDblClick(Sender: TObject);
     procedure edt_total_bombaExit(Sender: TObject);
     procedure edt_total_bombaKeyPress(Sender: TObject; var Key: Char);
-    procedure dbg_itens_vendaDrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure btn_incluirClick(Sender: TObject);
+    procedure dbg_itens_vendaDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure dbg_itens_vendaMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure dbg_itens_lajeDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure dbg_itens_lajeMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure SpeedButton1Click(Sender: TObject);
 
   private
 
@@ -1257,7 +1253,7 @@ end;
 {adiciona lajota ou viga ao item da laje}
 procedure TfrmPedidosE.AddLajotaEps(tipo:string; cdsItensLaje: TFDMemTable);
 var
-  qtdeEnchimento, qtdeVigasDigitadas, qtdeLajota, qtdeEps: integer;
+ qtdeVigasDigitadas: integer;
 begin
   inherited;
   if frmPesquisaProdutos = nil then
@@ -1334,12 +1330,7 @@ begin
                    );
         {atualiza edits}
         if p_altura_Laje = 80 then
-        begin
-         // TotaisTabH8;
           qtdeVigasDigitadas := strtointdef(edQtdeVigasH8.Text,0);
-          qtdeEps            := StrToInt(edQtdeIsoporH8.Text);
-          qtdeLajota         := StrToInt(edQtdeLajotasH8.Text);
-        end;
 
         p_pedido_alterado := true;
       end;
@@ -1381,8 +1372,6 @@ var
   qtdeVigas: integer;
 begin
   cds.DisableControls;
-  //tam:= 0;
-  //qtdeVigas:= 0;
   total:= 0;
 
   cds.First;
@@ -1390,7 +1379,6 @@ begin
   begin
     {contabiliza somente as vigas, lajota ou isopor não}
     if eViga(cds.FieldByName('PRODUTO_ID').AsInteger) then
-    //if cds.FieldByName('NIVEL').AsString = 'VIGA' then
     begin
       tam       := qryAux.FieldByName('COMPRIMENTO').AsFloat/1000;
       qtdeVigas := cds.FieldByName('QTDE').AsInteger;
@@ -1406,29 +1394,16 @@ begin
 end;
 
 function TfrmPedidosE.SomarMetrosQuadrados(forma: integer; metroslineares: double): double;
-//var
-//  loqry : TFDQuery;
-  //eixo_laje : double;
 begin
   if forma = 0 then
   begin
      CriarMensagem('AVISO','erro na função SomarMetrosQuadrados. Forma = 0');
      exit;
   end;
-//ShowMessage('forma ' + inttostr(forma));
+  //ShowMessage('forma ' + inttostr(forma));
   try
-    (*
-    loqry := TFDQuery.Create(application);
-    loqry.Connection := conexao;
-    loqry.Close;
-    loqry.SQL.Clear;
-    loqry.SQL.Add('select EIXO_LAJE from CONFIGURACOES_SISTEMA');
-    loqry.Open;
-    p_eixo_laje := loqry.FieldByName('EIXO_LAJE').AsInteger /1000;
-    *)
 
     if forma = 130 then  // forma normal
-      //result := metroslineares * 0.42
       result := metroslineares * p_eixo_laje
     else
     if forma = 250 then // forma painel
@@ -1441,8 +1416,7 @@ begin
                              'FORMA PASSADA COMO PARAMETRO PARA CALCULO, NÃO ESTA CADASTRADA NO SISTEMA!');
 
   finally
-  //  loqry.close;
-  //  FREEANDNIL(loqry);
+
   end;
 
 end;
@@ -1771,6 +1745,12 @@ begin
 end;
 
 
+procedure TfrmPedidosE.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+  gbReforcosVigas.Visible := false;
+end;
+
 procedure TfrmPedidosE.btn_incluir_lancamentoClick(Sender: TObject);
 var
   outras_despesas: double;
@@ -1822,9 +1802,6 @@ begin
   uBiblioteca.AtualizaQuery(qryComissoes);
 
   prc_atualizar_Painel_comissao_triunfo;
-
-  //uBiblioteca.FilterCds(qryComissao_itens, utipos.fsInteger, inttostr(self.Codigo));
-
   FreeAndNil( frmComissoesDespesasE );
 end;
 
@@ -1842,6 +1819,23 @@ procedure TfrmPedidosE.btn_recalcular_totaisClick(Sender: TObject);
 begin
   inherited;
   prc_recalcular_painel_financeiro;
+end;
+
+procedure TfrmPedidosE.btn_incluirClick(Sender: TObject);
+begin
+  if  qry_sistema.FieldByName('PEDIDO_OUTROS_FORMA_PGTO').AsString = 'S' then
+  begin
+    if p_forma_pagto_id <= 0  then
+    begin
+      CriarMensagem('AVISO','SELECIONE UMA FORMA DE PAGAMENTO.');
+      btn_busca_forma_pagto.Click;
+    end
+  end
+  else
+  begin
+    pnl_forma_pagto.Caption := qryFormaPagto.FieldByName('DESCRICAO').AsString
+  end;
+  AdicionarItemPedido;
 end;
 
 procedure TfrmPedidosE.btn_incluir_concreto_utilizadoClick(Sender: TObject);
@@ -1995,23 +1989,9 @@ begin
 
   if p_pedido_alterado then
   begin
-    (*
-    if uBiblioteca.fnc_criar_mensagem('ATENÇÃO',
-                                      'Pedido Alterado',
-                                      'Foram feitas alterações neste pedido, deseja descartar as alterações ?',
-                                      ExtractFilePath(Application.ExeName) + '\Icones\information.ico',
-                                      'CONFIRMA')
-    *)
     if criarmensagem('CONFIRMACAO','PEDIDO ALTERADO!' + slinebreak + slinebreak +
                      'FORAM FEITAS ALTERAÇÕES NESTE PEDIDO, DESEJA DESCARTAR AS ALTERAÇÕES?') then
     begin
-      (*
-      uBiblioteca.fnc_criar_mensagem('FECHAR SEM ALTERAR',
-                                      'Pedido Alterado',
-                                      'Sair sem salvar as alterações',
-                                      ExtractFilePath(Application.ExeName) + '\Icones\information.ico',
-                                      'OK');
-      *)
       criarmensagem('AVISO','PEDIDO ALTERADO!' + slinebreak + slinebreak +
                             'SAIR SEM SALVAR AS ALTERAÇÕES.') ;
       close;
@@ -2052,7 +2032,6 @@ begin
   credito := qry.FieldByName('CREDITO').AsFloat;
 
   result := (debito + credito);
-//  result := (credito - debito);
 
   freeandnil( qry );
 
@@ -2087,7 +2066,7 @@ begin
 
   uBiblioteca.FilterCds(qryClientes, uTipos.fsInteger, inttostr(p_cliente_id));
   //qry.FieldByName('CLIENTE_ID').AsInteger := cliente;
-  lbl_cliente_id.Caption   := inttostr(p_cliente_id);
+  //lbl_cliente_id.Caption   := inttostr(p_cliente_id);
   lbl_cliente_nome.Caption := qryClientes.FieldByName('NOME').AsString;
 
   try
@@ -2107,7 +2086,7 @@ begin
     p_vendedor_id           := loQry.FieldByName('pessoa_id').AsInteger;
     p_comissao_vendedor     := loQry.FieldByName('COMISSAO_VENDEDOR').AsFloat;
     p_comissao_adm          := loQry.FieldByName('COMISSAO_ADM').AsFloat;
-    lbl_vendedor_id.Caption := inttostr(p_vendedor_id);
+    //lbl_vendedor_id.Caption := inttostr(p_vendedor_id);
     cbxVendedores.KeyValue  := p_vendedor_id;
 
   finally
@@ -2594,14 +2573,8 @@ begin
   p_comissao_vendedor := qryVendedores.FieldByName('COMISSAO_VENDEDOR').AsFloat;
   p_comissao_adm      := qryVendedores.FieldByName('COMISSAO_ADM').AsFloat;
 
-  lbl_vendedor_id.Caption := inttostr( p_vendedor_id );
-  (*
-  ShowMessage('com vend ' + floattostr(p_comissao_vendedor) + sLineBreak +
-              'com adm ' + floattostr(p_comissao_adm));
-  *)
+  //lbl_vendedor_id.Caption := inttostr( p_vendedor_id );
  prc_atualizar_Painel_comissao_triunfo;
-
-
 end;
 
 procedure TfrmPedidosE.cb_orcamentoClick(Sender: TObject);
@@ -3184,28 +3157,6 @@ begin
   AddLajotaEps('Eps', cdsItensLaje);
 end;
 
-procedure TfrmPedidosE.pmIncluirItemPedidoClick(Sender: TObject);
-begin
-  inherited;
-  //ShowMessage(inttostr(p_forma_pagto_id));
-  if  qry_sistema.FieldByName('PEDIDO_OUTROS_FORMA_PGTO').AsString = 'S' then
-  begin
-    if p_forma_pagto_id = -1  then
-    begin
-      CriarMensagem('AVISO','SELECIONE UMA FORMA DE PAGAMENTO.');
-      btn_busca_forma_pagto.Click;
-    end
-  end
-  else
-  begin
-    p_forma_pagto_id := 3; // a vista, depois consertar
-    pnl_forma_pagto.Caption := 'A vista' ;
-
-  end;
-
-  AdicionarItemPedido;
-end;
-
 procedure TfrmPedidosE.pmIncluirLajotaClick(Sender: TObject);
 begin
   inherited;
@@ -3690,22 +3641,17 @@ begin
   case self.Operacao of
 
   uTipos.opIncluir: begin
-                       // DecodeDate(Date, ano, mes, dia);
-                       // horas := now;
-                       // hora  := FormatDateTime('hhmmss', horas);
-                       //btnOk.Caption := 'Salvar Pedido';
                        btnOk.Caption := 'INCLUIR PEDIDO';
 
                        {número do pedido provisório}
                        codigo                      := -1;
                        edt_nr_pedido.Caption       := '-1';
-                       //edt_nosso_numero.Caption    := inttostr(ano)+ FormatFloat('00',mes)+ FormatFloat('00',dia) + hora;
-                       {alterar o titulo após gerar o número do pedido}
-                       lbl_titulo_topo.Caption            := 'CADASTRO DE PEDIDOS - ' + 'Novo Pedido N.: ' + inttostr(Codigo);
+                       //lbl_titulo_topo.Caption     := 'CADASTRO DE PEDIDOS - ' + 'Novo Pedido N.: ' + inttostr(Codigo);
+                       lbl_titulo_topo.Caption     := 'Novo Pedido';
                        edt_emissao.Caption         := datetostr( Date );
                        dtpDataContabil.Date        := Date;
                        cb_orcamento.Checked        := false;
-                       lbl_cliente_id.Caption      := '';
+                       //lbl_cliente_id.Caption      := '';
                        lbl_cliente_nome.Caption    := '';
                        lbl_situacao_pedido.Caption := 'ABERTO';
                        cbx_situacao.Text           := 'ABERTO';
@@ -3743,7 +3689,8 @@ begin
 
   uTipos.opAlterar: begin
                       self.LerDados;
-                      lbl_titulo_topo.Caption := 'CADASTRO DE PEDIDOS - ' + 'Alteração do Pedido N.: ' + inttostr(Codigo);
+                      //lbl_titulo_topo.Caption := 'CADASTRO DE PEDIDOS - ' + 'Alteração do Pedido N.: ' + inttostr(Codigo);
+                      lbl_titulo_topo.Caption := 'Alteração do Pedido N.: ' + inttostr(Codigo);
                       btnOk.Caption           := 'SALVAR ALTERAÇÕES';
 
                       if dtpDataEntrega.DateTime < date then
@@ -3751,13 +3698,6 @@ begin
 
                       btn_alterar_pessoa.Enabled := true;
 
-                     (*
-                      {pedido concreto}
-                      if qryPedidoConcreto.RecordCount = 0 then
-                        qryPedidoConcreto.insert
-                      else
-                        qryPedidoConcreto.Edit;
-                     *)
                       // eliminar essa comissão ferrari depois...
                       if p_empresa = 'TRIUNFO' then
                       begin
@@ -3789,7 +3729,8 @@ begin
 
   uTipos.opExcluir: begin
                       self.LerDados;
-                      lbl_titulo_topo.Caption := 'CADASTRO DE PEDIDOS - ' + 'Exclusão do Pedido N.: ' + inttostr(codigo);;
+                      //lbl_titulo_topo.Caption := 'CADASTRO DE PEDIDOS - ' + 'Exclusão do Pedido N.: ' + inttostr(codigo);;
+                      lbl_titulo_topo.Caption := 'Exclusão do Pedido N.: ' + inttostr(codigo);;
                       btnOk.Caption           := 'INATIVAR PEDIDO';
                       {não exclui marca como orcamento}
                       cb_orcamento.Checked    := true;
@@ -3859,12 +3800,12 @@ begin
   p_vendedor_id := qry.FieldByName('VENDEDOR_ID').AsInteger;
 
   {aba venda}
-  lbl_cliente_id.Caption      := IntToStr(p_cliente_id);// qry.FieldByName('CLIENTE_ID').AsString;
+  //lbl_cliente_id.Caption      := IntToStr(p_cliente_id);// qry.FieldByName('CLIENTE_ID').AsString;
 
   {busca o cliente}
   uBiblioteca.FilterCds(qryClientes, uTipos.fsInteger, inttostr( p_cliente_id));
   lbl_cliente_nome.Caption    := qryClientes.FieldByName('NOME').AsString;
-  lbl_vendedor_id.Caption     := qry.FieldByName('VENDEDOR_ID').AsString;
+  //lbl_vendedor_id.Caption     := qry.FieldByName('VENDEDOR_ID').AsString;
 
   {busca o vendedor}
   cbxVendedores.KeyValue      := p_vendedor_id;
@@ -5397,21 +5338,7 @@ begin
       novoItem := cdsPedidoItens.FieldByName('ID').AsInteger;
       qryGravaPedidoItens.Edit;
     end;
-    // AQUI TEM UN ERRO, FALTA VER A SITUAÇÃO PARCIAL
-    {default}
-    //situacao_dos_itens := 'ABERTO';
-    (*
-    {se a situacao do pedido estiver aguardando, passa os itens do pedido para aguardando}
-    if cbx_situacao.Text = 'AGUARDANDO' then
-      if cdsPedidoItens.fieldbyname('SITUACAO').AsString = 'ABERTO' then
-        situacao_dos_itens := 'AGUARDANDO';
 
-    {se a situacao do pedido estiver aberto, passa os itens do pedido para aberto, menos
-    concreto e bomba}
-      if (cdsPedidoItens.fieldbyname('CONCRETO').AsString = 'S') or (cdsPedidoItens.fieldbyname('BOMBA').AsString = 'S') then
-        situacao_dos_itens := 'AGUARDANDO';
-    *)
-    // corrigido em 06/04/2025
     if cbx_situacao.Text = 'AGUARDANDO' then
         situacao_dos_itens := 'AGUARDANDO';
 
@@ -5455,23 +5382,23 @@ begin
     qryGravaPedidoItens.FieldByName('QTDE_REAL_LAJE').AsFloat    := cdsPedidoItens.fieldbyname('QTDE_REAL_LAJE').AsFLOAT ;
     qryGravaPedidoItens.Post;
 
-//***codigo incluso em 19/05/2025 para corrigir erro de duplicação de adionais
-//*** mais abaixo comentei uma parte do código. linha : 5650 mais ou menos
-   {exluir ferragens negativa/positiva do banco caso houver}
-   if not cdsferragensdeletados.IsEmpty then
-   begin
-     cdsFerragensDeletados.First;
-     while not cdsFerragensDeletados.eof do
-     begin
-       cdsFerragensDeletados.First;
-       //ShowMessage(' excluir id : ' + cdsFerragensDeletados.FieldByName('ID').AsString);
-       uBiblioteca.FilterCds( qryGravaFerragens, uTipos.fsInteger, cdsFerragensDeletados.FieldByName('ID').AsString);
-       {deleta no banco}
-       qryGravaFerragens.Delete;
+    //***codigo incluso em 19/05/2025 para corrigir erro de duplicação de adionais
+    //*** mais abaixo comentei uma parte do código. linha : 5650 mais ou menos
+    {exluir ferragens negativa/positiva do banco caso houver}
+    if not cdsferragensdeletados.IsEmpty then
+    begin
+      cdsFerragensDeletados.First;
+      while not cdsFerragensDeletados.eof do
+      begin
+        cdsFerragensDeletados.First;
+        //ShowMessage(' excluir id : ' + cdsFerragensDeletados.FieldByName('ID').AsString);
+        uBiblioteca.FilterCds( qryGravaFerragens, uTipos.fsInteger, cdsFerragensDeletados.FieldByName('ID').AsString);
+        {deleta no banco}
+        qryGravaFerragens.Delete;
 
-       cdsFerragensDeletados.delete;
-     end;
-   end;
+        cdsFerragensDeletados.delete;
+      end;
+    end;
 
 //**
     {ferragem negativa }
@@ -5660,20 +5587,6 @@ begin
     Operacao := opExcluir;
     prc_salvar_comissao;
   end;
-(*  alterado em 16/05/2025
-motivo: ao excluir um adicional de viga e excluir novamente na mesma viga
-o adicional duplica.. então comentei esta parte. mas preciso analizar se não
-dara outro problema
-
-  {Importante...caso o usuario excluir o item negativo de laje a procedure
-  SalvarFerragens, não será executada acima...
-  então executo depois por segurança }
-  if not cdsFerragensDeletados.IsEmpty then
-  begin
-    showmessage('incluindo ferragem') ;
-    SalvarFerragens(novoItem);
-  end;
-*)
   {atualizo o painel financeiro pra atualizar os labels com os valores da comissao
   ai consigo enviar pra o contas a pagar}
   prc_atualizar_Painel_comissao_triunfo;
@@ -6200,7 +6113,7 @@ begin
 
   if eLaje(cdsPedidoItens.FieldByName('PRODUTO_ID').AsInteger) then
   begin
-
+    lbl_descricao_laje.Caption := cdsPedidoItens.FieldByName('DESCRICAO').AsString;
     {carrega as propriedades da laje selecionada}
     p_item_pedido   := cdsPedidoItens.FieldByName('ITEM').AsInteger;
     p_qtde_vigas    := cdsPedidoItens.FieldByName('QTDE_VIGAS').AsInteger;
@@ -7436,11 +7349,10 @@ end;
 procedure TfrmPedidosE.EditarItemLaje(cdsItensLaje: TFDMemTable);
 var
   tamanho_viga: integer;
-  itemDoPedido, itemDaLaje: integer;
+  itemDaLaje: integer;
   tipo_produto : STRING;
 begin
   {guarda posições }
-//  itemDoPedido := cdsPedidoItens.FieldByName('id').AsInteger;
   itemDaLaje   := cdsItensLaje.FieldByName('id').AsInteger;
 
   {edição do produto}
@@ -7519,7 +7431,6 @@ begin
             cdsPedidoFerragens.First;
             while not cdsPedidoFerragens.eof do
             begin
-//showmessage('AQUIII');
               AddFerragem(
                            true, // é reforço de viga ?
                            cdsPedidoFerragens,
@@ -7547,26 +7458,10 @@ begin
 
             SomarReforcoViga; //(*)
           end; // if not cdsPedidoFerragens.IsEmpty then
-
-          //SomarReforcoViga; (*) 07/11/2024 PASSEI PRA CIMA
-          //SomarValorProdutos;
-
-
-
-
         end;
 
         p_pedido_alterado := true;
       end;
-      (* alterado em 07/11/2024
-      {Volta para posições iniciais}
-      cdsPedidoItens.First;
-      cdsPedidoItens.Locate( 'id',itemDoPedido,[]);
-
-      pcPrincipal.ActivePage := tbs_itens_laje;
-      cdsItensLaje.First;
-      cdsItensLaje.Locate( 'id',itemDaLaje,[]);
-      *)
     finally
       FreeAndNil( frmPesquisaProdutos );
     end;
@@ -7585,45 +7480,94 @@ begin
 
 end;
 
-procedure TfrmPedidosE.dbg_contas_receberDblClick(Sender: TObject);
+procedure TfrmPedidosE.dbg_itens_lajeDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  X, Y: Integer;
 begin
-  inherited;
-(*
-  {chama o formulário de baixa do contas a receber}
-  if not dsContasReceber.DataSet.IsEmpty then
-  if qryContasReceber.FieldByName('SALDO_ABERTO').Asfloat > 0.01 then
+  if Column.Title.Caption = 'Ações' then
   begin
+    dbg_itens_laje.Canvas.FillRect(Rect);
 
-    ufrmContasReceber_Baixa.executa(qryContasReceber.FieldByName('ID').AsInteger,
-                   lbl_cliente_nome.Caption, qryContasReceber.FieldByName('SALDO_ABERTO').Asfloat);
+    X := Rect.Left + (Rect.Width - ImageList1.Width) div 2;
+    Y := Rect.Top + (Rect.Height - ImageList1.Height) div 2;
 
-    {atualiza a conta}
-    uBiblioteca.FilterCds(qryContasReceber, utipos.fsInteger, inttostr(Codigo));
+    ImageList1.Draw(dbg_itens_laje.Canvas, X, Y, 0); // índice do ícone
+  end
+  else
+    dbg_itens_laje.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
 
+procedure TfrmPedidosE.dbg_itens_lajeMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  GC: TGridCoord;
+begin
+  if Button <> mbLeft then Exit;
+
+  GC := dbg_itens_laje.MouseCoord(X, Y);
+
+  // Linha inválida ou cabeçalho
+  if (GC.X < 1) or (GC.Y < 1) then Exit;
+
+  // Verifica se clicou na coluna "Ações"
+  if dbg_itens_laje.Columns[GC.X - 1].Title.Caption = 'Ações' then
+  begin
+    // Posiciona o dataset na linha correta
+    dbg_itens_laje.DataSource.DataSet.RecNo := GC.Y;
+
+    pmCRUItensLaje.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
   end;
-*)
 end;
 
 procedure TfrmPedidosE.dbg_itens_vendaDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-var  ValorParaExibir : string;
+var
+  X, Y: Integer;
 begin
-  inherited;
+  if Column.Title.Caption = 'Ações' then
+  begin
+    dbg_itens_venda.Canvas.FillRect(Rect);
+
+    X := Rect.Left + (Rect.Width - ImageList1.Width) div 2;
+    Y := Rect.Top + (Rect.Height - ImageList1.Height) div 2;
+
+    ImageList1.Draw(dbg_itens_venda.Canvas, X, Y, 0); // índice do ícone
+  end
+  else
+    dbg_itens_venda.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmPedidosE.dbg_itens_vendaMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  GC: TGridCoord;
+begin
+  if Button <> mbLeft then Exit;
+
+  GC := dbg_itens_venda.MouseCoord(X, Y);
+
+  // Linha inválida ou cabeçalho
+  if (GC.X < 1) or (GC.Y < 1) then Exit;
+
+  // Verifica se clicou na coluna "Ações"
+  if dbg_itens_venda.Columns[GC.X - 1].Title.Caption = 'Ações' then
+  begin
+    // Posiciona o dataset na linha correta
+    dbg_itens_venda.DataSource.DataSet.RecNo := GC.Y;
+
+    pmCRUItensPedido.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  end;
 end;
 
 procedure TfrmPedidosE.dsItensLajeDataChange(Sender: TObject; Field: TField);
 begin
   inherited;
-  //FiltraReforcoViga(cdsItensLajeH8, 'PEDIDOS_ITENS_LAJE');
   prc_controla_menu_itens_laje;
   prc_filtrar_ferragens('PEDIDOS_ITENS_LAJE', cdsItensLaje.FieldByName('ID').AsInteger);
-//  if cdsItensLaje.FieldByName('NIVEL').AsString = 'VIGA' then
-//  ShowMessage('VIGA') ELSE ShowMessage('OUTROS');
 end;
 
 procedure TfrmPedidosE.prc_controla_menu_itens_laje;
-//var
-//  loQry: TFDQuery;
 begin
   {desabilita se não tiver viga pra exclui}
   pmExcluirViga.Enabled   := not cdsItensLaje.IsEmpty;
@@ -7635,32 +7579,7 @@ begin
 
   {libera se ja tiver lajota ou isopor incluso}
   pmLiberarLajotaIsopor.Enabled := ((pmIncluirIsopor.Enabled = true) or (pmIncluirLajota.Enabled = true));
-
-  {só habilita se for viga}
-//  loQry := uBiblioteca.CriaQuery(self.Conexao,'select * from PRODUTOS_VIGAS where PRODUTO_ID =:ID',false);
-  (*
-  try
-    loqry := TFDQuery.Create(self);
-    loQry.Connection := conexao;
-    loQry.Close;
-    loqry.SQL.Clear;
-    loqry.SQL.Add('select * from PRODUTOS_VIGAS where PRODUTO_ID =:ID');
-
-    loQry.ParamByName('ID').AsInteger := cdsItensLaje.FieldByName('PRODUTO_ID').AsInteger;
-    loQry.Open();
-
-    pmIncluirReforcoAdicional.Enabled := loQry.RecordCount = 1;
-  finally
-    loqry.Close;
-    FreeAndNil( loQry );
-
-  end;
-  *)
   pmIncluirReforcoAdicional.Enabled := cdsItensLaje.FieldByName('NIVEL').AsString = 'VIGA';
-
-
-  //prc_filtrar_ferragens('PEDIDOS_ITENS_LAJE', cdsItensLajeH8.FieldByName('ID').AsInteger);
-
 end;
 
 procedure TfrmPedidosE.dsPedidoFerragensDataChange(Sender: TObject;
@@ -7685,11 +7604,10 @@ begin
   if cdsPedidoItens.FieldByName('VIGA').AsString = 'S' then
   begin
     pmIncluirReforoAdicional.Enabled := true;
-    gbReforcosVigas.Visible          := true;
+    gbReforcosVigas.Caption := cdsItensLaje.FieldByName('descricao').AsString;
+    gbReforcosVigas.Visible := true;
     prc_controla_menu_itens_laje;
     prc_filtrar_ferragens('PEDIDOS_ITENS', cdsPedidoItens.FieldByName('ID').AsInteger);
-
-    //ShowMessage('filtrando reforço');
   end
   else
   begin
@@ -7832,63 +7750,6 @@ begin
   openQryAux('select * from PRODUTOS where REFORCO_DE_VIGA = :REFORCO','S') ;
   Result:= qryAux.FieldByName('ID').AsInteger;
 end;
-
-(*
-function TfrmPedidosE.eConcreto(produto: integer): boolean;
-begin
-  {Verifica se o produto passado como parametro é um Ferro adicional}
-  Result:= openQryAux('select * from PRODUTOS_CONCRETO where PRODUTO_ID =:ID',IntToStr(produto)) = 1;
-end;
-*)
-(*
-function TfrmPedidosE.eBomba(produto: integer): boolean;
-begin
-  {Verifica se o produto passado como parametro é um Ferro adicional}
-  Result:= openQryAux('select * from PRODUTOS_BOMBA where PRODUTO_ID =:ID',IntToStr(produto)) = 1;
-end;
-*)
-
-(*
-procedure TfrmPedidosE.ControlaGuiaLajes(produto: integer);
-var
-  loQry : TFDQuery;
-begin
-  try
-    loQry := TFDQuery.Create(self);
-    loQry.Connection := self.Conexao;
-    loQry.SQL.Add('select * from PRODUTOS_LAJES where PRODUTO_ID =:ID');
-    loQry.Params[0].AsInteger := produto;
-    loQry.Open();
-
-    {Verifica se o produto passado como parametro é uma laje}
-    //if eLaje(produto) then
-    if loQry.RecordCount = 1 then
-    begin
-      {achou! é uma laje}
-
-      {cofigura as guias para a laje selecionada}
-
-      {Carrega variaveis}
-      p_largura_forma := loQry.FieldByName('FORMA').AsInteger;
-      p_altura_Laje   := loQry.FieldByName('ALTURA').AsInteger;
-      p_lajota        := loQry.FieldByName('LAJOTA').AsString;
-      p_isopor        := loQry.FieldByName('ISOPOR').AsString;
-      p_qtde_vigas    := cdsPedidoItens.FieldByName('QTDE_VIGAS').AsInteger;
-      p_item_pedido   := cdsPedidoItens.FieldByName('ITEM').AsInteger;
-
-      //...
-      tbs_itens_laje.TabVisible := True;
-    end // fim recordcount = 1
-    else
-    begin
-      tbs_itens_laje.TabVisible := false;
-    end;
-  finally
-    FreeAndNil(loQry);
-  end;
-end;
-*)
-
 
 procedure TfrmPedidosE.filtrarVigas(cds: TFDMemTable; nrPedido, nrItem: integer);
 begin
@@ -8141,34 +8002,9 @@ begin
   cds.FieldByName('LOCAL').AsString       := aLocal;
   cds.FieldByName('SITUACAO').AsString    := aSituacao;
   cds.FieldByName('NIVEL').AsString       := aNivel;
-  //cds.FieldByName('ADICIONAL_DE_VIGA').AsString  := aAdicionalViga;
   cds.Post;
 
 end;
-(*
-procedure TfrmPedidosE.FiltraReforcosViga(dsViga: TDataSource; nmTabela:string; cdsViga: TClientDataSet);
-var
-  id: integer;
-begin
- {Filtra um cds de forma genérica}
-
- if  dsViga.DataSet.State = dsBrowse then
- begin
-   id := cdsViga.FieldByName('ID').AsInteger;
-
-   {dsViga é o cds que eu quero filtrar
-    ou seja só pode ser o cdsFerragem ou cdsReforcoViga}
-
-   dsViga.DataSet.Filter   := '';
-   dsViga.DataSet.Filtered := false;
-   dsViga.DataSet.Filter   := 'TABELA = ' + QuotedStr(nmTabela) + ' and ID_TABELA = ' + inttostr(id) ;
-   dsViga.DataSet.Filtered := true;
-
-   gbReforcosVigas.Visible := dsViga.DataSet.RecordCount > 0;
- end;
-
-end;
-*)
 
 procedure TfrmPedidosE.prc_filtrar_ferragens(nome_tabela: string; tabela_id: integer);
 begin
@@ -8179,7 +8015,13 @@ begin
                                   ' and ID_TABELA = ' + QuotedStr(IntToStr(tabela_id));
    cdsPedidoFerragens.Filtered := true;
 
-   gbReforcosVigas.Visible := cdsPedidoFerragens.RecordCount > 0;
+   if cdsPedidoFerragens.RecordCount > 0 then
+   begin
+     //gbReforcosVigas.Visible := cdsPedidoFerragens.RecordCount > 0;
+     gbReforcosVigas.Visible := true;
+     gbReforcosVigas.Caption := cdsItensLaje.FieldByName('descricao').AsString;
+   end else
+     gbReforcosVigas.Visible := false;
 end;
 
 

@@ -16,6 +16,10 @@ inherited frmProdutosE: TfrmProdutosE
     inherited lbl_titulo: TLabel
       Width = 574
       Height = 32
+      ExplicitLeft = 79
+      ExplicitTop = 17
+      ExplicitWidth = 574
+      ExplicitHeight = 32
     end
     inherited lbl_sub_titulo: TLabel
       Top = 32
@@ -313,7 +317,8 @@ inherited frmProdutosE: TfrmProdutosE
       inherited btnFechar: TBitBtn
         Left = 170
         Width = 110
-        ExplicitLeft = 170
+        ExplicitLeft = 202
+        ExplicitTop = 1
         ExplicitWidth = 110
       end
     end

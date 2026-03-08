@@ -311,6 +311,8 @@ end;
 procedure TfrmProdutosE.dbg_condicoes_pagtoDblClick(Sender: TObject);
 begin
   inherited;
+  if dbg_condicoes_pagto.DataSource.DataSet.IsEmpty then exit;
+
   if frmTabelaPrecosE = nil then
   begin
     try

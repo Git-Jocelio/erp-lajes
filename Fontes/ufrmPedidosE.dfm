@@ -2,14 +2,13 @@ inherited frmPedidosE: TfrmPedidosE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmPedidosE'
-  ClientHeight = 729
+  ClientHeight = 696
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
-  ExplicitLeft = -249
-  ExplicitTop = -188
+  ExplicitTop = -141
   ExplicitWidth = 1303
-  ExplicitHeight = 735
+  ExplicitHeight = 702
   TextHeight = 17
   object DBText1: TDBText [0]
     Left = 416
@@ -43,27 +42,6 @@ inherited frmPedidosE: TfrmPedidosE
       Visible = False
       ExplicitTop = 37
       ExplicitWidth = 55
-    end
-    object lbl_titulo_topo: TLabel
-      AlignWithMargins = True
-      Left = 15
-      Top = 0
-      Width = 232
-      Height = 37
-      Margins.Left = 15
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      Caption = 'CADASTRO DE PEDIDOS'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 8404992
-      Font.Height = -21
-      Font.Name = 'Segoe UI Semibold'
-      Font.Style = []
-      ParentFont = False
-      Layout = tlCenter
-      ExplicitHeight = 30
     end
     object btn_fechar: TSpeedButton
       Left = 1227
@@ -137,14 +115,35 @@ inherited frmPedidosE: TfrmPedidosE
       ExplicitLeft = 1035
       ExplicitHeight = 80
     end
+    object lbl_titulo_topo: TLabel
+      AlignWithMargins = True
+      Left = 15
+      Top = 0
+      Width = 232
+      Height = 37
+      Margins.Left = 15
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Caption = 'CADASTRO DE PEDIDOS'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 8404992
+      Font.Height = -21
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+      Layout = tlCenter
+      ExplicitHeight = 30
+    end
   end
   inherited pnDados: TPanel
     Top = 54
     Width = 1297
-    Height = 630
+    Height = 597
     ExplicitTop = 54
     ExplicitWidth = 1297
-    ExplicitHeight = 630
+    ExplicitHeight = 597
     object pcVenda: TPageControl
       Left = 0
       Top = 55
@@ -964,9 +963,9 @@ inherited frmPedidosE: TfrmPedidosE
       Left = 0
       Top = 232
       Width = 1297
-      Height = 398
+      Height = 365
       Cursor = crHandPoint
-      ActivePage = tbs_itens_laje
+      ActivePage = tbs_itens_pedido
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
@@ -977,13 +976,14 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
+          Align = alClient
           TabOrder = 0
           object dbg_itens_venda: TDBGrid
             Left = 1
-            Top = 1
+            Top = 36
             Width = 1287
-            Height = 361
+            Height = 293
             Hint = 
               'Click com o bot'#227'o direito do mouse para incluir/alterar/excluir ' +
               'um item'
@@ -999,6 +999,7 @@ inherited frmPedidosE: TfrmPedidosE
             TitleFont.Style = []
             OnDrawColumnCell = dbg_itens_vendaDrawColumnCell
             OnDblClick = pmAlterarItemPedidoClick
+            OnMouseUp = dbg_itens_vendaMouseUp
             Columns = <
               item
                 Alignment = taCenter
@@ -1013,7 +1014,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1031,7 +1032,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1049,7 +1050,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1067,7 +1068,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 87
                 Visible = True
@@ -1080,16 +1081,18 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Style = []
+                Title.Alignment = taCenter
                 Title.Caption = 'Descri'#231#227'o'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 270
                 Visible = True
               end
               item
+                Alignment = taCenter
                 Expanded = False
                 FieldName = 'QTDE'
                 Font.Charset = ANSI_CHARSET
@@ -1102,9 +1105,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 66
+                Width = 70
                 Visible = True
               end
               item
@@ -1120,9 +1123,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 105
+                Width = 110
                 Visible = True
               end
               item
@@ -1138,7 +1141,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 110
                 Visible = True
@@ -1156,7 +1159,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 110
                 Visible = True
@@ -1175,9 +1178,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 173
+                Width = 110
                 Visible = True
               end
               item
@@ -1194,9 +1197,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 68
+                Width = 80
                 Visible = True
               end
               item
@@ -1213,9 +1216,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 79
+                Width = 80
                 Visible = True
               end
               item
@@ -1232,7 +1235,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 71
                 Visible = True
@@ -1251,7 +1254,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1269,7 +1272,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 52
                 Visible = True
@@ -1288,7 +1291,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 54
                 Visible = True
@@ -1307,7 +1310,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1325,7 +1328,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 49
                 Visible = True
@@ -1344,7 +1347,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1362,7 +1365,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 75
                 Visible = True
@@ -1381,7 +1384,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1393,10 +1396,11 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Style = []
+                Title.Alignment = taCenter
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1414,7 +1418,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1426,16 +1430,23 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Style = []
+                Title.Alignment = taCenter
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'QTDE_REAL_LAJE'
+                Title.Alignment = taCenter
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
                 Visible = True
               end
               item
@@ -1446,10 +1457,11 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Style = []
+                Title.Alignment = taCenter
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 135
                 Visible = True
@@ -1457,6 +1469,12 @@ inherited frmPedidosE: TfrmPedidosE
               item
                 Expanded = False
                 FieldName = 'ESTOQUE_CONTROLADO'
+                Title.Alignment = taCenter
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
                 Visible = True
               end
               item
@@ -1468,11 +1486,89 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 100
                 Visible = True
+              end
+              item
+                Expanded = False
+                Title.Alignment = taCenter
+                Title.Caption = 'A'#231#245'es'
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -12
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
+                Visible = True
               end>
+          end
+          object Panel4: TPanel
+            Left = 1
+            Top = 1
+            Width = 1287
+            Height = 35
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 1
+            object btn_incluir: TSpeedButton
+              AlignWithMargins = True
+              Left = 19
+              Top = 5
+              Width = 285
+              Height = 29
+              Cursor = crHandPoint
+              Caption = '   Incluir um novo produto ao pedido'
+              Flat = True
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clGray
+              Font.Height = -13
+              Font.Name = 'Segoe UI Semibold'
+              Font.Style = [fsBold]
+              Glyph.Data = {
+                E6040000424DE604000000000000360000002800000014000000140000000100
+                180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFE7E5E3D5D0CCD5D0CCE7E5E3FFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFA99F98614D42543F324F392C4F392C543F32614D42A99F98FFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE0DDDB5F4A3E
+                503A2D79685EB1A7A2CEC9C5CEC9C5B1A7A278685E4F3A2D5F4B3FE1DDDBFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE1DCDA5844385B473CD1CBC8FF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD1CBC85B473A584438E1DDDBFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5E4A3F5B473BFAFAF9FFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAF8F95B473B5F4B3FFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFA89E97503A2DD1CDC9FFFFFFFFFFFFFFFFFFFFFFFFEBE8E7
+                EBE8E7FFFFFFFFFFFFFFFFFFFFFFFFD0CBC7503A2DA99F99FFFFFFFFFFFFFFFF
+                FFFFFFFF614C4179685FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6E5C516E5C51FF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFF78685E614D41FFFFFFFFFFFFFFFFFFE7E4E2
+                543F33B2A8A3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF726157726157FFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFB1A8A1543F33E7E5E3FFFFFFFFFFFFD5D0CD4F392CCF
+                C9C5FFFFFFFFFFFFEBE8E76E5B517361576653486653487361576E5C51EBE8E7
+                FFFFFFFFFFFFCFC8C54F392CD5D0CDFFFFFFFFFFFFD5D0CD4F392CCFC9C6FFFF
+                FFFFFFFFEBE8E76D5B517361576653486653487361576D5C51EBE8E7FFFFFFFF
+                FFFFCEC8C54F392CD5CFCCFFFFFFFFFFFFE7E4E2543F33B2A9A3FFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFF726157726157FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB2A8
+                A2543F32E7E4E3FFFFFFFFFFFFFFFFFF604C417A685FFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFF6E5C516E5C51FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF78685F614D42
+                FFFFFFFFFFFFFFFFFFFFFFFFA89D96503A2DD3CDC9FFFFFFFFFFFFFFFFFFFFFF
+                FFEBE8E7EBE8E7FFFFFFFFFFFFFFFFFFFFFFFFD2CCC8503A2DA99F98FFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFF5F4A3E5C473BFBFAFAFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFAFAF95C463B5F4A3FFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFE0DCD95844385C473BD3CECAFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFD1CCC85B473B594438E0DDDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFDFDCD95E493E503A2D796860B3A9A3CFC9C6CFC9C6B2A9A37968
+                5F503A2D5E4A3FE0DDDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFA89E96604C41543F324F392C4F392C543F32614D41A89D97
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFE7E4E2D4CFCCD5CFCCE7E4E2FFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFF}
+              ParentFont = False
+              OnClick = btn_incluirClick
+            end
           end
         end
       end
@@ -1484,7 +1580,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           Align = alClient
           BevelOuter = bvNone
           Color = clWhite
@@ -1492,9 +1588,9 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 0
           object dbg_itens_laje: TDBGrid
             Left = 0
-            Top = 0
+            Top = 41
             Width = 1024
-            Height = 363
+            Height = 289
             Hint = 'Click com o bot'#227'o direito do mouse para ter acesso ao menu'
             Align = alClient
             DataSource = dsItensLaje
@@ -1506,6 +1602,8 @@ inherited frmPedidosE: TfrmPedidosE
             TitleFont.Height = -13
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            OnDrawColumnCell = dbg_itens_lajeDrawColumnCell
+            OnMouseUp = dbg_itens_lajeMouseUp
             Columns = <
               item
                 Alignment = taCenter
@@ -1519,8 +1617,8 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Alignment = taCenter
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1537,8 +1635,8 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Pedido'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Visible = True
               end
@@ -1555,10 +1653,9 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Item'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 46
                 Visible = True
               end
               item
@@ -1574,8 +1671,8 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Produto'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
                 Width = 87
                 Visible = True
@@ -1588,13 +1685,14 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Style = []
+                Title.Alignment = taCenter
                 Title.Caption = 'Descri'#231#227'o'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 272
+                Width = 270
                 Visible = True
               end
               item
@@ -1610,10 +1708,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Qtde'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 75
+                Width = 70
                 Visible = True
               end
               item
@@ -1628,10 +1726,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Custo'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 82
+                Width = 110
                 Visible = True
               end
               item
@@ -1646,10 +1744,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Nivel'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 100
+                Width = 110
                 Visible = True
               end
               item
@@ -1665,9 +1763,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Local'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
+                Width = 110
                 Visible = True
               end
               item
@@ -1683,18 +1782,29 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Caption = 'Situa'#231#227'o'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
-                Title.Font.Height = -12
-                Title.Font.Name = 'Segoe UI'
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 108
+                Width = 110
+                Visible = True
+              end
+              item
+                Expanded = False
+                Title.Alignment = taCenter
+                Title.Caption = 'A'#231#245'es'
+                Title.Font.Charset = ANSI_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -13
+                Title.Font.Name = 'Segoe UI Semibold'
+                Title.Font.Style = [fsBold]
                 Visible = True
               end>
           end
           object gbResumoLajeH8: TGroupBox
             Left = 1024
-            Top = 0
+            Top = 41
             Width = 265
-            Height = 363
+            Height = 289
             Align = alRight
             Caption = ' Resumo '
             TabOrder = 1
@@ -1798,6 +1908,35 @@ inherited frmPedidosE: TfrmPedidosE
               TabOrder = 5
             end
           end
+          object TPanel
+            AlignWithMargins = True
+            Left = 15
+            Top = 3
+            Width = 1271
+            Height = 35
+            Margins.Left = 15
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 2
+            object lbl_descricao_laje: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 5
+              Width = 1265
+              Height = 27
+              Margins.Top = 5
+              Align = alClient
+              Caption = 'lbl_descricao_laje'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clGray
+              Font.Height = -19
+              Font.Name = 'Segoe UI Semibold'
+              Font.Style = [fsBold]
+              ParentFont = False
+              ExplicitWidth = 147
+              ExplicitHeight = 25
+            end
+          end
         end
       end
       object tbs_ferragens: TTabSheet
@@ -1808,7 +1947,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 313
+          Height = 280
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2181,7 +2320,7 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox5: TGroupBox
           Left = 0
-          Top = 313
+          Top = 280
           Width = 1289
           Height = 50
           Align = alBottom
@@ -2267,7 +2406,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 313
+          Height = 280
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2636,7 +2775,7 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox6: TGroupBox
           Left = 0
-          Top = 313
+          Top = 280
           Width = 1289
           Height = 50
           Align = alBottom
@@ -2736,7 +2875,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           Align = alClient
           TabOrder = 0
           object Label33: TLabel
@@ -2965,7 +3104,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           Align = alClient
           TabOrder = 0
           object Label29: TLabel
@@ -3265,7 +3404,6 @@ inherited frmPedidosE: TfrmPedidosE
             TitleFont.Height = -13
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
-            OnDblClick = dbg_contas_receberDblClick
             Columns = <
               item
                 Alignment = taCenter
@@ -3401,7 +3539,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 113
           Width = 1289
-          Height = 250
+          Height = 217
           Align = alClient
           Caption = 'Recebimentos'
           TabOrder = 1
@@ -3409,7 +3547,7 @@ inherited frmPedidosE: TfrmPedidosE
             Left = 2
             Top = 19
             Width = 1285
-            Height = 229
+            Height = 196
             Align = alClient
             DataSource = ds_recibos
             Font.Charset = ANSI_CHARSET
@@ -3530,7 +3668,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           Align = alClient
           DataSource = ds_contas_pagar
           Font.Charset = ANSI_CHARSET
@@ -3922,7 +4060,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 70
           Width = 1289
-          Height = 293
+          Height = 260
           ActivePage = tbs_comissoes
           Align = alClient
           TabOrder = 1
@@ -3933,14 +4071,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 261
+              Height = 228
               Align = alClient
               TabOrder = 0
               object dbg_comissao_itens: TDBGrid
                 Left = 2
                 Top = 19
                 Width = 1277
-                Height = 240
+                Height = 207
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4100,14 +4238,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 261
+              Height = 228
               Align = alClient
               TabOrder = 0
               object dbg_outras_despesas: TDBGrid
                 Left = 38
                 Top = 19
                 Width = 1241
-                Height = 240
+                Height = 207
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4189,7 +4327,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 240
+                Height = 207
                 Align = alLeft
                 TabOrder = 1
                 object btn_incluir_lancamento: TSpeedButton
@@ -4516,7 +4654,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 70
           Width = 1289
-          Height = 293
+          Height = 260
           ActivePage = TabSheet1
           Align = alClient
           TabOrder = 1
@@ -4527,14 +4665,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 261
+              Height = 228
               Align = alClient
               TabOrder = 0
               object DBGrid1: TDBGrid
                 Left = 2
                 Top = 19
                 Width = 1277
-                Height = 240
+                Height = 207
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4694,14 +4832,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 261
+              Height = 228
               Align = alClient
               TabOrder = 0
               object dbg_outras_despesas_ferrari: TDBGrid
                 Left = 38
                 Top = 19
                 Width = 1241
-                Height = 240
+                Height = 207
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4783,7 +4921,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 240
+                Height = 207
                 Align = alLeft
                 TabOrder = 1
                 object TSpeedButton
@@ -4820,7 +4958,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           Align = alClient
           BevelOuter = bvNone
           Font.Charset = ANSI_CHARSET
@@ -5291,7 +5429,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 363
+          Height = 330
           ActivePage = tbs_concreto_realizado
           Align = alClient
           TabOrder = 0
@@ -5732,31 +5870,15 @@ inherited frmPedidosE: TfrmPedidosE
         Align = alClient
         Caption = 'Cliente'
         TabOrder = 0
-        object lbl_cliente_id: TLabel
-          AlignWithMargins = True
-          Left = 108
-          Top = 22
-          Width = 48
-          Height = 26
-          Align = alLeft
-          Alignment = taCenter
-          AutoSize = False
-          Caption = 'lbl_cliente_id'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clBlack
-          Font.Height = -19
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold]
-          ParentFont = False
-          ExplicitLeft = 105
-          ExplicitTop = 19
-          ExplicitHeight = 32
-        end
         object lbl_cliente_nome: TLabel
-          Left = 159
+          AlignWithMargins = True
+          Left = 115
           Top = 19
-          Width = 589
+          Width = 630
           Height = 32
+          Margins.Left = 10
+          Margins.Top = 0
+          Margins.Bottom = 0
           Align = alClient
           Caption = 'lbl_cliente_nome'
           Font.Charset = ANSI_CHARSET
@@ -5850,12 +5972,12 @@ inherited frmPedidosE: TfrmPedidosE
         Width = 336
         Height = 53
         Align = alRight
-        Caption = 'C'#243'd. Pessoa  / Nome Vendedor'
+        Caption = 'Nome Vendedor'
         TabOrder = 1
         object cbxVendedores: TDBLookupComboBox
-          Left = 57
+          Left = 6
           Top = 19
-          Width = 231
+          Width = 282
           Height = 25
           Cursor = crHandPoint
           Hint = 'Selecione um vendedor'
@@ -5864,20 +5986,6 @@ inherited frmPedidosE: TfrmPedidosE
           ListSource = dsVendedores
           TabOrder = 0
           OnCloseUp = cbxVendedoresCloseUp
-        end
-        object lbl_vendedor_id: TPanel
-          Left = 2
-          Top = 19
-          Width = 51
-          Height = 27
-          BevelOuter = bvLowered
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Segoe UI'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 1
         end
         object btn_incluir_vendedor: TBitBtn
           Left = 294
@@ -5915,7 +6023,7 @@ inherited frmPedidosE: TfrmPedidosE
             CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 2
+          TabOrder = 1
           OnClick = btn_incluir_vendedorClick
         end
       end
@@ -5955,16 +6063,15 @@ inherited frmPedidosE: TfrmPedidosE
       end
     end
     object gbReforcosVigas: TGroupBox
-      Left = 708
-      Top = 350
-      Width = 317
+      Left = 570
+      Top = 359
+      Width = 507
       Height = 232
       Cursor = crSizeAll
       Hint = 'Click e Segure para mover'
-      Caption = '  ADICIONAIS DA VIGA.     ( Click e segure para mover )'
       Color = 14803425
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold]
@@ -5976,11 +6083,51 @@ inherited frmPedidosE: TfrmPedidosE
       OnMouseDown = gbReforcosVigasMouseDown
       OnMouseMove = gbReforcosVigasMouseMove
       OnMouseUp = gbReforcosVigasMouseUp
-      object dbg_reforco_viga: TDBGrid
+      object Panel5: TPanel
         Left = 2
         Top = 19
-        Width = 313
-        Height = 211
+        Width = 503
+        Height = 19
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 0
+        object Label49: TLabel
+          Left = 0
+          Top = 0
+          Width = 466
+          Height = 19
+          Align = alClient
+          Caption = '  ADICIONAIS DA VIGA.     ( Click e segure para mover )'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -12
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 293
+          ExplicitHeight = 15
+        end
+        object SpeedButton1: TSpeedButton
+          Left = 466
+          Top = 0
+          Width = 37
+          Height = 19
+          Cursor = crHandPoint
+          Align = alRight
+          Caption = 'X'
+          Flat = True
+          OnClick = SpeedButton1Click
+          ExplicitLeft = 480
+          ExplicitTop = 3
+          ExplicitWidth = 23
+          ExplicitHeight = 22
+        end
+      end
+      object dbg_reforco_viga: TDBGrid
+        Left = 2
+        Top = 38
+        Width = 503
+        Height = 192
         Align = alClient
         DataSource = dsPedidoFerragens
         Font.Charset = ANSI_CHARSET
@@ -5991,7 +6138,7 @@ inherited frmPedidosE: TfrmPedidosE
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ParentFont = False
         PopupMenu = pmCRUDReforcoViga
-        TabOrder = 0
+        TabOrder = 1
         TitleFont.Charset = ANSI_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -13
@@ -6283,10 +6430,10 @@ inherited frmPedidosE: TfrmPedidosE
     end
   end
   inherited pnRodape: TPanel
-    Top = 684
+    Top = 651
     Width = 1297
     Height = 45
-    ExplicitTop = 684
+    ExplicitTop = 651
     ExplicitWidth = 1297
     ExplicitHeight = 45
     inherited pnl_botoes: TPanel
@@ -7031,11 +7178,6 @@ inherited frmPedidosE: TfrmPedidosE
   object pmCRUItensPedido: TPopupMenu
     Left = 61
     Top = 267
-    object pmIncluirItemPedido: TMenuItem
-      Caption = 'Incluir Item ao Pedido'
-      ShortCut = 112
-      OnClick = pmIncluirItemPedidoClick
-    end
     object pmAlterarItemPedido: TMenuItem
       Caption = 'Alterar Item Selecionado'
       ShortCut = 114
@@ -7550,5 +7692,148 @@ inherited frmPedidosE: TfrmPedidosE
     DataSet = cdsFerragensDeletados
     Left = 400
     Top = 189
+  end
+  object ImageList1: TImageList
+    Left = 488
+    Top = 209
+    Bitmap = {
+      494C010101000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFEFEFEFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0D0D0DFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF121212FF1212
+      12FF121212FF121212FF121212FF121212FF121212FF121212FF121212FF1212
+      12FF121212FF121212FF0C0C0CFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0E0E0EFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF121212FF1313
+      13FF131313FF131313FF131313FF131313FF131313FF131313FF131313FF1313
+      13FF131313FF131313FF0C0C0CFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFF0F0F0FFF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FFEFEFEFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFF111111FF1212
+      12FF121212FF121212FF121212FF121212FF121212FF121212FF121212FF1212
+      12FF121212FF121212FF0D0D0DFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF0000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000}
   end
 end

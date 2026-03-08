@@ -10,7 +10,6 @@ inherited frmPedididosFerragensE: TfrmPedididosFerragensE
     ExplicitWidth = 525
     inherited lbl_titulo: TLabel
       Width = 529
-      Height = 40
     end
     inherited lbl_sub_titulo: TLabel
       Width = 529

@@ -1,9 +1,9 @@
 inherited frmPesquisaProdutos: TfrmPesquisaProdutos
   BorderStyle = bsNone
-  BorderWidth = 3
+  BorderWidth = 5
   Caption = 'Pesquisa de Produtos '
-  ClientHeight = 552
-  ClientWidth = 1044
+  ClientHeight = 548
+  ClientWidth = 1040
   OnActivate = FormActivate
   OnShow = FormShow
   ExplicitWidth = 1050
@@ -11,12 +11,14 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
   TextHeight = 15
   object pnRodape: TPanel [0]
     Left = 0
-    Top = 434
-    Width = 1044
+    Top = 430
+    Width = 1040
     Height = 66
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 434
+    ExplicitWidth = 1044
     object gbQtde: TGroupBox
       Left = 0
       Top = 0
@@ -102,19 +104,18 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     object gbItemPedido: TGroupBox
       Left = 436
       Top = 0
-      Width = 608
+      Width = 604
       Height = 66
       Align = alClient
       Color = clWhite
       ParentBackground = False
       ParentColor = False
       TabOrder = 2
-      ExplicitLeft = 442
-      ExplicitTop = 3
+      ExplicitWidth = 608
       object lbNivel: TLabel
         Left = 78
         Top = 6
-        Width = 109
+        Width = 105
         Height = 15
         Caption = 'Nivel / Observa'#231#245'es'
         Font.Charset = ANSI_CHARSET
@@ -277,12 +278,13 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
   object pnl_cabecalho: TPanel [1]
     Left = 0
     Top = 0
-    Width = 1044
+    Width = 1040
     Height = 57
     Align = alTop
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 1044
     object lbl_titulo: TLabel
       AlignWithMargins = True
       Left = 15
@@ -305,7 +307,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ExplicitHeight = 30
     end
     object SpeedButton1: TSpeedButton
-      Left = 974
+      Left = 970
       Top = 0
       Width = 70
       Height = 56
@@ -379,7 +381,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     object pnl_separa_topo: TPanel
       Left = 0
       Top = 56
-      Width = 1044
+      Width = 1040
       Height = 1
       Margins.Left = 10
       Margins.Top = 0
@@ -390,22 +392,25 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = clSilver
       ParentBackground = False
       TabOrder = 0
+      ExplicitWidth = 1044
     end
   end
   object Panel5: TPanel [2]
     Left = 0
     Top = 57
-    Width = 1044
-    Height = 377
+    Width = 1040
+    Height = 373
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 1044
+    ExplicitHeight = 377
     object dbgProdutos: TDBGrid
       AlignWithMargins = True
       Left = 20
       Top = 136
-      Width = 1004
-      Height = 231
+      Width = 1000
+      Height = 227
       Hint = 'DUPLO < CLICK > PARA VISUALIZAR REGISTRO'
       Margins.Left = 20
       Margins.Top = 0
@@ -510,7 +515,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       AlignWithMargins = True
       Left = 20
       Top = 95
-      Width = 1004
+      Width = 1000
       Height = 41
       Margins.Left = 20
       Margins.Top = 0
@@ -521,6 +526,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = 8404992
       ParentBackground = False
       TabOrder = 1
+      ExplicitWidth = 1004
       object lbl_resultado: TLabel
         AlignWithMargins = True
         Left = 15
@@ -547,7 +553,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       AlignWithMargins = True
       Left = 20
       Top = 3
-      Width = 1004
+      Width = 1000
       Height = 89
       Margins.Left = 20
       Margins.Right = 20
@@ -556,6 +562,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       Color = clGradientInactiveCaption
       ParentBackground = False
       TabOrder = 2
+      ExplicitWidth = 1004
       object rgFiltrar: TRadioGroup
         Left = 0
         Top = 0
@@ -589,13 +596,14 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       object Panel2: TPanel
         Left = 413
         Top = 0
-        Width = 591
+        Width = 587
         Height = 89
         Align = alClient
         BevelOuter = bvNone
         Color = clWhite
         ParentBackground = False
         TabOrder = 1
+        ExplicitWidth = 591
         object rgTipoForma: TRadioGroup
           Left = 3
           Top = 0
@@ -753,16 +761,18 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
   end
   object gbBotoes: TGroupBox [3]
     Left = 0
-    Top = 500
-    Width = 1044
+    Top = 496
+    Width = 1040
     Height = 52
     Align = alBottom
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
+    ExplicitTop = 500
+    ExplicitWidth = 1044
     DesignSize = (
-      1044
+      1040
       52)
     object lbl_forma_pagamento: TLabel
       Left = 16
@@ -779,7 +789,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
     end
     object btnConfirma: TBitBtn
       AlignWithMargins = True
-      Left = 354
+      Left = 352
       Top = 10
       Width = 185
       Height = 31
@@ -794,10 +804,11 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentFont = False
       TabOrder = 0
       OnClick = btnConfirmaClick
+      ExplicitLeft = 354
     end
     object btn_fechar: TBitBtn
       AlignWithMargins = True
-      Left = 545
+      Left = 543
       Top = 10
       Width = 132
       Height = 31
@@ -811,6 +822,7 @@ inherited frmPesquisaProdutos: TfrmPesquisaProdutos
       ParentFont = False
       TabOrder = 1
       OnClick = btn_fecharClick
+      ExplicitLeft = 545
     end
   end
   inherited qry: TFDQuery

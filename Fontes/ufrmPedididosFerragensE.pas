@@ -48,6 +48,7 @@ type
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
   private
     FTitulo: string;
     //FTabela: string;
@@ -112,6 +113,12 @@ uses  uBiblioteca;
 
 {$R *.dfm}
 
+
+procedure TfrmPedididosFerragensE.btnFecharClick(Sender: TObject);
+begin
+  confirmado := false;
+  inherited;
+end;
 
 procedure TfrmPedididosFerragensE.btnOkClick(Sender: TObject);
 begin
