@@ -19,7 +19,7 @@
       Top = 19
       Width = 1032
       Height = 146
-      ActivePage = tbs_customizado
+      ActivePage = TabSheet2
       Align = alClient
       DragCursor = crHandPoint
       TabOrder = 2

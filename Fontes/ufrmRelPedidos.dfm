@@ -14711,9 +14711,9 @@ inherited frmRelPedidos: TfrmRelPedidos
           Frame.Typ = []
           Memo.UTF8W = (
             
-              'Entrega : [local_entrega."ENDERECO"] [local_entrega."NUMERO"] [l' +
-              'ocal_entrega."BAIRRO"] [local_entrega."CIDADE"] CEP. [local_entr' +
-              'ega."CEP"]'
+              'Entrega : [local_entrega."ENDERECO"], [local_entrega."NUMERO"], ' +
+              '[local_entrega."BAIRRO"], [local_entrega."CIDADE"] - CEP. [local' +
+              '_entrega."CEP"],'
             'OBS : [local_entrega."COMPLEMENTO"]')
           ParentFont = False
           Formats = <
@@ -14804,11 +14804,13 @@ inherited frmRelPedidos: TfrmRelPedidos
           Frame.Typ = []
           Memo.UTF8W = (
             
-              '[Cliente."ENDERECO"]  N. [Cliente."NUMERO"] Bairro  : [Cliente."' +
-              'BAIRRO"] Cidade : [Cliente."CIDADE"] CEP : [Cliente."CEP"]'
+              '[Cliente."ENDERECO"],  N. [Cliente."NUMERO"], Bairro  : [Cliente' +
+              '."BAIRRO"], Cidade : [Cliente."CIDADE"] - CEP : [Cliente."CEP"]'
             '')
           ParentFont = False
           Formats = <
+            item
+            end
             item
             end
             item
@@ -14837,7 +14839,7 @@ inherited frmRelPedidos: TfrmRelPedidos
           IndexTag = 1
           AllowVectorExport = True
           Left = 84.370130000000000000
-          Top = 63.881875120000000000
+          Top = 65.881875120000000000
           Width = 631.181510000000000000
           Height = 15.118110240000000000
           DataSet = frxDBPedido

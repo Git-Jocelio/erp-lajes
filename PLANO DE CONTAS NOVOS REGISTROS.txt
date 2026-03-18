@@ -1,0 +1,9 @@
+insert into plano_contas
+(id,cadastrado_em, nr_conta, tipo, descricao, custo_fixo, custo_variavel,
+  vai_para_dre, vai_para_fluxo_caixa, vai_para_balanco, ativo)
+  values(74, '01/01/2025','3.1.1.9','A','COMPRA DE CONCRETO USINADO','N','S','S','S','S','S' )
+
+insert into plano_contas
+(id,cadastrado_em, nr_conta, tipo, descricao, custo_fixo, custo_variavel,
+  vai_para_dre, vai_para_fluxo_caixa, vai_para_balanco, ativo)
+  values(75, '01/01/2025','3.1.1.9','A','SERVICO PRESTADOS POR TERCEIROS','N','S','S','S','S','S' )

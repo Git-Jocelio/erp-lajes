@@ -29,7 +29,6 @@ type
     cbxTipoVenda: TComboBox;
     cbxSituacao: TComboBox;
     cbxFinanceiro: TComboBox;
-    btn_consultar: TButton;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -66,7 +65,6 @@ type
     lbl_venda_faltante: TLabel;
     lbl_qtde_bombas: TLabel;
     lbl_venda_bomba: TLabel;
-    btn_detalhes: TBitBtn;
     qryID: TIntegerField;
     qryPEDIDO_ID: TIntegerField;
     qryID_1: TIntegerField;
@@ -86,6 +84,15 @@ type
     lbl_dataIni: TLabel;
     Panel3: TPanel;
     btn_fechar: TButton;
+    Label13: TLabel;
+    Label14: TLabel;
+    cb_contabil: TCheckBox;
+    dtp_data_contabil_ini: TDateTimePicker;
+    Label16: TLabel;
+    dtp_data_contabil_fim: TDateTimePicker;
+    Panel4: TPanel;
+    btn_consultar: TButton;
+    btn_detalhes: TBitBtn;
     procedure btn_consultarClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -165,6 +172,12 @@ begin
     //condicao := condicao + ' and i.data_entrega >= :data_ini and i.data_entrega <= :data_fim ';
     condicao := condicao + ' and ped.data_emissao >= :data_ini_emi and ped.data_emissao <= :data_fim_emi ';
 
+  {data contábil}
+  if cb_contabil.Checked then
+    //condicao := condicao + ' and i.data_entrega >= :data_ini and i.data_entrega <= :data_fim ';
+    condicao := condicao + ' and ped.data_contabil >= :data_contabil_ini and ped.data_contabil <= :data_contabil_fim ';
+
+
   {pedido, orçamento ou todos}
   if cbxTipoVenda.Text <> '' then
     condicao := condicao + ' and ped.orcamento =:orcamento '
@@ -213,10 +226,16 @@ begin
   {data emissao}
   if cb_emissao.Checked then
   begin
-    qry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
-    qry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
+    qry.ParamByName('data_ini_emi').AsDate := dtp_data_ini.date;
+    qry.ParamByName('data_fim_emi').AsDate := dtp_data_fim.date;
   end;
 
+  {data contabil}
+  if cb_contabil.Checked then
+  begin
+    qry.ParamByName('data_contabil_ini').AsDate := dtp_data_contabil_ini.date;
+    qry.ParamByName('data_contabil_fim').AsDate := dtp_data_contabil_fim.date;
+  end;
 
   {pedido ou orcamento}
   qry.ParamByName('orcamento').AsString := orcamento;
@@ -236,18 +255,27 @@ end;
 procedure TfrmPedidosConsultaConcreto.btn_detalhesClick(Sender: TObject);
 begin
   inherited;
+  gb_resumo.Caption := 'Filtro : ';
   if cb_emissao.Checked  then
   begin
-    gb_resumo.Caption := 'Filtro : ' + cb_emissao.Caption;
+    gb_resumo.Caption := gb_resumo.Caption + cb_emissao.Caption;
     lbl_dataIni.Caption := datetostr(dtp_data_ini.date);
     lbl_dataFim.Caption := datetostr(dtp_data_fim.date);
   end;
   if cb_entrega.Checked  then
   begin
-    gb_resumo.Caption := 'Filtro : ' + cb_entrega.Caption;
+    gb_resumo.Caption := gb_resumo.Caption + ' / ' + cb_entrega.Caption;
     lbl_dataIni.Caption := datetostr(dtp_entrega_ini.date);
     lbl_dataFim.Caption := datetostr(dtp_entrega_fim.date);
   end;
+
+  if cb_contabil.Checked  then
+  begin
+    gb_resumo.Caption := gb_resumo.Caption + ' / ' + cb_contabil.Caption;
+    lbl_dataIni.Caption := datetostr(dtp_data_contabil_ini.date);
+    lbl_dataFim.Caption := datetostr(dtp_data_contabil_fim.date);
+  end;
+
 
   gb_resumo.Visible := true;
   TotalizaConcreto;
@@ -308,6 +336,10 @@ begin
 
   dtp_data_ini.Date := date;
   dtp_data_fim.Date := date;
+
+  dtp_data_contabil_ini.Date := date;
+  dtp_data_contabil_fim.Date := date;
+
 
 end;
 
@@ -376,13 +408,19 @@ begin
       loqry.ParamByName('DATA_FIM').AsDate := dtp_entrega_fim.date;
     end;
 
-  {data emissao}
-  if cb_emissao.Checked then
-  begin
-    loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
-    loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
-  end;
+    {data emissao}
+    if cb_emissao.Checked then
+    begin
+      loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
+      loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
+    end;
 
+    {data contabil}
+    if cb_contabil.Checked then
+    begin
+      loqry.ParamByName('DATA_CONTABIL_INI').AsDate := dtp_data_contabil_ini.date;
+      loqry.ParamByName('DATA_CONTABIL_FIM').AsDate := dtp_data_contabil_fim.date;
+    end;
 
     {pedido ou orcamento}
     loqry.ParamByName('orcamento').AsString := orcamento;
@@ -393,7 +431,7 @@ begin
     {pago ou receber}
     loqry.ParamByName('PAGO').AsString := PAGO ;
 
-    //ShowMessage(qry.SQL.text) ;
+   // ShowMessage(qry.SQL.text) ;
     loQRY.Open;
 
     // totais
@@ -447,12 +485,19 @@ begin
       loqry.ParamByName('DATA_FIM').AsDate := dtp_entrega_fim.date;
     end;
 
-  {data emissao}
-  if cb_emissao.Checked then
-  begin
-    loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
-    loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
-  end;
+    {data emissao}
+    if cb_emissao.Checked then
+    begin
+      loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
+      loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
+    end;
+
+    {data contabil}
+    if cb_contabil.Checked then
+    begin
+      loqry.ParamByName('DATA_CONTABIL_INI').AsDate := dtp_data_contabil_ini.date;
+      loqry.ParamByName('DATA_CONTABIL_FIM').AsDate := dtp_data_contabil_fim.date;
+    end;
 
     {pedido ou orcamento}
     loqry.ParamByName('orcamento').AsString := orcamento;
@@ -516,12 +561,19 @@ begin
       loqry.ParamByName('DATA_FIM').AsDate := dtp_entrega_fim.date;
     end;
 
-  {data emissao}
-  if cb_emissao.Checked then
-  begin
-    loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
-    loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
-  end;
+    {data emissao}
+    if cb_emissao.Checked then
+    begin
+      loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
+      loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
+    end;
+
+    {data contabil}
+    if cb_contabil.Checked then
+    begin
+      loqry.ParamByName('DATA_CONTABIL_INI').AsDate := dtp_data_contabil_ini.date;
+      loqry.ParamByName('DATA_CONTABIL_FIM').AsDate := dtp_data_contabil_fim.date;
+    end;
 
     {pedido ou orcamento}
     loqry.ParamByName('orcamento').AsString := orcamento;
@@ -575,12 +627,20 @@ begin
       loqry.ParamByName('DATA_FIM').AsDate := dtp_entrega_fim.date;
     end;
 
-  {data emissao}
-  if cb_emissao.Checked then
-  begin
-    loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
-    loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
-  end;
+    {data emissao}
+    if cb_emissao.Checked then
+    begin
+      loqry.ParamByName('DATA_INI_EMI').AsDate := dtp_data_ini.date;
+      loqry.ParamByName('DATA_FIM_EMI').AsDate := dtp_data_fim.date;
+    end;
+
+    {data contabil}
+    if cb_contabil.Checked then
+    begin
+      loqry.ParamByName('DATA_CONTABIL_INI').AsDate := dtp_data_contabil_ini.date;
+      loqry.ParamByName('DATA_CONTABIL_FIM').AsDate := dtp_data_contabil_fim.date;
+    end;
+
 
     {pedido ou orcamento}
     loqry.ParamByName('orcamento').AsString := orcamento;
@@ -604,13 +664,6 @@ begin
       loqry.Next;
     end;
     // fim da parte do concreto
-
-
-
-
-
-
-
 
     // atualiza painel
     lbl_qtde_pedidos.Caption := inttostr( qtde_pedidos );

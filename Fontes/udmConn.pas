@@ -175,7 +175,9 @@ const
   //versao_app = 174;   // 30/01/2026 customização da data de entrega nos relatorios conf situacao do pedido
   //versao_app = 175;   // 07/02/2026 menu categoria
   //versao_app = 176;   // 11/02/2026 retirada no bugs ao carregar foto
-  versao_app = 177;     // 17/02/2026 inclusão do menu categorias
+  //versao_app = 177;     // 17/02/2026 inclusão do menu categorias
+  //versao_app = 178;     // 10/03/2026 Melhora na experiencia de usauario na tela de pedidosE
+  versao_app = 179;    // 18/03/2026 refactor: Inclua consulta por data contábil na pesquisa de pedidos de concretos
 
 
 var

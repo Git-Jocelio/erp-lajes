@@ -4,6 +4,7 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
   ClientHeight = 535
   ClientWidth = 1200
   OnShow = FormShow
+  ExplicitLeft = -146
   ExplicitWidth = 1200
   ExplicitHeight = 535
   TextHeight = 15
@@ -144,14 +145,15 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
       object GroupBox2: TGroupBox
         Left = 0
         Top = 0
-        Width = 343
+        Width = 323
         Height = 136
-        Align = alLeft
+        Align = alClient
         TabOrder = 0
+        ExplicitWidth = 317
         object cbxCliente: TDBLookupComboBox
           Left = 5
           Top = 38
-          Width = 316
+          Width = 301
           Height = 23
           Cursor = crHandPoint
           Font.Charset = ANSI_CHARSET
@@ -168,7 +170,7 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
         object cbxVendedor: TDBLookupComboBox
           Left = 5
           Top = 97
-          Width = 316
+          Width = 301
           Height = 23
           Cursor = crHandPoint
           Font.Charset = ANSI_CHARSET
@@ -214,11 +216,34 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
         end
       end
       object GroupBox1: TGroupBox
-        Left = 348
+        Left = 323
         Top = 0
-        Width = 220
+        Width = 410
         Height = 136
+        Align = alRight
         TabOrder = 1
+        ExplicitLeft = 295
+        object Label13: TLabel
+          Left = 99
+          Top = 41
+          Width = 9
+          Height = 15
+          Caption = 'a '
+        end
+        object Label14: TLabel
+          Left = 100
+          Top = 97
+          Width = 9
+          Height = 15
+          Caption = 'a '
+        end
+        object Label16: TLabel
+          Left = 305
+          Top = 100
+          Width = 9
+          Height = 15
+          Caption = 'a '
+        end
         object cb_entrega: TCheckBox
           Left = 12
           Top = 74
@@ -237,7 +262,7 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
         object dtp_entrega_ini: TDateTimePicker
           Left = 12
           Top = 97
-          Width = 90
+          Width = 82
           Height = 21
           Cursor = crHandPoint
           Date = 44291.000000000000000000
@@ -251,9 +276,9 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
           TabOrder = 1
         end
         object dtp_entrega_fim: TDateTimePicker
-          Left = 120
+          Left = 113
           Top = 97
-          Width = 90
+          Width = 82
           Height = 21
           Cursor = crHandPoint
           Date = 44291.000000000000000000
@@ -284,7 +309,7 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
         object dtp_data_ini: TDateTimePicker
           Left = 12
           Top = 38
-          Width = 90
+          Width = 82
           Height = 21
           Cursor = crHandPoint
           Date = 44291.000000000000000000
@@ -298,9 +323,9 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
           TabOrder = 4
         end
         object dtp_data_fim: TDateTimePicker
-          Left = 120
+          Left = 113
           Top = 38
-          Width = 90
+          Width = 82
           Height = 21
           Cursor = crHandPoint
           Date = 44291.000000000000000000
@@ -313,13 +338,62 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
           ParentFont = False
           TabOrder = 5
         end
+        object cb_contabil: TCheckBox
+          Left = 217
+          Top = 74
+          Width = 117
+          Height = 17
+          Cursor = crHandPoint
+          Caption = 'Data Cont'#225'bil'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 6
+        end
+        object dtp_data_contabil_ini: TDateTimePicker
+          Left = 217
+          Top = 97
+          Width = 82
+          Height = 21
+          Cursor = crHandPoint
+          Date = 44291.000000000000000000
+          Time = 0.911467604164499800
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 7
+        end
+        object dtp_data_contabil_fim: TDateTimePicker
+          Left = 318
+          Top = 97
+          Width = 82
+          Height = 21
+          Cursor = crHandPoint
+          Date = 44291.000000000000000000
+          Time = 0.911635243057389700
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 8
+        end
       end
       object GroupBox3: TGroupBox
-        Left = 574
+        Left = 733
         Top = 0
         Width = 363
         Height = 136
+        Align = alRight
         TabOrder = 2
+        ExplicitLeft = 636
         object Label1: TLabel
           Left = 16
           Top = 71
@@ -401,24 +475,32 @@ inherited frmPedidosConsultaConcreto: TfrmPedidosConsultaConcreto
             '< Todos >')
         end
       end
-      object btn_consultar: TButton
-        Left = 943
-        Top = 38
-        Width = 91
-        Height = 23
-        Caption = 'Consultar'
+      object Panel4: TPanel
+        Left = 1096
+        Top = 0
+        Width = 104
+        Height = 136
+        Align = alRight
         TabOrder = 3
-        OnClick = btn_consultarClick
-      end
-      object btn_detalhes: TBitBtn
-        Left = 943
-        Top = 67
-        Width = 91
-        Height = 25
-        Caption = 'Detalhes'
-        Enabled = False
-        TabOrder = 4
-        OnClick = btn_detalhesClick
+        object btn_consultar: TButton
+          Left = 5
+          Top = 38
+          Width = 91
+          Height = 23
+          Caption = 'Consultar'
+          TabOrder = 0
+          OnClick = btn_consultarClick
+        end
+        object btn_detalhes: TBitBtn
+          Left = 5
+          Top = 67
+          Width = 91
+          Height = 25
+          Caption = 'Detalhes'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btn_detalhesClick
+        end
       end
     end
     object Panel5: TPanel
