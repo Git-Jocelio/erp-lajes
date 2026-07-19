@@ -22,7 +22,7 @@ uses
   FireDAC.Stan.StorageBin, udmConn, ufrmMensagens, ufrmPedidosAddVigas,
   ufrmPessoasE, ufrmComissoesE, ufrmComissoesDespesaE, midas, ufrmVendedoresE,
   ufrmPesquisaFormaPagamento, ufrmContasReceber_Baixa, unit_movimenta_estoques,
-  ufrmRecibosE, System.ImageList, Vcl.ImgList;
+  ufrmRecibosE, System.ImageList, Vcl.ImgList, unit_busca_cep;
 
 type
   TfrmPedidosE = class(TfrmBaseEdicao)
@@ -492,6 +492,9 @@ type
     Label49: TLabel;
     SpeedButton1: TSpeedButton;
     dbg_reforco_viga: TDBGrid;
+    lbl_eixo_laje: TLabel;
+    SpeedButton2: TSpeedButton;
+    TabCep: TFDMemTable;
     procedure btnNovoClienteClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
 
@@ -589,6 +592,8 @@ type
     procedure dbg_itens_lajeMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure tbs_local_entregaShow(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
 
   private
 
@@ -1751,6 +1756,29 @@ begin
   gbReforcosVigas.Visible := false;
 end;
 
+procedure TfrmPedidosE.SpeedButton2Click(Sender: TObject);
+begin
+ if edt_cep.Text = '' then
+ begin
+   ShowMessage('Informe um CEP');
+   edt_cep.SetFocus;
+   exit;
+ end;
+
+ if TViaCEPService.ConsultarCEP(edt_cep.Text, TabCep) then
+  begin
+    edt_endereco.Text := TabCep.FieldByName('logradouro').AsString;
+    edt_bairro.Text   := TabCep.FieldByName('bairro').AsString;
+    edt_cidade.Text   := TabCep.FieldByName('localidade').AsString;
+    edt_uf.Text       := TabCep.FieldByName('uf').AsString;
+    edt_cep.Text      := TabCep.FieldByName('cep').AsString;
+  end
+  else
+    ShowMessage('CEP não encontrado.');
+
+end;
+
+
 procedure TfrmPedidosE.btn_incluir_lancamentoClick(Sender: TObject);
 var
   outras_despesas: double;
@@ -2649,8 +2677,9 @@ begin
   qry_sistema.SQL.Add('from CONFIGURACOES_SISTEMA');
   qry_sistema.Open;
 
-  p_empresa   := qry_sistema.FieldByName('GERAL_EMPRESA').AsString;
-  p_eixo_laje := qry_sistema.FieldByName('EIXO_LAJE').AsInteger/1000;
+  p_empresa     := qry_sistema.FieldByName('GERAL_EMPRESA').AsString;
+  p_eixo_laje   := qry_sistema.FieldByName('EIXO_LAJE').AsInteger/1000;
+  lbl_eixo_laje.Caption := formatfloat('0.00', p_eixo_laje) + ')';
   p_qtde_lajota_por_m2 := qry_sistema.FieldByName('QTDE_LAJOTA_M2').AsFloat;
 
   gbReforcosVigas.Height := 180 ;
@@ -6046,7 +6075,7 @@ end;
 procedure TfrmPedidosE.TabSheet6Show(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 180;
+//  pcVenda.Height := 180;
 
 end;
 
@@ -6164,14 +6193,14 @@ end;
 procedure TfrmPedidosE.tbClienteShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 180;
+//  pcVenda.Height := 200;
 
 end;
 
 procedure TfrmPedidosE.tbDestinatarioShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 180;
+//  pcVenda.Height := 190;
 
 end;
 
@@ -6179,7 +6208,7 @@ end;
 procedure TfrmPedidosE.tbVendaShow(Sender: TObject);
 begin
   inherited;
-  pcVenda.Height := 180;  //104
+//  pcVenda.Height := 154;  //104
 end;
 
 procedure TfrmPedidosE.tbs_itens_pedidoShow(Sender: TObject);
@@ -6187,6 +6216,12 @@ begin
   inherited;
   {esconde detalhes de reforço de vigas}
   gbReforcosVigas.Visible :=  false;
+end;
+
+procedure TfrmPedidosE.tbs_local_entregaShow(Sender: TObject);
+begin
+  inherited;
+  tbVenda.Height := 200;
 end;
 
 function TfrmPedidosE.validar: boolean;

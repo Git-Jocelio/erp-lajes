@@ -47,6 +47,7 @@ type
     procedure prc_ler_dados;
     function prc_validar: boolean;
     procedure prc_salvar;
+    procedure prc_atualizar_total_aberto_aguardando;
 (*    procedure prc_incluir_alterar(operacao: TOperacao;
                 estoque_id, produto: integer; historico: string; quantidade: double);
 *)
@@ -120,6 +121,7 @@ procedure TfrmEstoquesMovimentacaoE.btnOkClick(Sender: TObject);
 begin
 
   inherited;
+  showmessage('O sistema fará uma conferência automática dos saldos... por favor aguarde!');
   prc_salvar;
 
 end;
@@ -331,6 +333,10 @@ begin
   if not Self.Conexao.InTransaction then Self.Conexao.StartTransaction;
   //***
   try
+    {ajusta saldo de pedido em aberto e aguardando, e refaz os saldos corretamento na tabela de produtos}
+    prc_atualizar_total_aberto_aguardando;
+
+
     tipo_movimento := ubiblioteca.SeSenao(rg_movimento.ItemIndex = 0, 'ENTRADA','SAIDA');
     {Atualiza saldos na tabela de produtos}
     unit_movimenta_estoques.prc_atualizar_estoque( produto, tipo_movimento, 'AVULSO', strtofloat(edt_quantidade.Text) );
@@ -474,7 +480,57 @@ begin
 //  end;
 //end;
 
+procedure TfrmEstoquesMovimentacaoE.prc_atualizar_total_aberto_aguardando;
+var
+  loqry, qry1: TFDQuery;
+  estoque_fisico, pedido_aberto, pedido_aguardando: double;
+begin
+  try
+    {qry para atualização do campo pedido_aberto e pedido_aguardando}
+    qry1:= TFDQuery.Create(nil);
+    qry1.Connection := conexao;
+    qry1.SQL.text :='update produtos '+
+                   'set pedido_aberto =:pedido_aberto, estoque_disponivel =:estoque_disponivel, ' +
+                   'pedido_aguardando =:pedido_aguardando, estoque_liquido =:estoque_liquido ' +
+                   'where id=:id ';
+ //   ShowMessage(qry1.SQL.Text);
+    {qry para listas}
+    loqry:= TFDQuery.Create(nil);
+    loqry.Connection := conexao;
+    loqry.SQL.text :='select '+
+                   '   id, estoque_fisico, pedido_aberto, estoque_disponivel,'+
+                   '   pedido_aguardando, estoque_liquido, viga'+
+                   '  from produtos order by id';
+    loqry.Open;
+    loqry.First;
+    while not loqry.eof do
+    begin
+      estoque_fisico   := 0;
+      pedido_aberto    := 0;
 
+      estoque_fisico   := loqry.FieldByName('estoque_fisico').AsFloat;
+      pedido_aberto    := fnc_somar_pedidos_aberto_aguardando('PEDIDOS_ITENS','ABERTO', loqry.FieldByName('ID').AsInteger);
+      pedido_aguardando:= fnc_somar_pedidos_aberto_aguardando('PEDIDOS_ITENS','AGUARDANDO', loqry.FieldByName('ID').AsInteger);
+
+      pedido_aberto := pedido_aberto + fnc_somar_pedidos_aberto_aguardando('PEDIDOS_ITENS_LAJE','ABERTO', loqry.FieldByName('ID').AsInteger);
+      pedido_aguardando := pedido_aguardando + fnc_somar_pedidos_aberto_aguardando('PEDIDOS_ITENS_LAJE','AGUARDANDO', loqry.FieldByName('ID').AsInteger);
+
+        {atualizar saldo}
+        qry1.ParamByName('pedido_aberto').Asfloat := pedido_aberto;
+        qry1.ParamByName('estoque_disponivel').AsFloat := estoque_fisico - pedido_aberto;
+        qry1.ParamByName('pedido_aguardando').AsFloat := pedido_aguardando;
+        qry1.ParamByName('estoque_liquido').AsFloat := estoque_fisico - pedido_aberto - pedido_aguardando;
+        qry1.ParamByName('id').AsFloat := loqry.FieldByName('id').AsInteger;
+        qry1.ExecSQL;
+
+      loqry.Next;
+    end;
+
+  finally
+    freeandnil(qry1);
+    freeandnil(loqry);
+  end;
+end;
 
 
 end.

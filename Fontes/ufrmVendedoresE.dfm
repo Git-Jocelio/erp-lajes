@@ -2,12 +2,12 @@ inherited frmVendedoresE: TfrmVendedoresE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmVendedoresE'
-  ClientHeight = 450
+  ClientHeight = 403
   ClientWidth = 472
   Font.Height = -12
   ShowHint = True
   ExplicitWidth = 478
-  ExplicitHeight = 456
+  ExplicitHeight = 409
   TextHeight = 15
   inherited pnTitulo: TPanel
     Width = 472
@@ -29,9 +29,9 @@ inherited frmVendedoresE: TfrmVendedoresE
   inherited pnDados: TPanel
     Top = 65
     Width = 472
-    Height = 287
+    Height = 240
     Font.Height = -12
-    ExplicitTop = 61
+    ExplicitTop = 65
     ExplicitWidth = 472
     ExplicitHeight = 287
     object Label1: TLabel
@@ -70,7 +70,7 @@ inherited frmVendedoresE: TfrmVendedoresE
       Caption = 'Nome'
     end
     object Label11: TLabel
-      Left = 5
+      Left = 106
       Top = 136
       Width = 49
       Height = 15
@@ -91,32 +91,32 @@ inherited frmVendedoresE: TfrmVendedoresE
       Caption = 'Bairro'
     end
     object Label14: TLabel
-      Left = 177
+      Left = 153
       Top = 185
       Width = 37
       Height = 15
       Caption = 'Cidade'
     end
     object Label15: TLabel
-      Left = 357
-      Top = 185
+      Left = 292
+      Top = 186
       Width = 14
       Height = 15
       Caption = 'UF'
     end
     object Label16: TLabel
-      Left = 393
-      Top = 185
+      Left = 30
+      Top = 136
       Width = 21
       Height = 15
       Caption = 'CEP'
     end
     object Label17: TLabel
-      Left = 5
-      Top = 233
+      Left = 330
+      Top = 184
       Width = 29
       Height = 15
-      Caption = 'email'
+      Caption = 'Email'
     end
     object lbl_id: TLabel
       Left = 25
@@ -220,6 +220,40 @@ inherited frmVendedoresE: TfrmVendedoresE
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object btnBuscaCep: TSpeedButton
+      Left = 1
+      Top = 155
+      Width = 23
+      Height = 23
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FF314B62
+        AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+        106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+        00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+        9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+        E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+        FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+        B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+        FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+        DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+        B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+        BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+        D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+        6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+      OnClick = btnBuscaCepClick
+    end
     object cb_ativo: TCheckBox
       Left = 414
       Top = 6
@@ -279,9 +313,9 @@ inherited frmVendedoresE: TfrmVendedoresE
       TabOrder = 5
     end
     object edt_endereco: TEdit
-      Left = 5
+      Left = 106
       Top = 155
-      Width = 385
+      Width = 291
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 100
@@ -298,24 +332,24 @@ inherited frmVendedoresE: TfrmVendedoresE
     object edt_bairro: TEdit
       Left = 4
       Top = 204
-      Width = 167
+      Width = 144
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 8
     end
     object edt_cidade: TEdit
-      Left = 177
-      Top = 203
-      Width = 177
+      Left = 153
+      Top = 204
+      Width = 135
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 9
     end
     object edt_uf: TEdit
-      Left = 358
-      Top = 203
+      Left = 293
+      Top = 204
       Width = 32
       Height = 23
       CharCase = ecUpperCase
@@ -324,8 +358,8 @@ inherited frmVendedoresE: TfrmVendedoresE
       Text = 'SP'
     end
     object edt_cep: TEdit
-      Left = 393
-      Top = 203
+      Left = 30
+      Top = 155
       Width = 70
       Height = 23
       CharCase = ecUpperCase
@@ -333,16 +367,16 @@ inherited frmVendedoresE: TfrmVendedoresE
       TabOrder = 11
     end
     object edt_email: TEdit
-      Left = 5
-      Top = 253
-      Width = 458
+      Left = 330
+      Top = 204
+      Width = 135
       Height = 23
       CharCase = ecLowerCase
       TabOrder = 12
     end
   end
   inherited pnRodape: TPanel
-    Top = 413
+    Top = 366
     Width = 472
     ExplicitTop = 413
     ExplicitWidth = 472
@@ -354,7 +388,7 @@ inherited frmVendedoresE: TfrmVendedoresE
   end
   object pnVendedor: TPanel [3]
     Left = 0
-    Top = 352
+    Top = 305
     Width = 472
     Height = 61
     Align = alBottom
@@ -362,12 +396,13 @@ inherited frmVendedoresE: TfrmVendedoresE
     Color = clWhite
     ParentBackground = False
     TabOrder = 3
+    ExplicitTop = 352
     object Label9: TLabel
       Left = 310
       Top = 2
-      Width = 153
+      Width = 102
       Height = 15
-      Caption = 'Comiss'#227'o Administrativa (%)'
+      Caption = 'Comiss'#227'o Adm (%)'
     end
     object Label10: TLabel
       Left = 10
@@ -408,5 +443,16 @@ inherited frmVendedoresE: TfrmVendedoresE
   inherited ds: TDataSource
     Left = 256
     Top = 145
+  end
+  object TabCep: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 56
+    Top = 217
   end
 end

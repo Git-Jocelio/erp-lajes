@@ -1,8 +1,8 @@
 inherited frmPessoasE: TfrmPessoasE
-  ClientHeight = 500
-  ClientWidth = 598
-  ExplicitWidth = 610
-  ExplicitHeight = 538
+  ClientHeight = 441
+  ClientWidth = 602
+  ExplicitWidth = 614
+  ExplicitHeight = 479
   TextHeight = 17
   object DBText3: TDBText [0]
     Left = 18
@@ -25,25 +25,25 @@ inherited frmPessoasE: TfrmPessoasE
     Height = 25
   end
   inherited pnTitulo: TPanel
-    Width = 598
+    Width = 602
     Height = 65
     BorderStyle = bsSingle
     ExplicitWidth = 594
     ExplicitHeight = 65
     inherited lbl_titulo: TLabel
-      Width = 594
+      Width = 598
       Height = 44
     end
     inherited lbl_sub_titulo: TLabel
       Top = 44
-      Width = 594
+      Width = 598
       ExplicitTop = 44
     end
   end
   inherited pnDados: TPanel
     Top = 65
-    Width = 598
-    Height = 398
+    Width = 602
+    Height = 339
     Cursor = crHandPoint
     BevelInner = bvRaised
     ExplicitTop = 65
@@ -78,7 +78,7 @@ inherited frmPessoasE: TfrmPessoasE
       Caption = 'RG / IE'
     end
     object Label5: TLabel
-      Left = 5
+      Left = 121
       Top = 179
       Width = 55
       Height = 17
@@ -134,32 +134,66 @@ inherited frmPessoasE: TfrmPessoasE
       Caption = 'Cidade'
     end
     object Label16: TLabel
-      Left = 96
-      Top = 333
+      Left = 528
+      Top = 279
       Width = 15
       Height = 17
       Caption = 'UF'
     end
     object Label17: TLabel
-      Left = 5
-      Top = 333
+      Left = 39
+      Top = 179
       Width = 22
       Height = 17
       Caption = 'CEP'
     end
     object Label18: TLabel
-      Left = 156
-      Top = 333
+      Left = 5
+      Top = 224
       Width = 31
       Height = 17
       Caption = 'email'
     end
     object Label9: TLabel
-      Left = 5
-      Top = 230
+      Left = 323
+      Top = 227
       Width = 82
       Height = 17
       Caption = 'Complemento'
+    end
+    object SpeedButton2: TSpeedButton
+      Left = 5
+      Top = 196
+      Width = 32
+      Height = 25
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FF314B62
+        AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+        106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+        00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+        9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+        E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+        FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+        B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+        FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+        DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+        B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+        BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+        D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+        6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+      OnClick = SpeedButton2Click
     end
     object edt_id: TPanel
       Left = 5
@@ -212,9 +246,9 @@ inherited frmPessoasE: TfrmPessoasE
       TabOrder = 3
     end
     object rg_pessoa: TRadioGroup
-      Left = 410
+      Left = 389
       Top = 16
-      Width = 180
+      Width = 201
       Height = 47
       Cursor = crHandPoint
       Caption = ' Pessoa '
@@ -262,7 +296,7 @@ inherited frmPessoasE: TfrmPessoasE
     end
     object edt_nome: TEdit
       Left = 5
-      Top = 144
+      Top = 147
       Width = 585
       Height = 25
       CharCase = ecUpperCase
@@ -270,9 +304,9 @@ inherited frmPessoasE: TfrmPessoasE
       TabOrder = 9
     end
     object edt_endereco: TEdit
-      Left = 5
+      Left = 121
       Top = 196
-      Width = 507
+      Width = 393
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 100
@@ -288,9 +322,9 @@ inherited frmPessoasE: TfrmPessoasE
       TabOrder = 11
     end
     object edt_complemento: TEdit
-      Left = 5
+      Left = 323
       Top = 247
-      Width = 585
+      Width = 267
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 60
@@ -308,15 +342,15 @@ inherited frmPessoasE: TfrmPessoasE
     object edt_cidade: TEdit
       Left = 323
       Top = 302
-      Width = 267
+      Width = 199
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 14
     end
     object edt_cep: TEdit
-      Left = 5
-      Top = 356
+      Left = 39
+      Top = 196
       Width = 77
       Height = 25
       CharCase = ecUpperCase
@@ -324,17 +358,17 @@ inherited frmPessoasE: TfrmPessoasE
       TabOrder = 15
     end
     object edt_email: TEdit
-      Left = 156
-      Top = 356
-      Width = 434
+      Left = 5
+      Top = 247
+      Width = 312
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 60
       TabOrder = 17
     end
     object edt_uf: TComboBox
-      Left = 88
-      Top = 356
+      Left = 528
+      Top = 302
       Width = 62
       Height = 25
       MaxLength = 2
@@ -343,8 +377,8 @@ inherited frmPessoasE: TfrmPessoasE
     end
   end
   inherited pnRodape: TPanel
-    Top = 463
-    Width = 598
+    Top = 404
+    Width = 602
     ExplicitTop = 462
     ExplicitWidth = 594
     inherited pnl_botoes: TPanel
@@ -361,5 +395,16 @@ inherited frmPessoasE: TfrmPessoasE
   inherited ds: TDataSource
     Left = 304
     Top = 17
+  end
+  object Tab_Cep: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 64
+    Top = 273
   end
 end

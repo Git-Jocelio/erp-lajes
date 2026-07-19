@@ -1,22 +1,21 @@
 inherited frmEstoquesMovimentacaoE: TfrmEstoquesMovimentacaoE
   ClientHeight = 393
-  ExplicitWidth = 560
+  ClientWidth = 556
   ExplicitHeight = 431
   TextHeight = 17
   inherited pnTitulo: TPanel
+    Width = 556
+    ExplicitWidth = 552
     inherited lbl_titulo: TLabel
-      Width = 548
-      Height = 40
       Font.Color = clNavy
       ParentFont = False
     end
-    inherited lbl_sub_titulo: TLabel
-      Width = 548
-    end
   end
   inherited pnDados: TPanel
+    Width = 556
     Height = 299
-    ExplicitHeight = 298
+    ExplicitWidth = 552
+    ExplicitHeight = 299
     object Label13: TLabel
       Left = 20
       Top = 152
@@ -258,7 +257,9 @@ inherited frmEstoquesMovimentacaoE: TfrmEstoquesMovimentacaoE
   end
   inherited pnRodape: TPanel
     Top = 356
-    ExplicitTop = 355
+    Width = 556
+    ExplicitTop = 356
+    ExplicitWidth = 552
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick

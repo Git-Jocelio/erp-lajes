@@ -15,8 +15,6 @@ procedure prc_atualiza_ordem_compra_por_produto(compra_id, produto_id: integer);
 {soma todas quantidade de produtos aberto e aguardando nos pedidos}
 function fnc_somar_pedidos_aberto_aguardando(tabela, situacao: string; produto_id :integer): double;
 
-
-
 procedure prc_incluir_alterar_movimento(
                               operacao: TOperacao; //INCLUIR ALTERAR um registro na tabela estoques_movimentacao
                               entrada_ou_saida : string; // se é uma entrada ou saida de estoque (ENTRADA - SAIDA)
@@ -714,7 +712,8 @@ end;
 
 
 function fnc_somar_pedidos_aberto_aguardando(tabela, situacao: string; produto_id :integer): double;
-var   // tabela = pedidos_itens ou pedidos_itens_laje // situacao = ABERTO ou AGUARDANDO
+var   // tabela = pedidos_itens ou pedidos_itens_laje
+      // situacao = ABERTO ou AGUARDANDO
   loQry : TFDQuery;
 begin
   try
@@ -724,12 +723,12 @@ begin
     {buscar último saldo atual do produto}
     loQry.sql.clear;
     loqry.SQL.Add(' select ' );
-    loqry.SQL.Add('   sum(i.qtde) as QUANTIDADE ' );
+    loqry.SQL.Add('   sum(i.qtde) as QUANTIDADE    ' );
     loqry.SQL.Add(' from ' );
     loqry.SQL.Add('   pedidos p,  ' );
     loqry.SQL.Add( tabela + ' i  ');
-    loqry.SQL.Add(' where ' );
-    loqry.SQL.Add('   p.id = i.pedido_id and ' );
+    loqry.SQL.Add(' where                          ' );
+    loqry.SQL.Add('   p.id = i.pedido_id and       ' );
     loqry.SQL.Add('   p.orcamento = :orcamento and ' );
     loqry.SQL.Add('   p.situacao = :situacao and   ' );
     loqry.SQL.Add('   i.produto_id = :produto_id   ' );
@@ -739,11 +738,8 @@ begin
     loQry.ParamByName('produto_id').AsInteger := produto_id;
     loqry.open;
 
-
     Result := loQry.FieldByName('QUANTIDADE').AsFloat;
   finally
-
-
     LOQRY.Close;
     FreeAndNil(loQry);
   end;

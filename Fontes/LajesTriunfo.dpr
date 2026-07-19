@@ -173,7 +173,8 @@ uses
   ufrmCortesProcessamento in 'ufrmCortesProcessamento.pas' {frmCortesProcessamento},
   ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas},
   ufrmPedidosVigaVao in 'ufrmPedidosVigaVao.pas' {frmPedidosVigaVao},
-  ufrmCategorias in 'ufrmCategorias.pas' {frmCategorias};
+  ufrmCategorias in 'ufrmCategorias.pas' {frmCategorias},
+  unit_busca_cep in 'unit_busca_cep.pas';
 
 {$R *.res}
 

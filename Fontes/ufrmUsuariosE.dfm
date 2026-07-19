@@ -1,20 +1,27 @@
 inherited frmUsuariosE: TfrmUsuariosE
   Caption = 'frmUsuariosE'
   ClientHeight = 482
-  ClientWidth = 595
+  ClientWidth = 600
   Color = clWhite
-  ExplicitWidth = 611
-  ExplicitHeight = 521
+  ExplicitWidth = 612
+  ExplicitHeight = 520
   TextHeight = 17
   inherited pnTitulo: TPanel
-    Width = 595
-    ExplicitWidth = 595
+    Width = 600
+    ExplicitWidth = 591
+    inherited lbl_titulo: TLabel
+      Width = 600
+      Height = 40
+    end
+    inherited lbl_sub_titulo: TLabel
+      Width = 600
+    end
   end
   inherited pnDados: TPanel
-    Width = 595
+    Width = 600
     Height = 304
     Align = alTop
-    ExplicitWidth = 595
+    ExplicitWidth = 591
     ExplicitHeight = 304
     object Label1: TLabel
       Left = 8
@@ -82,7 +89,7 @@ inherited frmUsuariosE: TfrmUsuariosE
     end
     object Label11: TLabel
       Left = 8
-      Top = 155
+      Top = 156
       Width = 55
       Height = 17
       Caption = 'Endere'#231'o'
@@ -121,7 +128,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       FocusControl = DBEdit15
     end
     object Label16: TLabel
-      Left = 482
+      Left = 485
       Top = 206
       Width = 22
       Height = 17
@@ -214,6 +221,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'ID'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 2
     end
@@ -225,6 +233,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'DATA_CAD'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 3
     end
@@ -236,6 +245,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'DATA_ALT'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 4
     end
@@ -247,6 +257,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'CPF_CNPJ'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 5
     end
@@ -258,6 +269,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'RG_IE'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 6
     end
@@ -269,6 +281,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'TELEFONE'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 7
     end
@@ -280,6 +293,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'CELULAR'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 8
     end
@@ -291,6 +305,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'NOME'
       DataSource = dsPessoas
+      Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -308,6 +323,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'ENDERECO'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 10
     end
@@ -319,6 +335,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = clGradientInactiveCaption
       DataField = 'NUMERO'
       DataSource = ds
+      Enabled = False
       ReadOnly = True
       TabOrder = 11
     end
@@ -330,6 +347,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'BAIRRO'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 12
     end
@@ -341,6 +359,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'CIDADE'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 13
     end
@@ -352,28 +371,31 @@ inherited frmUsuariosE: TfrmUsuariosE
       Color = 16378595
       DataField = 'UF'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 14
     end
     object DBEdit16: TDBEdit
-      Left = 482
+      Left = 485
       Top = 224
-      Width = 109
+      Width = 106
       Height = 25
       Color = 16378595
       DataField = 'CEP'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 15
     end
     object DBEdit17: TDBEdit
       Left = 8
       Top = 273
-      Width = 585
+      Width = 583
       Height = 25
       Color = 16378595
       DataField = 'EMAIL'
       DataSource = dsPessoas
+      Enabled = False
       ReadOnly = True
       TabOrder = 16
     end
@@ -410,9 +432,9 @@ inherited frmUsuariosE: TfrmUsuariosE
   end
   inherited pnRodape: TPanel
     Top = 445
-    Width = 595
-    ExplicitTop = 445
-    ExplicitWidth = 595
+    Width = 600
+    ExplicitTop = 444
+    ExplicitWidth = 591
     inherited pnl_botoes: TPanel
       Left = 100
       ExplicitLeft = 100
@@ -424,7 +446,7 @@ inherited frmUsuariosE: TfrmUsuariosE
   object gbx_usuario: TGroupBox [3]
     Left = 0
     Top = 361
-    Width = 595
+    Width = 600
     Height = 84
     Align = alClient
     Caption = 'Informe '
@@ -435,8 +457,10 @@ inherited frmUsuariosE: TfrmUsuariosE
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitWidth = 591
+    ExplicitHeight = 83
     object Label4: TLabel
-      Left = 14
+      Left = 8
       Top = 29
       Width = 55
       Height = 17
@@ -460,7 +484,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       FocusControl = DBEdit8
     end
     object edt_login: TEdit
-      Left = 14
+      Left = 8
       Top = 48
       Width = 187
       Height = 25

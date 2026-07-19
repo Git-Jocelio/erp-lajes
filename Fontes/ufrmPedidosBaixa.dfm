@@ -153,9 +153,9 @@ inherited frmPedidosBaixa: TfrmPedidosBaixa
       object DBGrid1: TDBGrid
         AlignWithMargins = True
         Left = 20
-        Top = 41
+        Top = 97
         Width = 1035
-        Height = 366
+        Height = 310
         Hint = 'DUPLO < CLICK > PARA VISUALIZAR REGISTRO'
         Margins.Left = 20
         Margins.Top = 0
@@ -262,7 +262,7 @@ inherited frmPedidosBaixa: TfrmPedidosBaixa
         Left = 20
         Top = 0
         Width = 1035
-        Height = 41
+        Height = 97
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -273,16 +273,16 @@ inherited frmPedidosBaixa: TfrmPedidosBaixa
         ParentBackground = False
         TabOrder = 1
         object lbl_resultado: TLabel
-          AlignWithMargins = True
-          Left = 15
+          Left = 0
           Top = 0
-          Width = 251
-          Height = 41
+          Width = 1035
+          Height = 25
           Margins.Left = 15
           Margins.Top = 0
           Margins.Right = 0
           Margins.Bottom = 0
-          Align = alLeft
+          Align = alTop
+          Alignment = taCenter
           Caption = 'Pedidos Abertos e Parciais'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 15395562
@@ -291,7 +291,40 @@ inherited frmPedidosBaixa: TfrmPedidosBaixa
           Font.Style = []
           ParentFont = False
           Layout = tlCenter
-          ExplicitHeight = 30
+        end
+        object GroupBox1: TGroupBox
+          Left = 0
+          Top = 25
+          Width = 1035
+          Height = 72
+          Align = alClient
+          Caption = ' Localizar Pedido '
+          Color = clBtnFace
+          ParentBackground = False
+          ParentColor = False
+          TabOrder = 0
+          ExplicitLeft = 424
+          ExplicitTop = 72
+          ExplicitWidth = 185
+          ExplicitHeight = 105
+          object edNumero: TEdit
+            Left = 48
+            Top = 31
+            Width = 343
+            Height = 23
+            NumbersOnly = True
+            TabOrder = 0
+            TextHint = 'Informe o n'#250'mero do pedido ou deixe vazio para listar todos'
+          end
+          object btnLOcalizar: TBitBtn
+            Left = 394
+            Top = 31
+            Width = 75
+            Height = 23
+            Caption = 'Localizar'
+            TabOrder = 1
+            OnClick = btnLOcalizarClick
+          end
         end
       end
     end

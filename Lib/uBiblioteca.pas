@@ -31,8 +31,10 @@ function fnc_criptografia( senha, chave: string ): string;
 
 procedure prc_somente_numeros(Sender: TObject;
   var Key: Char);
+function SomenteNumeros(str : string) : string;
 
 procedure prc_formata_dinheiro(sender: TObject);
+
 type
 
   TSistema = Record
@@ -43,8 +45,7 @@ type
 
 end;
 
-
-  var
+var
    Sistema : TSistema;
 
 implementation
@@ -432,5 +433,16 @@ begin
 
 
 end;
+
+function SomenteNumeros(str : string) : string;
+var
+    x : integer;
+begin
+    Result := '';
+    for x := 0 to Length(str) - 1 do
+        if (str.Chars[x] In ['0'..'9']) then
+            Result := Result + str.Chars[x];
+end;
+
 
 end.

@@ -28,6 +28,9 @@ type
     btnFechar: TBitBtn;
     ds: TDataSource;
     StatusBar: TStatusBar;
+    GroupBox1: TGroupBox;
+    edNumero: TEdit;
+    btnLOcalizar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -37,12 +40,14 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
+    procedure btnLOcalizarClick(Sender: TObject);
   private
     procedure prc_componentes;
     procedure prc_busca_local_entrega(pedido_id: integer);
     { Private declarations }
   public
-    { Public declarations }
+    var
+     sql : string;
   end;
 
 var
@@ -60,6 +65,28 @@ begin
   CLOSE;
 end;
 
+procedure TfrmPedidosBaixa.btnLOcalizarClick(Sender: TObject);
+var
+ sql1 : string;
+begin
+  inherited;
+
+  sql1 := sql;
+  qry.SQL.Clear;
+
+  if edNumero.Text <> '' then
+  begin
+    sql1 := sql1 + ' and PD.ID = :ID';
+    qry.SQL.Text := sql1;
+    qry.ParamByName('ID').AsInteger := strtoint(edNumero.Text);
+  end else
+    qry.SQL.Text := sql;
+
+  ShowMessage('valor :' + edNumero.Text + slinebreak + slinebreak + qry.SQL.Text);
+  qry.open;
+
+end;
+
 procedure TfrmPedidosBaixa.btnOkClick(Sender: TObject);
 begin
   inherited;
@@ -68,13 +95,7 @@ begin
       frmPedidosBaixaE := TfrmPedidosBaixaE.Create(application) ;
    frmPedidosBaixaE.codigo := qry.FieldByName('ID').AsInteger;
 
-    form_principal.prc_controla_menu(false);
-    (*
-    frmPedidosBaixaE.top    := form_principal.pnl_Principal.Top;
-    frmPedidosBaixaE.Left   := form_principal.pnl_menulateral.Width - 9;
-    frmPedidosBaixaE.Width  := form_principal.pnl_principal.Width + 19;
-    frmPedidosBaixaE.Height := form_principal.pnl_principal.Height + 5;
-    *)
+   form_principal.prc_controla_menu(false);
 
    frmPedidosBaixaE.ShowModal;
    //atualiza a lista
@@ -99,11 +120,8 @@ begin
   {centraliza os botões}
   pnl_botoes.Left := trunc(pnRodape.Width/2) - ( trunc(pnl_botoes.Width /2) );
 
-
   prc_ordenar_dgrid( ds, DBGrid1, DBGrid1.Columns[0] ) ;
 
-
-  //ajustas as colunas do dbgrid
   prc_ajustar_colunas_grid( DBGrid1 );
 
   //aumenta o tamanho da linha do ddgrid
@@ -132,8 +150,9 @@ begin
   if qry.FieldByName('NOME').AsString = 'CONSUMIDOR' then
     prc_busca_local_entrega(qry.FieldByName('ID').AsInteger)
   else
-   StatusBar.Panels[0].Text := '';
+    StatusBar.Panels[0].Text := '';
 
+  {controla estado dos botões}
   btnok.Enabled := not qry.IsEmpty;
 end;
 
@@ -157,32 +176,22 @@ begin
                                   loQry.FieldByName('NUMERO').AsString + ' ' +
                                   loQry.FieldByName('BAIRRO').AsString + ' ' +
                                   loQry.FieldByName('CIDADE').AsString;
-
-
-
     end;
-
   finally
     loQry.Close;
     FreeAndNil(loQry);
   end;
 end;
 
-
 procedure TfrmPedidosBaixa.FormActivate(Sender: TObject);
 begin
   inherited;
     form_principal.prc_controla_menu(false);
-
-    // se abrir dentro no painel principal no funciona os edites
-    //loform.Parent := form_principal.pnl_principal;
-
     frmPedidosBaixa.top    :=  form_principal.pnl_Principal.Top;
     frmPedidosBaixa.Left   := form_principal.pnl_menulateral.Width;
 
     frmPedidosBaixa.Width  := form_principal.pnl_principal.Width;
     frmPedidosBaixa.Height := form_principal.pnl_principal.Height;
-
 end;
 
 procedure TfrmPedidosBaixa.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -194,6 +203,7 @@ end;
 procedure TfrmPedidosBaixa.FormShow(Sender: TObject);
 begin
   inherited;
+  sql := qry.SQL.Text;
   prc_componentes;
 end;
 

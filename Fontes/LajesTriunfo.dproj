@@ -771,6 +771,7 @@
             <Form>frmCategorias</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="unit_busca_cep.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

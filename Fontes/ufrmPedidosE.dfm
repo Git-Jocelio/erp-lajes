@@ -6,7 +6,6 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
-  ExplicitTop = -141
   ExplicitWidth = 1303
   ExplicitHeight = 702
   TextHeight = 17
@@ -33,7 +32,7 @@ inherited frmPedidosE: TfrmPedidosE
       Height = 37
       Caption = ''
       ExplicitLeft = 247
-      ExplicitWidth = 6
+      ExplicitWidth = 980
     end
     inherited lbl_sub_titulo: TLabel
       Top = 37
@@ -148,8 +147,8 @@ inherited frmPedidosE: TfrmPedidosE
       Left = 0
       Top = 55
       Width = 1297
-      Height = 177
-      ActivePage = tbVenda
+      Height = 190
+      ActivePage = tbDestinatario
       Align = alTop
       TabOrder = 0
       object tbVenda: TTabSheet
@@ -389,8 +388,8 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 145
-          ActivePage = tbCliente
+          Height = 158
+          ActivePage = tbs_local_entrega
           Align = alClient
           TabOrder = 0
           object tbCliente: TTabSheet
@@ -602,6 +601,7 @@ inherited frmPedidosE: TfrmPedidosE
           object tbs_local_entrega: TTabSheet
             Caption = 'Local de entrega diferente do cadastro'
             ImageIndex = 1
+            OnShow = tbs_local_entregaShow
             object Label19: TLabel
               Left = 5
               Top = -1
@@ -616,7 +616,7 @@ inherited frmPedidosE: TfrmPedidosE
               ParentFont = False
             end
             object Label20: TLabel
-              Left = 605
+              Left = 488
               Top = -1
               Width = 37
               Height = 15
@@ -629,7 +629,7 @@ inherited frmPedidosE: TfrmPedidosE
               ParentFont = False
             end
             object Label21: TLabel
-              Left = 771
+              Left = 654
               Top = -1
               Width = 44
               Height = 15
@@ -707,7 +707,7 @@ inherited frmPedidosE: TfrmPedidosE
               ParentFont = False
             end
             object Label27: TLabel
-              Left = 941
+              Left = 824
               Top = -1
               Width = 21
               Height = 15
@@ -721,7 +721,7 @@ inherited frmPedidosE: TfrmPedidosE
             end
             object Label28: TLabel
               Left = 7
-              Top = 91
+              Top = 98
               Width = 77
               Height = 15
               Caption = 'Complemento'
@@ -732,10 +732,44 @@ inherited frmPedidosE: TfrmPedidosE
               Font.Style = []
               ParentFont = False
             end
+            object SpeedButton2: TSpeedButton
+              Left = 922
+              Top = 16
+              Width = 23
+              Height = 22
+              Glyph.Data = {
+                36030000424D3603000000000000360000002800000010000000100000000100
+                1800000000000003000000000000000000000000000000000000FF00FF314B62
+                AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+                00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+                106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+                00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+                37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+                00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+                FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+                9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+                E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+                FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+                FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+                B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+                FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+                DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+                B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+                FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+                BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+                D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+                FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+                6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+                00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+              OnClick = SpeedButton2Click
+            end
             object edt_nome: TEdit
               Left = 5
               Top = 16
-              Width = 594
+              Width = 476
               Height = 23
               CharCase = ecUpperCase
               Color = clInfoBk
@@ -747,9 +781,10 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 50
               ParentFont = False
               TabOrder = 0
+              TextHint = 'Cliente'
             end
             object edt_celular: TEdit
-              Left = 604
+              Left = 487
               Top = 16
               Width = 161
               Height = 23
@@ -765,7 +800,7 @@ inherited frmPedidosE: TfrmPedidosE
               TabOrder = 1
             end
             object edt_telefone: TEdit
-              Left = 771
+              Left = 654
               Top = 16
               Width = 160
               Height = 23
@@ -781,7 +816,7 @@ inherited frmPedidosE: TfrmPedidosE
               TabOrder = 2
             end
             object edt_cep: TEdit
-              Left = 938
+              Left = 821
               Top = 16
               Width = 95
               Height = 23
@@ -792,7 +827,7 @@ inherited frmPedidosE: TfrmPedidosE
               Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Style = []
-              MaxLength = 10
+              MaxLength = 9
               ParentFont = False
               TabOrder = 3
             end
@@ -879,7 +914,7 @@ inherited frmPedidosE: TfrmPedidosE
             end
             object edt_complemento: TMemo
               Left = 85
-              Top = 89
+              Top = 96
               Width = 948
               Height = 22
               BevelInner = bvNone
@@ -905,7 +940,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 145
+          Height = 158
           ActivePage = tbObsAdm
           Align = alClient
           Font.Charset = ANSI_CHARSET
@@ -921,7 +956,7 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 113
+              Height = 126
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
@@ -949,7 +984,7 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 113
+              Height = 126
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
@@ -961,9 +996,9 @@ inherited frmPedidosE: TfrmPedidosE
     end
     object pgc_principal: TPageControl
       Left = 0
-      Top = 232
+      Top = 245
       Width = 1297
-      Height = 365
+      Height = 352
       Cursor = crHandPoint
       ActivePage = tbs_itens_pedido
       Align = alClient
@@ -976,14 +1011,14 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           TabOrder = 0
           object dbg_itens_venda: TDBGrid
             Left = 1
             Top = 36
             Width = 1287
-            Height = 293
+            Height = 280
             Hint = 
               'Click com o bot'#227'o direito do mouse para incluir/alterar/excluir ' +
               'um item'
@@ -1580,7 +1615,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           BevelOuter = bvNone
           Color = clWhite
@@ -1588,9 +1623,9 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 0
           object dbg_itens_laje: TDBGrid
             Left = 0
-            Top = 41
-            Width = 1024
-            Height = 289
+            Top = 34
+            Width = 933
+            Height = 283
             Hint = 'Click com o bot'#227'o direito do mouse para ter acesso ao menu'
             Align = alClient
             DataSource = dsItensLaje
@@ -1801,58 +1836,71 @@ inherited frmPedidosE: TfrmPedidosE
               end>
           end
           object gbResumoLajeH8: TGroupBox
-            Left = 1024
-            Top = 41
-            Width = 265
-            Height = 289
+            Left = 933
+            Top = 34
+            Width = 356
+            Height = 283
             Align = alRight
             Caption = ' Resumo '
             TabOrder = 1
             object Label6: TLabel
-              Left = 9
-              Top = 60
+              Left = 50
+              Top = 57
               Width = 148
               Height = 17
               Caption = 'Qtde de vigas digitada(s)'
             end
             object Label59: TLabel
-              Left = 9
-              Top = 91
-              Width = 182
+              Left = 50
+              Top = 88
+              Width = 114
               Height = 17
-              Caption = 'Metragem linear da(s) vigas (s)'
+              Caption = 'Mt. linear das vigas'
             end
             object Label60: TLabel
-              Left = 9
-              Top = 122
-              Width = 122
+              Left = 50
+              Top = 119
+              Width = 129
               Height = 17
-              Caption = 'Metragem quadrada'
+              Caption = 'Mt. quadrada (eixo = '
             end
             object Label61: TLabel
-              Left = 9
-              Top = 153
+              Left = 50
+              Top = 150
               Width = 129
               Height = 17
               Caption = 'Quantidade de lajotas'
             end
             object Label62: TLabel
-              Left = 9
-              Top = 184
+              Left = 50
+              Top = 181
               Width = 129
               Height = 17
               Caption = 'Quantidade de isopor'
             end
             object Label63: TLabel
-              Left = 9
-              Top = 30
+              Left = 50
+              Top = 26
               Width = 160
               Height = 17
               Caption = 'Qtde de vigas informada(s)'
             end
+            object lbl_eixo_laje: TLabel
+              Left = 177
+              Top = 119
+              Width = 24
+              Height = 17
+              Caption = '0,00'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Segoe UI Semibold'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
             object edVigasH8Info: TEdit
-              Left = 194
-              Top = 26
+              Left = 235
+              Top = 21
               Width = 63
               Height = 27
               Font.Charset = ANSI_CHARSET
@@ -1867,8 +1915,8 @@ inherited frmPedidosE: TfrmPedidosE
               Text = '0'
             end
             object edQtdeVigasH8: TEdit
-              Left = 194
-              Top = 57
+              Left = 235
+              Top = 54
               Width = 63
               Height = 25
               ReadOnly = True
@@ -1876,32 +1924,32 @@ inherited frmPedidosE: TfrmPedidosE
               Text = '0'
             end
             object edMetrosLinearesH8: TEdit
-              Left = 194
-              Top = 88
+              Left = 235
+              Top = 85
               Width = 63
               Height = 25
               ReadOnly = True
               TabOrder = 2
             end
             object edMetrosQuadradosH8: TEdit
-              Left = 194
-              Top = 119
+              Left = 235
+              Top = 116
               Width = 63
               Height = 25
               ReadOnly = True
               TabOrder = 3
             end
             object edQtdeLajotasH8: TEdit
-              Left = 194
-              Top = 150
+              Left = 235
+              Top = 147
               Width = 63
               Height = 25
               ReadOnly = True
               TabOrder = 4
             end
             object edQtdeIsoporH8: TEdit
-              Left = 194
-              Top = 181
+              Left = 235
+              Top = 178
               Width = 63
               Height = 25
               ReadOnly = True
@@ -1913,17 +1961,16 @@ inherited frmPedidosE: TfrmPedidosE
             Left = 15
             Top = 3
             Width = 1271
-            Height = 35
+            Height = 28
             Margins.Left = 15
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
             object lbl_descricao_laje: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 5
-              Width = 1265
-              Height = 27
+              Left = 0
+              Top = 0
+              Width = 1271
+              Height = 28
               Margins.Top = 5
               Align = alClient
               Caption = 'lbl_descricao_laje'
@@ -1947,7 +1994,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 280
+          Height = 267
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2320,7 +2367,7 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox5: TGroupBox
           Left = 0
-          Top = 280
+          Top = 267
           Width = 1289
           Height = 50
           Align = alBottom
@@ -2406,7 +2453,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 280
+          Height = 267
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2775,7 +2822,7 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox6: TGroupBox
           Left = 0
-          Top = 280
+          Top = 267
           Width = 1289
           Height = 50
           Align = alBottom
@@ -2875,7 +2922,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           TabOrder = 0
           object Label33: TLabel
@@ -3104,7 +3151,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           TabOrder = 0
           object Label29: TLabel
@@ -3539,7 +3586,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 113
           Width = 1289
-          Height = 217
+          Height = 204
           Align = alClient
           Caption = 'Recebimentos'
           TabOrder = 1
@@ -3547,7 +3594,7 @@ inherited frmPedidosE: TfrmPedidosE
             Left = 2
             Top = 19
             Width = 1285
-            Height = 196
+            Height = 183
             Align = alClient
             DataSource = ds_recibos
             Font.Charset = ANSI_CHARSET
@@ -3668,7 +3715,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           DataSource = ds_contas_pagar
           Font.Charset = ANSI_CHARSET
@@ -4060,7 +4107,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 70
           Width = 1289
-          Height = 260
+          Height = 247
           ActivePage = tbs_comissoes
           Align = alClient
           TabOrder = 1
@@ -4071,14 +4118,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 228
+              Height = 215
               Align = alClient
               TabOrder = 0
               object dbg_comissao_itens: TDBGrid
                 Left = 2
                 Top = 19
                 Width = 1277
-                Height = 207
+                Height = 194
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4238,14 +4285,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 228
+              Height = 215
               Align = alClient
               TabOrder = 0
               object dbg_outras_despesas: TDBGrid
                 Left = 38
                 Top = 19
                 Width = 1241
-                Height = 207
+                Height = 194
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4327,7 +4374,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 207
+                Height = 194
                 Align = alLeft
                 TabOrder = 1
                 object btn_incluir_lancamento: TSpeedButton
@@ -4654,7 +4701,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 70
           Width = 1289
-          Height = 260
+          Height = 247
           ActivePage = TabSheet1
           Align = alClient
           TabOrder = 1
@@ -4665,14 +4712,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 228
+              Height = 215
               Align = alClient
               TabOrder = 0
               object DBGrid1: TDBGrid
                 Left = 2
                 Top = 19
                 Width = 1277
-                Height = 207
+                Height = 194
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4832,14 +4879,14 @@ inherited frmPedidosE: TfrmPedidosE
               Left = 0
               Top = 0
               Width = 1281
-              Height = 228
+              Height = 215
               Align = alClient
               TabOrder = 0
               object dbg_outras_despesas_ferrari: TDBGrid
                 Left = 38
                 Top = 19
                 Width = 1241
-                Height = 207
+                Height = 194
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4921,7 +4968,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 207
+                Height = 194
                 Align = alLeft
                 TabOrder = 1
                 object TSpeedButton
@@ -4958,7 +5005,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           Align = alClient
           BevelOuter = bvNone
           Font.Charset = ANSI_CHARSET
@@ -5429,7 +5476,7 @@ inherited frmPedidosE: TfrmPedidosE
           Left = 0
           Top = 0
           Width = 1289
-          Height = 330
+          Height = 317
           ActivePage = tbs_concreto_realizado
           Align = alClient
           TabOrder = 0
@@ -6063,7 +6110,7 @@ inherited frmPedidosE: TfrmPedidosE
       end
     end
     object gbReforcosVigas: TGroupBox
-      Left = 570
+      Left = 424
       Top = 359
       Width = 507
       Height = 232
@@ -7835,5 +7882,16 @@ inherited frmPedidosE: TfrmPedidosE
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
+  end
+  object TabCep: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 609
+    Top = 79
   end
 end

@@ -3,11 +3,11 @@ inherited frmClientesE: TfrmClientesE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmClientesE'
-  ClientHeight = 540
+  ClientHeight = 500
   ClientWidth = 472
   ShowHint = True
   ExplicitWidth = 478
-  ExplicitHeight = 546
+  ExplicitHeight = 506
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 472
@@ -29,7 +29,7 @@ inherited frmClientesE: TfrmClientesE
   inherited pnDados: TPanel
     Top = 65
     Width = 472
-    Height = 281
+    Height = 241
     Font.Height = -12
     ExplicitTop = 65
     ExplicitWidth = 472
@@ -98,7 +98,7 @@ inherited frmClientesE: TfrmClientesE
       Caption = 'Nome'
     end
     object Label11: TLabel
-      Left = 5
+      Left = 106
       Top = 136
       Width = 49
       Height = 15
@@ -119,29 +119,29 @@ inherited frmClientesE: TfrmClientesE
       Caption = 'Bairro'
     end
     object Label14: TLabel
-      Left = 177
+      Left = 150
       Top = 185
       Width = 37
       Height = 15
       Caption = 'Cidade'
     end
     object Label15: TLabel
-      Left = 357
-      Top = 185
+      Left = 286
+      Top = 186
       Width = 14
       Height = 15
       Caption = 'UF'
     end
     object Label16: TLabel
-      Left = 393
-      Top = 185
+      Left = 30
+      Top = 137
       Width = 21
       Height = 15
       Caption = 'CEP'
     end
     object Label17: TLabel
-      Left = 5
-      Top = 233
+      Left = 325
+      Top = 184
       Width = 29
       Height = 15
       Caption = 'email'
@@ -220,6 +220,40 @@ inherited frmClientesE: TfrmClientesE
         00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
       OnClick = btn_validar_cpf_cnpjClick
     end
+    object btnBuscaCep: TSpeedButton
+      Left = 1
+      Top = 154
+      Width = 28
+      Height = 26
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FF314B62
+        AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+        106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+        00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+        9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+        E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+        FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+        B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+        FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+        DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+        B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+        BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+        D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+        6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+      OnClick = btnBuscaCepClick
+    end
     object cb_ativo: TCheckBox
       Left = 414
       Top = 6
@@ -279,9 +313,9 @@ inherited frmClientesE: TfrmClientesE
       TabOrder = 5
     end
     object edt_endereco: TEdit
-      Left = 5
+      Left = 106
       Top = 155
-      Width = 385
+      Width = 288
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 100
@@ -298,24 +332,24 @@ inherited frmClientesE: TfrmClientesE
     object edt_bairro: TEdit
       Left = 4
       Top = 204
-      Width = 167
+      Width = 142
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 8
     end
     object edt_cidade: TEdit
-      Left = 177
-      Top = 203
-      Width = 177
+      Left = 150
+      Top = 204
+      Width = 135
       Height = 23
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 9
     end
     object edt_uf: TEdit
-      Left = 358
-      Top = 203
+      Left = 287
+      Top = 204
       Width = 32
       Height = 23
       CharCase = ecUpperCase
@@ -324,8 +358,8 @@ inherited frmClientesE: TfrmClientesE
       Text = 'SP'
     end
     object edt_cep: TEdit
-      Left = 393
-      Top = 203
+      Left = 30
+      Top = 155
       Width = 70
       Height = 23
       CharCase = ecUpperCase
@@ -333,16 +367,16 @@ inherited frmClientesE: TfrmClientesE
       TabOrder = 11
     end
     object edt_email: TEdit
-      Left = 5
-      Top = 253
-      Width = 458
+      Left = 325
+      Top = 204
+      Width = 138
       Height = 23
       CharCase = ecLowerCase
       TabOrder = 12
     end
   end
   inherited pnRodape: TPanel
-    Top = 502
+    Top = 462
     Width = 472
     Height = 38
     TabOrder = 3
@@ -363,7 +397,7 @@ inherited frmClientesE: TfrmClientesE
   end
   object pnCliente: TPanel [3]
     Left = 0
-    Top = 346
+    Top = 306
     Width = 472
     Height = 156
     Align = alBottom
@@ -376,6 +410,7 @@ inherited frmClientesE: TfrmClientesE
     ParentBackground = False
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 346
     object Label18: TLabel
       Left = 8
       Top = 9
@@ -568,5 +603,16 @@ inherited frmClientesE: TfrmClientesE
     DataSet = qryFormaPagto
     Left = 352
     Top = 168
+  end
+  object TabCep: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 48
+    Top = 233
   end
 end

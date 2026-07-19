@@ -286,7 +286,7 @@ begin
   if btnPesquisar.Caption = 'Pesquisa >>' then
   begin
     btnPesquisar.Caption    := '<< Ocultar';
-    GroupBoxPesquisa.Height := 161;
+    GroupBoxPesquisa.Height := 200;
   end
   else
    begin

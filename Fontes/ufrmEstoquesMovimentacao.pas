@@ -324,6 +324,7 @@ begin
   prc_ajusta_tamanho_linha( DBGrid1 );
 
 end;
+
 (*
 procedure TfrmEstoquesMovimentacao.prc_incluir_no_memtable;
 var

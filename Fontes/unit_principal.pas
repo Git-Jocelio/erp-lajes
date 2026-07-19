@@ -691,6 +691,16 @@ begin
         prc_validar_sistema(memo_seguranca);
       end;
     end else
+    // LAJES RR INSTALA EM 20/03/2026
+    if cnpj = '46528893000143' then
+    begin
+      senha_vitalicia := cnpj + criptografia(senha_vitalicia);
+      if senha_vitalicia <> '46528893000143'+'J@cel1@_Autor1z@u' then
+      begin
+
+        prc_validar_sistema(memo_seguranca);
+      end;
+    end else
     begin
       CriarMensagem('AVISO','CÓPIA NÃO AUTORIZADA PARA ESTA EMPRESA!');
       application.Terminate;

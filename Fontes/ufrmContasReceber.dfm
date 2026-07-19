@@ -13,7 +13,7 @@ inherited frmContasReceber: TfrmContasReceber
     Width = 1249
     Height = 161
     ExplicitTop = 89
-    ExplicitWidth = 1239
+    ExplicitWidth = 1249
     ExplicitHeight = 161
     inherited lbl_texto: TLabel
       Left = 930
@@ -37,7 +37,7 @@ inherited frmContasReceber: TfrmContasReceber
       TabOrder = 8
       ExplicitLeft = 1015
       ExplicitTop = 47
-      ExplicitWidth = 170
+      ExplicitWidth = 180
     end
     object rgOrdem: TRadioGroup
       Left = 2
@@ -315,7 +315,7 @@ inherited frmContasReceber: TfrmContasReceber
     ButtonWidth = 99
     Font.Height = -12
     ExplicitTop = 0
-    ExplicitWidth = 1239
+    ExplicitWidth = 1249
     ExplicitHeight = 46
     inherited btnIncluir: TToolButton
       ExplicitWidth = 99
@@ -367,8 +367,8 @@ inherited frmContasReceber: TfrmContasReceber
   inherited StatusBar: TStatusBar
     Top = 491
     Width = 1249
-    ExplicitTop = 458
-    ExplicitWidth = 1239
+    ExplicitTop = 491
+    ExplicitWidth = 1249
   end
   inherited PageControl1: TPageControl
     Top = 250
@@ -376,8 +376,8 @@ inherited frmContasReceber: TfrmContasReceber
     Height = 200
     ParentShowHint = False
     ExplicitTop = 250
-    ExplicitWidth = 1239
-    ExplicitHeight = 167
+    ExplicitWidth = 1249
+    ExplicitHeight = 200
     inherited TabSheet1: TTabSheet
       Caption = 'Contas Receber'
       TabVisible = True
@@ -387,8 +387,8 @@ inherited frmContasReceber: TfrmContasReceber
       inherited Panel5: TPanel
         Width = 1241
         Height = 170
-        ExplicitWidth = 1231
-        ExplicitHeight = 137
+        ExplicitWidth = 1241
+        ExplicitHeight = 170
         inherited DBGrid1: TDBGrid
           Width = 1201
           Height = 119
@@ -536,7 +536,7 @@ inherited frmContasReceber: TfrmContasReceber
         end
         inherited pnl_resultado: TPanel
           Width = 1201
-          ExplicitWidth = 1191
+          ExplicitWidth = 1201
           inherited lbl_resultado: TLabel
             Height = 41
           end
@@ -550,13 +550,12 @@ inherited frmContasReceber: TfrmContasReceber
       object pnl_dados_da_conta: TPanel
         Left = 0
         Top = 0
-        Width = 1235
+        Width = 1241
         Height = 121
         Align = alTop
         BevelInner = bvRaised
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 1247
         object Label8: TLabel
           Left = 4
           Top = 36
@@ -721,18 +720,16 @@ inherited frmContasReceber: TfrmContasReceber
       object pnl_contas_receber_baixa: TPanel
         Left = 30
         Top = 121
-        Width = 1205
-        Height = 17
+        Width = 1211
+        Height = 49
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitWidth = 1217
-        ExplicitHeight = 55
         object DBGrid2: TDBGrid
           Left = 0
           Top = 0
-          Width = 1205
-          Height = 17
+          Width = 1211
+          Height = 49
           Align = alClient
           DataSource = ds_contas_receber_baixa
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -868,11 +865,10 @@ inherited frmContasReceber: TfrmContasReceber
         Left = 0
         Top = 121
         Width = 30
-        Height = 17
+        Height = 49
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitHeight = 55
         object btn_incluir_recebimento: TSpeedButton
           Left = 0
           Top = 0
@@ -918,8 +914,6 @@ inherited frmContasReceber: TfrmContasReceber
     Font.Style = []
     ParentFont = False
     TabOrder = 5
-    ExplicitTop = 417
-    ExplicitWidth = 1239
     object Label1: TLabel
       Left = 8
       Top = 10
@@ -982,7 +976,7 @@ inherited frmContasReceber: TfrmContasReceber
     Width = 1249
     Height = 43
     ExplicitTop = 46
-    ExplicitWidth = 1239
+    ExplicitWidth = 1249
     ExplicitHeight = 43
     inherited btn_fechar: TSpeedButton
       Left = 1179
@@ -1000,7 +994,7 @@ inherited frmContasReceber: TfrmContasReceber
       Top = 42
       Width = 1249
       ExplicitTop = 42
-      ExplicitWidth = 1239
+      ExplicitWidth = 1249
     end
   end
   inherited ds: TDataSource

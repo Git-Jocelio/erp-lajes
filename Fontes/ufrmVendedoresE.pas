@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask, udmConn;
+  Vcl.ExtCtrls, uTipos, Vcl.DBCtrls, Vcl.Mask, udmConn, unit_busca_cep;
 
 type
   TfrmVendedoresE = class(TfrmBaseEdicao)
@@ -49,6 +49,8 @@ type
     lbl_cadastrado_em: TLabel;
     Label3: TLabel;
     lbl_alterado_em: TLabel;
+    btnBuscaCep: TSpeedButton;
+    TabCep: TFDMemTable;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure btn_validar_cpf_cnpjClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
+    procedure btnBuscaCepClick(Sender: TObject);
 
   private
     FOperacao: uTipos.TOperacao;
@@ -145,6 +148,28 @@ end;
 
 
 {$R *.dfm}
+
+procedure TfrmVendedoresE.btnBuscaCepClick(Sender: TObject);
+begin
+ if edt_cep.Text = '' then
+ begin
+   ShowMessage('Informe um CEP');
+   edt_cep.SetFocus;
+   exit;
+ end;
+
+ if TViaCEPService.ConsultarCEP(edt_cep.Text, TabCep) then
+  begin
+    edt_endereco.Text := TabCep.FieldByName('logradouro').AsString;
+    edt_bairro.Text   := TabCep.FieldByName('bairro').AsString;
+    edt_cidade.Text   := TabCep.FieldByName('localidade').AsString;
+    edt_uf.Text       := TabCep.FieldByName('uf').AsString;
+    edt_cep.Text      := TabCep.FieldByName('cep').AsString;
+  end
+  else
+    ShowMessage('CEP não encontrado.');
+
+end;
 
 procedure TfrmVendedoresE.btnFecharClick(Sender: TObject);
 begin
@@ -268,6 +293,7 @@ begin
    edt_uf.Enabled := habilitar;
    edt_cep.Enabled := habilitar;
    edt_email.Enabled := habilitar;
+   btnBuscaCep.Enabled := habilitar;
 
 end;
 

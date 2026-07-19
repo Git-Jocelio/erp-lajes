@@ -803,7 +803,7 @@ object form_principal: Tform_principal
         Left = 10
         Top = 3
         Width = 29
-        Height = 35
+        Height = 29
         Margins.Left = 10
         Align = alLeft
         AutoSize = True
@@ -839,7 +839,6 @@ object form_principal: Tform_principal
         Transparent = True
         OnClick = pnl_botao_financeiroClick
         OnMouseEnter = pnl_botao_notasMouseEnter
-        ExplicitHeight = 29
       end
       object lbl_botao_financeiro: TLabel
         Tag = 6
@@ -2333,6 +2332,7 @@ object form_principal: Tform_principal
           Width = 250
           Height = 150
           Columns = <>
+          Items.ItemData = {}
           TabOrder = 0
         end
       end

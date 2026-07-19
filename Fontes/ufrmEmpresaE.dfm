@@ -2,15 +2,14 @@ inherited frmEmpresaE: TfrmEmpresaE
   BorderStyle = bsNone
   BorderWidth = 3
   Caption = 'frmEmpresaE'
-  ClientHeight = 573
+  ClientHeight = 513
   ClientWidth = 469
-  ExplicitTop = -15
   ExplicitWidth = 475
-  ExplicitHeight = 579
+  ExplicitHeight = 519
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 469
-    ExplicitWidth = 597
+    ExplicitWidth = 469
     inherited lbl_titulo: TLabel
       Width = 469
       Height = 40
@@ -21,9 +20,9 @@ inherited frmEmpresaE: TfrmEmpresaE
   end
   inherited pnDados: TPanel
     Width = 469
-    Height = 294
-    ExplicitWidth = 476
-    ExplicitHeight = 288
+    Height = 234
+    ExplicitWidth = 469
+    ExplicitHeight = 256
     object Label1: TLabel
       Left = 5
       Top = 6
@@ -88,7 +87,7 @@ inherited frmEmpresaE: TfrmEmpresaE
       Caption = 'Nome'
     end
     object Label11: TLabel
-      Left = 5
+      Left = 104
       Top = 136
       Width = 55
       Height = 17
@@ -109,29 +108,29 @@ inherited frmEmpresaE: TfrmEmpresaE
       Caption = 'Bairro'
     end
     object Label14: TLabel
-      Left = 177
+      Left = 151
       Top = 185
       Width = 41
       Height = 17
       Caption = 'Cidade'
     end
     object Label15: TLabel
-      Left = 357
-      Top = 185
+      Left = 298
+      Top = 186
       Width = 15
       Height = 17
       Caption = 'UF'
     end
     object Label16: TLabel
-      Left = 393
-      Top = 185
+      Left = 28
+      Top = 136
       Width = 22
       Height = 17
       Caption = 'CEP'
     end
     object Label17: TLabel
-      Left = 5
-      Top = 233
+      Left = 334
+      Top = 183
       Width = 31
       Height = 17
       Caption = 'email'
@@ -210,6 +209,40 @@ inherited frmEmpresaE: TfrmEmpresaE
         00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
       OnClick = btn_validar_cpf_cnpjClick
     end
+    object btnBuscaCep: TSpeedButton
+      Left = 1
+      Top = 154
+      Width = 23
+      Height = 25
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FF314B62
+        AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+        106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+        00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+        00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+        FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+        9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+        E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+        FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+        B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+        FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+        DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+        B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+        BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+        D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+        6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+        00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+      OnClick = btnBuscaCepClick
+    end
     object cb_ativo: TCheckBox
       Left = 414
       Top = 6
@@ -247,7 +280,7 @@ inherited frmEmpresaE: TfrmEmpresaE
       Left = 361
       Top = 67
       Width = 102
-      Height = 23
+      Height = 25
       MaxLength = 13
       TabOrder = 3
     end
@@ -255,7 +288,7 @@ inherited frmEmpresaE: TfrmEmpresaE
       Left = 148
       Top = 67
       Width = 98
-      Height = 23
+      Height = 25
       MaxLength = 14
       TabOrder = 4
     end
@@ -269,9 +302,9 @@ inherited frmEmpresaE: TfrmEmpresaE
       TabOrder = 5
     end
     object edt_endereco: TEdit
-      Left = 5
+      Left = 104
       Top = 155
-      Width = 385
+      Width = 286
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 100
@@ -281,30 +314,30 @@ inherited frmEmpresaE: TfrmEmpresaE
       Left = 398
       Top = 155
       Width = 65
-      Height = 23
+      Height = 25
       MaxLength = 10
       TabOrder = 7
     end
     object edt_bairro: TEdit
       Left = 4
-      Top = 204
-      Width = 167
+      Top = 203
+      Width = 144
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 8
     end
     object edt_cidade: TEdit
-      Left = 177
+      Left = 151
       Top = 203
-      Width = 177
+      Width = 144
       Height = 25
       CharCase = ecUpperCase
       MaxLength = 30
       TabOrder = 9
     end
     object edt_uf: TEdit
-      Left = 358
+      Left = 298
       Top = 203
       Width = 32
       Height = 25
@@ -314,8 +347,8 @@ inherited frmEmpresaE: TfrmEmpresaE
       Text = 'SP'
     end
     object edt_cep: TEdit
-      Left = 393
-      Top = 203
+      Left = 28
+      Top = 154
       Width = 70
       Height = 25
       CharCase = ecUpperCase
@@ -323,19 +356,19 @@ inherited frmEmpresaE: TfrmEmpresaE
       TabOrder = 11
     end
     object edt_email: TEdit
-      Left = 5
-      Top = 253
-      Width = 458
+      Left = 334
+      Top = 203
+      Width = 129
       Height = 25
       CharCase = ecLowerCase
       TabOrder = 12
     end
   end
   inherited pnRodape: TPanel
-    Top = 536
+    Top = 476
     Width = 469
-    ExplicitTop = 553
-    ExplicitWidth = 597
+    ExplicitTop = 536
+    ExplicitWidth = 469
     inherited pnl_botoes: TPanel
       inherited btnOk: TBitBtn
         OnClick = btnOkClick
@@ -344,7 +377,7 @@ inherited frmEmpresaE: TfrmEmpresaE
   end
   object pnCliente: TPanel [3]
     Left = 0
-    Top = 351
+    Top = 291
     Width = 469
     Height = 185
     Align = alBottom
@@ -352,8 +385,7 @@ inherited frmEmpresaE: TfrmEmpresaE
     Color = clWhite
     ParentBackground = False
     TabOrder = 3
-    ExplicitLeft = 8
-    ExplicitTop = 346
+    ExplicitTop = 351
     object Label18: TLabel
       Left = 6
       Top = 2
@@ -539,5 +571,16 @@ inherited frmEmpresaE: TfrmEmpresaE
   object OpenPictureDialog1: TOpenPictureDialog
     Left = 305
     Top = 440
+  end
+  object TabCep: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 56
+    Top = 225
   end
 end
