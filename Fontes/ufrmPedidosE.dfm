@@ -6,47 +6,39 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
+  ExplicitLeft = -249
   ExplicitWidth = 1303
   ExplicitHeight = 702
   TextHeight = 17
-  object DBText1: TDBText [0]
-    Left = 416
-    Top = 344
-    Width = 65
-    Height = 17
-  end
-  object Bevel1: TBevel [1]
-    Left = 424
-    Top = 328
-    Width = 50
-    Height = 50
-  end
   inherited pnTitulo: TPanel
     Width = 1297
-    Height = 54
+    Height = 46
     ExplicitWidth = 1297
-    ExplicitHeight = 54
+    ExplicitHeight = 46
     inherited lbl_titulo: TLabel
-      Left = 247
-      Width = 980
-      Height = 37
+      AlignWithMargins = True
+      Left = 277
+      Top = 3
+      Width = 961
+      Height = 23
       Caption = ''
       ExplicitLeft = 247
-      ExplicitWidth = 980
+      ExplicitWidth = 6
     end
     inherited lbl_sub_titulo: TLabel
-      Top = 37
+      Top = 29
       Width = 1297
       Caption = 'sub_titulo'
       Visible = False
-      ExplicitTop = 37
-      ExplicitWidth = 55
+      ExplicitTop = 0
+      ExplicitWidth = 1297
     end
     object btn_fechar: TSpeedButton
-      Left = 1227
-      Top = 0
-      Width = 70
-      Height = 37
+      AlignWithMargins = True
+      Left = 1244
+      Top = 3
+      Width = 50
+      Height = 23
       Cursor = crHandPoint
       Hint = 'FECHAR FORMUL'#193'RIO'
       Align = alRight
@@ -111,17 +103,17 @@ inherited frmPedidosE: TfrmPedidosE
       ParentShowHint = False
       ShowHint = True
       OnClick = btn_fecharClick
-      ExplicitLeft = 1035
-      ExplicitHeight = 80
+      ExplicitLeft = 1237
+      ExplicitTop = 0
+      ExplicitHeight = 33
     end
     object lbl_titulo_topo: TLabel
       AlignWithMargins = True
       Left = 15
-      Top = 0
-      Width = 232
-      Height = 37
+      Top = 3
+      Width = 259
+      Height = 26
       Margins.Left = 15
-      Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alLeft
@@ -133,24 +125,26 @@ inherited frmPedidosE: TfrmPedidosE
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitHeight = 30
+      ExplicitTop = 0
+      ExplicitHeight = 33
     end
   end
   inherited pnDados: TPanel
-    Top = 54
-    Width = 1297
-    Height = 597
+    Top = 46
+    Width = 1080
+    Height = 615
     ExplicitTop = 54
     ExplicitWidth = 1297
     ExplicitHeight = 597
     object pcVenda: TPageControl
       Left = 0
       Top = 55
-      Width = 1297
+      Width = 1080
       Height = 190
-      ActivePage = tbDestinatario
+      ActivePage = tbVenda
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 1297
       object tbVenda: TTabSheet
         Caption = 'Venda'
         OnShow = tbVendaShow
@@ -220,7 +214,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
         end
         object btn_busca_forma_pagto: TSpeedButton
-          Left = 529
+          Left = 500
           Top = 80
           Width = 25
           Height = 25
@@ -359,7 +353,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_forma_pagto: TPanel
           Left = 281
           Top = 82
-          Width = 242
+          Width = 216
           Height = 24
           BevelKind = bkTile
           BevelOuter = bvNone
@@ -387,11 +381,12 @@ inherited frmPedidosE: TfrmPedidosE
         object pcCliente: TPageControl
           Left = 0
           Top = 0
-          Width = 1289
+          Width = 1072
           Height = 158
           ActivePage = tbs_local_entrega
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1289
           object tbCliente: TTabSheet
             Caption = 'Dados do Cliente'
             OnShow = tbClienteShow
@@ -602,123 +597,6 @@ inherited frmPedidosE: TfrmPedidosE
             Caption = 'Local de entrega diferente do cadastro'
             ImageIndex = 1
             OnShow = tbs_local_entregaShow
-            object Label19: TLabel
-              Left = 5
-              Top = -1
-              Width = 33
-              Height = 15
-              Caption = 'Nome'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label20: TLabel
-              Left = 488
-              Top = -1
-              Width = 37
-              Height = 15
-              Caption = 'Celular'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label21: TLabel
-              Left = 654
-              Top = -1
-              Width = 44
-              Height = 15
-              Caption = 'Telefone'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label22: TLabel
-              Left = 5
-              Top = 43
-              Width = 49
-              Height = 15
-              Caption = 'Endere'#231'o'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label23: TLabel
-              Left = 480
-              Top = 43
-              Width = 44
-              Height = 15
-              Caption = 'N'#250'mero'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label24: TLabel
-              Left = 605
-              Top = 45
-              Width = 31
-              Height = 15
-              Caption = 'Bairro'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label25: TLabel
-              Left = 813
-              Top = 41
-              Width = 37
-              Height = 15
-              Caption = 'Cidade'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label26: TLabel
-              Left = 994
-              Top = 43
-              Width = 14
-              Height = 15
-              Caption = 'UF'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object Label27: TLabel
-              Left = 824
-              Top = -1
-              Width = 21
-              Height = 15
-              Caption = 'CEP'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
             object Label28: TLabel
               Left = 7
               Top = 98
@@ -733,10 +611,10 @@ inherited frmPedidosE: TfrmPedidosE
               ParentFont = False
             end
             object SpeedButton2: TSpeedButton
-              Left = 922
+              Left = 820
               Top = 16
-              Width = 23
-              Height = 22
+              Width = 27
+              Height = 24
               Glyph.Data = {
                 36030000424D3603000000000000360000002800000010000000100000000100
                 1800000000000003000000000000000000000000000000000000FF00FF314B62
@@ -771,7 +649,6 @@ inherited frmPedidosE: TfrmPedidosE
               Top = 16
               Width = 476
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -781,14 +658,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 50
               ParentFont = False
               TabOrder = 0
-              TextHint = 'Cliente'
+              TextHint = 'Informe o nome do cliente'
             end
             object edt_celular: TEdit
               Left = 487
               Top = 16
               Width = 161
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -798,13 +674,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 50
               ParentFont = False
               TabOrder = 1
+              TextHint = 'Celular'
             end
             object edt_telefone: TEdit
               Left = 654
               Top = 16
               Width = 160
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -814,13 +690,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 50
               ParentFont = False
               TabOrder = 2
+              TextHint = 'Telefone'
             end
             object edt_cep: TEdit
-              Left = 821
+              Left = 849
               Top = 16
               Width = 95
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -830,13 +706,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 9
               ParentFont = False
               TabOrder = 3
+              TextHint = 'CEP'
             end
             object edt_endereco: TEdit
               Left = 6
               Top = 60
-              Width = 468
+              Width = 443
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -846,13 +722,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 100
               ParentFont = False
               TabOrder = 4
+              TextHint = 'Endere'#231'o'
             end
             object edt_numero_entrega: TEdit
-              Left = 480
+              Left = 455
               Top = 60
-              Width = 119
+              Width = 112
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -862,13 +738,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 20
               ParentFont = False
               TabOrder = 5
+              TextHint = 'N'#250'mero'
             end
             object edt_bairro: TEdit
-              Left = 605
+              Left = 573
               Top = 60
-              Width = 202
+              Width = 179
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -878,13 +754,13 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 55
               ParentFont = False
               TabOrder = 6
+              TextHint = 'Bairro'
             end
             object edt_cidade: TEdit
-              Left = 814
+              Left = 756
               Top = 60
-              Width = 174
+              Width = 144
               Height = 23
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -894,9 +770,10 @@ inherited frmPedidosE: TfrmPedidosE
               MaxLength = 30
               ParentFont = False
               TabOrder = 7
+              TextHint = 'Cidade'
             end
             object edt_uf: TEdit
-              Left = 994
+              Left = 905
               Top = 60
               Width = 39
               Height = 23
@@ -911,14 +788,14 @@ inherited frmPedidosE: TfrmPedidosE
               ParentFont = False
               TabOrder = 8
               Text = 'SP'
+              TextHint = 'SP'
             end
             object edt_complemento: TMemo
               Left = 85
               Top = 96
-              Width = 948
+              Width = 859
               Height = 22
               BevelInner = bvNone
-              CharCase = ecUpperCase
               Color = clInfoBk
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
@@ -939,7 +816,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pcObs: TPageControl
           Left = 0
           Top = 0
-          Width = 1289
+          Width = 1072
           Height = 158
           ActivePage = tbObsAdm
           Align = alClient
@@ -950,17 +827,19 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1289
           object tbObsAdm: TTabSheet
             Caption = 'Obs Admin'
             object mm_obs_adm: TMemo
               Left = 0
               Top = 0
-              Width = 1281
+              Width = 1064
               Height = 126
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
+              ExplicitWidth = 1281
             end
             object DBGrid3: TDBGrid
               Left = 376
@@ -983,12 +862,13 @@ inherited frmPedidosE: TfrmPedidosE
             object mm_obs_entrega: TMemo
               Left = 0
               Top = 0
-              Width = 1281
+              Width = 1064
               Height = 126
               Align = alClient
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
+              ExplicitWidth = 1281
             end
           end
         end
@@ -997,28 +877,32 @@ inherited frmPedidosE: TfrmPedidosE
     object pgc_principal: TPageControl
       Left = 0
       Top = 245
-      Width = 1297
-      Height = 352
+      Width = 1080
+      Height = 370
       Cursor = crHandPoint
       ActivePage = tbs_itens_pedido
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
+      ExplicitWidth = 1297
+      ExplicitHeight = 352
       object tbs_itens_pedido: TTabSheet
         Caption = 'Itens da Venda'
         OnShow = tbs_itens_pedidoShow
         object pnPedidoItens: TPanel
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object dbg_itens_venda: TDBGrid
             Left = 1
             Top = 36
-            Width = 1287
-            Height = 280
+            Width = 1070
+            Height = 298
             Hint = 
               'Click com o bot'#227'o direito do mouse para incluir/alterar/excluir ' +
               'um item'
@@ -1051,6 +935,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
+                Width = 54
                 Visible = True
               end
               item
@@ -1087,6 +972,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
+                Width = 36
                 Visible = True
               end
               item
@@ -1123,7 +1009,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 270
+                Width = 238
                 Visible = True
               end
               item
@@ -1154,13 +1040,13 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Name = 'Segoe UI'
                 Font.Style = []
                 Title.Alignment = taCenter
-                Title.Caption = 'Custo Vendedor'
+                Title.Caption = 'Custo Vend.'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 110
+                Width = 78
                 Visible = True
               end
               item
@@ -1172,13 +1058,13 @@ inherited frmPedidosE: TfrmPedidosE
                 Font.Name = 'Segoe UI'
                 Font.Style = []
                 Title.Alignment = taCenter
-                Title.Caption = 'Pre'#231'o Venda'
+                Title.Caption = 'Pr. Venda'
                 Title.Font.Charset = ANSI_CHARSET
                 Title.Font.Color = clWindowText
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 110
+                Width = 85
                 Visible = True
               end
               item
@@ -1196,7 +1082,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Title.Font.Height = -12
                 Title.Font.Name = 'Segoe UI Semibold'
                 Title.Font.Style = [fsBold]
-                Width = 110
+                Width = 90
                 Visible = True
               end
               item
@@ -1541,11 +1427,12 @@ inherited frmPedidosE: TfrmPedidosE
           object Panel4: TPanel
             Left = 1
             Top = 1
-            Width = 1287
+            Width = 1070
             Height = 35
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 1287
             object btn_incluir: TSpeedButton
               AlignWithMargins = True
               Left = 19
@@ -1614,18 +1501,20 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_itens_laje: TPanel
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           BevelOuter = bvNone
           Color = clWhite
           ParentBackground = False
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object dbg_itens_laje: TDBGrid
             Left = 0
             Top = 34
-            Width = 933
-            Height = 283
+            Width = 1072
+            Height = 301
             Hint = 'Click com o bot'#227'o direito do mouse para ter acesso ao menu'
             Align = alClient
             DataSource = dsItensLaje
@@ -1835,141 +1724,21 @@ inherited frmPedidosE: TfrmPedidosE
                 Visible = True
               end>
           end
-          object gbResumoLajeH8: TGroupBox
-            Left = 933
-            Top = 34
-            Width = 356
-            Height = 283
-            Align = alRight
-            Caption = ' Resumo '
-            TabOrder = 1
-            object Label6: TLabel
-              Left = 50
-              Top = 57
-              Width = 148
-              Height = 17
-              Caption = 'Qtde de vigas digitada(s)'
-            end
-            object Label59: TLabel
-              Left = 50
-              Top = 88
-              Width = 114
-              Height = 17
-              Caption = 'Mt. linear das vigas'
-            end
-            object Label60: TLabel
-              Left = 50
-              Top = 119
-              Width = 129
-              Height = 17
-              Caption = 'Mt. quadrada (eixo = '
-            end
-            object Label61: TLabel
-              Left = 50
-              Top = 150
-              Width = 129
-              Height = 17
-              Caption = 'Quantidade de lajotas'
-            end
-            object Label62: TLabel
-              Left = 50
-              Top = 181
-              Width = 129
-              Height = 17
-              Caption = 'Quantidade de isopor'
-            end
-            object Label63: TLabel
-              Left = 50
-              Top = 26
-              Width = 160
-              Height = 17
-              Caption = 'Qtde de vigas informada(s)'
-            end
-            object lbl_eixo_laje: TLabel
-              Left = 177
-              Top = 119
-              Width = 24
-              Height = 17
-              Caption = '0,00'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -13
-              Font.Name = 'Segoe UI Semibold'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object edVigasH8Info: TEdit
-              Left = 235
-              Top = 21
-              Width = 63
-              Height = 27
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clRed
-              Font.Height = -16
-              Font.Name = 'Times New Roman'
-              Font.Style = [fsBold]
-              NumbersOnly = True
-              ParentFont = False
-              ReadOnly = True
-              TabOrder = 0
-              Text = '0'
-            end
-            object edQtdeVigasH8: TEdit
-              Left = 235
-              Top = 54
-              Width = 63
-              Height = 25
-              ReadOnly = True
-              TabOrder = 1
-              Text = '0'
-            end
-            object edMetrosLinearesH8: TEdit
-              Left = 235
-              Top = 85
-              Width = 63
-              Height = 25
-              ReadOnly = True
-              TabOrder = 2
-            end
-            object edMetrosQuadradosH8: TEdit
-              Left = 235
-              Top = 116
-              Width = 63
-              Height = 25
-              ReadOnly = True
-              TabOrder = 3
-            end
-            object edQtdeLajotasH8: TEdit
-              Left = 235
-              Top = 147
-              Width = 63
-              Height = 25
-              ReadOnly = True
-              TabOrder = 4
-            end
-            object edQtdeIsoporH8: TEdit
-              Left = 235
-              Top = 178
-              Width = 63
-              Height = 25
-              ReadOnly = True
-              TabOrder = 5
-            end
-          end
           object TPanel
             AlignWithMargins = True
             Left = 15
             Top = 3
-            Width = 1271
+            Width = 1054
             Height = 28
             Margins.Left = 15
             Align = alTop
             BevelOuter = bvNone
-            TabOrder = 2
+            TabOrder = 1
+            ExplicitWidth = 1271
             object lbl_descricao_laje: TLabel
               Left = 0
               Top = 0
-              Width = 1271
+              Width = 1054
               Height = 28
               Margins.Top = 5
               Align = alClient
@@ -1993,8 +1762,8 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_Ferragens: TDBGrid
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 267
+          Width = 1072
+          Height = 285
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2367,12 +2136,14 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox5: TGroupBox
           Left = 0
-          Top = 267
-          Width = 1289
+          Top = 285
+          Width = 1072
           Height = 50
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
+          ExplicitTop = 267
+          ExplicitWidth = 1289
           object Label103: TLabel
             Left = 175
             Top = 19
@@ -2452,8 +2223,8 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_reforcos_das_vigas: TDBGrid
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 267
+          Width = 1072
+          Height = 285
           Align = alClient
           DataSource = dsPedidoFerragens
           Font.Charset = ANSI_CHARSET
@@ -2822,12 +2593,14 @@ inherited frmPedidosE: TfrmPedidosE
         end
         object GroupBox6: TGroupBox
           Left = 0
-          Top = 267
-          Width = 1289
+          Top = 285
+          Width = 1072
           Height = 50
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
+          ExplicitTop = 267
+          ExplicitWidth = 1289
           object Label105: TLabel
             Left = 175
             Top = 19
@@ -2921,10 +2694,12 @@ inherited frmPedidosE: TfrmPedidosE
         object GroupBox3: TGroupBox
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object Label33: TLabel
             Left = 212
             Top = 25
@@ -3150,10 +2925,12 @@ inherited frmPedidosE: TfrmPedidosE
         object gbImpostos: TGroupBox
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object Label29: TLabel
             Left = 45
             Top = 33
@@ -3432,15 +3209,16 @@ inherited frmPedidosE: TfrmPedidosE
         object gb_contas_receber: TGroupBox
           Left = 0
           Top = 0
-          Width = 1289
+          Width = 1072
           Height = 113
           Align = alTop
           Caption = 'Contas a Receber'
           TabOrder = 0
+          ExplicitWidth = 1289
           object dbg_contas_receber: TDBGrid
             Left = 2
             Top = 19
-            Width = 1285
+            Width = 1068
             Height = 92
             Align = alClient
             DataSource = dsContasReceber
@@ -3585,16 +3363,18 @@ inherited frmPedidosE: TfrmPedidosE
         object gb_recibos: TGroupBox
           Left = 0
           Top = 113
-          Width = 1289
-          Height = 204
+          Width = 1072
+          Height = 222
           Align = alClient
           Caption = 'Recebimentos'
           TabOrder = 1
+          ExplicitWidth = 1289
+          ExplicitHeight = 204
           object dgb_recibos: TDBGrid
             Left = 2
             Top = 19
-            Width = 1285
-            Height = 183
+            Width = 1068
+            Height = 201
             Align = alClient
             DataSource = ds_recibos
             Font.Charset = ANSI_CHARSET
@@ -3714,8 +3494,8 @@ inherited frmPedidosE: TfrmPedidosE
         object dbg_contas_pagar: TDBGrid
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           DataSource = ds_contas_pagar
           Font.Charset = ANSI_CHARSET
@@ -3816,7 +3596,7 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_comissao_totais: TPanel
           Left = 0
           Top = 0
-          Width = 1289
+          Width = 1072
           Height = 70
           Align = alTop
           BevelOuter = bvNone
@@ -3829,6 +3609,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1289
           object Label32: TLabel
             Left = 9
             Top = 8
@@ -4106,26 +3887,30 @@ inherited frmPedidosE: TfrmPedidosE
         object pgc_comissoes: TPageControl
           Left = 0
           Top = 70
-          Width = 1289
-          Height = 247
+          Width = 1072
+          Height = 265
           ActivePage = tbs_comissoes
           Align = alClient
           TabOrder = 1
+          ExplicitWidth = 1289
+          ExplicitHeight = 247
           object tbs_comissoes: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
             object gbx_comissao_itens: TGroupBox
               Left = 0
               Top = 0
-              Width = 1281
-              Height = 215
+              Width = 1064
+              Height = 233
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1281
+              ExplicitHeight = 215
               object dbg_comissao_itens: TDBGrid
                 Left = 2
                 Top = 19
-                Width = 1277
-                Height = 194
+                Width = 1060
+                Height = 212
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4284,15 +4069,17 @@ inherited frmPedidosE: TfrmPedidosE
             object gbx_comissao_outros: TGroupBox
               Left = 0
               Top = 0
-              Width = 1281
-              Height = 215
+              Width = 1064
+              Height = 233
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1281
+              ExplicitHeight = 215
               object dbg_outras_despesas: TDBGrid
                 Left = 38
                 Top = 19
-                Width = 1241
-                Height = 194
+                Width = 1024
+                Height = 212
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4374,9 +4161,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 194
+                Height = 212
                 Align = alLeft
                 TabOrder = 1
+                ExplicitHeight = 194
                 object btn_incluir_lancamento: TSpeedButton
                   Left = 5
                   Top = 0
@@ -4410,7 +4198,7 @@ inherited frmPedidosE: TfrmPedidosE
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 1289
+          Width = 1072
           Height = 70
           Align = alTop
           BevelOuter = bvNone
@@ -4423,6 +4211,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1289
           object Label7: TLabel
             Left = 9
             Top = 8
@@ -4700,26 +4489,30 @@ inherited frmPedidosE: TfrmPedidosE
         object PageControl2: TPageControl
           Left = 0
           Top = 70
-          Width = 1289
-          Height = 247
+          Width = 1072
+          Height = 265
           ActivePage = TabSheet1
           Align = alClient
           TabOrder = 1
+          ExplicitWidth = 1289
+          ExplicitHeight = 247
           object TabSheet1: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
             object GroupBox1: TGroupBox
               Left = 0
               Top = 0
-              Width = 1281
-              Height = 215
+              Width = 1064
+              Height = 233
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1281
+              ExplicitHeight = 215
               object DBGrid1: TDBGrid
                 Left = 2
                 Top = 19
-                Width = 1277
-                Height = 194
+                Width = 1060
+                Height = 212
                 Align = alClient
                 DataSource = dsComissao_itens
                 Font.Charset = ANSI_CHARSET
@@ -4878,15 +4671,17 @@ inherited frmPedidosE: TfrmPedidosE
             object GroupBox4: TGroupBox
               Left = 0
               Top = 0
-              Width = 1281
-              Height = 215
+              Width = 1064
+              Height = 233
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 1281
+              ExplicitHeight = 215
               object dbg_outras_despesas_ferrari: TDBGrid
                 Left = 38
                 Top = 19
-                Width = 1241
-                Height = 194
+                Width = 1024
+                Height = 212
                 Hint = 'duplo Click para ALTERAR um lan'#231'amento '
                 Align = alClient
                 DataSource = ds_comissao_despesas
@@ -4968,9 +4763,10 @@ inherited frmPedidosE: TfrmPedidosE
                 Left = 2
                 Top = 19
                 Width = 36
-                Height = 194
+                Height = 212
                 Align = alLeft
                 TabOrder = 1
+                ExplicitHeight = 194
                 object TSpeedButton
                   Left = 5
                   Top = 0
@@ -5004,8 +4800,8 @@ inherited frmPedidosE: TfrmPedidosE
         object pnl_financeiro: TPanel
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           Align = alClient
           BevelOuter = bvNone
           Font.Charset = ANSI_CHARSET
@@ -5015,6 +4811,8 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object Label51: TLabel
             Left = 34
             Top = 53
@@ -5200,7 +4998,7 @@ inherited frmPedidosE: TfrmPedidosE
           object Label8: TLabel
             Left = 0
             Top = 0
-            Width = 1289
+            Width = 1072
             Height = 25
             Align = alTop
             Alignment = taCenter
@@ -5475,11 +5273,13 @@ inherited frmPedidosE: TfrmPedidosE
         object pgc_concreto_realizado: TPageControl
           Left = 0
           Top = 0
-          Width = 1289
-          Height = 317
+          Width = 1072
+          Height = 335
           ActivePage = tbs_concreto_realizado
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 1289
+          ExplicitHeight = 317
           object tbs_concreto_realizado: TTabSheet
             Caption = 'Concreto'
             object Label99: TLabel
@@ -5905,208 +5705,289 @@ inherited frmPedidosE: TfrmPedidosE
     object pnl_topo: TPanel
       Left = 0
       Top = 0
-      Width = 1297
+      Width = 1080
       Height = 55
       Align = alTop
       TabOrder = 2
-      object gbx_cliente: TGroupBox
-        Left = 1
-        Top = 1
-        Width = 750
-        Height = 53
+      ExplicitWidth = 1297
+      object lbl_cliente_nome: TLabel
+        AlignWithMargins = True
+        Left = 128
+        Top = 11
+        Width = 425
+        Height = 43
+        Margins.Left = 10
+        Margins.Top = 10
+        Margins.Right = 0
+        Margins.Bottom = 0
         Align = alClient
-        Caption = 'Cliente'
+        Caption = 'lbl_cliente_nome'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -19
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitWidth = 143
+        ExplicitHeight = 25
+      end
+      object lbl_situacao_pedido: TLabel
+        Left = 941
+        Top = 13
+        Width = 85
+        Height = 21
+        Alignment = taCenter
+        Caption = 'lbl_situacao'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -16
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Visible = False
+      end
+      object Label9: TLabel
+        AlignWithMargins = True
+        Left = 804
+        Top = 19
+        Width = 103
+        Height = 35
+        Margins.Left = 0
+        Margins.Top = 18
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alRight
+        Alignment = taCenter
+        Caption = 'Situa'#231#227'o do Pedido'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        ExplicitLeft = 784
+        ExplicitTop = 1
+        ExplicitHeight = 15
+      end
+      object Label20: TLabel
+        AlignWithMargins = True
+        Left = 553
+        Top = 19
+        Width = 30
+        Height = 35
+        Margins.Left = 0
+        Margins.Top = 18
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alRight
+        Alignment = taCenter
+        Caption = 'Vend.'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        ExplicitLeft = 544
+        ExplicitHeight = 15
+      end
+      object btnBuscaCliente: TBitBtn
+        AlignWithMargins = True
+        Left = 11
+        Top = 11
+        Width = 35
+        Height = 33
+        Cursor = crHandPoint
+        Hint = 'Buscar ou Cadastrar um Cliente'
+        Margins.Left = 10
+        Margins.Top = 10
+        Margins.Right = 0
+        Margins.Bottom = 10
+        Align = alLeft
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FF00FF314B62
+          AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+          106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+          00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+          9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+          E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+          FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+          B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+          FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+          DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+          B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+          BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+          D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+          6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 0
-        object lbl_cliente_nome: TLabel
-          AlignWithMargins = True
-          Left = 115
-          Top = 19
-          Width = 630
-          Height = 32
-          Margins.Left = 10
-          Margins.Top = 0
-          Margins.Bottom = 0
-          Align = alClient
-          Caption = 'lbl_cliente_nome'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clBlack
-          Font.Height = -24
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold]
-          ParentFont = False
-          ExplicitWidth = 180
-        end
-        object btnBuscaCliente: TBitBtn
-          Left = 2
-          Top = 19
-          Width = 35
-          Height = 32
-          Cursor = crHandPoint
-          Hint = 'Buscar ou Cadastrar um Cliente'
-          Align = alLeft
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            1800000000000003000000000000000000000000000000000000FF00FF314B62
-            AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
-            106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
-            00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
-            9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
-            E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
-            FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
-            B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
-            FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
-            DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
-            B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
-            BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
-            D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
-            6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          OnClick = btnBuscaClienteClick
-        end
-        object btnNovoCliente: TBitBtn
-          Left = 37
-          Top = 19
-          Width = 35
-          Height = 32
-          Cursor = crHandPoint
-          Hint = 'Cadastrar um novo Cliente'
-          Align = alLeft
-          Caption = '...'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -16
-          Font.Name = 'Times New Roman'
-          Font.Style = [fsBold]
-          ParentFont = False
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 1
-          Visible = False
-          OnClick = btnNovoClienteClick
-        end
-        object btn_alterar_pessoa: TBitBtn
-          Left = 72
-          Top = 19
-          Width = 33
-          Height = 32
-          Cursor = crHandPoint
-          Hint = 'Alterar dados da pessoa'
-          Align = alLeft
-          Caption = '#'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 2
-          Visible = False
-          OnClick = btn_alterar_pessoaClick
-        end
+        OnClick = btnBuscaClienteClick
+        ExplicitLeft = 10
+        ExplicitTop = 23
+        ExplicitHeight = 32
       end
-      object gbx_vendedor: TGroupBox
-        Left = 751
-        Top = 1
-        Width = 336
-        Height = 53
-        Align = alRight
-        Caption = 'Nome Vendedor'
+      object btnNovoCliente: TBitBtn
+        AlignWithMargins = True
+        Left = 48
+        Top = 11
+        Width = 35
+        Height = 33
+        Cursor = crHandPoint
+        Hint = 'Cadastrar um novo Cliente'
+        Margins.Left = 2
+        Margins.Top = 10
+        Margins.Right = 0
+        Margins.Bottom = 10
+        Align = alLeft
+        Caption = '...'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 1
-        object cbxVendedores: TDBLookupComboBox
-          Left = 6
-          Top = 19
-          Width = 282
-          Height = 25
-          Cursor = crHandPoint
-          Hint = 'Selecione um vendedor'
-          KeyField = 'PESSOA_ID'
-          ListField = 'NOME'
-          ListSource = dsVendedores
-          TabOrder = 0
-          OnCloseUp = cbxVendedoresCloseUp
-        end
-        object btn_incluir_vendedor: TBitBtn
-          Left = 294
-          Top = 19
-          Width = 32
-          Height = 25
-          Cursor = crHandPoint
-          Hint = 'cadastrar um novo vendedor'
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            1800000000000003000000000000000000000000000000000000FF00FFFF00FF
-            A46769A46769A46769A46769A46769A46769A46769A46769A46769A46769A467
-            69A46769A46769FF00FFFF00FFFF00FFB79184FEE9C7F4DAB5F3D5AAF2D0A0EF
-            CB96EFC68BEDC182EBC17FEBC180EBC180F2C782A46769FF00FFFF00FFFF00FF
-            B79187FCEACEF3DABCF2D5B1F0D0A7EECB9EEDC793EDC28BE9BD81E9BD7FE9BD
-            7FEFC481A46769FF00FFFF00FFFF00FFB7938AFEEFDAF6E0C6F2DABCF2D5B2EF
-            D0A9EECB9EEDC796EBC28CE9BD82E9BD7FEFC481A46769FF00FFFF00FFFF00FF
-            BA978FFFF4E5F7E5CFF4E0C5F3DABBF2D5B1F0D0A6EECB9EEDC795EBC28AEABF
-            81EFC480A46769FF00FFFF00FFFF00FFC09E95FFFBF0F8EADCF6E3CFF4E0C6F2
-            D9BCF2D5B1F0D0A9EDCB9EEDC695EBC28AEFC583A46769FF00FFFF00FFFF00FF
-            C6A49AFFFFFCFAF0E6F8EADAF7E5CFF4E0C5F2DABAF2D5B1F0D0A7EECB9DEBC7
-            93F2C98CA46769FF00FFFF00FFFF00FFCBA99EFFFFFFFEF7F2FAEFE6F8EAD9F7
-            E3CFF6E0C5F2DABBF2D4B1F0D0A7EECC9EF3CE97A46769FF00FFFF00FFFF00FF
-            CFAC9FFFFFFFFFFEFCFCF6F0FAEFE6F7EADAF6E3CFF4E0C5F3D9BBF3D4B0F0D0
-            A6F6D3A0A46769FF00FFFF00FFFF00FFD4B0A1FFFFFFFFFFFFFFFEFCFEF7F0FA
-            EFE5F8EAD9F7E5CEF6DEC4F3D9B8F4D8B1EBCFA4A46769FF00FFFF00FFFF00FF
-            D9B5A1FFFFFFFFFFFFFFFFFFFFFEFCFCF7F0FAEFE5F8E9D9F8E7D1FBEACEDECE
-            B4B6AA93A46769FF00FFFF00FFFF00FFDDB7A4FFFFFFFFFFFFFFFFFFFFFFFFFF
-            FEFCFCF6EFFCF3E6EDD8C9B68A7BA17B6F9C7667A46769FF00FFFF00FFFF00FF
-            E2BCA5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFFFEF7DAC1BAAD735BE19E
-            55E68F31B56D4DFF00FFFF00FFFF00FFE6BFA7FFFFFFFFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFDCC7C5B88265F8B55CBF7A5CFF00FFFF00FFFF00FFFF00FF
-            E4BCA4FBF4F0FBF4EFFAF3EFFAF3EFF8F2EFF7F2EFF7F2EFD8C2C0B77F62C183
-            6CFF00FFFF00FFFF00FFFF00FFFF00FFE8C4ADEBCBB7EBCBB7EACBB7EACAB6EA
-            CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 1
-          OnClick = btn_incluir_vendedorClick
-        end
+        Visible = False
+        OnClick = btnNovoClienteClick
+        ExplicitLeft = 37
+        ExplicitTop = 19
+        ExplicitHeight = 32
       end
-      object GroupBox2: TGroupBox
-        Left = 1087
-        Top = 1
-        Width = 209
-        Height = 53
-        Align = alRight
-        Caption = ' Situa'#231#227'o geral do pedido'
+      object btn_alterar_pessoa: TBitBtn
+        AlignWithMargins = True
+        Left = 85
+        Top = 11
+        Width = 33
+        Height = 33
+        Cursor = crHandPoint
+        Hint = 'Alterar dados da pessoa'
+        Margins.Left = 2
+        Margins.Top = 10
+        Margins.Right = 0
+        Margins.Bottom = 10
+        Align = alLeft
+        Caption = '#'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 2
-        object lbl_situacao_pedido: TLabel
-          Left = 2
-          Top = 19
-          Width = 85
-          Height = 21
-          Alignment = taCenter
-          Caption = 'lbl_situacao'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clGray
-          Font.Height = -16
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Visible = False
-        end
-        object cbx_situacao: TComboBox
-          Left = 21
-          Top = 19
-          Width = 145
-          Height = 25
-          TabOrder = 0
-          Items.Strings = (
-            'ABERTO'
-            'AGUARDANDO')
-        end
+        Visible = False
+        OnClick = btn_alterar_pessoaClick
+        ExplicitLeft = 132
+        ExplicitTop = 6
+        ExplicitHeight = 32
+      end
+      object cbxVendedores: TDBLookupComboBox
+        AlignWithMargins = True
+        Left = 588
+        Top = 15
+        Width = 168
+        Height = 25
+        Cursor = crHandPoint
+        Hint = 'Selecione um vendedor'
+        Margins.Left = 0
+        Margins.Top = 14
+        Margins.Bottom = 0
+        Align = alRight
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        KeyField = 'PESSOA_ID'
+        ListField = 'NOME'
+        ListSource = dsVendedores
+        ParentFont = False
+        TabOrder = 3
+        OnCloseUp = cbxVendedoresCloseUp
+        ExplicitLeft = 576
+      end
+      object btn_incluir_vendedor: TBitBtn
+        AlignWithMargins = True
+        Left = 759
+        Top = 14
+        Width = 35
+        Height = 27
+        Cursor = crHandPoint
+        Hint = 'cadastrar um novo vendedor'
+        Margins.Left = 0
+        Margins.Top = 13
+        Margins.Right = 10
+        Margins.Bottom = 13
+        Align = alRight
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FF00FFFF00FF
+          A46769A46769A46769A46769A46769A46769A46769A46769A46769A46769A467
+          69A46769A46769FF00FFFF00FFFF00FFB79184FEE9C7F4DAB5F3D5AAF2D0A0EF
+          CB96EFC68BEDC182EBC17FEBC180EBC180F2C782A46769FF00FFFF00FFFF00FF
+          B79187FCEACEF3DABCF2D5B1F0D0A7EECB9EEDC793EDC28BE9BD81E9BD7FE9BD
+          7FEFC481A46769FF00FFFF00FFFF00FFB7938AFEEFDAF6E0C6F2DABCF2D5B2EF
+          D0A9EECB9EEDC796EBC28CE9BD82E9BD7FEFC481A46769FF00FFFF00FFFF00FF
+          BA978FFFF4E5F7E5CFF4E0C5F3DABBF2D5B1F0D0A6EECB9EEDC795EBC28AEABF
+          81EFC480A46769FF00FFFF00FFFF00FFC09E95FFFBF0F8EADCF6E3CFF4E0C6F2
+          D9BCF2D5B1F0D0A9EDCB9EEDC695EBC28AEFC583A46769FF00FFFF00FFFF00FF
+          C6A49AFFFFFCFAF0E6F8EADAF7E5CFF4E0C5F2DABAF2D5B1F0D0A7EECB9DEBC7
+          93F2C98CA46769FF00FFFF00FFFF00FFCBA99EFFFFFFFEF7F2FAEFE6F8EAD9F7
+          E3CFF6E0C5F2DABBF2D4B1F0D0A7EECC9EF3CE97A46769FF00FFFF00FFFF00FF
+          CFAC9FFFFFFFFFFEFCFCF6F0FAEFE6F7EADAF6E3CFF4E0C5F3D9BBF3D4B0F0D0
+          A6F6D3A0A46769FF00FFFF00FFFF00FFD4B0A1FFFFFFFFFFFFFFFEFCFEF7F0FA
+          EFE5F8EAD9F7E5CEF6DEC4F3D9B8F4D8B1EBCFA4A46769FF00FFFF00FFFF00FF
+          D9B5A1FFFFFFFFFFFFFFFFFFFFFEFCFCF7F0FAEFE5F8E9D9F8E7D1FBEACEDECE
+          B4B6AA93A46769FF00FFFF00FFFF00FFDDB7A4FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FEFCFCF6EFFCF3E6EDD8C9B68A7BA17B6F9C7667A46769FF00FFFF00FFFF00FF
+          E2BCA5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFFFEF7DAC1BAAD735BE19E
+          55E68F31B56D4DFF00FFFF00FFFF00FFE6BFA7FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFDCC7C5B88265F8B55CBF7A5CFF00FFFF00FFFF00FFFF00FF
+          E4BCA4FBF4F0FBF4EFFAF3EFFAF3EFF8F2EFF7F2EFF7F2EFD8C2C0B77F62C183
+          6CFF00FFFF00FFFF00FFFF00FFFF00FFE8C4ADEBCBB7EBCBB7EACBB7EACAB6EA
+          CAB6EACAB6EACAB6E3C2B1A56B5FFF00FFFF00FFFF00FFFF00FF}
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+        OnClick = btn_incluir_vendedorClick
+        ExplicitLeft = 742
+      end
+      object cbx_situacao: TComboBox
+        AlignWithMargins = True
+        Left = 912
+        Top = 15
+        Width = 152
+        Height = 25
+        Margins.Left = 0
+        Margins.Top = 14
+        Margins.Right = 15
+        Margins.Bottom = 10
+        Align = alRight
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        Items.Strings = (
+          'ABERTO'
+          'AGUARDANDO')
+        ExplicitTop = 11
       end
     end
     object gbReforcosVigas: TGroupBox
@@ -6477,74 +6358,412 @@ inherited frmPedidosE: TfrmPedidosE
     end
   end
   inherited pnRodape: TPanel
-    Top = 651
+    Top = 661
     Width = 1297
-    Height = 45
-    ExplicitTop = 651
+    Height = 35
+    ExplicitTop = 661
     ExplicitWidth = 1297
-    ExplicitHeight = 45
+    ExplicitHeight = 35
     inherited pnl_botoes: TPanel
+      AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 225
-      Height = 45
+      Width = 297
+      Height = 35
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alLeft
       ExplicitLeft = 0
       ExplicitTop = 0
-      ExplicitWidth = 225
-      ExplicitHeight = 45
+      ExplicitWidth = 297
+      ExplicitHeight = 35
       inherited btnOk: TBitBtn
-        Width = 139
-        Height = 45
+        AlignWithMargins = True
+        Top = 5
+        Width = 185
+        Height = 25
         Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 5
+        Margins.Right = 0
+        Margins.Bottom = 5
         Caption = 'CONFIRMAR'
         OnClick = btnOkClick
-        ExplicitWidth = 139
-        ExplicitHeight = 45
+        ExplicitTop = 5
+        ExplicitWidth = 185
+        ExplicitHeight = 25
       end
       inherited btnFechar: TBitBtn
-        Left = 139
-        Width = 86
-        Height = 45
+        AlignWithMargins = True
+        Left = 190
+        Top = 5
+        Width = 107
+        Height = 25
         Cursor = crHandPoint
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 0
+        Margins.Bottom = 5
         OnClick = btn_fecharClick
         ExplicitLeft = 139
         ExplicitWidth = 86
         ExplicitHeight = 45
       end
     end
-    object gbx_financeiro: TGroupBox
-      Left = 225
+  end
+  object pnl_resumo: TPanel [3]
+    Left = 1080
+    Top = 46
+    Width = 217
+    Height = 615
+    Align = alRight
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 3
+    ExplicitTop = 54
+    ExplicitHeight = 607
+    object Panel6: TPanel
+      Left = 0
       Top = 0
-      Width = 1072
-      Height = 45
-      Align = alClient
-      TabOrder = 1
-      object Label52: TLabel
-        Left = 2
-        Top = 19
-        Width = 108
-        Height = 24
-        Align = alLeft
-        Alignment = taRightJustify
-        AutoSize = False
-        Caption = ' Vlr Produtos R$ '
+      Width = 217
+      Height = 31
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Label19: TLabel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 211
+        Height = 25
+        Align = alClient
+        Alignment = taCenter
+        Caption = 'Resumo'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
+        Font.Height = -19
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitHeight = 34
+      end
+    end
+    object pnl_resumo_laje: TPanel
+      Left = 0
+      Top = 31
+      Width = 217
+      Height = 303
+      Margins.Top = 0
+      Align = alTop
+      Alignment = taRightJustify
+      BevelOuter = bvNone
+      TabOrder = 1
+      object Label63: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 0
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Qtde de vigas informada(s)'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        ExplicitWidth = 143
+      end
+      object Label6: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 58
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Qtde de vigas digitada(s)'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitTop = 57
+        ExplicitWidth = 131
+      end
+      object Label59: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 106
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Mt. linear das vigas'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitTop = 112
+        ExplicitWidth = 101
+      end
+      object Label60: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 154
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Mt. quadrada (eixo = '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitWidth = 141
+      end
+      object Label61: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 202
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Quantidade de lajotas'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitTop = 222
+        ExplicitWidth = 115
+      end
+      object Label62: TLabel
+        AlignWithMargins = True
+        Left = 20
+        Top = 250
+        Width = 177
+        Height = 15
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 5
+        Align = alTop
+        Caption = 'Quantidade de isopor'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitTop = 277
+        ExplicitWidth = 114
+      end
+      object lbl_eixo_laje: TLabel
+        Left = 142
+        Top = 158
+        Width = 24
+        Height = 15
+        Caption = '0,00'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object edVigasH8Info: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 20
+        Width = 177
+        Height = 28
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 10
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -15
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        NumbersOnly = True
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+        Text = '0'
+      end
+      object edQtdeVigasH8: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 78
+        Width = 177
+        Height = 21
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 7
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitLeft = 6
-        ExplicitTop = 6
+        ReadOnly = True
+        TabOrder = 1
+        Text = '0'
+      end
+      object edMetrosLinearesH8: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 126
+        Width = 177
+        Height = 21
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 7
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 2
+        ExplicitTop = 129
+      end
+      object edMetrosQuadradosH8: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 174
+        Width = 177
+        Height = 21
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 7
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 3
+        ExplicitTop = 180
+      end
+      object edQtdeLajotasH8: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 222
+        Width = 177
+        Height = 21
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 7
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 4
+        ExplicitTop = 231
+      end
+      object edQtdeIsoporH8: TEdit
+        AlignWithMargins = True
+        Left = 20
+        Top = 270
+        Width = 177
+        Height = 21
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 20
+        Margins.Bottom = 7
+        Align = alTop
+        Alignment = taCenter
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 5
+        ExplicitLeft = 19
+        ExplicitTop = 282
+      end
+    end
+    object pnl_totais: TPanel
+      Left = 0
+      Top = 334
+      Width = 217
+      Height = 281
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 2
+      ExplicitTop = 365
+      ExplicitHeight = 220
+      object Label52: TLabel
+        Left = 20
+        Top = 10
+        Width = 91
+        Height = 15
+        AutoSize = False
+        Caption = 'Vlr Produtos R$'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
       object Label53: TLabel
-        Left = 766
-        Top = 19
+        Left = 20
+        Top = 148
         Width = 54
-        Height = 24
-        Align = alLeft
-        Alignment = taRightJustify
+        Height = 17
         Caption = 'Total R$ '
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -6552,70 +6771,51 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitHeight = 17
       end
       object Label54: TLabel
-        Left = 905
-        Top = 19
-        Width = 85
-        Height = 24
-        Align = alLeft
-        Alignment = taCenter
-        Caption = '   Vlr Pago R$ '
+        Left = 20
+        Top = 182
+        Width = 62
+        Height = 15
+        Caption = 'Vlr Pago R$'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
-        Font.Style = []
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
         ParentFont = False
-        ExplicitHeight = 17
       end
       object Label77: TLabel
-        Left = 574
-        Top = 19
-        Width = 90
-        Height = 24
-        Align = alLeft
-        Alignment = taCenter
-        Caption = '   Desconto  R$'
-        ExplicitHeight = 17
-      end
-      object Label78: TLabel
-        Left = 351
-        Top = 19
-        Width = 20
-        Height = 24
-        Align = alLeft
-        Alignment = taCenter
-        Caption = '     '
-        ExplicitHeight = 17
+        Left = 20
+        Top = 111
+        Width = 71
+        Height = 15
+        Caption = 'Desconto  R$'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
       object Label79: TLabel
-        Left = 190
-        Top = 19
-        Width = 105
-        Height = 24
-        Align = alLeft
-        Alignment = taRightJustify
-        Caption = '   Frete cliente R$ '
-        ExplicitHeight = 17
-      end
-      object Label9: TLabel
-        Left = 510
-        Top = 19
-        Width = 8
-        Height = 24
-        Align = alLeft
-        Alignment = taCenter
-        Caption = '  '
-        ExplicitHeight = 17
+        Left = 20
+        Top = 43
+        Width = 84
+        Height = 15
+        Caption = 'Frete cliente R$ '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
       object lbl_percentual_desconto: TLabel
-        Left = 723
-        Top = 19
+        Left = 20
+        Top = 123
         Width = 24
-        Height = 24
-        Align = alLeft
+        Height = 15
         Alignment = taCenter
         Caption = '0.00'
         Font.Charset = ANSI_CHARSET
@@ -6624,14 +6824,12 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitHeight = 17
       end
       object Label55: TLabel
-        Left = 747
-        Top = 19
+        Left = 60
+        Top = 123
         Width = 19
-        Height = 24
-        Align = alLeft
+        Height = 15
         Alignment = taCenter
         Caption = '(%)'
         Font.Charset = ANSI_CHARSET
@@ -6640,30 +6838,28 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitHeight = 17
       end
       object edt_valor_produtos: TPanel
-        Left = 110
-        Top = 19
+        Left = 117
+        Top = 7
         Width = 80
-        Height = 24
-        Align = alLeft
+        Height = 21
+        Alignment = taRightJustify
         BevelKind = bkTile
         BevelOuter = bvNone
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'Segoe UI'
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
       end
       object edt_frete_cliente: TEdit
-        Left = 295
-        Top = 19
-        Width = 56
-        Height = 24
-        Align = alLeft
+        Left = 117
+        Top = 40
+        Width = 80
+        Height = 21
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -6673,18 +6869,16 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 1
         OnExit = edt_frete_clienteExit
-        ExplicitHeight = 23
       end
       object cbx_desc_acrescimo: TComboBox
-        Left = 371
-        Top = 19
-        Width = 139
-        Height = 23
-        Align = alLeft
+        Left = 20
+        Top = 75
+        Width = 115
+        Height = 19
         CharCase = ecUpperCase
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
+        Font.Height = -8
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
@@ -6692,11 +6886,10 @@ inherited frmPedidosE: TfrmPedidosE
         Text = 'CBX_DESC_ACRESCIMO'
       end
       object edt_acrescimo: TEdit
-        Left = 518
-        Top = 19
+        Left = 141
+        Top = 74
         Width = 56
-        Height = 24
-        Align = alLeft
+        Height = 21
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -6706,54 +6899,51 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 3
         OnExit = edt_frete_clienteExit
-        ExplicitHeight = 23
       end
       object edt_desconto: TEdit
-        Left = 664
-        Top = 19
-        Width = 59
-        Height = 24
-        Align = alLeft
+        Left = 117
+        Top = 108
+        Width = 80
+        Height = 21
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 4
         OnExit = edt_frete_clienteExit
-        ExplicitHeight = 25
       end
       object edt_valor_total: TPanel
-        Left = 820
-        Top = 19
-        Width = 85
-        Height = 24
-        Align = alLeft
-        BevelKind = bkTile
-        BevelOuter = bvNone
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'Segoe UI'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 5
-      end
-      object edt_valor_pago: TPanel
-        Left = 990
-        Top = 19
-        Width = 68
-        Height = 24
-        Align = alLeft
+        Left = 117
+        Top = 147
+        Width = 80
+        Height = 21
+        Alignment = taRightJustify
         BevelKind = bkTile
         BevelOuter = bvNone
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
-        Font.Name = 'Segoe UI'
-        Font.Style = []
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+      end
+      object edt_valor_pago: TPanel
+        Left = 117
+        Top = 179
+        Width = 80
+        Height = 21
+        Alignment = taRightJustify
+        BevelKind = bkTile
+        BevelOuter = bvNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 6
       end
@@ -7005,8 +7195,8 @@ inherited frmPedidosE: TfrmPedidosE
       '  P.ID = V.PESSOA_ID'
       'order by'
       '  P.NOME')
-    Left = 829
-    Top = 430
+    Left = 645
+    Top = 438
   end
   object dsLocalEntrega: TDataSource
     DataSet = qryLocalEntrega
@@ -7281,11 +7471,6 @@ inherited frmPedidosE: TfrmPedidosE
       ShortCut = 118
       OnClick = ExcluirReforcoAdicionalClick
     end
-  end
-  object dsReforcoVigas: TDataSource
-    AutoEdit = False
-    Left = 233
-    Top = 266
   end
   object qryTotalLaje: TFDQuery
     SQL.Strings = (
@@ -7604,7 +7789,7 @@ inherited frmPedidosE: TfrmPedidosE
   object ds_prestador_servico: TDataSource
     AutoEdit = False
     DataSet = qry_prestador_servico
-    Left = 595
+    Left = 563
     Top = 339
   end
   object qry_prestador_servico: TFDQuery
@@ -7617,8 +7802,8 @@ inherited frmPedidosE: TfrmPedidosE
       'where '
       '  p.id = f.pessoa_id '
       'order by nome')
-    Left = 595
-    Top = 366
+    Left = 531
+    Top = 374
   end
   object mtb_concreto_utilizado: TFDMemTable
     Active = True
@@ -7741,8 +7926,8 @@ inherited frmPedidosE: TfrmPedidosE
     Top = 189
   end
   object ImageList1: TImageList
-    Left = 488
-    Top = 209
+    Left = 600
+    Top = 217
     Bitmap = {
       494C010101000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
@@ -7891,7 +8076,7 @@ inherited frmPedidosE: TfrmPedidosE
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 609
-    Top = 79
+    Left = 625
+    Top = 175
   end
 end

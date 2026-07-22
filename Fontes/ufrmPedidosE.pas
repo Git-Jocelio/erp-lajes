@@ -74,9 +74,7 @@ type
     Label5: TLabel;
     Label10: TLabel;
     qryDATA_ALTERACAO: TDateField;
-    DBText1: TDBText;
     dtpDataContabil: TDateTimePicker;
-    Bevel1: TBevel;
     qryClientes: TFDQuery;
     dsCliente: TDataSource;
     dsVendedores: TDataSource;
@@ -103,15 +101,6 @@ type
     DBEdit12: TDBEdit;
     dsLocalEntrega: TDataSource;
     qryLocalEntrega: TFDQuery;
-    Label19: TLabel;
-    Label20: TLabel;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    Label25: TLabel;
-    Label26: TLabel;
-    Label27: TLabel;
     Label28: TLabel;
     dsFormaPagto: TDataSource;
     qryFormaPagto: TFDQuery;
@@ -150,12 +139,6 @@ type
     qryTransportadoras: TFDQuery;
     dsTransportadoras: TDataSource;
     pnl_topo: TPanel;
-    gbx_cliente: TGroupBox;
-    btnBuscaCliente: TBitBtn;
-    btnNovoCliente: TBitBtn;
-    gbx_vendedor: TGroupBox;
-    cbxVendedores: TDBLookupComboBox;
-    GroupBox2: TGroupBox;
     dtpDataEntrega: TDateTimePicker;
     Label4: TLabel;
     qryPedidoItens: TFDQuery;
@@ -198,7 +181,6 @@ type
     dbg_reforcos_das_vigas: TDBGrid;
     pmCRUDReforcoViga: TPopupMenu;
     pmAlterarReforcoAdicional: TMenuItem;
-    dsReforcoVigas: TDataSource;
     ExcluirReforcoAdicional: TMenuItem;
     N3: TMenuItem;
     pmIncluirReforoAdicional: TMenuItem;
@@ -217,19 +199,6 @@ type
     qryTotalLaje: TFDQuery;
     pnl_itens_laje: TPanel;
     dbg_itens_laje: TDBGrid;
-    gbResumoLajeH8: TGroupBox;
-    Label6: TLabel;
-    Label59: TLabel;
-    Label60: TLabel;
-    Label61: TLabel;
-    Label62: TLabel;
-    Label63: TLabel;
-    edVigasH8Info: TEdit;
-    edQtdeVigasH8: TEdit;
-    edMetrosLinearesH8: TEdit;
-    edMetrosQuadradosH8: TEdit;
-    edQtdeLajotasH8: TEdit;
-    edQtdeIsoporH8: TEdit;
     Label1: TLabel;
     tbs_comissao_triunfo: TTabSheet;
     dsComissao_itens: TDataSource;
@@ -246,7 +215,6 @@ type
     qryComissao_itensOBS: TStringField;
     N4: TMenuItem;
     pmLiberarLajotaIsopor: TMenuItem;
-    btn_alterar_pessoa: TBitBtn;
     ds_comissao_despesas: TDataSource;
     qry_comissao_despesas: TFDQuery;
     qryComissoes: TFDQuery;
@@ -299,14 +267,6 @@ type
     mtb_concreto_deletadosID: TIntegerField;
     cdsPedidoFerragens: TFDMemTable;
     cdsPedidoItens: TFDMemTable;
-    gbx_financeiro: TGroupBox;
-    Label52: TLabel;
-    Label53: TLabel;
-    Label54: TLabel;
-    Label77: TLabel;
-    Label78: TLabel;
-    Label79: TLabel;
-    Label9: TLabel;
     edt_nr_pedido: TPanel;
     edt_emissao: TPanel;
     edt_alteracao: TPanel;
@@ -340,22 +300,10 @@ type
     rg_frete: TRadioGroup;
     edt_transportadora_id: TPanel;
     cb_orcamento: TCheckBox;
-    edt_valor_produtos: TPanel;
-    edt_frete_cliente: TEdit;
-    cbx_desc_acrescimo: TComboBox;
-    edt_acrescimo: TEdit;
-    edt_desconto: TEdit;
-    edt_valor_total: TPanel;
-    edt_valor_pago: TPanel;
-    lbl_cliente_nome: TLabel;
-    lbl_situacao_pedido: TLabel;
     edt_complemento: TMemo;
-    btn_incluir_vendedor: TBitBtn;
     qry_recibos: TFDQuery;
     pnl_forma_pagto: TPanel;
     btn_busca_forma_pagto: TSpeedButton;
-    lbl_percentual_desconto: TLabel;
-    Label55: TLabel;
     tbs_comissao_ferrari: TTabSheet;
     Panel2: TPanel;
     Label7: TLabel;
@@ -397,7 +345,6 @@ type
     dgb_recibos: TDBGrid;
     gbReforcosVigas: TGroupBox;
     btn_fechar: TSpeedButton;
-    cbx_situacao: TComboBox;
     tbs_financeiro: TTabSheet;
     pnl_financeiro: TPanel;
     Label51: TLabel;
@@ -492,9 +439,50 @@ type
     Label49: TLabel;
     SpeedButton1: TSpeedButton;
     dbg_reforco_viga: TDBGrid;
-    lbl_eixo_laje: TLabel;
     SpeedButton2: TSpeedButton;
     TabCep: TFDMemTable;
+    pnl_resumo: TPanel;
+    Panel6: TPanel;
+    pnl_resumo_laje: TPanel;
+    Label63: TLabel;
+    edVigasH8Info: TEdit;
+    Label6: TLabel;
+    edQtdeVigasH8: TEdit;
+    Label59: TLabel;
+    edMetrosLinearesH8: TEdit;
+    Label60: TLabel;
+    edMetrosQuadradosH8: TEdit;
+    Label61: TLabel;
+    edQtdeLajotasH8: TEdit;
+    Label62: TLabel;
+    edQtdeIsoporH8: TEdit;
+    lbl_eixo_laje: TLabel;
+    Label19: TLabel;
+    pnl_totais: TPanel;
+    Label52: TLabel;
+    Label53: TLabel;
+    Label54: TLabel;
+    Label77: TLabel;
+    Label79: TLabel;
+    lbl_percentual_desconto: TLabel;
+    Label55: TLabel;
+    edt_valor_produtos: TPanel;
+    edt_frete_cliente: TEdit;
+    cbx_desc_acrescimo: TComboBox;
+    edt_acrescimo: TEdit;
+    edt_desconto: TEdit;
+    edt_valor_total: TPanel;
+    edt_valor_pago: TPanel;
+    btnBuscaCliente: TBitBtn;
+    btnNovoCliente: TBitBtn;
+    btn_alterar_pessoa: TBitBtn;
+    lbl_cliente_nome: TLabel;
+    cbxVendedores: TDBLookupComboBox;
+    btn_incluir_vendedor: TBitBtn;
+    cbx_situacao: TComboBox;
+    lbl_situacao_pedido: TLabel;
+    Label9: TLabel;
+    Label20: TLabel;
     procedure btnNovoClienteClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
 
@@ -3746,7 +3734,10 @@ begin
                       tbs_comissao_triunfo.TabVisible := qry_sistema.FieldByName('PED_REL_MOSTRAR_BTN_COMISSAO').AsString = 'S';
 
                       {pedidos liquidados não poderá fazer alterações}
-                      if (cbx_situacao.Text = 'ENTREGUE') or (cbx_situacao.Text = 'RETIROU') then
+                      if (cbx_situacao.Text = 'ENTREGUE') or
+                         (cbx_situacao.Text = 'RETIROU') or
+                         (cbx_situacao.Text = 'LIQUIDADO')
+                      then
                         btnOk.Enabled := FALSE
                       else
                       if cbx_situacao.Text = 'PARCIAL' then
@@ -5087,17 +5078,17 @@ begin
       end;
 
       qry.ParamByName('PEDIDO_ID').AsInteger  := Codigo;
-      qry.ParamByName('NOME').AsString        := edt_nome.Text;
-      qry.ParamByName('CELULAR').AsString     := edt_celular.Text;
-      qry.ParamByName('TELEFONE').AsString    := edt_telefone.Text;
+      qry.ParamByName('NOME').AsString        := UpperCase( edt_nome.Text );
+      qry.ParamByName('CELULAR').AsString     := UpperCase(edt_celular.Text);
+      qry.ParamByName('TELEFONE').AsString    := UpperCase(edt_telefone.Text);
       qry.ParamByName('EMAIL').AsString       := '';
-      qry.ParamByName('ENDERECO').AsString    := edt_endereco.Text;
-      qry.ParamByName('NUMERO').AsString      := edt_numero_entrega.Text;
-      qry.ParamByName('BAIRRO').AsString      := edt_bairro.Text;
-      qry.ParamByName('CIDADE').AsString      := edt_cidade.Text;
-      qry.ParamByName('UF').AsString          := edt_uf.Text;
-      qry.ParamByName('CEP').AsString         := edt_cep.Text;
-      qry.ParamByName('COMPLEMENTO').AsString := edt_complemento.Text;
+      qry.ParamByName('ENDERECO').AsString    := UpperCase(edt_endereco.Text);
+      qry.ParamByName('NUMERO').AsString      := UpperCase(edt_numero_entrega.Text);
+      qry.ParamByName('BAIRRO').AsString      := UpperCase(edt_bairro.Text);
+      qry.ParamByName('CIDADE').AsString      := UpperCase(edt_cidade.Text);
+      qry.ParamByName('UF').AsString          := UpperCase(edt_uf.Text);
+      qry.ParamByName('CEP').AsString         := UpperCase(edt_cep.Text);
+      qry.ParamByName('COMPLEMENTO').AsString := UpperCase(edt_complemento.Text);
 
       qry.ExecSQL;
 
