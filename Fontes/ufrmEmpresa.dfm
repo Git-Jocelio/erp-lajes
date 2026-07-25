@@ -6,6 +6,11 @@ inherited frmEmpresa: TfrmEmpresa
       Visible = False
     end
   end
+  inherited ToolBar1: TToolBar
+    inherited btnImprimir: TToolButton
+      Visible = False
+    end
+  end
   inherited PageControl1: TPageControl
     inherited TabSheet1: TTabSheet
       inherited Panel5: TPanel

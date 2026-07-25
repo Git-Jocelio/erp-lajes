@@ -10,7 +10,8 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
   System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal;
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal,
+  frxClass, frxDBSet, frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmTransportadoras = class(TfrmBaseGrade)
@@ -20,12 +21,28 @@ type
     qryTELEFONE: TStringField;
     qryCELULAR: TStringField;
     qryATIVO: TStringField;
+    frxPDFExport1: TfrxPDFExport;
+    frxReport: TfrxReport;
+    frxDBFornecedores: TfrxDBDataset;
+    qryRG_IE: TStringField;
+    qryENDERECO: TStringField;
+    qryNUMERO: TStringField;
+    qryCOMPLEMENTO: TStringField;
+    qryBAIRRO: TStringField;
+    qryCIDADE: TStringField;
+    qryUF: TStringField;
+    qryCEP: TStringField;
+    qryDATA_CAD: TDateField;
+    qryEMAIL: TStringField;
+    qryFIS_JUR: TStringField;
+    qryDATA_ALT: TDateField;
     procedure FormCreate(Sender: TObject);
 
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actImprimirExecute(Sender: TObject);
 
   private
     procedure ASql();
@@ -86,6 +103,13 @@ begin
   inherited;
 end;
 
+procedure TfrmTransportadoras.actImprimirExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport
+
+end;
+
 procedure TfrmTransportadoras.actIncluirExecute(Sender: TObject);
 begin
   ufrmTransportadorasE.Incluir;
@@ -98,7 +122,7 @@ end;
 procedure TfrmTransportadoras.ASql;
 begin
 
-  ssql := 'select P.ID, P.CPF_CNPJ, P.NOME, P.TELEFONE, P.CELULAR, P.ATIVO from ' + Self.Tabela + ' T, PESSOAS P where P.ID = T.PESSOA_ID ';
+  ssql := 'select P.* from ' + Self.Tabela + ' T, PESSOAS P where P.ID = T.PESSOA_ID ';
 
   QRY.SQL.Clear;
   qry.sql.add(sSql);

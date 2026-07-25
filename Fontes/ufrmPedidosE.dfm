@@ -6,7 +6,6 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
-  ExplicitLeft = -249
   ExplicitWidth = 1303
   ExplicitHeight = 702
   TextHeight = 17
@@ -17,12 +16,13 @@ inherited frmPedidosE: TfrmPedidosE
     ExplicitHeight = 46
     inherited lbl_titulo: TLabel
       AlignWithMargins = True
-      Left = 277
+      Left = 250
       Top = 3
-      Width = 961
+      Width = 988
       Height = 23
       Caption = ''
-      ExplicitLeft = 247
+      ExplicitLeft = 277
+      ExplicitTop = 3
       ExplicitWidth = 6
     end
     inherited lbl_sub_titulo: TLabel
@@ -30,8 +30,8 @@ inherited frmPedidosE: TfrmPedidosE
       Width = 1297
       Caption = 'sub_titulo'
       Visible = False
-      ExplicitTop = 0
-      ExplicitWidth = 1297
+      ExplicitTop = 29
+      ExplicitWidth = 55
     end
     object btn_fechar: TSpeedButton
       AlignWithMargins = True
@@ -111,7 +111,7 @@ inherited frmPedidosE: TfrmPedidosE
       AlignWithMargins = True
       Left = 15
       Top = 3
-      Width = 259
+      Width = 232
       Height = 26
       Margins.Left = 15
       Margins.Right = 0
@@ -125,17 +125,16 @@ inherited frmPedidosE: TfrmPedidosE
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitTop = 0
-      ExplicitHeight = 33
+      ExplicitHeight = 30
     end
   end
   inherited pnDados: TPanel
     Top = 46
     Width = 1080
     Height = 615
-    ExplicitTop = 54
-    ExplicitWidth = 1297
-    ExplicitHeight = 597
+    ExplicitTop = 46
+    ExplicitWidth = 1080
+    ExplicitHeight = 615
     object pcVenda: TPageControl
       Left = 0
       Top = 55
@@ -144,7 +143,6 @@ inherited frmPedidosE: TfrmPedidosE
       ActivePage = tbVenda
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 1297
       object tbVenda: TTabSheet
         Caption = 'Venda'
         OnShow = tbVendaShow
@@ -386,7 +384,6 @@ inherited frmPedidosE: TfrmPedidosE
           ActivePage = tbs_local_entrega
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 1289
           object tbCliente: TTabSheet
             Caption = 'Dados do Cliente'
             OnShow = tbClienteShow
@@ -827,7 +824,6 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 1289
           object tbObsAdm: TTabSheet
             Caption = 'Obs Admin'
             object mm_obs_adm: TMemo
@@ -839,7 +835,6 @@ inherited frmPedidosE: TfrmPedidosE
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
-              ExplicitWidth = 1281
             end
             object DBGrid3: TDBGrid
               Left = 376
@@ -868,7 +863,6 @@ inherited frmPedidosE: TfrmPedidosE
               CharCase = ecUpperCase
               MaxLength = 240
               TabOrder = 0
-              ExplicitWidth = 1281
             end
           end
         end
@@ -884,8 +878,6 @@ inherited frmPedidosE: TfrmPedidosE
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 1
-      ExplicitWidth = 1297
-      ExplicitHeight = 352
       object tbs_itens_pedido: TTabSheet
         Caption = 'Itens da Venda'
         OnShow = tbs_itens_pedidoShow
@@ -896,8 +888,6 @@ inherited frmPedidosE: TfrmPedidosE
           Height = 335
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object dbg_itens_venda: TDBGrid
             Left = 1
             Top = 36
@@ -1432,7 +1422,6 @@ inherited frmPedidosE: TfrmPedidosE
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 1287
             object btn_incluir: TSpeedButton
               AlignWithMargins = True
               Left = 19
@@ -1508,8 +1497,6 @@ inherited frmPedidosE: TfrmPedidosE
           Color = clWhite
           ParentBackground = False
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object dbg_itens_laje: TDBGrid
             Left = 0
             Top = 34
@@ -1734,7 +1721,6 @@ inherited frmPedidosE: TfrmPedidosE
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 1271
             object lbl_descricao_laje: TLabel
               Left = 0
               Top = 0
@@ -2142,8 +2128,6 @@ inherited frmPedidosE: TfrmPedidosE
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
-          ExplicitTop = 267
-          ExplicitWidth = 1289
           object Label103: TLabel
             Left = 175
             Top = 19
@@ -2599,8 +2583,6 @@ inherited frmPedidosE: TfrmPedidosE
           Align = alBottom
           Caption = ' Totais '
           TabOrder = 1
-          ExplicitTop = 267
-          ExplicitWidth = 1289
           object Label105: TLabel
             Left = 175
             Top = 19
@@ -2698,8 +2680,6 @@ inherited frmPedidosE: TfrmPedidosE
           Height = 335
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object Label33: TLabel
             Left = 212
             Top = 25
@@ -2929,8 +2909,6 @@ inherited frmPedidosE: TfrmPedidosE
           Height = 335
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object Label29: TLabel
             Left = 45
             Top = 33
@@ -3214,7 +3192,6 @@ inherited frmPedidosE: TfrmPedidosE
           Align = alTop
           Caption = 'Contas a Receber'
           TabOrder = 0
-          ExplicitWidth = 1289
           object dbg_contas_receber: TDBGrid
             Left = 2
             Top = 19
@@ -3368,8 +3345,6 @@ inherited frmPedidosE: TfrmPedidosE
           Align = alClient
           Caption = 'Recebimentos'
           TabOrder = 1
-          ExplicitWidth = 1289
-          ExplicitHeight = 204
           object dgb_recibos: TDBGrid
             Left = 2
             Top = 19
@@ -3609,7 +3584,6 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 1289
           object Label32: TLabel
             Left = 9
             Top = 8
@@ -3892,8 +3866,6 @@ inherited frmPedidosE: TfrmPedidosE
           ActivePage = tbs_comissoes
           Align = alClient
           TabOrder = 1
-          ExplicitWidth = 1289
-          ExplicitHeight = 247
           object tbs_comissoes: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
@@ -3904,8 +3876,6 @@ inherited frmPedidosE: TfrmPedidosE
               Height = 233
               Align = alClient
               TabOrder = 0
-              ExplicitWidth = 1281
-              ExplicitHeight = 215
               object dbg_comissao_itens: TDBGrid
                 Left = 2
                 Top = 19
@@ -4073,8 +4043,6 @@ inherited frmPedidosE: TfrmPedidosE
               Height = 233
               Align = alClient
               TabOrder = 0
-              ExplicitWidth = 1281
-              ExplicitHeight = 215
               object dbg_outras_despesas: TDBGrid
                 Left = 38
                 Top = 19
@@ -4164,7 +4132,6 @@ inherited frmPedidosE: TfrmPedidosE
                 Height = 212
                 Align = alLeft
                 TabOrder = 1
-                ExplicitHeight = 194
                 object btn_incluir_lancamento: TSpeedButton
                   Left = 5
                   Top = 0
@@ -4211,7 +4178,6 @@ inherited frmPedidosE: TfrmPedidosE
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 1289
           object Label7: TLabel
             Left = 9
             Top = 8
@@ -4494,8 +4460,6 @@ inherited frmPedidosE: TfrmPedidosE
           ActivePage = TabSheet1
           Align = alClient
           TabOrder = 1
-          ExplicitWidth = 1289
-          ExplicitHeight = 247
           object TabSheet1: TTabSheet
             Caption = 'Lan'#231'amentos'
             OnShow = tbs_comissoesShow
@@ -4506,8 +4470,6 @@ inherited frmPedidosE: TfrmPedidosE
               Height = 233
               Align = alClient
               TabOrder = 0
-              ExplicitWidth = 1281
-              ExplicitHeight = 215
               object DBGrid1: TDBGrid
                 Left = 2
                 Top = 19
@@ -4675,8 +4637,6 @@ inherited frmPedidosE: TfrmPedidosE
               Height = 233
               Align = alClient
               TabOrder = 0
-              ExplicitWidth = 1281
-              ExplicitHeight = 215
               object dbg_outras_despesas_ferrari: TDBGrid
                 Left = 38
                 Top = 19
@@ -4766,7 +4726,6 @@ inherited frmPedidosE: TfrmPedidosE
                 Height = 212
                 Align = alLeft
                 TabOrder = 1
-                ExplicitHeight = 194
                 object TSpeedButton
                   Left = 5
                   Top = 0
@@ -4811,8 +4770,6 @@ inherited frmPedidosE: TfrmPedidosE
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object Label51: TLabel
             Left = 34
             Top = 53
@@ -5278,8 +5235,6 @@ inherited frmPedidosE: TfrmPedidosE
           ActivePage = tbs_concreto_realizado
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 1289
-          ExplicitHeight = 317
           object tbs_concreto_realizado: TTabSheet
             Caption = 'Concreto'
             object Label99: TLabel
@@ -5709,7 +5664,6 @@ inherited frmPedidosE: TfrmPedidosE
       Height = 55
       Align = alTop
       TabOrder = 2
-      ExplicitWidth = 1297
       object lbl_cliente_nome: TLabel
         AlignWithMargins = True
         Left = 128
@@ -5767,8 +5721,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-        ExplicitLeft = 784
-        ExplicitTop = 1
         ExplicitHeight = 15
       end
       object Label20: TLabel
@@ -5792,7 +5744,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-        ExplicitLeft = 544
         ExplicitHeight = 15
       end
       object btnBuscaCliente: TBitBtn
@@ -5839,9 +5790,6 @@ inherited frmPedidosE: TfrmPedidosE
         ShowHint = True
         TabOrder = 0
         OnClick = btnBuscaClienteClick
-        ExplicitLeft = 10
-        ExplicitTop = 23
-        ExplicitHeight = 32
       end
       object btnNovoCliente: TBitBtn
         AlignWithMargins = True
@@ -5868,9 +5816,6 @@ inherited frmPedidosE: TfrmPedidosE
         TabOrder = 1
         Visible = False
         OnClick = btnNovoClienteClick
-        ExplicitLeft = 37
-        ExplicitTop = 19
-        ExplicitHeight = 32
       end
       object btn_alterar_pessoa: TBitBtn
         AlignWithMargins = True
@@ -5891,9 +5836,6 @@ inherited frmPedidosE: TfrmPedidosE
         TabOrder = 2
         Visible = False
         OnClick = btn_alterar_pessoaClick
-        ExplicitLeft = 132
-        ExplicitTop = 6
-        ExplicitHeight = 32
       end
       object cbxVendedores: TDBLookupComboBox
         AlignWithMargins = True
@@ -5918,7 +5860,6 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         TabOrder = 3
         OnCloseUp = cbxVendedoresCloseUp
-        ExplicitLeft = 576
       end
       object btn_incluir_vendedor: TBitBtn
         AlignWithMargins = True
@@ -5964,7 +5905,6 @@ inherited frmPedidosE: TfrmPedidosE
         ShowHint = True
         TabOrder = 4
         OnClick = btn_incluir_vendedorClick
-        ExplicitLeft = 742
       end
       object cbx_situacao: TComboBox
         AlignWithMargins = True
@@ -5987,7 +5927,6 @@ inherited frmPedidosE: TfrmPedidosE
         Items.Strings = (
           'ABERTO'
           'AGUARDANDO')
-        ExplicitTop = 11
       end
     end
     object gbReforcosVigas: TGroupBox
@@ -6407,9 +6346,10 @@ inherited frmPedidosE: TfrmPedidosE
         Margins.Right = 0
         Margins.Bottom = 5
         OnClick = btn_fecharClick
-        ExplicitLeft = 139
-        ExplicitWidth = 86
-        ExplicitHeight = 45
+        ExplicitLeft = 190
+        ExplicitTop = 5
+        ExplicitWidth = 107
+        ExplicitHeight = 25
       end
     end
   end
@@ -6423,8 +6363,6 @@ inherited frmPedidosE: TfrmPedidosE
     Color = clWhite
     ParentBackground = False
     TabOrder = 3
-    ExplicitTop = 54
-    ExplicitHeight = 607
     object Panel6: TPanel
       Left = 0
       Top = 0
@@ -6448,7 +6386,7 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitHeight = 34
+        ExplicitWidth = 68
       end
     end
     object pnl_resumo_laje: TPanel
@@ -6501,13 +6439,12 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 57
         ExplicitWidth = 131
       end
       object Label59: TLabel
         AlignWithMargins = True
         Left = 20
-        Top = 106
+        Top = 108
         Width = 177
         Height = 15
         Margins.Left = 20
@@ -6522,13 +6459,13 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 112
+        ExplicitTop = 106
         ExplicitWidth = 101
       end
       object Label60: TLabel
         AlignWithMargins = True
         Left = 20
-        Top = 154
+        Top = 158
         Width = 177
         Height = 15
         Margins.Left = 20
@@ -6543,12 +6480,13 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitWidth = 141
+        ExplicitTop = 154
+        ExplicitWidth = 114
       end
       object Label61: TLabel
         AlignWithMargins = True
         Left = 20
-        Top = 202
+        Top = 208
         Width = 177
         Height = 15
         Margins.Left = 20
@@ -6563,13 +6501,13 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 222
+        ExplicitTop = 202
         ExplicitWidth = 115
       end
       object Label62: TLabel
         AlignWithMargins = True
         Left = 20
-        Top = 250
+        Top = 258
         Width = 177
         Height = 15
         Margins.Left = 20
@@ -6584,7 +6522,7 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 277
+        ExplicitTop = 250
         ExplicitWidth = 114
       end
       object lbl_eixo_laje: TLabel
@@ -6628,7 +6566,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 20
         Top = 78
         Width = 177
-        Height = 21
+        Height = 23
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -6648,9 +6586,9 @@ inherited frmPedidosE: TfrmPedidosE
       object edMetrosLinearesH8: TEdit
         AlignWithMargins = True
         Left = 20
-        Top = 126
+        Top = 128
         Width = 177
-        Height = 21
+        Height = 23
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -6665,14 +6603,13 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         ReadOnly = True
         TabOrder = 2
-        ExplicitTop = 129
       end
       object edMetrosQuadradosH8: TEdit
         AlignWithMargins = True
         Left = 20
-        Top = 174
+        Top = 178
         Width = 177
-        Height = 21
+        Height = 23
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -6687,14 +6624,13 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         ReadOnly = True
         TabOrder = 3
-        ExplicitTop = 180
       end
       object edQtdeLajotasH8: TEdit
         AlignWithMargins = True
         Left = 20
-        Top = 222
+        Top = 228
         Width = 177
-        Height = 21
+        Height = 23
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -6709,14 +6645,13 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         ReadOnly = True
         TabOrder = 4
-        ExplicitTop = 231
       end
       object edQtdeIsoporH8: TEdit
         AlignWithMargins = True
         Left = 20
-        Top = 270
+        Top = 278
         Width = 177
-        Height = 21
+        Height = 23
         Margins.Left = 20
         Margins.Top = 0
         Margins.Right = 20
@@ -6731,8 +6666,6 @@ inherited frmPedidosE: TfrmPedidosE
         ParentFont = False
         ReadOnly = True
         TabOrder = 5
-        ExplicitLeft = 19
-        ExplicitTop = 282
       end
     end
     object pnl_totais: TPanel
@@ -6743,8 +6676,6 @@ inherited frmPedidosE: TfrmPedidosE
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitTop = 365
-      ExplicitHeight = 220
       object Label52: TLabel
         Left = 20
         Top = 10
@@ -6815,7 +6746,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 20
         Top = 123
         Width = 24
-        Height = 15
+        Height = 17
         Alignment = taCenter
         Caption = '0.00'
         Font.Charset = ANSI_CHARSET
@@ -6829,7 +6760,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 60
         Top = 123
         Width = 19
-        Height = 15
+        Height = 17
         Alignment = taCenter
         Caption = '(%)'
         Font.Charset = ANSI_CHARSET
@@ -6859,7 +6790,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 117
         Top = 40
         Width = 80
-        Height = 21
+        Height = 23
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -6889,7 +6820,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 141
         Top = 74
         Width = 56
-        Height = 21
+        Height = 23
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -6904,7 +6835,7 @@ inherited frmPedidosE: TfrmPedidosE
         Left = 117
         Top = 108
         Width = 80
-        Height = 21
+        Height = 23
         Alignment = taRightJustify
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText

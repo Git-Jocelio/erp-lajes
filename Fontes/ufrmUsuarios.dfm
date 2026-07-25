@@ -18,6 +18,9 @@ inherited frmUsuarios: TfrmUsuarios
   inherited ToolBar1: TToolBar
     Width = 961
     ExplicitWidth = 961
+    inherited btnImprimir: TToolButton
+      Visible = False
+    end
   end
   inherited StatusBar: TStatusBar
     Top = 476
@@ -76,6 +79,9 @@ inherited frmUsuarios: TfrmUsuarios
         inherited pnl_resultado: TPanel
           Width = 913
           ExplicitWidth = 913
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -89,6 +95,7 @@ inherited frmUsuarios: TfrmUsuarios
     end
     inherited lbl_titulo: TLabel
       Width = 243
+      Height = 56
       Caption = 'CONSULTA DE USU'#193'RIOS'
       ExplicitWidth = 243
     end

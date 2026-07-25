@@ -18,17 +18,39 @@ uses
   System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
   Vcl.DBCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Buttons, uBiblioteca,
-  ufrmFornecedoresE, unit_principal, udmConn;
+  ufrmFornecedoresE, unit_principal, frxClass, frxDBSet, udmConn,
+  frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmFornecedores = class(TfrmBaseGrade)
+    frxReport: TfrxReport;
+    frxDBFornecedores: TfrxDBDataset;
+    frxPDFExport1: TfrxPDFExport;
+    qryID: TIntegerField;
     qryNOME: TStringField;
     qryCPF_CNPJ: TStringField;
+    qryRG_IE: TStringField;
+    qryENDERECO: TStringField;
+    qryNUMERO: TStringField;
+    qryCOMPLEMENTO: TStringField;
+    qryBAIRRO: TStringField;
+    qryCIDADE: TStringField;
+    qryUF: TStringField;
+    qryCEP: TStringField;
+    qryTELEFONE: TStringField;
+    qryCELULAR: TStringField;
+    qryDATA_CAD: TDateField;
+    qryEMAIL: TStringField;
+    qryFIS_JUR: TStringField;
+    qryATIVO: TStringField;
+    qryDATA_ALT: TDateField;
+    qryID_1: TIntegerField;
+    qryPESSOA_ID: TIntegerField;
     qryCONTATOS: TStringField;
     qryTELEFONES_CONTATO: TStringField;
     qryPRODUTOS: TStringField;
-    qryATIVO: TStringField;
-    qryID: TIntegerField;
+    qryRAMO_ATIVIDADE: TStringField;
+    qryATIVO_1: TStringField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -38,6 +60,7 @@ type
     procedure actExcluirExecute(Sender: TObject);
     procedure btn_fecharClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure actImprimirExecute(Sender: TObject);
 
   private
     Ffornecedor_id: integer;
@@ -81,6 +104,13 @@ begin
   uBiblioteca.AtualizaQuery(qry);
 
   inherited;
+
+end;
+
+procedure TfrmFornecedores.actImprimirExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport;
 
 end;
 
@@ -135,7 +165,8 @@ procedure TfrmFornecedores.prc_sql;
 begin
   qry.SQL.Clear;
   sSql :=  ' select ' +
-           '   P.ID, P.NOME, P.CPF_CNPJ, F.CONTATOS, F.TELEFONES_CONTATO, F.PRODUTOS, F.ATIVO ' +
+           '   P.*, ' +
+           '   F.* ' +
            ' from  ' +
            '   PESSOAS P, FORNECEDORES F ' +
            ' where ' +

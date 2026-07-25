@@ -10,7 +10,7 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
   System.ImageList, Vcl.ImgList, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls;
+  Vcl.StdCtrls, frxClass, frxDBSet, frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmPrestadoresServicos = class(TfrmBaseGrade)
@@ -19,10 +19,33 @@ type
     qryCPF_CNPJ: TStringField;
     qryCONTATO: TStringField;
     qryCELULAR: TStringField;
+    frxPDFExport1: TfrxPDFExport;
+    frxReport: TfrxReport;
+    frxDBVendedores: TfrxDBDataset;
+    qryRG_IE: TStringField;
+    qryENDERECO: TStringField;
+    qryNUMERO: TStringField;
+    qryCOMPLEMENTO: TStringField;
+    qryBAIRRO: TStringField;
+    qryCIDADE: TStringField;
+    qryUF: TStringField;
+    qryCEP: TStringField;
+    qryTELEFONE: TStringField;
+    qryDATA_CAD: TDateField;
+    qryEMAIL: TStringField;
+    qryFIS_JUR: TStringField;
+    qryATIVO: TStringField;
+    qryDATA_ALT: TDateField;
+    qryID_1: TIntegerField;
+    qryPESSOA_ID: TIntegerField;
+    qryDESCRICAO_SERVICO: TStringField;
+    qryATIVO_1: TStringField;
+    qryCELULAR_1: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
     procedure actIncluirExecute(Sender: TObject);
+    procedure actImprimirExecute(Sender: TObject);
   private
     procedure prc_sql;
     { Private declarations }
@@ -62,6 +85,13 @@ begin
   inherited;
 end;
 
+procedure TfrmPrestadoresServicos.actImprimirExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport;
+
+end;
+
 procedure TfrmPrestadoresServicos.actIncluirExecute(Sender: TObject);
 begin
   ufrmPrestadoresServicosE.prc_incluir;
@@ -81,7 +111,7 @@ procedure TfrmPrestadoresServicos.prc_sql;
 begin
   qry.SQL.Clear;
   sSql :=  ' select ' +
-           '   P.ID, P.NOME, P.CPF_CNPJ, S.CONTATO, S.CELULAR ' +
+           '   P.*, S.* ' +
            ' from  ' +
            '   PESSOAS P, PRESTADORES_SERVICOS S ' +
            ' where ' +

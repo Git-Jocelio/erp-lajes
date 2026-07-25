@@ -185,6 +185,7 @@ procedure TfrmBaseGrade.FormShow(Sender: TObject);
 begin
   inherited;
   GroupBoxPesquisa.Height := 0;
+  btnPesquisar.Caption := 'Pesquisa >>'
 end;
 
 procedure TfrmBaseGrade.ControlaBotoes;

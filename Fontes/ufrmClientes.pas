@@ -10,7 +10,8 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, System.Actions, Vcl.ActnList,
   System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal;
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal,
+  frxClass, frxDBSet, frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmClientes = class(TfrmBaseGrade)
@@ -20,6 +21,21 @@ type
     qryTELEFONE: TStringField;
     qryCELULAR: TStringField;
     qryATIVO: TStringField;
+    qryRG_IE: TStringField;
+    qryENDERECO: TStringField;
+    qryNUMERO: TStringField;
+    qryCOMPLEMENTO: TStringField;
+    qryBAIRRO: TStringField;
+    qryCIDADE: TStringField;
+    qryUF: TStringField;
+    qryCEP: TStringField;
+    qryDATA_CAD: TDateField;
+    qryEMAIL: TStringField;
+    qryFIS_JUR: TStringField;
+    qryDATA_ALT: TDateField;
+    frxReport: TfrxReport;
+    frxDBClientes: TfrxDBDataset;
+    frxPDFExport1: TfrxPDFExport;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -27,6 +43,8 @@ type
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
+    procedure actLocalizarExecute(Sender: TObject);
+    procedure actImprimirExecute(Sender: TObject);
   private
     procedure ASql();
 
@@ -66,6 +84,13 @@ end;
 
 {$R *.dfm}
 
+procedure TfrmClientes.actImprimirExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport;
+
+end;
+
 procedure TfrmClientes.actIncluirExecute(Sender: TObject);
 begin
 
@@ -76,6 +101,13 @@ begin
 
 end;
 
+
+procedure TfrmClientes.actLocalizarExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport;
+
+end;
 
 procedure TfrmClientes.actAlterarExecute(Sender: TObject);
 var
@@ -106,12 +138,10 @@ procedure TfrmClientes.ASql;
 begin
 
   sSql := 'select ' +
-           ' P.ID, P.CPF_CNPJ, P.NOME, P.TELEFONE, P.CELULAR, P.ATIVO  ' +
-           ' from ' +
-           Self.Tabela + ' C, PESSOAS P ' +
-           ' where P.ID = C.PESSOA_ID ';
-
-
+          '  P.* '+
+          'from ' +
+          '  CLIENTES C, PESSOAS P ' +
+          'where P.ID = C.PESSOA_ID ';
   QRY.SQL.Clear;
   qry.sql.add(sSql);
 

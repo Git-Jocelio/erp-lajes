@@ -2905,6 +2905,12 @@ begin
   inherited;
   Componentes;
   Inicializar;
+
+  // força ir na tab itens da laje e volta
+  // para atualizar o resumo
+  pgc_principal.TabIndex := 1;
+  pgc_principal.TabIndex := 0;
+
 end;
 
 procedure TfrmPedidosE.gbReforcosVigasMouseDown(Sender: TObject;

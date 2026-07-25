@@ -93,7 +93,6 @@ const
   // implementar essas alterações de forma de pagamento nos restantes dos cadastro
   // começar testes para implementação da comissão da lajes ferrari
   // fazendo adaptacao do calculo de comissao da lajes ferrari no pedido, parei no calculo do painel de comissoes
-  // olivia me ligou e passando mais problemas... não tenho condições de continuar por hoje... DEUS
   // ajude que resolva essa situação com ela o mais rápido possivel,
   // 15/02/2024 ... terminei a implementação do calculo da comissao ferrari no pedidoE,
   // tambem fa fiz o relatório de comissão ferrari ufa! não ficou como eu queria ainda
@@ -180,7 +179,10 @@ const
   //versao_app = 180;   // apenas para testar se o sistema esta atualizando
   //versao_app = 181;   // frmPedidoBaixa : pesquisar por número de pedido
   //versao_app = 182;   // frmEstoquesMovimentacaoE : atualiza saldo de pedidos aberto e aguardando ao fazer um lançamento
-  versao_app = 183;     // Implementado botão para buscar endereço pelo CEP
+  //versao_app = 183;   // 20/07/2026 Implementado botão para buscar endereço pelo CEP
+  //versao_app = 184;     // 21/07/2026mudança no layout do frmpedidoE
+  //versao_app = 185;     // 22/07/2026 implementado relatorio de fornecedores
+  versao_app = 186;     // 24/07/2026 implementado relatorio de vendedores, clientes, prest. serv, transportadores
 
 
 var

@@ -11,7 +11,7 @@ uses
   System.ImageList, Vcl.ImgList, Vcl.Menus, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Grids, Vcl.DBGrids,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.DBCtrls, unit_principal,
-  unit_funcoes;
+  unit_funcoes, frxClass, frxDBSet, frxExportBaseDialog, frxExportPDF;
 
 type
   TfrmVendedores = class(TfrmBaseGrade)
@@ -21,6 +21,23 @@ type
     qryCOMISSAO_ADM: TFMTBCDField;
     qryATIVO: TStringField;
     qryID: TIntegerField;
+    frxReport: TfrxReport;
+    frxDBVendedores: TfrxDBDataset;
+    qryRG_IE: TStringField;
+    qryENDERECO: TStringField;
+    qryNUMERO: TStringField;
+    qryCOMPLEMENTO: TStringField;
+    qryBAIRRO: TStringField;
+    qryCIDADE: TStringField;
+    qryUF: TStringField;
+    qryCEP: TStringField;
+    qryTELEFONE: TStringField;
+    qryCELULAR: TStringField;
+    qryDATA_CAD: TDateField;
+    qryEMAIL: TStringField;
+    qryFIS_JUR: TStringField;
+    qryDATA_ALT: TDateField;
+    frxPDFExport1: TfrxPDFExport;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -28,6 +45,7 @@ type
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
+    procedure actImprimirExecute(Sender: TObject);
 
   private
 
@@ -99,6 +117,13 @@ begin
 
 end;
 
+procedure TfrmVendedores.actImprimirExecute(Sender: TObject);
+begin
+  if not qry.IsEmpty then
+    frxReport.ShowReport;
+
+end;
+
 procedure TfrmVendedores.actIncluirExecute(Sender: TObject);
 begin
   ufrmVendedoresE.Incluir;
@@ -113,7 +138,7 @@ begin
   //ShowMessage('ASQL');
 
   sSql := 'select ' +
-           ' P.ID, P.CPF_CNPJ, P.NOME, V.COMISSAO_VENDEDOR, V.COMISSAO_ADM, P.ATIVO ' +
+           ' P.*, V.COMISSAO_VENDEDOR, V.COMISSAO_ADM ' +
            'from ' +
               Self.Tabela + ' V, PESSOAS P ' +
            'where ' +

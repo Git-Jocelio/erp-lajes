@@ -537,9 +537,6 @@ inherited frmContasReceber: TfrmContasReceber
         inherited pnl_resultado: TPanel
           Width = 1201
           ExplicitWidth = 1201
-          inherited lbl_resultado: TLabel
-            Height = 41
-          end
         end
       end
     end
