@@ -174,7 +174,8 @@ uses
   ufrmPequisa_vigas_vendidas in 'ufrmPequisa_vigas_vendidas.pas' {frmPequisa_vigas_vendidas},
   ufrmPedidosVigaVao in 'ufrmPedidosVigaVao.pas' {frmPedidosVigaVao},
   ufrmCategorias in 'ufrmCategorias.pas' {frmCategorias},
-  unit_busca_cep in 'unit_busca_cep.pas';
+  unit_busca_cep in 'unit_busca_cep.pas',
+  uSession in 'uSession.pas';
 
 {$R *.res}
 
@@ -190,19 +191,14 @@ begin
     Application.CreateForm(TdmPesquisa, dmPesquisa);
 
     frmLogin := TfrmLogin.Create(nil);
-    frmLogin.ShowModal;
-
-    // MENU ANTIGO
-    //Application.CreateForm(TfrmPrincipal, frmPrincipal);
-
-    // NOVO MENU
-    Application.CreateForm(Tform_principal, form_principal);
-    //Application.CreateForm(Tform_fundo_esmaecer, form_fundo_esmaecer);
-
-    frmLogin.Hide;
-    frmLogin.Free;
-
-    Application.Run;
+    try
+      if frmLogin.ShowModal = 1 then
+       // NOVO MENU
+       Application.CreateForm(Tform_principal, form_principal);
+       Application.Run;
+    finally
+      frmLogin.Free;
+    end;
 
   end
   else

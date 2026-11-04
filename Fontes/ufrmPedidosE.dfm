@@ -21,7 +21,7 @@ inherited frmPedidosE: TfrmPedidosE
       Width = 988
       Height = 23
       Caption = ''
-      ExplicitLeft = 277
+      ExplicitLeft = 250
       ExplicitTop = 3
       ExplicitWidth = 6
     end
@@ -147,7 +147,7 @@ inherited frmPedidosE: TfrmPedidosE
         Caption = 'Venda'
         OnShow = tbVendaShow
         object Label2: TLabel
-          Left = 118
+          Left = 137
           Top = 6
           Width = 43
           Height = 15
@@ -173,7 +173,7 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
         end
         object Label5: TLabel
-          Left = 281
+          Left = 273
           Top = 63
           Width = 114
           Height = 15
@@ -186,8 +186,8 @@ inherited frmPedidosE: TfrmPedidosE
           ParentFont = False
         end
         object Label10: TLabel
-          Left = 253
-          Top = 6
+          Left = 408
+          Top = 8
           Width = 88
           Height = 15
           Caption = #218'ltima Altera'#231#227'o'
@@ -246,11 +246,37 @@ inherited frmPedidosE: TfrmPedidosE
           OnClick = btn_busca_forma_pagtoClick
         end
         object lbl_comissao_vendedor_informada: TLabel
-          Left = 384
-          Top = 8
+          Left = 531
+          Top = 63
           Width = 122
           Height = 15
           Caption = 'Comiss'#227'o do Vendedor'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clSilver
+          Font.Height = -12
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label21: TLabel
+          Left = 273
+          Top = 6
+          Width = 65
+          Height = 15
+          Caption = 'Emitido por:'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clSilver
+          Font.Height = -12
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label22: TLabel
+          Left = 543
+          Top = 6
+          Width = 69
+          Height = 15
+          Caption = 'Alterado por:'
           Font.Charset = ANSI_CHARSET
           Font.Color = clSilver
           Font.Height = -12
@@ -274,9 +300,9 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 4
         end
         object dtpDataEntrega: TDateTimePicker
-          Left = 138
+          Left = 139
           Top = 82
-          Width = 132
+          Width = 122
           Height = 23
           Date = 44292.000000000000000000
           Time = 0.860582534725836000
@@ -291,7 +317,7 @@ inherited frmPedidosE: TfrmPedidosE
         object edt_nr_pedido: TPanel
           Left = 5
           Top = 25
-          Width = 98
+          Width = 120
           Height = 30
           BevelKind = bkTile
           BevelOuter = bvNone
@@ -304,7 +330,7 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 1
         end
         object edt_emissao: TPanel
-          Left = 118
+          Left = 137
           Top = 25
           Width = 122
           Height = 24
@@ -319,9 +345,9 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 2
         end
         object edt_alteracao: TPanel
-          Left = 253
+          Left = 408
           Top = 25
-          Width = 120
+          Width = 122
           Height = 24
           BevelKind = bkTile
           BevelOuter = bvNone
@@ -349,7 +375,7 @@ inherited frmPedidosE: TfrmPedidosE
           OnClick = cb_orcamentoClick
         end
         object pnl_forma_pagto: TPanel
-          Left = 281
+          Left = 273
           Top = 82
           Width = 216
           Height = 24
@@ -364,12 +390,42 @@ inherited frmPedidosE: TfrmPedidosE
           TabOrder = 6
         end
         object edt_comissao_vendedor_informada: TEdit
-          Left = 384
-          Top = 25
-          Width = 139
+          Left = 531
+          Top = 82
+          Width = 142
           Height = 25
           NumbersOnly = True
           TabOrder = 7
+        end
+        object edt_emitido_por: TPanel
+          Left = 273
+          Top = 25
+          Width = 130
+          Height = 24
+          BevelKind = bkTile
+          BevelOuter = bvNone
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 8
+        end
+        object edt_alterado_por: TPanel
+          Left = 543
+          Top = 25
+          Width = 130
+          Height = 24
+          BevelKind = bkTile
+          BevelOuter = bvNone
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object tbDestinatario: TTabSheet
@@ -6459,7 +6515,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 106
         ExplicitWidth = 101
       end
       object Label60: TLabel
@@ -6480,7 +6535,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 154
         ExplicitWidth = 114
       end
       object Label61: TLabel
@@ -6501,7 +6555,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 202
         ExplicitWidth = 115
       end
       object Label62: TLabel
@@ -6522,7 +6575,6 @@ inherited frmPedidosE: TfrmPedidosE
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 250
         ExplicitWidth = 114
       end
       object lbl_eixo_laje: TLabel
@@ -6881,6 +6933,7 @@ inherited frmPedidosE: TfrmPedidosE
     end
   end
   inherited qry: TFDQuery
+    Connection = dmConn.FDConnection
     FormatOptions.AssignedValues = [fvFmtDisplayNumeric, fvFmtEditNumeric]
     SQL.Strings = (
       'select * from pedidos')
@@ -7075,6 +7128,14 @@ inherited frmPedidosE: TfrmPedidosE
       Origin = 'COMISSAO_VENDEDOR_INFORMADA'
       Precision = 18
       Size = 2
+    end
+    object qryUSUARIO_ID: TIntegerField
+      FieldName = 'USUARIO_ID'
+      Origin = 'USUARIO_ID'
+    end
+    object qryUSUARIO_ALTERACAO_ID: TIntegerField
+      FieldName = 'USUARIO_ALTERACAO_ID'
+      Origin = 'USUARIO_ALTERACAO_ID'
     end
   end
   inherited ds: TDataSource
@@ -8007,7 +8068,7 @@ inherited frmPedidosE: TfrmPedidosE
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 625
-    Top = 175
+    Left = 569
+    Top = 231
   end
 end

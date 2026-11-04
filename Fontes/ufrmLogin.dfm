@@ -38,7 +38,7 @@ object frmLogin: TfrmLogin
       Font.Style = []
       ParentFont = False
     end
-    object SpeedButton2: TSpeedButton
+    object btnFechar: TSpeedButton
       Left = 560
       Top = 0
       Width = 23
@@ -53,7 +53,7 @@ object frmLogin: TfrmLogin
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      OnClick = SpeedButton2Click
+      OnClick = btnFecharClick
     end
     object pnlLateral: TPanel
       Left = 0
@@ -3578,21 +3578,21 @@ object frmLogin: TfrmLogin
         ParentFont = False
         ExplicitWidth = 123
       end
-      object Edit1: TEdit
+      object edtLogin: TEdit
         Left = 0
         Top = 33
         Width = 226
         Height = 26
         Align = alBottom
         BorderStyle = bsNone
-        CharCase = ecUpperCase
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
         Font.Height = -13
-        Font.Name = 'Segoe UI'
+        Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        TextHint = 'Informe o login'
       end
       object Panel2: TPanel
         Left = 0
@@ -3627,22 +3627,22 @@ object frmLogin: TfrmLogin
         ParentFont = False
         ExplicitWidth = 43
       end
-      object Edit2: TEdit
+      object edtSenha: TEdit
         Left = 0
         Top = 33
         Width = 226
         Height = 26
         Align = alBottom
         BorderStyle = bsNone
-        CharCase = ecUpperCase
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
         Font.Height = -13
-        Font.Name = 'Segoe UI'
+        Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
         PasswordChar = '*'
         TabOrder = 0
+        TextHint = 'Informe sua senha'
       end
       object Panel4: TPanel
         Left = 0
@@ -3664,7 +3664,7 @@ object frmLogin: TfrmLogin
       Color = 11753229
       ParentBackground = False
       TabOrder = 3
-      object SpeedButton1: TSpeedButton
+      object btnConfirmar: TSpeedButton
         Left = 0
         Top = 0
         Width = 129
@@ -3679,9 +3679,13 @@ object frmLogin: TfrmLogin
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        OnClick = SpeedButton1Click
+        OnClick = btnConfirmarClick
         ExplicitLeft = -1
       end
     end
+  end
+  object FDQuery1: TFDQuery
+    Left = 296
+    Top = 200
   end
 end

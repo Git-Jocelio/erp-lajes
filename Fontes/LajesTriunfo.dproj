@@ -128,650 +128,494 @@
         </DelphiCompile>
         <DCCReference Include="ufrmPrincipal.pas">
             <Form>frmPrincipal</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="udmConn.pas">
             <Form>dmConn</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="ufrmBaseConexao.pas">
             <Form>frmBaseConexao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmBaseGrade.pas">
             <Form>frmBaseGrade</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Lib\uBiblioteca.pas"/>
         <DCCReference Include="ufrmPessoas.pas">
             <Form>frmPessoas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmBaseEdicao.pas">
             <Form>frmBaseEdicao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Lib\uTipos.pas"/>
         <DCCReference Include="ufrmPessoasE.pas">
             <Form>frmPessoasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmVendedores.pas">
             <Form>frmVendedores</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmVendedoresE.pas">
             <Form>frmVendedoresE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmBasePesquisa.pas">
             <Form>frmBasePesquisa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaPessoa.pas">
             <Form>frmPesquisaPessoa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmClientes.pas">
             <Form>frmClientes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmClientesE.pas">
             <Form>frmClientesE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmFormaPagto.pas">
             <Form>frmFormaPagto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDepartamentos.pas">
             <Form>frmDepartamentos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDepartamentosE.pas">
             <Form>frmDepartamentosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutos.pas">
             <Form>frmProdutos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosE.pas">
             <Form>frmProdutosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosTrelicaE.pas">
             <Form>frmProdutosTrelicaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutoTrelica.pas">
             <Form>frmProdutoTrelica</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosEps.pas">
             <Form>frmProdutosEps</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosEpsE.pas">
             <Form>frmProdutosEpsE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosAdicional.pas">
             <Form>frmProdutosAdicional</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosAdicionalE.pas">
             <Form>frmProdutosAdicionalE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosLajotas.pas">
             <Form>frmProdutosLajotas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosLajotasE.pas">
             <Form>frmProdutosLajotasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosConcreto.pas">
             <Form>frmProdutosConcreto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosConcretoE.pas">
             <Form>frmProdutosConcretoE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosLajes.pas">
             <Form>frmProdutosLajes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosLajesE.pas">
             <Form>frmProdutosLajesE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidos.pas">
             <Form>frmPedidos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosE.pas">
             <Form>frmPedidosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosVigas.pas">
             <Form>frmProdutosVigas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaMateriaPrima.pas">
             <Form>frmPesquisaMateriaPrima</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="udmPesquisa.pas">
             <Form>dmPesquisa</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="udmPrincipal.pas">
             <Form>dmPrincipal</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaCliente.pas">
             <Form>frmPesquisaCliente</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaProdutos.pas">
             <Form>frmPesquisaProdutos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmTransportadoras.pas">
             <Form>frmTransportadoras</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmTransportadorasE.pas">
             <Form>frmTransportadorasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaAdicionais.pas">
             <Form>frmPesquisaAdicionais</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRelPedidos.pas">
             <Form>frmRelPedidos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedididosFerragensE.pas">
             <Form>frmPedididosFerragensE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmViga_AlteracaoPreco.pas">
             <Form>frmViga_AlteracaoPreco</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosVigas_Pesquisa.pas">
             <Form>frmProdutosVigas_Pesquisa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoes.pas">
             <Form>frmComissoes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmLogin.pas">
             <Form>frmLogin</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmMensagens.pas">
             <Form>frmMensagens</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmConfiguracaoServidor.pas">
             <Form>frmConfiguracaoServidor</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classe.Conexao.pas"/>
         <DCCReference Include="ufrmProdutosBomba.pas">
             <Form>frmProdutosBomba</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProdutosBombaE.pas">
             <Form>frmProdutosBombaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosAddVigas.pas">
             <Form>frmPedidosAddVigas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosDigitarVigas.pas">
             <Form>frmPedidosDigitarVigas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uClasse.Empresa.pas"/>
         <DCCReference Include="ufrmEmpresa.pas">
             <Form>frmEmpresa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmEmpresaE.pas">
             <Form>frmEmpresaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasReceber.pas">
             <Form>frmContasReceber</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UImpressao.pas"/>
         <DCCReference Include="ufrmContaReceberE.pas">
             <Form>frmContaReceberE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uFinanceiro.pas"/>
         <DCCReference Include="ufrmUsuarios.pas">
             <Form>frmUsuarios</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmUsuariosE.pas">
             <Form>frmUsuariosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesE.pas">
             <Form>frmComissoesE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesDespesaE.pas">
             <Form>frmComissoesDespesasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesFechamento.pas">
             <Form>frmComissaoFechamentoE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesPesquisa.pas">
             <Form>frmComissoesPesquisa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesPesquisaContasReceber.pas">
             <Form>frmComissoesPesquisaContasReceber</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissaoFechamento.pas">
             <Form>frmComissaoFechamento</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissoesItensE.pas">
             <Form>frmComissoesItensE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComissaoFechamento_Alt_Valor.pas">
             <Form>frmComissaoFechamento_Alt_Valor</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uAtualizaSistema.pas"/>
         <DCCReference Include="ufrmContasReceber_Baixa.pas">
             <Form>frmContasReceber_Baixa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducaoVigas.pas">
             <Form>frmProducaoVigas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducaoVigasPedidos.pas">
             <Form>frmProducaoVigasPedidos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPlanoContas.pas">
             <Form>frmPlanoContas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPlanoContasE.pas">
             <Form>frmPlanoContasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasPagar.pas">
             <Form>frmContasPagar</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasPagarE.pas">
             <Form>frmContasPagarE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasPagar_Lancamentos.pas">
             <Form>frmContasPagar_Lancamentos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasPagar_Baixa.pas">
             <Form>frmContasPagar_Baixa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmTabelaPrecos.pas">
             <Form>frmTabelaPrecos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmTabelaPrecosE.pas">
             <Form>frmTabelaPrecosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaFormaPagamento.pas">
             <Form>frmPesquisaFormaPagamento</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmConfiguracoesSistema.pas">
             <Form>frmConfiguracoesSistema</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmFornecedores.pas">
             <Form>frmFornecedores</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmFornecedoresE.pas">
             <Form>frmFornecedoresE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCompras.pas">
             <Form>frmCompras</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComprasE.pas">
             <Form>frmComprasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmMaoObra.pas">
             <Form>frmMaoObra</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmMaoObraE.pas">
             <Form>frmMaoObraE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaMaoObra.pas">
             <Form>frmPesquisaMaoObra</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosCustos.pas">
             <Form>frmPedidosCustos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosTotais.pas">
             <Form>frmPedidosTotais</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoOperadoras.pas">
             <Form>frmCartaoOperadoras</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoOperadorasE.pas">
             <Form>frmCartaoOperadorasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoBandeiras.pas">
             <Form>frmCartaoBandeiras</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoBandeirasE.pas">
             <Form>frmCartaoBandeirasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoFormasPagto.pas">
             <Form>frmCartaoFormasPagto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoFormasPagtoE.pas">
             <Form>frmCartaoFormasPagtoE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoMaquinas.pas">
             <Form>frmCartaoMaquinas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoMaquinasE.pas">
             <Form>frmCartaoMaquinasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasBancarias.pas">
             <Form>frmContasBancarias</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasBancariasE.pas">
             <Form>frmContasBancariasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoVendas.pas">
             <Form>frmCartaoVendas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoVendasE.pas">
             <Form>frmCartaoVendasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoTaxas.pas">
             <Form>frmCartaoTaxas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoTaxasE.pas">
             <Form>frmCartaoTaxasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCartaoTaxasItens.pas">
             <Form>frmCartaoTaxasItens</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmBancos.pas">
             <Form>frmBancos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmBancosE.pas">
             <Form>frmBancosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContasBancariasItens.pas">
             <Form>frmContasBancariasItens</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_funcoes.pas"/>
         <DCCReference Include="unit_fundo_esmaecer.pas">
             <Form>form_fundo_esmaecer</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_mensagem.pas">
             <Form>form_mensagem</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_principal.pas">
             <Form>form_principal</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_consulta_padrao.pas">
             <Form>form_consulta_padrao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmEstoquesMovimentacao.pas">
             <Form>frmEstoquesMovimentacao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmEstoquesMovimentacaoE.pas">
             <Form>frmEstoquesMovimentacaoE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_controle_estoques.pas"/>
         <DCCReference Include="ufrmPedidosBaixa.pas">
             <Form>frmPedidosBaixa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosBaixaE.pas">
             <Form>frmPedidosBaixaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_calcular_custo_de_lajes.pas"/>
         <DCCReference Include="ufrmEstoquesConsulta.pas">
             <Form>frmEstoquesConsulta</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmEstoquesDetalhes.pas">
             <Form>frmEstoquesDetalhes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducoesVigas.pas">
             <Form>frmProducoesVigas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducoesVigasE.pas">
             <Form>frmProducoesVigasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmEstoquesProducao.pas">
             <Form>frmEstoquesProducao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_atualizacao_banco_de_dados.pas"/>
         <DCCReference Include="unit_seguranca_sistema.pas"/>
         <DCCReference Include="ufrmNotificacoes.pas">
             <Form>frmNotificacoes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_movimenta_estoques.pas"/>
         <DCCReference Include="ufrmPedidosConsultaConcreto.pas">
             <Form>frmPedidosConsultaConcreto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosPesquisaConcreto.pas">
             <Form>frmPedidosPesquisaConcreto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPrestadoresServicos.pas">
             <Form>frmPrestadoresServicos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPrestadoresServicosE.pas">
             <Form>frmPrestadoresServicosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducaoTelasE.pas">
             <Form>frmProducaoTelasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducaoTelasPesquisa.pas">
             <Form>frmProducaoTelasPesquisa</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmProducaoTelas.pas">
             <Form>frmProducaoTelas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmComprasParcelaE.pas">
             <Form>frmComprasParcelaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRecibos.pas">
             <Form>frmRecibos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRecibosE.pas">
             <Form>frmRecibosE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDinheiroEntrada.pas">
             <Form>frmDinheiroEntrada</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDinheiroEntradaE.pas">
             <Form>frmDinheiroEntradaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_conta_pessoa.pas"/>
         <DCCReference Include="ufrmSelecionaPessoa_Custo.pas">
             <Form>frmSelecionaPessoa_Custo</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDinheiroSaida.pas">
             <Form>frmDinheiroSaida</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDinheiroSaidaE.pas">
             <Form>frmDinheiroSaidaE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmDinheiroMovimentacao.pas">
             <Form>frmDinheiroMovimentacao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCorrentistas.pas">
             <Form>frmCorrentistas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCorrentistasE.pas">
             <Form>frmCorrentistasE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCorrentistasContas.pas">
             <Form>frmCorrentistasContas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmChequesClientes.pas">
             <Form>frmChequesClientes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmChequesClientesE.pas">
             <Form>frmChequesClientesE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaContas.pas">
             <Form>frmPesquisaContas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRecibosAterarValorConta.pas">
             <Form>frmRecibosAlterarValorConta</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPixRecebidos.pas">
             <Form>frmPixRecebidos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRecibosFornecedores.pas">
             <Form>frmRecibosFornecedores</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmRecibosFornecedoresE.pas">
             <Form>frmRecibosFornecedoresE</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPesquisaChequeCliente.pas">
             <Form>frmPesquisaChequeCliente</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPixEnviados.pas">
             <Form>frmPixEnviados</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmContratoVenda.pas">
             <Form>frmContratoVenda</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCortes.pas">
             <Form>frmCortes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCortesTamanhos.pas">
             <Form>frmCortesTamanhos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCortesCRUD.pas">
             <Form>frmCortesCRUD</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCortesProcessamento.pas">
             <Form>frmCortesProcessamento</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPequisa_vigas_vendidas.pas">
             <Form>frmPequisa_vigas_vendidas</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmPedidosVigaVao.pas">
             <Form>frmPedidosVigaVao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ufrmCategorias.pas">
             <Form>frmCategorias</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit_busca_cep.pas"/>
+        <DCCReference Include="uSession.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
