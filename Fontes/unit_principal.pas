@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Vcl.Buttons, Vcl.AppEvnts, ufrmEstoquesConsulta,
   ufrmProducoesVigas, unit_atualizacao_banco_de_dados, unit_seguranca_sistema,
   Vcl.ExtDlgs,  System.DateUtils, ufrmRecibos, Vcl.Menus, ufrmProducaoVigas,
-  ufrmCortes, ufrmPequisa_vigas_vendidas, ufrmCategorias, Vcl.ComCtrls;
+  ufrmCortes, ufrmPequisa_vigas_vendidas, ufrmCategorias, Vcl.ComCtrls, uSession;
 
 type
   Tform_principal = class(TForm)
@@ -255,6 +255,7 @@ type
     N6: TMenuItem;
     N7: TMenuItem;
     ListView1: TListView;
+    lbl_usuario: TLabel;
     procedure img_botao_sairClick(Sender: TObject);
     procedure pnl_menulateralMouseEnter(Sender: TObject);
     procedure pnl_PrincipalMouseEnter(Sender: TObject);
@@ -504,7 +505,7 @@ begin
   // para não ficar verificando sempre que a janela estiver ativa
   // vou por uma variavel para controlar;
   if var_abertura_do_sistema then
-    // verifica se tem algum ordem de compra em ABERTO cadastrada
+  begin  // verifica se tem algum ordem de compra em ABERTO cadastrada
     // no sistema
     if fnc_buscar_ordem_compra_por_status('A') then
     begin
@@ -519,6 +520,9 @@ begin
         end;
       end;
     end;
+  end;
+
+  lbl_usuario.Caption := 'Usuário Logado' + slinebreak + uSession.UsuarioLogado.Nome;
 end;
 
 procedure Tform_principal.FormasPagamento1Click(Sender: TObject);
@@ -581,7 +585,7 @@ begin
     loqry.SQL.Add('select p.cpf_cnpj from pessoas p, empresa e where p.id = e.pessoa_id');
     loqry.Open;
     cnpj := loQry.FieldByName('cpf_cnpj').AsString;
-    lbl_titulo.Caption := lbl_titulo.Caption + ' - Liberado para CNPJ :' + cnpj;
+    lbl_titulo.Caption := lbl_titulo.Caption;// + ' - Liberado para CNPJ :' + cnpj;
     // Jocelio
     if cnpj = '10562976892' then
     begin

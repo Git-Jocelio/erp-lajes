@@ -192,7 +192,7 @@ object form_principal: Tform_principal
     end
     object img_botato_logado: TImage
       AlignWithMargins = True
-      Left = 1068
+      Left = 918
       Top = 3
       Width = 48
       Height = 58
@@ -327,6 +327,25 @@ object form_principal: Tform_principal
       ExplicitLeft = 1108
       ExplicitTop = 6
     end
+    object lbl_usuario: TLabel
+      AlignWithMargins = True
+      Left = 979
+      Top = 20
+      Width = 144
+      Height = 44
+      Margins.Top = 20
+      Margins.Bottom = 0
+      Align = alRight
+      AutoSize = False
+      Caption = 'usu'#225'rio'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 33023
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+    end
     object pnl_barra_separadora: TPanel
       Left = 0
       Top = 64
@@ -338,8 +357,8 @@ object form_principal: Tform_principal
       TabOrder = 0
     end
     object Button1: TButton
-      Left = 903
-      Top = 11
+      Left = 762
+      Top = 19
       Width = 133
       Height = 25
       Caption = 'Atualizar Tab ItensLaje'
@@ -803,7 +822,7 @@ object form_principal: Tform_principal
         Left = 10
         Top = 3
         Width = 29
-        Height = 29
+        Height = 35
         Margins.Left = 10
         Align = alLeft
         AutoSize = True
@@ -839,6 +858,7 @@ object form_principal: Tform_principal
         Transparent = True
         OnClick = pnl_botao_financeiroClick
         OnMouseEnter = pnl_botao_notasMouseEnter
+        ExplicitHeight = 29
       end
       object lbl_botao_financeiro: TLabel
         Tag = 6
@@ -2332,7 +2352,6 @@ object form_principal: Tform_principal
           Width = 250
           Height = 150
           Columns = <>
-          Items.ItemData = {}
           TabOrder = 0
         end
       end

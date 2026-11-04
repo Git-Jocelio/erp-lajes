@@ -22,7 +22,7 @@ uses
   FireDAC.Stan.StorageBin, udmConn, ufrmMensagens, ufrmPedidosAddVigas,
   ufrmPessoasE, ufrmComissoesE, ufrmComissoesDespesaE, midas, ufrmVendedoresE,
   ufrmPesquisaFormaPagamento, ufrmContasReceber_Baixa, unit_movimenta_estoques,
-  ufrmRecibosE, System.ImageList, Vcl.ImgList, unit_busca_cep;
+  ufrmRecibosE, System.ImageList, Vcl.ImgList, unit_busca_cep, uSession;
 
 type
   TfrmPedidosE = class(TfrmBaseEdicao)
@@ -483,6 +483,12 @@ type
     lbl_situacao_pedido: TLabel;
     Label9: TLabel;
     Label20: TLabel;
+    Label21: TLabel;
+    edt_emitido_por: TPanel;
+    Label22: TLabel;
+    edt_alterado_por: TPanel;
+    qryUSUARIO_ID: TIntegerField;
+    qryUSUARIO_ALTERACAO_ID: TIntegerField;
     procedure btnNovoClienteClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
 
@@ -2810,7 +2816,7 @@ begin
   qry_recibos.SQL.Clear;
 
   qry_recibos.SQL.Add('select                                                ');
-  qry_recibos.SQL.Add(' I.ID, I.CADASTRADO_EM, I.ALTERADO_EM, I.CONTAS_RECEBER_ID, I.RECIBO_ID, I.PESSOA_ID, I.HISTORICO, I.VALOR, USUARIO_ID ');
+  qry_recibos.SQL.Add(' I.ID, I.CADASTRADO_EM, I.ALTERADO_EM, I.CONTAS_RECEBER_ID, I.RECIBO_ID, I.PESSOA_ID, I.HISTORICO, I.VALOR, I.USUARIO_ID ');
   qry_recibos.SQL.Add('from                                                  ');
   qry_recibos.SQL.Add('  contas_receber R, contas_receber_baixa I, pedidos P ');
   qry_recibos.SQL.Add('WHERE                                                 ');
@@ -3672,6 +3678,7 @@ begin
                        //lbl_titulo_topo.Caption     := 'CADASTRO DE PEDIDOS - ' + 'Novo Pedido N.: ' + inttostr(Codigo);
                        lbl_titulo_topo.Caption     := 'Novo Pedido';
                        edt_emissao.Caption         := datetostr( Date );
+                       edt_emitido_por.Caption     := uSession.UsuarioLogado.Nome;
                        dtpDataContabil.Date        := Date;
                        cb_orcamento.Checked        := false;
                        //lbl_cliente_id.Caption      := '';
@@ -3860,6 +3867,23 @@ begin
   dtpDataContabil.Date     := qry.FieldByName('DATA_CONTABIL').AsDateTime;
   dtpDataEntrega.Date      := qry.FieldByName('DATA_ENTREGA').AsDateTime;
   edt_comissao_vendedor_informada.Text := formatfloat('0.00', qry.FieldByName('COMISSAO_VENDEDOR_INFORMADA').AsFloat);
+  //buscar usuario
+  //que emitiu o pedido...
+  edt_emitido_por.Caption := uSession.UsuarioLogado.Nome;//loqry.FieldByName('nome').AsString;
+
+  //último que alterou...
+  loqry.Close;
+  loQry.SQL.Clear;
+  loQry.SQL.Text :=
+    'SELECT P.NOME ' +
+    'FROM PEDIDOS PED ' +
+    'INNER JOIN USUARIOS U ON U.ID = PED.USUARIO_ALTERACAO_ID ' +
+    'INNER JOIN PESSOAS P ON P.ID = U.PESSOA_ID ' +
+    'WHERE PED.ID = :ID';
+  loqry.ParamByName('id').AsInteger := qry.FieldByName('ID').AsInteger;
+  loqry.Open;
+  edt_alterado_por.Caption := loqry.FieldByName('nome').AsString;
+  loqry.CLOSE;
 
   {busca a forma pagamento}
   FilterCds(qryFormaPagto, fsInteger, qry.FieldByName('FORMA_PAGTO_ID').AsString );
@@ -4348,10 +4372,12 @@ begin
           Add('  OBS_ENTREGA          = :OBS_ENTREGA,          ');
           Add('  COMISSAO_VENDEDOR_INFORMADA = :COMISSAO_VENDEDOR_INFORMADA , ');
           Add('  DATA_ENTREGA         = :DATA_ENTREGA,         ');
+          Add('  USUARIO_ALTERACAO_ID = :USUARIO_ALTERACAO_ID, ');
           Add('  DATA_ALTERACAO       = :DATA_ALTERACAO        ');
           Add('WHERE                                           ');
           Add('  ID = :ID                                      ');
           ParamByName('ID').AsInteger := Codigo;
+          ParamByName('USUARIO_ALTERACAO_ID').AsInteger:= UsuarioLogado.Id;
         end;
         //else
         if operacao = OpIncluir then
@@ -4359,6 +4385,7 @@ begin
           Add('INSERT INTO             ');
           Add('  PEDIDOS               ');
           Add(' (ID,                   ');
+          Add('  USUARIO_ID,           ');
           Add('  NOSSO_NUMERO,         ');
           Add('  ENTRADA_SAIDA,        ');
           Add('  SERIE,                ');
@@ -4403,6 +4430,7 @@ begin
           Add('  DATA_ALTERACAO)        ');
           Add('VALUES                   ');
           Add(' (:ID,                   ');
+          Add('  :USUARIO_ID,           ');
           Add('  :NOSSO_NUMERO,         ');
           Add('  :ENTRADA_SAIDA,        ');
           Add('  :SERIE,                ');
@@ -4448,6 +4476,7 @@ begin
 
           Codigo := uBiblioteca.AutoIncremento(conexao, 'PEDIDOS');
           ParamByName('ID').AsInteger       := Codigo;
+          ParamByName('USUARIO_ID').AsInteger:= UsuarioLogado.Id;
           ParamByName('VALOR_PAGO').AsFloat := 0;
           ParamByName('PAGO').AsString      := 'N';
 

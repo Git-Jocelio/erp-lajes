@@ -19,7 +19,7 @@
       Top = 19
       Width = 1032
       Height = 146
-      ActivePage = TabSheet2
+      ActivePage = tbs_customizado
       Align = alClient
       DragCursor = crHandPoint
       TabOrder = 2
@@ -463,7 +463,7 @@
           end
           object cb_entrega: TCheckBox
             Left = 230
-            Top = 58
+            Top = 1
             Width = 67
             Height = 17
             Cursor = crHandPoint
@@ -480,7 +480,7 @@
           end
           object dtp_entrega_ini: TDateTimePicker
             Left = 230
-            Top = 81
+            Top = 24
             Width = 90
             Height = 21
             Cursor = crHandPoint
@@ -496,7 +496,7 @@
           end
           object dtp_entrega_fim: TDateTimePicker
             Left = 338
-            Top = 81
+            Top = 24
             Width = 90
             Height = 21
             Cursor = crHandPoint
@@ -509,6 +509,39 @@
             Font.Style = []
             ParentFont = False
             TabOrder = 8
+          end
+          object cbUsuario: TCheckBox
+            Left = 230
+            Top = 58
+            Width = 97
+            Height = 17
+            Cursor = crHandPoint
+            Caption = 'Usu'#225'rio'
+            DragCursor = crHandPoint
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 9
+          end
+          object cbxUsuario: TDBLookupComboBox
+            Left = 232
+            Top = 79
+            Width = 196
+            Height = 23
+            Cursor = crHandPoint
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            KeyField = 'ID'
+            ListField = 'NOME'
+            ListSource = dsUsuario
+            ParentFont = False
+            TabOrder = 10
           end
         end
         object GroupBox2: TGroupBox
@@ -1240,14 +1273,14 @@
     end
   end
   inherited ds: TDataSource
-    Left = 647
-    Top = 196
+    Left = 543
+    Top = 364
   end
   inherited qry: TFDQuery
     Filtered = True
     FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
-    Left = 647
-    Top = 223
+    Left = 543
+    Top = 391
     object qryID: TIntegerField
       FieldName = 'ID'
     end
@@ -1348,14 +1381,14 @@
       '  P.ID = C.pessoa_id'
       'order by'
       '  P.nome')
-    Left = 674
-    Top = 223
+    Left = 570
+    Top = 391
   end
   object dsCliente: TDataSource
     AutoEdit = False
     DataSet = qryCliente
-    Left = 674
-    Top = 196
+    Left = 570
+    Top = 364
   end
   object qryVendedor: TFDQuery
     SQL.Strings = (
@@ -1368,27 +1401,27 @@
       '  P.ID = V.PESSOA_ID'
       'order by'
       '  P.NOME')
-    Left = 701
-    Top = 223
+    Left = 597
+    Top = 391
   end
   object dsVendedor: TDataSource
     AutoEdit = False
     DataSet = qryVendedor
-    Left = 701
-    Top = 196
+    Left = 597
+    Top = 364
   end
   object qryQtde: TFDQuery
-    Left = 593
-    Top = 223
+    Left = 489
+    Top = 391
   end
   object qrySistema: TFDQuery
-    Left = 620
-    Top = 223
+    Left = 516
+    Top = 391
   end
   object ppm_financeiro: TPopupMenu
     Images = ImageList1
-    Left = 620
-    Top = 196
+    Left = 516
+    Top = 364
     object mn_conta_receber: TMenuItem
       Caption = 'CONTA A RECEBER'
       OnClick = mn_conta_receberClick
@@ -2211,5 +2244,23 @@
       'select PEDIDO_RELATORIOS_LOGO_PEDIDO from CONFIGURACOES_SISTEMA')
     Left = 796
     Top = 38
+  end
+  object dsUsuario: TDataSource
+    AutoEdit = False
+    DataSet = qryUsuario
+    Left = 624
+    Top = 364
+  end
+  object qryUsuario: TFDQuery
+    SQL.Strings = (
+      'SELECT'
+      '    U.ID,'
+      '    P.NOME'
+      'FROM USUARIOS U'
+      'INNER JOIN PESSOAS P ON P.ID = U.PESSOA_ID'
+      'WHERE U.ATIVO = '#39'S'#39
+      'ORDER BY P.NOME')
+    Left = 624
+    Top = 391
   end
 end

@@ -115,6 +115,10 @@ type
     qryImagemRelatorio: TFDQuery;
     Label4: TLabel;
     Label3: TLabel;
+    cbUsuario: TCheckBox;
+    cbxUsuario: TDBLookupComboBox;
+    dsUsuario: TDataSource;
+    qryUsuario: TFDQuery;
 
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
@@ -319,7 +323,7 @@ begin
   qry.SQL.Add( ' p.cliente_id = c.pessoa_id and c.pessoa_id = pc.id ');
   qry.SQL.Add( ' and                                                ');
   qry.SQL.Add( ' /*busca nome do vendedor*/                         ');
-  qry.SQL.Add( ' p.vendedor_id = v.pessoa_id and v.pessoa_id = pv.id');
+  qry.SQL.Add( ' p.vendedor_id = v.pessoa_id and v.pessoa_id = pv.id ');
 
   sqlPadrao := qry.SQL.Text;
 
@@ -396,6 +400,11 @@ begin
   qryVendedor.Connection := self.Conexao;
   qryVendedor.Open;
   dsVendedor.DataSet := qryVendedor;
+
+  qryUsuario.Connection := self.Conexao;
+  qryUsuario.Open;
+  dsUsuario.DataSet := qryUsuario;
+
 
   ds.DataSet := qry;
 
@@ -1289,6 +1298,10 @@ begin
   if cbVendedor.checked then
     condicao :=  condicao  + ' and P.VENDEDOR_ID = :VENDEDOR ';
 
+  if cbUsuario.checked then
+    condicao :=  condicao  + ' and P.USUARIO_ID = :USUARIO_ID ';
+
+
   {carrega a instrução}
   qry.close;
   qry.Sql.Clear;
@@ -1333,6 +1346,10 @@ begin
 
     if cbVendedor.checked then
       qry.Params.ParamByName('VENDEDOR').AsString := cbxVendedor.KeyValue;
+
+    if cbUsuario.checked then
+      qry.ParamByName('USUARIO_ID').AsInteger := cbxUsuario.KeyValue;
+
 
   end;
   //ShowMessage(qry.SQL.Text);
