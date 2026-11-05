@@ -3869,18 +3869,20 @@ begin
   edt_comissao_vendedor_informada.Text := formatfloat('0.00', qry.FieldByName('COMISSAO_VENDEDOR_INFORMADA').AsFloat);
   //buscar usuario
   //que emitiu o pedido...
-  edt_emitido_por.Caption := uSession.UsuarioLogado.Nome;//loqry.FieldByName('nome').AsString;
-
-  //último que alterou...
   loqry.Close;
   loQry.SQL.Clear;
   loQry.SQL.Text :=
-    'SELECT P.NOME ' +
-    'FROM PEDIDOS PED ' +
-    'INNER JOIN USUARIOS U ON U.ID = PED.USUARIO_ALTERACAO_ID ' +
-    'INNER JOIN PESSOAS P ON P.ID = U.PESSOA_ID ' +
-    'WHERE PED.ID = :ID';
-  loqry.ParamByName('id').AsInteger := qry.FieldByName('ID').AsInteger;
+    'select p.nome ' +
+    'from pessoas p, usuarios u ' +
+    'where p.id = u.pessoa_id ' +
+    'and p.id =:pessoa_id ';
+  loqry.ParamByName('pessoa_id').AsInteger := qry.FieldByName('usuario_id').AsInteger;
+  loqry.Open;
+  edt_emitido_por.Caption := loqry.FieldByName('nome').AsString;
+
+  //último que alterou...
+  loqry.Close;
+  loqry.ParamByName('pessoa_id').AsInteger := qry.FieldByName('usuario_alteracao_id').AsInteger;
   loqry.Open;
   edt_alterado_por.Caption := loqry.FieldByName('nome').AsString;
   loqry.CLOSE;
@@ -4377,7 +4379,7 @@ begin
           Add('WHERE                                           ');
           Add('  ID = :ID                                      ');
           ParamByName('ID').AsInteger := Codigo;
-          ParamByName('USUARIO_ALTERACAO_ID').AsInteger:= UsuarioLogado.Id;
+          ParamByName('USUARIO_ALTERACAO_ID').AsInteger:= UsuarioLogado.PessoaId;
         end;
         //else
         if operacao = OpIncluir then
@@ -4475,10 +4477,10 @@ begin
           Add('  :DATA_ALTERACAO)       ');
 
           Codigo := uBiblioteca.AutoIncremento(conexao, 'PEDIDOS');
-          ParamByName('ID').AsInteger       := Codigo;
-          ParamByName('USUARIO_ID').AsInteger:= UsuarioLogado.Id;
-          ParamByName('VALOR_PAGO').AsFloat := 0;
-          ParamByName('PAGO').AsString      := 'N';
+          ParamByName('ID').AsInteger         := Codigo;
+          ParamByName('USUARIO_ID').AsInteger := UsuarioLogado.PessoaId;
+          ParamByName('VALOR_PAGO').AsFloat   := 0;
+          ParamByName('PAGO').AsString        := 'N';
 
         end;
 

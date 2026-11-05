@@ -3009,7 +3009,7 @@ begin
       loqry.SQL.Clear;
       loqry.SQL.Add(
         'ALTER TABLE PEDIDOS ADD CONSTRAINT FK_PEDIDOS_USUARIO ' +
-        'FOREIGN KEY (USUARIO_ID) REFERENCES USUARIOS (ID)'
+        'FOREIGN KEY (USUARIO_ID) REFERENCES PESSOAS (ID)'
       );
       loqry.ExecSQL;
 
@@ -3037,18 +3037,6 @@ begin
       cria_mensagem_no_memo(
         memo,
         'criado campo "USUARIO_ALTERACAO_ID" com sucesso na tabela PEDIDOS'
-      );
-
-      loqry.SQL.Clear;
-      loqry.SQL.Add(
-        'ALTER TABLE PEDIDOS ADD CONSTRAINT FK_PEDIDOS_USUARIO_ALTERACAO ' +
-        'FOREIGN KEY (USUARIO_ALTERACAO_ID) REFERENCES USUARIOS (ID)'
-      );
-      loqry.ExecSQL;
-
-      cria_mensagem_no_memo(
-        memo,
-        'criada FK_PEDIDOS_USUARIO_ALTERACAO com sucesso na tabela PEDIDOS'
       );
 
       prc_atualiza_versao_do_banco('2026.98.187');
