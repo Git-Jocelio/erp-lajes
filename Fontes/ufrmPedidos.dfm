@@ -2254,7 +2254,7 @@
   object qryUsuario: TFDQuery
     SQL.Strings = (
       'SELECT'
-      '    U.ID,'
+      '    P.ID,'
       '    P.NOME'
       'FROM USUARIOS U'
       'INNER JOIN PESSOAS P ON P.ID = U.PESSOA_ID'

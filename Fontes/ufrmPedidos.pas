@@ -1350,7 +1350,6 @@ begin
     if cbUsuario.checked then
       qry.ParamByName('USUARIO_ID').AsInteger := cbxUsuario.KeyValue;
 
-
   end;
   //ShowMessage(qry.SQL.Text);
 
@@ -1369,15 +1368,15 @@ begin
   qry.SQL.Clear;
   qry.SQL.Add( 'select                                              ');
   qry.SQL.Add( ' P.ID,                                              ');
-  qry.SQL.Add( ' P.NOSSO_NUMERO,                                      ');
-  qry.SQL.Add( ' P.ORCAMENTO,                                      ');
+  qry.SQL.Add( ' P.NOSSO_NUMERO,                                    ');
+  qry.SQL.Add( ' P.ORCAMENTO,                                       ');
   qry.SQL.Add( ' P.CLIENTE_ID,                                      ');
   qry.SQL.Add( ' PC.NOME AS NOME_CLIENTE,                           ');
-  qry.SQL.Add( ' PC.ENDERECO,                           ');
-  qry.SQL.Add( ' PC.NUMERO,                           ');
-  qry.SQL.Add( ' PC.BAIRRO,                           ');
-  qry.SQL.Add( ' PC.CIDADE,                           ');
-  qry.SQL.Add( ' PC.CEP,                           ');
+  qry.SQL.Add( ' PC.ENDERECO,                                       ');
+  qry.SQL.Add( ' PC.NUMERO,                                         ');
+  qry.SQL.Add( ' PC.BAIRRO,                                         ');
+  qry.SQL.Add( ' PC.CIDADE,                                         ');
+  qry.SQL.Add( ' PC.CEP,                                            ');
   qry.SQL.Add( ' P.VENDEDOR_ID,                                     ');
   qry.SQL.Add( ' PV.NOME AS NOME_VENDEDOR,                          ');
   qry.SQL.Add( ' E.NOME,                                            ');
@@ -1386,7 +1385,7 @@ begin
   qry.SQL.Add( ' E.CIDADE,                                          ');
   qry.SQL.Add( ' E.CEP,                                             ');
   qry.SQL.Add( ' P.DATA_EMISSAO,                                    ');
-  qry.SQL.Add( ' P.DATA_CONTABIL,                                    ');
+  qry.SQL.Add( ' P.DATA_CONTABIL,                                   ');
   qry.SQL.Add( ' P.DATA_ENTREGA,                                    ');
   qry.SQL.Add( ' P.SITUACAO,                                        ');
   qry.SQL.Add( ' P.VALOR_TOTAL_PEDIDO,                              ');
@@ -1483,7 +1482,7 @@ begin
   {cria um arquivo com o mesmo no da aplicação e troca a extensao para .ini}
   IniFile := ChangeFileExt(application.ExeName,'.ini');
 
-  Ini     := TIniFile.Create( IniFile );
+  Ini := TIniFile.Create( IniFile );
 
   if not FileExists(IniFile) then
   begin
@@ -1501,7 +1500,7 @@ begin
       mostrar_coluna_valor_pedido := Ini.ReadString('configuracao_tela_pedidos', 'mostrar_coluna_valor_pedido','' );
       mostrar_coluna_valor_pago   := Ini.ReadString('configuracao_tela_pedidos', 'mostrar_coluna_valor_pago','' );
       mostrar_coluna_resta        := Ini.ReadString('configuracao_tela_pedidos', 'mostrar_coluna_resta','');
-//  ShowMessage(mostrar_coluna_id_pedido+mostrar_coluna_nosso_numero+mostrar_coluna_valor_pedido+mostrar_coluna_valor_pago+mostrar_coluna_resta);
+      //ShowMessage(mostrar_coluna_id_pedido+mostrar_coluna_nosso_numero+mostrar_coluna_valor_pedido+mostrar_coluna_valor_pago+mostrar_coluna_resta);
 
       DBGrid1.Columns[0].Visible := uBiblioteca.SeSenao(mostrar_coluna_id_pedido = 'true', true,false);
       DBGrid1.Columns[1].Visible := uBiblioteca.SeSenao(mostrar_coluna_data_emissao = 'true', true,false);

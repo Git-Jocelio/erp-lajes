@@ -183,7 +183,8 @@ const
   //versao_app = 184;     // 21/07/2026mudança no layout do frmpedidoE
   //versao_app = 185;     // 22/07/2026 implementado relatorio de fornecedores
   //versao_app = 186;     // 24/07/2026 implementado relatorio de vendedores, clientes, prest. serv, transportadores
-  versao_app = 187; // implementado sistema de login e log de pedidos por usuario
+  //versao_app = 187; // implementado sistema de login e log de pedidos por usuario
+  versao_app = 188; // retirada de bug na pesquisa
 
 
 var

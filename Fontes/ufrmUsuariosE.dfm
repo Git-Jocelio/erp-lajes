@@ -8,7 +8,7 @@ inherited frmUsuariosE: TfrmUsuariosE
   TextHeight = 17
   inherited pnTitulo: TPanel
     Width = 600
-    ExplicitWidth = 591
+    ExplicitWidth = 596
     inherited lbl_titulo: TLabel
       Width = 600
       Height = 40
@@ -21,7 +21,7 @@ inherited frmUsuariosE: TfrmUsuariosE
     Width = 600
     Height = 304
     Align = alTop
-    ExplicitWidth = 591
+    ExplicitWidth = 596
     ExplicitHeight = 304
     object Label1: TLabel
       Left = 8
@@ -434,7 +434,7 @@ inherited frmUsuariosE: TfrmUsuariosE
     Top = 445
     Width = 600
     ExplicitTop = 444
-    ExplicitWidth = 591
+    ExplicitWidth = 596
     inherited pnl_botoes: TPanel
       Left = 100
       ExplicitLeft = 100
@@ -457,7 +457,7 @@ inherited frmUsuariosE: TfrmUsuariosE
     Font.Style = []
     ParentFont = False
     TabOrder = 3
-    ExplicitWidth = 591
+    ExplicitWidth = 596
     ExplicitHeight = 83
     object Label4: TLabel
       Left = 8
@@ -496,6 +496,7 @@ inherited frmUsuariosE: TfrmUsuariosE
       Top = 48
       Width = 150
       Height = 25
+      PasswordChar = '*'
       TabOrder = 1
     end
     object edt_cadastrado_em: TEdit
