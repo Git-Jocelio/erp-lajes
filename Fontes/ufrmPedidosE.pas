@@ -101,7 +101,6 @@ type
     DBEdit12: TDBEdit;
     dsLocalEntrega: TDataSource;
     qryLocalEntrega: TFDQuery;
-    Label28: TLabel;
     dsFormaPagto: TDataSource;
     qryFormaPagto: TFDQuery;
     pgc_principal: TPageControl;
@@ -270,15 +269,6 @@ type
     edt_nr_pedido: TPanel;
     edt_emissao: TPanel;
     edt_alteracao: TPanel;
-    edt_nome: TEdit;
-    edt_celular: TEdit;
-    edt_telefone: TEdit;
-    edt_cep: TEdit;
-    edt_endereco: TEdit;
-    edt_numero_entrega: TEdit;
-    edt_bairro: TEdit;
-    edt_cidade: TEdit;
-    edt_uf: TEdit;
     mm_obs_adm: TMemo;
     mm_obs_entrega: TMemo;
     edt_qtde_volumes: TEdit;
@@ -300,7 +290,6 @@ type
     rg_frete: TRadioGroup;
     edt_transportadora_id: TPanel;
     cb_orcamento: TCheckBox;
-    edt_complemento: TMemo;
     qry_recibos: TFDQuery;
     pnl_forma_pagto: TPanel;
     btn_busca_forma_pagto: TSpeedButton;
@@ -439,7 +428,6 @@ type
     Label49: TLabel;
     SpeedButton1: TSpeedButton;
     dbg_reforco_viga: TDBGrid;
-    SpeedButton2: TSpeedButton;
     TabCep: TFDMemTable;
     pnl_resumo: TPanel;
     Panel6: TPanel;
@@ -489,6 +477,21 @@ type
     edt_alterado_por: TPanel;
     qryUSUARIO_ID: TIntegerField;
     qryUSUARIO_ALTERACAO_ID: TIntegerField;
+    pnl_fundo_destinatario: TPanel;
+    pnl_L3: TPanel;
+    pnl_L2: TPanel;
+    pnl_L1: TPanel;
+    edt_cep: TEdit;
+    edt_uf: TEdit;
+    edt_complemento: TMemo;
+    SpeedButton2: TSpeedButton;
+    edt_cidade: TEdit;
+    edt_telefone: TEdit;
+    edt_bairro: TEdit;
+    edt_celular: TEdit;
+    edt_numero_entrega: TEdit;
+    edt_nome: TEdit;
+    edt_endereco: TEdit;
     procedure btnNovoClienteClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
 

@@ -180,11 +180,12 @@ const
   //versao_app = 181;   // frmPedidoBaixa : pesquisar por número de pedido
   //versao_app = 182;   // frmEstoquesMovimentacaoE : atualiza saldo de pedidos aberto e aguardando ao fazer um lançamento
   //versao_app = 183;   // 20/07/2026 Implementado botão para buscar endereço pelo CEP
-  //versao_app = 184;     // 21/07/2026mudança no layout do frmpedidoE
-  //versao_app = 185;     // 22/07/2026 implementado relatorio de fornecedores
-  //versao_app = 186;     // 24/07/2026 implementado relatorio de vendedores, clientes, prest. serv, transportadores
-  //versao_app = 187; // implementado sistema de login e log de pedidos por usuario
-  versao_app = 188; // retirada de bug na pesquisa
+  //versao_app = 184;   // 21/07/2026mudança no layout do frmpedidoE
+  //versao_app = 185;   // 22/07/2026 implementado relatorio de fornecedores
+  //versao_app = 186;   // 24/07/2026 implementado relatorio de vendedores, clientes, prest. serv, transportadores
+  //versao_app = 187;   // 10/11/2026 implementado sistema de login e log de pedidos por usuario
+  //versao_app = 188;   // 10/11/2026 retirada de bug na pesquisa
+  versao_app = 189;     // 12/11/2026 frmPedidosE : deixar a dados da entrega responsivel
 
 
 var

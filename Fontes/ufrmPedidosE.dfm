@@ -6,6 +6,8 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
+  ExplicitLeft = -1
+  ExplicitTop = -43
   ExplicitWidth = 1303
   ExplicitHeight = 702
   TextHeight = 17
@@ -140,7 +142,7 @@ inherited frmPedidosE: TfrmPedidosE
       Top = 55
       Width = 1080
       Height = 190
-      ActivePage = tbVenda
+      ActivePage = tbDestinatario
       Align = alTop
       TabOrder = 0
       object tbVenda: TTabSheet
@@ -650,214 +652,341 @@ inherited frmPedidosE: TfrmPedidosE
             Caption = 'Local de entrega diferente do cadastro'
             ImageIndex = 1
             OnShow = tbs_local_entregaShow
-            object Label28: TLabel
-              Left = 7
-              Top = 98
-              Width = 77
-              Height = 15
-              Caption = 'Complemento'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object SpeedButton2: TSpeedButton
-              Left = 820
-              Top = 16
-              Width = 27
-              Height = 24
-              Glyph.Data = {
-                36030000424D3603000000000000360000002800000010000000100000000100
-                1800000000000003000000000000000000000000000000000000FF00FF314B62
-                AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-                FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
-                00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
-                106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-                FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
-                00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-                37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-                FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
-                00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-                FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
-                9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
-                E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
-                FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
-                FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
-                B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
-                FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
-                DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
-                B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
-                FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
-                BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
-                D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
-                FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
-                6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-                00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
-              OnClick = SpeedButton2Click
-            end
-            object edt_nome: TEdit
-              Left = 5
-              Top = 16
-              Width = 476
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 50
-              ParentFont = False
+            object pnl_fundo_destinatario: TPanel
+              Left = 0
+              Top = 0
+              Width = 1064
+              Height = 126
+              Align = alClient
+              BevelOuter = bvNone
               TabOrder = 0
-              TextHint = 'Informe o nome do cliente'
-            end
-            object edt_celular: TEdit
-              Left = 487
-              Top = 16
-              Width = 161
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 50
-              ParentFont = False
-              TabOrder = 1
-              TextHint = 'Celular'
-            end
-            object edt_telefone: TEdit
-              Left = 654
-              Top = 16
-              Width = 160
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 50
-              ParentFont = False
-              TabOrder = 2
-              TextHint = 'Telefone'
-            end
-            object edt_cep: TEdit
-              Left = 849
-              Top = 16
-              Width = 95
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 9
-              ParentFont = False
-              TabOrder = 3
-              TextHint = 'CEP'
-            end
-            object edt_endereco: TEdit
-              Left = 6
-              Top = 60
-              Width = 443
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 100
-              ParentFont = False
-              TabOrder = 4
-              TextHint = 'Endere'#231'o'
-            end
-            object edt_numero_entrega: TEdit
-              Left = 455
-              Top = 60
-              Width = 112
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 20
-              ParentFont = False
-              TabOrder = 5
-              TextHint = 'N'#250'mero'
-            end
-            object edt_bairro: TEdit
-              Left = 573
-              Top = 60
-              Width = 179
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 55
-              ParentFont = False
-              TabOrder = 6
-              TextHint = 'Bairro'
-            end
-            object edt_cidade: TEdit
-              Left = 756
-              Top = 60
-              Width = 144
-              Height = 23
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 30
-              ParentFont = False
-              TabOrder = 7
-              TextHint = 'Cidade'
-            end
-            object edt_uf: TEdit
-              Left = 905
-              Top = 60
-              Width = 39
-              Height = 23
-              CharCase = ecUpperCase
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 2
-              ParentFont = False
-              TabOrder = 8
-              Text = 'SP'
-              TextHint = 'SP'
-            end
-            object edt_complemento: TMemo
-              Left = 85
-              Top = 96
-              Width = 859
-              Height = 22
-              BevelInner = bvNone
-              Color = clInfoBk
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              MaxLength = 100
-              ParentFont = False
-              TabOrder = 9
+              ExplicitLeft = 320
+              ExplicitWidth = 744
+              object pnl_L3: TPanel
+                Left = 0
+                Top = 82
+                Width = 1064
+                Height = 44
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                ExplicitLeft = 32
+                ExplicitTop = 56
+                ExplicitWidth = 185
+                ExplicitHeight = 41
+                object edt_complemento: TMemo
+                  AlignWithMargins = True
+                  Left = 5
+                  Top = 8
+                  Width = 1054
+                  Height = 31
+                  Margins.Left = 5
+                  Margins.Top = 8
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alClient
+                  BevelInner = bvNone
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 100
+                  ParentFont = False
+                  TabOrder = 0
+                  ExplicitLeft = -745
+                  ExplicitTop = 19
+                  ExplicitWidth = 859
+                  ExplicitHeight = 22
+                end
+              end
+              object pnl_L2: TPanel
+                Left = 0
+                Top = 41
+                Width = 1064
+                Height = 41
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 1
+                ExplicitTop = 8
+                ExplicitWidth = 114
+                object edt_uf: TEdit
+                  AlignWithMargins = True
+                  Left = 1020
+                  Top = 6
+                  Width = 39
+                  Height = 30
+                  Margins.Left = 5
+                  Margins.Top = 6
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alRight
+                  CharCase = ecUpperCase
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 2
+                  ParentFont = False
+                  TabOrder = 0
+                  Text = 'SP'
+                  TextHint = 'SP'
+                  ExplicitLeft = 75
+                  ExplicitTop = 18
+                  ExplicitHeight = 23
+                end
+                object edt_cidade: TEdit
+                  AlignWithMargins = True
+                  Left = 871
+                  Top = 6
+                  Width = 144
+                  Height = 30
+                  Margins.Left = 2
+                  Margins.Top = 6
+                  Margins.Right = 0
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 30
+                  ParentFont = False
+                  TabOrder = 1
+                  TextHint = 'Cidade...'
+                  ExplicitLeft = 56
+                  ExplicitTop = 18
+                  ExplicitHeight = 23
+                end
+                object edt_bairro: TEdit
+                  AlignWithMargins = True
+                  Left = 687
+                  Top = 6
+                  Width = 179
+                  Height = 30
+                  Margins.Left = 0
+                  Margins.Top = 6
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 55
+                  ParentFont = False
+                  TabOrder = 2
+                  TextHint = 'Bairro...'
+                  ExplicitLeft = -27
+                  ExplicitTop = 13
+                  ExplicitHeight = 23
+                end
+                object edt_numero_entrega: TEdit
+                  AlignWithMargins = True
+                  Left = 570
+                  Top = 6
+                  Width = 112
+                  Height = 30
+                  Margins.Left = 0
+                  Margins.Top = 6
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 20
+                  ParentFont = False
+                  TabOrder = 3
+                  TextHint = 'N'#250'mero da Obra'
+                  ExplicitLeft = 10
+                  ExplicitTop = 12
+                  ExplicitHeight = 23
+                end
+                object edt_endereco: TEdit
+                  AlignWithMargins = True
+                  Left = 5
+                  Top = 6
+                  Width = 560
+                  Height = 30
+                  Margins.Left = 5
+                  Margins.Top = 6
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alClient
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 100
+                  ParentFont = False
+                  TabOrder = 4
+                  TextHint = 'Endere'#231'o da entrega'
+                  ExplicitLeft = 6
+                  ExplicitTop = 18
+                  ExplicitWidth = 443
+                  ExplicitHeight = 23
+                end
+              end
+              object pnl_L1: TPanel
+                Left = 0
+                Top = 0
+                Width = 1064
+                Height = 41
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 2
+                ExplicitWidth = 288
+                object SpeedButton2: TSpeedButton
+                  AlignWithMargins = True
+                  Left = 913
+                  Top = 5
+                  Width = 48
+                  Height = 31
+                  Margins.Top = 5
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Glyph.Data = {
+                    36030000424D3603000000000000360000002800000010000000100000000100
+                    1800000000000003000000000000000000000000000000000000FF00FF314B62
+                    AC7D7EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                    FFFF00FFFF00FFFF00FF5084B20F6FE1325F8CB87E7AFF00FFFF00FFFF00FFFF
+                    00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32A0FE37A1FF
+                    106FE2325F8BB67D79FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                    FFFF00FFFF00FFFF00FFFF00FF37A4FE379FFF0E6DDE355F89BB7F79FF00FFFF
+                    00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+                    37A4FE359EFF0F6FDE35608BA67B7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+                    FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF38A5FE329DFF156DCE444F5BFF
+                    00FF9C6B65AF887BAF887EAA8075FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+                    FF00FFFF00FF3BABFFA1CAE7AD8679A98373E0CFB1FFFFDAFFFFDDFCF8CFCCB2
+                    9FA1746BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC0917DFC
+                    E9ACFFFFCCFFFFCFFFFFD0FFFFDEFFFFFAE3D3D1996965FF00FFFF00FFFF00FF
+                    FF00FFFF00FFFF00FFFF00FFB08978FAD192FEF4C2FFFFD0FFFFDAFFFFF6FFFF
+                    FCFFFFFCB69384FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB08978FEDA97ED
+                    B478FBEEBBFFFFD3FFFFDCFFFFF4FFFFF4FFFFE2E9DDBCA67B73FF00FFFF00FF
+                    FF00FFFF00FFFF00FFB18A78FFDE99E9A167F4D199FEFCCCFFFFD5FFFFDAFFFF
+                    DCFFFFD7EFE6C5A97E75FF00FFFF00FFFF00FFFF00FFFF00FFAA7F73FAE0A4F0
+                    B778EEBA7BF6DDA6FEFBCCFFFFD3FFFFD1FFFFD7D9C5A7A3756CFF00FFFF00FF
+                    FF00FFFF00FFFF00FFFF00FFCEB293FFFEDDF4D1A5EEBA7BF2C78FF8E1ABFCF0
+                    BAFCFACAA3776FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFA1746BE1
+                    D4D3FFFEEEF7CC8CF0B473F7C788FCE3A5C2A088A5776CFF00FFFF00FFFF00FF
+                    FF00FFFF00FFFF00FFFF00FFFF00FF986865BA9587EAD7A4EAD59EE0C097A577
+                    6CA5776CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+                    00FFFF00FFA77E70A98073A4786EFF00FFFF00FFFF00FFFF00FF}
+                  OnClick = SpeedButton2Click
+                  ExplicitLeft = 144
+                  ExplicitTop = 1
+                  ExplicitHeight = 39
+                end
+                object edt_cep: TEdit
+                  AlignWithMargins = True
+                  Left = 964
+                  Top = 5
+                  Width = 95
+                  Height = 31
+                  Margins.Left = 0
+                  Margins.Top = 5
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 9
+                  ParentFont = False
+                  TabOrder = 0
+                  TextHint = 'Informe o Cep e Tecle ENTER'
+                  ExplicitLeft = 192
+                  ExplicitTop = 1
+                  ExplicitHeight = 39
+                end
+                object edt_telefone: TEdit
+                  AlignWithMargins = True
+                  Left = 750
+                  Top = 5
+                  Width = 160
+                  Height = 31
+                  Margins.Left = 2
+                  Margins.Top = 5
+                  Margins.Right = 0
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 50
+                  ParentFont = False
+                  TabOrder = 1
+                  TextHint = 'Telefone do cliente'
+                  ExplicitLeft = -16
+                  ExplicitTop = 12
+                  ExplicitHeight = 23
+                end
+                object edt_celular: TEdit
+                  AlignWithMargins = True
+                  Left = 584
+                  Top = 5
+                  Width = 161
+                  Height = 31
+                  Margins.Left = 0
+                  Margins.Top = 5
+                  Margins.Bottom = 5
+                  Align = alRight
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 50
+                  ParentFont = False
+                  TabOrder = 2
+                  TextHint = 'Celular do cliente'
+                  ExplicitLeft = -9
+                  ExplicitTop = 12
+                  ExplicitHeight = 23
+                end
+                object edt_nome: TEdit
+                  AlignWithMargins = True
+                  Left = 5
+                  Top = 5
+                  Width = 574
+                  Height = 31
+                  Margins.Left = 5
+                  Margins.Top = 5
+                  Margins.Right = 5
+                  Margins.Bottom = 5
+                  Align = alClient
+                  Color = clInfoBk
+                  Font.Charset = ANSI_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  MaxLength = 50
+                  ParentFont = False
+                  TabOrder = 3
+                  TextHint = 'Informe o nome do cliente'
+                  ExplicitHeight = 23
+                end
+              end
             end
           end
         end
@@ -7919,7 +8048,7 @@ inherited frmPedidosE: TfrmPedidosE
   end
   object ImageList1: TImageList
     Left = 600
-    Top = 217
+    Top = 281
     Bitmap = {
       494C010101000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
@@ -8069,6 +8198,6 @@ inherited frmPedidosE: TfrmPedidosE
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 569
-    Top = 231
+    Top = 287
   end
 end
