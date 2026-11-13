@@ -1074,6 +1074,7 @@
           Width = 1057
           Height = 181
           PopupMenu = ppm_financeiro
+          OnDrawColumnCell = DBGrid1DrawColumnCell
           OnDblClick = DBGrid1DblClick
           Columns = <
             item
@@ -1247,9 +1248,6 @@
         inherited pnl_resultado: TPanel
           Width = 1057
           ExplicitWidth = 1057
-          inherited lbl_resultado: TLabel
-            Height = 41
-          end
         end
       end
     end
@@ -1263,7 +1261,6 @@
     end
     inherited lbl_titulo: TLabel
       Width = 231
-      Height = 56
       Caption = 'CONTROLE DE PEDIDOS'
       ExplicitWidth = 231
     end

@@ -154,6 +154,8 @@ type
     procedure edNumeroPedidoKeyPress(Sender: TObject; var Key: Char);
     procedure btn_pesquisar_concretoClick(Sender: TObject);
     procedure menu_imprimirClick(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   private
     FsqlPadrao: string;
@@ -457,6 +459,33 @@ begin
 //  inherited;
   if not qry.IsEmpty then btnAlterar.Click;
 end;
+
+procedure TfrmPedidos.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  Orcamento: string;
+begin
+  Orcamento := UpperCase(Trim(
+    DBGrid1.DataSource.DataSet.FieldByName('orcamento').AsString
+  ));
+
+  // Define a cor conforme o orçamento
+  if Orcamento = 'S' then
+    DBGrid1.Canvas.Brush.Color := $00D9F2D9  // Verde claro
+  else
+    DBGrid1.Canvas.Brush.Color := clWhite;
+
+  // Mantém a cor de seleção
+  if gdSelected in State then
+    DBGrid1.Canvas.Brush.Color := clHighlight;
+
+  // Pinta a célula
+  DBGrid1.Canvas.FillRect(Rect);
+
+  // Desenha o conteúdo
+  DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
 
 procedure TfrmPedidos.DBGrid1TitleClick(Column: TColumn);
 begin

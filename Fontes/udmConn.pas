@@ -185,7 +185,8 @@ const
   //versao_app = 186;   // 24/07/2026 implementado relatorio de vendedores, clientes, prest. serv, transportadores
   //versao_app = 187;   // 10/11/2026 implementado sistema de login e log de pedidos por usuario
   //versao_app = 188;   // 10/11/2026 retirada de bug na pesquisa
-  versao_app = 189;     // 12/11/2026 frmPedidosE : deixar a dados da entrega responsivel
+  //versao_app = 189;     // 12/11/2026 frmPedidosE : deixar a dados da entrega responsivel
+  versao_app = 190;     // 12/11/2026 frmPedidos : marcar a linha com a cor verde quando for um orcamento
 
 
 var
