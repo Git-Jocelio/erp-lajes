@@ -6,8 +6,6 @@ inherited frmPedidosE: TfrmPedidosE
   ClientWidth = 1297
   Position = poDesigned
   ShowHint = True
-  ExplicitLeft = -1
-  ExplicitTop = -43
   ExplicitWidth = 1303
   ExplicitHeight = 702
   TextHeight = 17
@@ -142,7 +140,7 @@ inherited frmPedidosE: TfrmPedidosE
       Top = 55
       Width = 1080
       Height = 190
-      ActivePage = tbDestinatario
+      ActivePage = tbVenda
       Align = alTop
       TabOrder = 0
       object tbVenda: TTabSheet
@@ -660,8 +658,6 @@ inherited frmPedidosE: TfrmPedidosE
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 0
-              ExplicitLeft = 320
-              ExplicitWidth = 744
               object pnl_L3: TPanel
                 Left = 0
                 Top = 82
@@ -669,11 +665,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Height = 44
                 Align = alClient
                 BevelOuter = bvNone
-                TabOrder = 0
-                ExplicitLeft = 32
-                ExplicitTop = 56
-                ExplicitWidth = 185
-                ExplicitHeight = 41
+                TabOrder = 2
                 object edt_complemento: TMemo
                   AlignWithMargins = True
                   Left = 5
@@ -695,10 +687,6 @@ inherited frmPedidosE: TfrmPedidosE
                   MaxLength = 100
                   ParentFont = False
                   TabOrder = 0
-                  ExplicitLeft = -745
-                  ExplicitTop = 19
-                  ExplicitWidth = 859
-                  ExplicitHeight = 22
                 end
               end
               object pnl_L2: TPanel
@@ -709,8 +697,6 @@ inherited frmPedidosE: TfrmPedidosE
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitTop = 8
-                ExplicitWidth = 114
                 object edt_uf: TEdit
                   AlignWithMargins = True
                   Left = 1020
@@ -731,11 +717,9 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 2
                   ParentFont = False
-                  TabOrder = 0
+                  TabOrder = 4
                   Text = 'SP'
                   TextHint = 'SP'
-                  ExplicitLeft = 75
-                  ExplicitTop = 18
                   ExplicitHeight = 23
                 end
                 object edt_cidade: TEdit
@@ -757,10 +741,8 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 30
                   ParentFont = False
-                  TabOrder = 1
+                  TabOrder = 3
                   TextHint = 'Cidade...'
-                  ExplicitLeft = 56
-                  ExplicitTop = 18
                   ExplicitHeight = 23
                 end
                 object edt_bairro: TEdit
@@ -783,8 +765,6 @@ inherited frmPedidosE: TfrmPedidosE
                   ParentFont = False
                   TabOrder = 2
                   TextHint = 'Bairro...'
-                  ExplicitLeft = -27
-                  ExplicitTop = 13
                   ExplicitHeight = 23
                 end
                 object edt_numero_entrega: TEdit
@@ -806,10 +786,8 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 20
                   ParentFont = False
-                  TabOrder = 3
+                  TabOrder = 1
                   TextHint = 'N'#250'mero da Obra'
-                  ExplicitLeft = 10
-                  ExplicitTop = 12
                   ExplicitHeight = 23
                 end
                 object edt_endereco: TEdit
@@ -831,11 +809,8 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 100
                   ParentFont = False
-                  TabOrder = 4
+                  TabOrder = 0
                   TextHint = 'Endere'#231'o da entrega'
-                  ExplicitLeft = 6
-                  ExplicitTop = 18
-                  ExplicitWidth = 443
                   ExplicitHeight = 23
                 end
               end
@@ -846,8 +821,7 @@ inherited frmPedidosE: TfrmPedidosE
                 Height = 41
                 Align = alTop
                 BevelOuter = bvNone
-                TabOrder = 2
-                ExplicitWidth = 288
+                TabOrder = 0
                 object SpeedButton2: TSpeedButton
                   AlignWithMargins = True
                   Left = 913
@@ -908,11 +882,9 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 9
                   ParentFont = False
-                  TabOrder = 0
+                  TabOrder = 3
                   TextHint = 'Informe o Cep e Tecle ENTER'
-                  ExplicitLeft = 192
-                  ExplicitTop = 1
-                  ExplicitHeight = 39
+                  ExplicitHeight = 23
                 end
                 object edt_telefone: TEdit
                   AlignWithMargins = True
@@ -933,10 +905,8 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 50
                   ParentFont = False
-                  TabOrder = 1
+                  TabOrder = 2
                   TextHint = 'Telefone do cliente'
-                  ExplicitLeft = -16
-                  ExplicitTop = 12
                   ExplicitHeight = 23
                 end
                 object edt_celular: TEdit
@@ -957,10 +927,8 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 50
                   ParentFont = False
-                  TabOrder = 2
+                  TabOrder = 1
                   TextHint = 'Celular do cliente'
-                  ExplicitLeft = -9
-                  ExplicitTop = 12
                   ExplicitHeight = 23
                 end
                 object edt_nome: TEdit
@@ -982,7 +950,7 @@ inherited frmPedidosE: TfrmPedidosE
                   Font.Style = []
                   MaxLength = 50
                   ParentFont = False
-                  TabOrder = 3
+                  TabOrder = 0
                   TextHint = 'Informe o nome do cliente'
                   ExplicitHeight = 23
                 end

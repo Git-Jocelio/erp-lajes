@@ -6253,6 +6253,7 @@ procedure TfrmPedidosE.tbs_local_entregaShow(Sender: TObject);
 begin
   inherited;
   tbVenda.Height := 200;
+  edt_nome.SetFocus;
 end;
 
 function TfrmPedidosE.validar: boolean;

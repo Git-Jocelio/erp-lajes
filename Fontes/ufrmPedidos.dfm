@@ -371,6 +371,7 @@
             Height = 17
             Cursor = crHandPoint
             Caption = 'Emiss'#227'o'
+            Checked = True
             DragCursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
@@ -378,6 +379,7 @@
             Font.Name = 'Segoe UI'
             Font.Style = []
             ParentFont = False
+            State = cbChecked
             TabOrder = 0
             OnClick = cbEmissaoClick
           end
@@ -1043,36 +1045,37 @@
     end
   end
   inherited StatusBar: TStatusBar
-    Top = 514
+    Top = 512
     Width = 1105
-    Height = 27
+    Height = 29
     Font.Height = -13
     Panels = <
       item
         Width = 1000
       end>
-    ExplicitTop = 514
+    Visible = False
+    ExplicitTop = 512
     ExplicitWidth = 1105
-    ExplicitHeight = 27
+    ExplicitHeight = 29
   end
   inherited PageControl1: TPageControl
     Top = 272
     Width = 1105
-    Height = 242
+    Height = 165
     ExplicitTop = 272
     ExplicitWidth = 1105
-    ExplicitHeight = 242
+    ExplicitHeight = 165
     inherited TabSheet1: TTabSheet
       ExplicitWidth = 1097
-      ExplicitHeight = 232
+      ExplicitHeight = 155
       inherited Panel5: TPanel
         Width = 1097
-        Height = 232
+        Height = 155
         ExplicitWidth = 1097
-        ExplicitHeight = 232
+        ExplicitHeight = 155
         inherited DBGrid1: TDBGrid
           Width = 1057
-          Height = 181
+          Height = 104
           PopupMenu = ppm_financeiro
           OnDrawColumnCell = DBGrid1DrawColumnCell
           OnDblClick = DBGrid1DblClick
@@ -1248,6 +1251,9 @@
         inherited pnl_resultado: TPanel
           Width = 1057
           ExplicitWidth = 1057
+          inherited lbl_resultado: TLabel
+            Height = 41
+          end
         end
       end
     end
@@ -1261,12 +1267,416 @@
     end
     inherited lbl_titulo: TLabel
       Width = 231
+      Height = 56
       Caption = 'CONTROLE DE PEDIDOS'
       ExplicitWidth = 231
     end
     inherited pnl_separa_topo: TPanel
       Width = 1105
       ExplicitWidth = 1105
+    end
+  end
+  object pnl_rodape: TPanel [5]
+    Left = 0
+    Top = 437
+    Width = 1105
+    Height = 75
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 5
+    object pnl_rodape_L1: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 1105
+      Height = 41
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Panel3: TPanel
+        AlignWithMargins = True
+        Left = 20
+        Top = 0
+        Width = 145
+        Height = 41
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        BevelOuter = bvNone
+        TabOrder = 0
+        object lbl_pedido_orcamento: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 5
+          Width = 145
+          Height = 13
+          Margins.Left = 0
+          Margins.Top = 5
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alTop
+          Caption = 'N'#250'mero do Pedido'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 97
+        end
+        object lbl_nr_Pedido: TLabel
+          Left = 0
+          Top = 18
+          Width = 145
+          Height = 23
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = '25365'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 35
+          ExplicitHeight = 17
+        end
+      end
+      object Panel4: TPanel
+        Left = 885
+        Top = 0
+        Width = 220
+        Height = 41
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 1
+        object Label15: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 220
+          Height = 13
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alTop
+          Caption = 'Pedido Alterado por'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 104
+        end
+        object lbl_nm_ultimo_alterado: TLabel
+          Left = 0
+          Top = 13
+          Width = 220
+          Height = 28
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = 'Ana Serafim'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 73
+          ExplicitHeight = 17
+        end
+      end
+      object Panel6: TPanel
+        Left = 712
+        Top = 0
+        Width = 173
+        Height = 41
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 2
+        object Label9: TLabel
+          Left = 424
+          Top = 5
+          Width = 84
+          Height = 13
+          Caption = 'Data da Emiss'#227'o'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label10: TLabel
+          Left = 424
+          Top = 20
+          Width = 60
+          Height = 17
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Caption = '15/11/2026'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label11: TLabel
+          Left = 0
+          Top = 0
+          Width = 173
+          Height = 13
+          Align = alTop
+          Caption = 'Data da '#218'ltima Altera'#231#227'o'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 127
+        end
+        object lbl_dt_ult_alteracao: TLabel
+          Left = 0
+          Top = 13
+          Width = 173
+          Height = 28
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = '15/11/2026'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 60
+          ExplicitHeight = 17
+        end
+      end
+      object Panel7: TPanel
+        Left = 165
+        Top = 0
+        Width = 197
+        Height = 41
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 3
+        object Label17: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 5
+          Width = 197
+          Height = 13
+          Margins.Left = 0
+          Margins.Top = 5
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alTop
+          Caption = 'Vendedor'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 50
+        end
+        object lbl_nm_vendedor: TLabel
+          Left = 0
+          Top = 18
+          Width = 197
+          Height = 23
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = 'Joc'#233'lio G. da Silva'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 106
+          ExplicitHeight = 17
+        end
+      end
+      object Panel10: TPanel
+        Left = 362
+        Top = 0
+        Width = 350
+        Height = 41
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 4
+        object Label13: TLabel
+          Left = 0
+          Top = 0
+          Width = 350
+          Height = 13
+          Align = alTop
+          Caption = 'Emissor do Pedido'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 95
+        end
+        object lbl_nm_emissor: TLabel
+          Left = 0
+          Top = 13
+          Width = 350
+          Height = 28
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = 'Ana Serafim'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 73
+          ExplicitHeight = 17
+        end
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Top = 41
+      Width = 1105
+      Height = 34
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
+      object Panel8: TPanel
+        Left = 362
+        Top = 0
+        Width = 743
+        Height = 34
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 0
+        object Label19: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 743
+          Height = 15
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alTop
+          Caption = 'Endere'#231'o de Entrega'
+          ExplicitWidth = 108
+        end
+        object lbl_end_entrega: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 15
+          Width = 743
+          Height = 19
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = 'Avenida Paulista, 1009, Centro, S'#227'o Paulo -SP'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 272
+          ExplicitHeight = 17
+        end
+      end
+      object Panel9: TPanel
+        AlignWithMargins = True
+        Left = 20
+        Top = 0
+        Width = 342
+        Height = 34
+        Margins.Left = 20
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 1
+        object Label7: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 342
+          Height = 13
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alTop
+          Caption = 'Nome Destinat'#225'ro'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 93
+        end
+        object lbl_nm_destinatatio: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 13
+          Width = 342
+          Height = 21
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alClient
+          Caption = 'Jos'#233' da Silva Guimar'#227'es'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Segoe UI Semibold'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitWidth = 144
+          ExplicitHeight = 17
+        end
+      end
     end
   end
   inherited ds: TDataSource
@@ -1276,73 +1686,242 @@
   inherited qry: TFDQuery
     Filtered = True
     FormatOptions.AssignedValues = [fvFmtDisplayNumeric]
+    SQL.Strings = (
+      'SELECT'
+      '    P.ID,'
+      '    P.ORCAMENTO,'
+      '    P.NOSSO_NUMERO,'
+      '    P.CLIENTE_ID,'
+      '    PC.NOME AS NOME_CLIENTE,'
+      '    COALESCE(PLE.NOME, PC.NOME) AS NOME_ENTREGA,'
+      '    PC.ENDERECO AS ENDERECO_CLIENTE,'
+      '    COALESCE(PLE.ENDERECO, PC.ENDERECO) AS ENDERECO_ENTREGA,'
+      '    PC.NUMERO AS NUMERO_CLIENTE,'
+      '    COALESCE(PLE.NUMERO, PC.NUMERO) AS NUMERO_ENTREGA,'
+      '    PC.BAIRRO AS BAIRRO_CLIENTE,'
+      '    COALESCE(PLE.BAIRRO, PC.BAIRRO) AS BAIRRO_ENTREGA,'
+      '    PC.CIDADE AS CIDADE_CLIENTE,'
+      '    COALESCE(PLE.CIDADE, PC.CIDADE) AS CIDADE_ENTREGA,'
+      '    PC.CEP,'
+      '    P.VENDEDOR_ID,'
+      '    PV.NOME AS NOME_VENDEDOR,'
+      '    P.USUARIO_ID,'
+      '    PU.NOME AS NOME_USUARIO,'
+      '    P.USUARIO_ALTERACAO_ID,'
+      '    PUA.NOME AS NOME_USUARIO_ALTERACAO,'
+      '    P.DATA_EMISSAO,'
+      '    P.DATA_ALTERACAO,'
+      '    P.DATA_CONTABIL,'
+      '    P.DATA_ENTREGA,'
+      '    P.SITUACAO,'
+      '    P.VALOR_TOTAL_PEDIDO,'
+      '    P.VALOR_PAGO,'
+      '    P.PAGO,'
+      '    (P.VALOR_TOTAL_PEDIDO - P.VALOR_PAGO) AS RESTA'
+      'FROM PEDIDOS P'
+      'INNER JOIN CLIENTES C'
+      '    ON C.PESSOA_ID = P.CLIENTE_ID'
+      'INNER JOIN PESSOAS PC'
+      '    ON PC.ID = C.PESSOA_ID'
+      'INNER JOIN VENDEDORES V'
+      '    ON V.PESSOA_ID = P.VENDEDOR_ID'
+      'INNER JOIN PESSOAS PV'
+      '    ON PV.ID = V.PESSOA_ID'
+      'LEFT JOIN PEDIDOS_LOCAL_ENTREGA PLE'
+      '    ON PLE.PEDIDO_ID = P.ID'
+      'LEFT JOIN PESSOAS PU'
+      '    ON PU.ID = P.USUARIO_ID'
+      'LEFT JOIN PESSOAS PUA'
+      '    ON PUA.ID = P.USUARIO_ALTERACAO_ID')
     Left = 543
     Top = 391
     object qryID: TIntegerField
       FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object qryORCAMENTO: TStringField
       FieldName = 'ORCAMENTO'
+      Origin = 'ORCAMENTO'
+      Size = 1
     end
     object qryNOSSO_NUMERO: TStringField
       FieldName = 'NOSSO_NUMERO'
+      Origin = 'NOSSO_NUMERO'
     end
     object qryCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
+      Origin = 'CLIENTE_ID'
     end
     object qryNOME_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
       FieldName = 'NOME_CLIENTE'
-      Size = 120
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
-    object qryENDERECO: TStringField
-      FieldName = 'ENDERECO'
+    object qryNOME_ENTREGA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME_ENTREGA'
+      Origin = 'NOME_ENTREGA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
-    object qryNUMERO: TStringField
-      FieldName = 'NUMERO'
+    object qryENDERECO_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ENDERECO_CLIENTE'
+      Origin = 'ENDERECO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
-    object qryBAIRRO: TStringField
-      FieldName = 'BAIRRO'
+    object qryENDERECO_ENTREGA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ENDERECO_ENTREGA'
+      Origin = 'ENDERECO_ENTREGA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
-    object qryCIDADE: TStringField
-      FieldName = 'CIDADE'
+    object qryNUMERO_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NUMERO_CLIENTE'
+      Origin = 'NUMERO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 10
+    end
+    object qryNUMERO_ENTREGA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NUMERO_ENTREGA'
+      Origin = 'NUMERO_ENTREGA'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object qryBAIRRO_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'BAIRRO_CLIENTE'
+      Origin = 'BAIRRO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 30
+    end
+    object qryBAIRRO_ENTREGA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'BAIRRO_ENTREGA'
+      Origin = 'BAIRRO_ENTREGA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 55
+    end
+    object qryCIDADE_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CIDADE_CLIENTE'
+      Origin = 'CIDADE'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 30
+    end
+    object qryCIDADE_ENTREGA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CIDADE_ENTREGA'
+      Origin = 'CIDADE_ENTREGA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 30
     end
     object qryCEP: TStringField
+      AutoGenerateValue = arDefault
       FieldName = 'CEP'
+      Origin = 'CEP'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 9
     end
     object qryVENDEDOR_ID: TIntegerField
       FieldName = 'VENDEDOR_ID'
+      Origin = 'VENDEDOR_ID'
     end
     object qryNOME_VENDEDOR: TStringField
+      AutoGenerateValue = arDefault
       FieldName = 'NOME_VENDEDOR'
-      Size = 30
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
     object qryDATA_EMISSAO: TDateField
       FieldName = 'DATA_EMISSAO'
+      Origin = 'DATA_EMISSAO'
     end
     object qryDATA_CONTABIL: TDateField
       FieldName = 'DATA_CONTABIL'
+      Origin = 'DATA_CONTABIL'
     end
     object qryDATA_ENTREGA: TDateField
       FieldName = 'DATA_ENTREGA'
+      Origin = 'DATA_ENTREGA'
     end
     object qrySITUACAO: TStringField
       FieldName = 'SITUACAO'
+      Origin = 'SITUACAO'
       Size = 15
     end
     object qryVALOR_TOTAL_PEDIDO: TCurrencyField
       FieldName = 'VALOR_TOTAL_PEDIDO'
+      Origin = 'VALOR_TOTAL_PEDIDO'
       DisplayFormat = '0.00'
     end
     object qryVALOR_PAGO: TCurrencyField
       FieldName = 'VALOR_PAGO'
+      Origin = 'VALOR_PAGO'
       DisplayFormat = '0.00'
     end
     object qryPAGO: TStringField
       FieldName = 'PAGO'
+      Origin = 'PAGO'
+      Size = 1
     end
     object qryRESTA: TFMTBCDField
+      AutoGenerateValue = arDefault
       FieldName = 'RESTA'
+      Origin = 'RESTA'
+      ProviderFlags = []
+      ReadOnly = True
       DisplayFormat = '0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qryDATA_ALTERACAO: TDateField
+      FieldName = 'DATA_ALTERACAO'
+      Origin = 'DATA_ALTERACAO'
+    end
+    object qryUSUARIO_ID: TIntegerField
+      FieldName = 'USUARIO_ID'
+      Origin = 'USUARIO_ID'
+    end
+    object qryNOME_USUARIO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME_USUARIO'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qryUSUARIO_ALTERACAO_ID: TIntegerField
+      FieldName = 'USUARIO_ALTERACAO_ID'
+      Origin = 'USUARIO_ALTERACAO_ID'
+    end
+    object qryNOME_USUARIO_ALTERACAO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NOME_USUARIO_ALTERACAO'
+      Origin = 'NOME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
     end
   end
   inherited ImageList1: TImageList

@@ -78,26 +78,6 @@ type
     mn_custo_comissao: TMenuItem;
     N1: TMenuItem;
     mn_totais: TMenuItem;
-    qryID: TIntegerField;
-    qryDATA_EMISSAO: TDateField;
-    qryNOSSO_NUMERO: TStringField;
-    qryNOME_CLIENTE: TStringField;
-    qryDATA_ENTREGA: TDateField;
-    qrySITUACAO: TStringField;
-    qryNOME_VENDEDOR: TStringField;
-    qryVALOR_TOTAL_PEDIDO: TCurrencyField;
-    qryVALOR_PAGO: TCurrencyField;
-    qryRESTA: TFMTBCDField;
-    qryENDERECO: TStringField;
-    qryNUMERO: TStringField;
-    qryBAIRRO: TStringField;
-    qryCIDADE: TStringField;
-    qryCEP: TStringField;
-    qryORCAMENTO: TStringField;
-    qryCLIENTE_ID: TIntegerField;
-    qryVENDEDOR_ID: TIntegerField;
-    qryPAGO: TStringField;
-    qryDATA_CONTABIL: TDateField;
     Label2: TLabel;
     cb_entrega: TCheckBox;
     dtp_entrega_ini: TDateTimePicker;
@@ -119,6 +99,62 @@ type
     cbxUsuario: TDBLookupComboBox;
     dsUsuario: TDataSource;
     qryUsuario: TFDQuery;
+    qryID: TIntegerField;
+    qryORCAMENTO: TStringField;
+    qryNOSSO_NUMERO: TStringField;
+    qryCLIENTE_ID: TIntegerField;
+    qryNOME_CLIENTE: TStringField;
+    qryNOME_ENTREGA: TStringField;
+    qryENDERECO_CLIENTE: TStringField;
+    qryENDERECO_ENTREGA: TStringField;
+    qryNUMERO_CLIENTE: TStringField;
+    qryNUMERO_ENTREGA: TStringField;
+    qryBAIRRO_CLIENTE: TStringField;
+    qryBAIRRO_ENTREGA: TStringField;
+    qryCIDADE_CLIENTE: TStringField;
+    qryCIDADE_ENTREGA: TStringField;
+    qryCEP: TStringField;
+    qryVENDEDOR_ID: TIntegerField;
+    qryNOME_VENDEDOR: TStringField;
+    qryDATA_EMISSAO: TDateField;
+    qryDATA_CONTABIL: TDateField;
+    qryDATA_ENTREGA: TDateField;
+    qrySITUACAO: TStringField;
+    qryVALOR_TOTAL_PEDIDO: TCurrencyField;
+    qryVALOR_PAGO: TCurrencyField;
+    qryPAGO: TStringField;
+    qryRESTA: TFMTBCDField;
+    pnl_rodape: TPanel;
+    pnl_rodape_L1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    lbl_pedido_orcamento: TLabel;
+    lbl_nr_Pedido: TLabel;
+    Panel4: TPanel;
+    Label15: TLabel;
+    lbl_nm_ultimo_alterado: TLabel;
+    Panel6: TPanel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    lbl_dt_ult_alteracao: TLabel;
+    Panel7: TPanel;
+    Label17: TLabel;
+    lbl_nm_vendedor: TLabel;
+    Panel8: TPanel;
+    Label19: TLabel;
+    lbl_end_entrega: TLabel;
+    Panel9: TPanel;
+    Label7: TLabel;
+    lbl_nm_destinatatio: TLabel;
+    Panel10: TPanel;
+    Label13: TLabel;
+    lbl_nm_emissor: TLabel;
+    qryDATA_ALTERACAO: TDateField;
+    qryUSUARIO_ID: TIntegerField;
+    qryNOME_USUARIO: TStringField;
+    qryUSUARIO_ALTERACAO_ID: TIntegerField;
+    qryNOME_USUARIO_ALTERACAO: TStringField;
 
     procedure actIncluirExecute(Sender: TObject);
     procedure actAlterarExecute(Sender: TObject);
@@ -158,6 +194,8 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   private
+
+    FFieldOrcamento: TField;
     FsqlPadrao: string;
     procedure ASql();
     function ValidarPesquisa(): boolean;
@@ -293,47 +331,86 @@ procedure TfrmPedidos.ASql;
 begin
   qry.Close;
   qry.SQL.Clear;
-  qry.SQL.Add( 'select                                              ');
-  qry.SQL.Add( ' P.ID,                                              ');
-  qry.SQL.Add( ' P.ORCAMENTO,                                       ');
-  qry.SQL.Add( ' P.NOSSO_NUMERO,                                    ');
-  qry.SQL.Add( ' P.CLIENTE_ID,                                      ');
-  qry.SQL.Add( ' PC.NOME AS NOME_CLIENTE,                           ');
-  qry.SQL.Add( ' PC.ENDERECO,                                       ');
-  qry.SQL.Add( ' PC.NUMERO,                                         ');
-  qry.SQL.Add( ' PC.BAIRRO,                                         ');
-  qry.SQL.Add( ' PC.CIDADE,                                         ');
-  qry.SQL.Add( ' PC.CEP,                                            ');
-  qry.SQL.Add( ' P.VENDEDOR_ID,                                     ');
-  qry.SQL.Add( ' PV.NOME AS NOME_VENDEDOR,                          ');
-  qry.SQL.Add( ' P.DATA_EMISSAO,                                    ');
-  qry.SQL.Add( ' P.DATA_CONTABIL,                                   ');
-  qry.SQL.Add( ' P.DATA_ENTREGA,                                    ');
-  qry.SQL.Add( ' P.SITUACAO,                                        ');
-  qry.SQL.Add( ' P.VALOR_TOTAL_PEDIDO,                              ');
-  qry.SQL.Add( ' P.VALOR_PAGO,                                      ');
-  qry.SQL.Add( ' P.PAGO,                                            ');
-  qry.SQL.Add( ' (p.valor_total_pedido - p.valor_pago) as resta     ');
-  qry.SQL.Add( 'from                                                ');
-  qry.SQL.Add( ' PEDIDOS P,                                         ');
-  qry.SQL.Add( ' CLIENTES C,                                        ');
-  qry.SQL.Add( ' VENDEDORES V,                                      ');
-  qry.SQL.Add( ' PESSOAS PC,                                        ');
-  qry.SQL.Add( ' PESSOAS PV                                         ');
-  qry.SQL.Add( 'where                                               ');
-  qry.SQL.Add( ' /*busca nome do cliente*/                          ');
-  qry.SQL.Add( ' p.cliente_id = c.pessoa_id and c.pessoa_id = pc.id ');
-  qry.SQL.Add( ' and                                                ');
-  qry.SQL.Add( ' /*busca nome do vendedor*/                         ');
-  qry.SQL.Add( ' p.vendedor_id = v.pessoa_id and v.pessoa_id = pv.id ');
-
+(*  qry.SQL.Text :=
+  'SELECT ' +
+  '    P.ID, ' +
+  '    P.ORCAMENTO, ' +
+  '    P.NOSSO_NUMERO, ' +
+  '    P.CLIENTE_ID, ' +
+  '    PC.NOME AS NOME_CLIENTE, ' +
+  '    COALESCE(PLE.NOME, PC.NOME) AS NOME_ENTREGA, ' +
+  '    PC.ENDERECO AS ENDERECO_CLIENTE, ' +
+  '    COALESCE(PLE.ENDERECO, PC.ENDERECO) AS ENDERECO_ENTREGA, ' +
+  '    PC.NUMERO AS NUMERO_CLIENTE, ' +
+  '    COALESCE(PLE.NUMERO, PC.NUMERO) AS NUMERO_ENTREGA, ' +
+  '    PC.BAIRRO AS BAIRRO_CLIENTE, ' +
+  '    COALESCE(PLE.BAIRRO, PC.BAIRRO) AS BAIRRO_ENTREGA, ' +
+  '    PC.CIDADE AS CIDADE_CLIENTE, ' +
+  '    COALESCE(PLE.CIDADE, PC.CIDADE) AS CIDADE_ENTREGA, ' +
+  '    PC.CEP, ' +
+  '    P.VENDEDOR_ID, ' +
+  '    PV.NOME AS NOME_VENDEDOR, ' +
+  '    P.DATA_EMISSAO, ' +
+  '    P.DATA_ALTERACAO, ' +
+  '    P.DATA_CONTABIL, ' +
+  '    P.DATA_ENTREGA, ' +
+  '    P.SITUACAO, ' +
+  '    P.VALOR_TOTAL_PEDIDO, ' +
+  '    P.VALOR_PAGO, ' +
+  '    P.PAGO, ' +
+  '    (P.VALOR_TOTAL_PEDIDO - P.VALOR_PAGO) AS RESTA ' +
+  'FROM PEDIDOS P ' +
+  '    INNER JOIN CLIENTES C ON C.PESSOA_ID = P.CLIENTE_ID ' +
+  '    INNER JOIN PESSOAS PC ON PC.ID = C.PESSOA_ID ' +
+  '    INNER JOIN VENDEDORES V ON V.PESSOA_ID = P.VENDEDOR_ID ' +
+  '    INNER JOIN PESSOAS PV ON PV.ID = V.PESSOA_ID ' +
+  '    LEFT JOIN PEDIDOS_LOCAL_ENTREGA PLE ON PLE.PEDIDO_ID = P.ID ' +
+  'WHERE 1=1 ';
+*)
+qry.SQL.Text :=
+  'SELECT ' +
+  '    P.ID, ' +
+  '    P.ORCAMENTO, ' +
+  '    P.NOSSO_NUMERO, ' +
+  '    P.CLIENTE_ID, ' +
+  '    PC.NOME AS NOME_CLIENTE, ' +
+  '    COALESCE(PLE.NOME, PC.NOME) AS NOME_ENTREGA, ' +
+  '    PC.ENDERECO AS ENDERECO_CLIENTE, ' +
+  '    COALESCE(PLE.ENDERECO, PC.ENDERECO) AS ENDERECO_ENTREGA, ' +
+  '    PC.NUMERO AS NUMERO_CLIENTE, ' +
+  '    COALESCE(PLE.NUMERO, PC.NUMERO) AS NUMERO_ENTREGA, ' +
+  '    PC.BAIRRO AS BAIRRO_CLIENTE, ' +
+  '    COALESCE(PLE.BAIRRO, PC.BAIRRO) AS BAIRRO_ENTREGA, ' +
+  '    PC.CIDADE AS CIDADE_CLIENTE, ' +
+  '    COALESCE(PLE.CIDADE, PC.CIDADE) AS CIDADE_ENTREGA, ' +
+  '    PC.CEP, ' +
+  '    P.VENDEDOR_ID, ' +
+  '    PV.NOME AS NOME_VENDEDOR, ' +
+  '    P.USUARIO_ID, ' +
+  '    PU.NOME AS NOME_USUARIO, ' +
+  '    P.USUARIO_ALTERACAO_ID, ' +
+  '    PUA.NOME AS NOME_USUARIO_ALTERACAO, ' +
+  '    P.DATA_EMISSAO, ' +
+  '    P.DATA_ALTERACAO, ' +
+  '    P.DATA_CONTABIL, ' +
+  '    P.DATA_ENTREGA, ' +
+  '    P.SITUACAO, ' +
+  '    P.VALOR_TOTAL_PEDIDO, ' +
+  '    P.VALOR_PAGO, ' +
+  '    P.PAGO, ' +
+  '    (P.VALOR_TOTAL_PEDIDO - P.VALOR_PAGO) AS RESTA ' +
+  'FROM PEDIDOS P ' +
+  '    INNER JOIN CLIENTES C ON C.PESSOA_ID = P.CLIENTE_ID ' +
+  '    INNER JOIN PESSOAS PC ON PC.ID = C.PESSOA_ID ' +
+  '    INNER JOIN VENDEDORES V ON V.PESSOA_ID = P.VENDEDOR_ID ' +
+  '    INNER JOIN PESSOAS PV ON PV.ID = V.PESSOA_ID ' +
+  '    LEFT JOIN PEDIDOS_LOCAL_ENTREGA PLE ON PLE.PEDIDO_ID = P.ID ' +
+  '    LEFT JOIN PESSOAS PU ON PU.ID = P.USUARIO_ID ' +
+  '    LEFT JOIN PESSOAS PUA ON PUA.ID = P.USUARIO_ALTERACAO_ID ' +
+  'WHERE 1=1 ';
   sqlPadrao := qry.SQL.Text;
 
-  {Na tela inicial só chama os do dia}
-  qry.SQL.Add(' and DATA_EMISSAO between :D1 and :D2 order by P.ID');
-  QRY.Params.ParamByName('D1').AsDate := dtpEmissaoIni.DateTime;
-  QRY.Params.ParamByName('D2').AsDate := dtpEmissaoFim.DateTime;
- // qry.Open();
+
 end;
 
 procedure TfrmPedidos.btn_pesquisar_concretoClick(Sender: TObject);
@@ -462,27 +539,17 @@ end;
 
 procedure TfrmPedidos.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
-var
-  Orcamento: string;
 begin
-  Orcamento := UpperCase(Trim(
-    DBGrid1.DataSource.DataSet.FieldByName('orcamento').AsString
-  ));
-
-  // Define a cor conforme o orçamento
-  if Orcamento = 'S' then
-    DBGrid1.Canvas.Brush.Color := $00D9F2D9  // Verde claro
+  // Verifica o orçamento do registro atual
+  if FFieldOrcamento.AsString = 'S' then
+    DBGrid1.Canvas.Brush.Color := $00D9F2D9
   else
     DBGrid1.Canvas.Brush.Color := clWhite;
 
-  // Mantém a cor de seleção
+  // Mantém a seleção padrão do Windows
   if gdSelected in State then
     DBGrid1.Canvas.Brush.Color := clHighlight;
-
-  // Pinta a célula
   DBGrid1.Canvas.FillRect(Rect);
-
-  // Desenha o conteúdo
   DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
@@ -498,53 +565,38 @@ begin
 end;
 
 procedure TfrmPedidos.dsDataChange(Sender: TObject; Field: TField);
-var
-  qryEnd: TFDQuery;
 begin
   inherited;
-  try
-    qryEnd := TFDQuery.Create(Application);
-    qryEnd.Connection := self.Conexao;
-    qryEnd.SQL.Clear;
-    qryEnd.SQL.Text := 'select * from PEDIDOS_LOCAL_ENTREGA where PEDIDO_ID =:PEDIDO_ID';
-    qryEnd.ParamByName('PEDIDO_ID').AsInteger := qry.FieldByName('ID').AsInteger;
-    qryEnd.Open;
 
-    if not qryEnd.IsEmpty then
-    begin
-      StatusBar.Panels[0].Text := 'Cliente : ' +
-                                                qryEnd.FieldByName('NOME').AsString + ' - Local de entrega : ' +
-                                                qryEnd.FieldByName('ENDERECO').AsString + ' N. ' +
-                                                qryEnd.FieldByName('NUMERO').AsString + ' - ' +
-                                                qryEnd.FieldByName('BAIRRO').AsString + ' , ' +
-                                                qryEnd.FieldByName('CIDADE').AsString;
-
-      //StatusBar.Panels[1].Text := 'Vendedor : ' + qry.FieldByName('NOME_VENDEDOR').AsString ;
-      qryEnd.Close;
-    end
-    else
-    begin
-      StatusBar.Panels[0].Text := 'Cliente : ' +
-                                                  qry.FieldByName('NOME_CLIENTE').AsString + ' - Local de entrega : ' +
-                                                  qry.FieldByName('ENDERECO').AsString + ' N. ' +
-                                                  qry.FieldByName('NUMERO').AsString + ' - ' +
-                                                  qry.FieldByName('BAIRRO').AsString + ' , ' +
-                                                  qry.FieldByName('CIDADE').AsString;
-
-      //StatusBar.Panels[1].Text := 'Vendedor : ' + qry.FieldByName('NOME_VENDEDOR').AsString ;
-
-    end;
-
-  finally
-    FreeAndNil( qryEnd );
-
-  end;
+  lbl_nr_Pedido.Caption := qry.FieldByName('ID').AsString;
+  lbl_nm_vendedor.Caption := qry.FieldByName('NOME_VENDEDOR').AsString;
+  lbl_nm_emissor.Caption := qry.FieldByName('NOME_USUARIO').AsString;
+  lbl_dt_ult_alteracao.Caption := qry.FieldByName('DATA_ALTERACAO').AsString;
+  lbl_nm_ultimo_alterado.Caption := qry.FieldByName('NOME_USUARIO_ALTERACAO').AsString;
+  lbl_nm_destinatatio.Caption := qry.FieldByName('NOME_CLIENTE').AsString;
+  lbl_end_entrega.Caption := qry.FieldByName('ENDERECO_ENTREGA').AsString +
+                             ' Número : ' + qry.FieldByName('NUMERO_ENTREGA').AsString +
+                             ' Bairro : ' + qry.FieldByName('BAIRRO_ENTREGA').AsString +
+                             ' Cidade : ' + qry.FieldByName('CIDADE_ENTREGA').AsString;
 
   {controle do poup menu financeiro}
   mn_conta_receber.Enabled  := not ds.DataSet.IsEmpty;
   mn_custo_comissao.Enabled := not ds.DataSet.IsEmpty;
   mn_totais.Enabled         := not ds.DataSet.IsEmpty;
   menu_imprimir.Enabled     := not ds.DataSet.IsEmpty;
+
+  if  qry.FieldByName('orcamento').AsString = 'N' then
+  begin
+    lbl_pedido_orcamento.Caption := 'Número do Pedido';
+    pnl_rodape.Color:= clWhite;
+  end
+  else
+  if  qry.FieldByName('orcamento').AsString = 'S' then
+  begin
+    lbl_pedido_orcamento.Caption := 'Número do Orçamento';
+    pnl_rodape.Color:= $00D9F2D9;
+  end else
+    pnl_rodape.Color:= clWhite;
 
 
 
@@ -869,8 +921,6 @@ begin
     if pcPesquisa.ActivePage = tbs_numero_Pedido then
     begin
       FiltrarPorNumero;
-    //  if qry.RecordCount = 1 then
-    //    btnAlterar.Click;
     end ELSE
 
     if pcPesquisa.ActivePage = tbs_endereco then
@@ -894,9 +944,6 @@ begin
     end;
 
   end;
-
-
-
 
   // recolhe a pesquisa
   btnPesquisar.Click;
@@ -1058,7 +1105,7 @@ procedure TfrmPedidos.btnFiltrarCustomizadoClick(Sender: TObject);
 begin
   inherited;
   pesquisar;
-
+  FFieldOrcamento := qry.FieldByName('ORCAMENTO');
 end;
 
 procedure TfrmPedidos.btnFiltrarCPF_CNPJClick(Sender: TObject);
@@ -1385,95 +1432,53 @@ begin
   {abre a pesquisa}
   sSql := qry.SQL.Text ;
   qry.Open;
+
   // atualiza o dbgrid
   qry.Last; qry.First;
 end;
 
 procedure TfrmPedidos.FiltarDadosObra;
 var
- sqlDadosObra, condicao : string;
+ condicao : string;
 begin
-  qry.Close;
-  qry.SQL.Clear;
-  qry.SQL.Add( 'select                                              ');
-  qry.SQL.Add( ' P.ID,                                              ');
-  qry.SQL.Add( ' P.NOSSO_NUMERO,                                    ');
-  qry.SQL.Add( ' P.ORCAMENTO,                                       ');
-  qry.SQL.Add( ' P.CLIENTE_ID,                                      ');
-  qry.SQL.Add( ' PC.NOME AS NOME_CLIENTE,                           ');
-  qry.SQL.Add( ' PC.ENDERECO,                                       ');
-  qry.SQL.Add( ' PC.NUMERO,                                         ');
-  qry.SQL.Add( ' PC.BAIRRO,                                         ');
-  qry.SQL.Add( ' PC.CIDADE,                                         ');
-  qry.SQL.Add( ' PC.CEP,                                            ');
-  qry.SQL.Add( ' P.VENDEDOR_ID,                                     ');
-  qry.SQL.Add( ' PV.NOME AS NOME_VENDEDOR,                          ');
-  qry.SQL.Add( ' E.NOME,                                            ');
-  qry.SQL.Add( ' E.ENDERECO,                                        ');
-  qry.SQL.Add( ' E.BAIRRO,                                          ');
-  qry.SQL.Add( ' E.CIDADE,                                          ');
-  qry.SQL.Add( ' E.CEP,                                             ');
-  qry.SQL.Add( ' P.DATA_EMISSAO,                                    ');
-  qry.SQL.Add( ' P.DATA_CONTABIL,                                   ');
-  qry.SQL.Add( ' P.DATA_ENTREGA,                                    ');
-  qry.SQL.Add( ' P.SITUACAO,                                        ');
-  qry.SQL.Add( ' P.VALOR_TOTAL_PEDIDO,                              ');
-  qry.SQL.Add( ' P.VALOR_PAGO,                                      ');
-  qry.SQL.Add( ' P.PAGO,                                            ');
-  qry.SQL.Add( ' P.VALOR_TOTAL_PEDIDO - P.VALOR_PAGO AS RESTA       ');
-  qry.SQL.Add( 'from                                                ');
-  qry.SQL.Add( ' PEDIDOS P,                                         ');
-  qry.SQL.Add( ' PEDIDOS_LOCAL_ENTREGA E,                           ');
-  qry.SQL.Add( ' CLIENTES C,                                        ');
-  qry.SQL.Add( ' VENDEDORES V,                                      ');
-  qry.SQL.Add( ' PESSOAS PC,                                        ');
-  qry.SQL.Add( ' PESSOAS PV                                         ');
-  qry.SQL.Add( 'where                                               ');
-  qry.SQL.Add( ' /*local de entrega*/                               ');
-  qry.SQL.Add( ' P.ID = E.PEDIDO_ID and                             ');
-  qry.SQL.Add( ' /*busca nome do cliente*/                          ');
-  qry.SQL.Add( ' p.cliente_id = c.pessoa_id and c.pessoa_id = pc.id ');
-  qry.SQL.Add( ' and                                                ');
-  qry.SQL.Add( ' /*busca nome do vendedor*/                         ');
-  qry.SQL.Add( ' p.vendedor_id = v.pessoa_id and v.pessoa_id = pv.id');
-  sqlDadosObra := qry.SQL.Text;
+
   condicao := '';
   {filtra por Datas}
   if cbNome.checked then
-    condicao := ' and E.NOME like :NOME ';
+    condicao := ' and PLE.NOME like :NOME_ENTREGA ';
 
   if cbEndereco.checked then
-    condicao := condicao + ' and E.ENDERECO like :ENDERECO ';
+    condicao := condicao + ' and PLE.ENDERECO like :ENDERECO_ENTREGA ';
 
   {filtra pela situação do pedido}
   if cbBairro.Checked then
-    condicao := condicao + ' and E.BAIRRO like :BAIRRO ';
+    condicao := condicao + ' and PLE.BAIRRO like :BAIRRO_ENTREGA ';
 
   if cbCidade.Checked then
-    condicao := condicao + ' and E.CIDADE like :CIDADE ';
+    condicao := condicao + ' and PLE.CIDADE like :CIDADE_ENTREGA ';
 
   if cbCEP.Checked then
-    condicao := condicao + ' and E.CEP like :CEP ';
+    condicao := condicao + ' and CEP like :CEP ';
 
   {carrega a instrução}
   qry.close;
   qry.Sql.Clear;
-  qry.Sql.Add( sqlDadosObra + condicao );
+  qry.Sql.Add( sqlPadrao + condicao );
   {passagem dos parametros}
   if condicao <> '' then
   begin
     if cbNome.checked then
-      qry.ParamByName('NOME').AsString := '%' + edNome.Text + '%';
+      qry.ParamByName('NOME_ENTREGA').AsString := '%' + edNome.Text + '%';
 
     if cbEndereco.checked then
-      qry.ParamByName('ENDERECO').AsString := '%' + edEndereco.Text + '%';
+      qry.ParamByName('ENDERECO_ENTREGA').AsString := '%' + edEndereco.Text + '%';
 
     if cbBairro.checked then
-      qry.ParamByName('BAIRRO').AsString := '%' + edBairro.Text + '%';
+      qry.ParamByName('BAIRRO_ENTREGA').AsString := '%' + edBairro.Text + '%';
 
 
     if cbCidade.checked then
-      qry.ParamByName('CIDADE').AsString := '%' + edCidade.Text + '%';
+      qry.ParamByName('CIDADE_ENTREGA').AsString := '%' + edCidade.Text + '%';
 
     if cbCEP.checked then
       qry.ParamByName('CEP').AsString := '%' + edCep.Text + '%';
